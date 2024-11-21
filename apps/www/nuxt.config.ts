@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
-    "@vueuse/nuxt",
   ],
   app: {
     head: {
@@ -32,8 +31,10 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ["~/assets/tailwind.css"],
   colorMode: {
     classSuffix: "",
+  },
+  tailwindcss: {
+    cssPath: "~/assets/tailwind.css",
   },
 })
