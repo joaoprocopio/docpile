@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
+    "radix-vue/nuxt",
   ],
   app: {
     head: {
@@ -36,5 +37,17 @@ export default defineNuxtConfig({
   },
   tailwindcss: {
     cssPath: "~/assets/tailwind.css",
+  },
+  radix: {
+    prefix: "Internal",
+  },
+  components: {
+    dirs: [
+      {
+        path: "~/components/nyx",
+        extensions: ["vue"],
+        prefix: "Nyx",
+      },
+    ],
   },
 })
