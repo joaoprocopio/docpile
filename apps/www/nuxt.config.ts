@@ -1,22 +1,18 @@
 export default defineNuxtConfig({
-  compatibilityDate: "2024-04-03",
+  compatibilityDate: "2024-11-21",
+  future: {
+    compatibilityVersion: 4,
+  },
   devtools: {
     enabled: true,
   },
   srcDir: "src",
-  modules: [
-    "@nuxt/eslint",
-    "@nuxt/fonts",
-    "@nuxt/icon",
-    "@nuxtjs/color-mode",
-    "@vueuse/nuxt",
-  ],
+  modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxtjs/color-mode", "@vueuse/nuxt"],
   app: {
     head: {
-      title: "Construa conosco seu catálogo virtual que vai impulsionar suas vendas",
-      titleTemplate: "%s | Docpile",
+      title: "Docpile",
       htmlAttrs: {
-        lang: "pt-br",
+        lang: "en",
       },
       meta: [
         {
