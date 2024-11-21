@@ -25,6 +25,7 @@ export default defineNuxtConfig({
       ],
     },
   },
+  css: ["~/assets/styles/theme.css", "~/assets/styles/sanitize.css"],
   colorMode: {
     classSuffix: "",
   },
