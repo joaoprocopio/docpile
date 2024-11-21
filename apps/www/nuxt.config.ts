@@ -7,7 +7,14 @@ export default defineNuxtConfig({
     enabled: true,
   },
   srcDir: "src",
-  modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxtjs/color-mode", "@vueuse/nuxt"],
+  modules: [
+    "@nuxt/eslint",
+    "@nuxt/fonts",
+    "@nuxt/icon",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
+    "@vueuse/nuxt",
+  ],
   app: {
     head: {
       title: "Docpile",
@@ -25,7 +32,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ["~/assets/styles/theme.css", "~/assets/styles/sanitize.css"],
+  css: ["~/assets/tailwind.css"],
   colorMode: {
     classSuffix: "",
   },
