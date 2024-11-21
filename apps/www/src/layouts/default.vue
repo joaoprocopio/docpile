@@ -1,7 +1,15 @@
 <template>
-  <NyxButton class="rounded-full" variant="secondary" size="icon" @click="isDark = !isDark">
-    <Icon class="size-4" :name="isDark ? 'lucide:moon' : 'lucide:sun'" />
-  </NyxButton>
+  <div>
+    <header>
+      <NyxButton class="rounded-full" variant="secondary" size="icon" @click="isDark = !isDark">
+        <Icon class="size-4" :name="isDark ? 'lucide:moon' : 'lucide:sun'" />
+      </NyxButton>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
