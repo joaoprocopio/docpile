@@ -41,6 +41,7 @@ export default defineNuxtConfig({
   radix: {
     prefix: "Internal",
   },
+
   components: {
     dirs: [
       {
