@@ -6,6 +6,3 @@ edition = "2024"
 [dependencies]
 axum = "0.8.4"
 tokio = { version = "1.45.1", features = ["full"] }
-
-[dev-dependencies]
-bacon.workspace = true
