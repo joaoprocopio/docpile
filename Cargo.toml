@@ -1,3 +1,15 @@
-[workspace]
-resolver = "3"
-members = ["./apps/api"]
+[package]
+name = "docpile"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = "0.8.4"
+tokio = { version = "1.45.1", features = [
+    "rt",
+    "net",
+    "macros"
+] }
+tower-http = { version = "0.6.6", features = ["trace"]  }
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
