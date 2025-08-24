@@ -1,4 +1,5 @@
-pub mod conf;
 pub mod graceful;
+pub mod settings;
 
-pub type BoxedError = Box<dyn std::error::Error>;
+pub type Error = Box<dyn std::error::Error + Send + Sync>;
+pub type Result<T, E = Error> = std::result::Result<T, E>;

@@ -1,7 +1,6 @@
-use crate::BoxedError;
 use tokio::signal::unix::{SignalKind, signal};
 
-pub async fn shutdown_signal() -> Result<impl Future<Output = ()>, BoxedError> {
+pub async fn shutdown_signal() -> crate::Result<impl Future<Output = ()>> {
     let mut terminate = signal(SignalKind::terminate())?;
     let mut interrupt = signal(SignalKind::interrupt())?;
 
