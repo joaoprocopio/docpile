@@ -1,16 +1,12 @@
 use axum::Router;
-use docpie::{Result, graceful, settings};
+use docpie::{Result, config, graceful};
 use tokio::net::TcpListener;
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 async fn run() -> Result<()> {
     let app = Router::new().layer(TraceLayer::new_for_http());
-    let listener = TcpListener::bind((
-        settings::DOCPIE_HOST.as_str(),
-        settings::DOCPIE_PORT.as_str().parse::<u16>()?,
-    ))
-    .await?;
+    let listener = TcpListener::bind((config::DOCPIE_HOST.as_str(), *config::DOCPIE_PORT)).await?;
     let addr = listener.local_addr()?;
 
     tracing::info!("server listening on: http://{}", addr);

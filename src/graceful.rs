@@ -7,10 +7,10 @@ pub async fn shutdown_signal() -> crate::Result<impl Future<Output = ()>> {
     let signal_watcher = async move {
         tokio::select! {
             _ = terminate.recv() => {
-                tracing::info!("recv terminate signal")
+                tracing::debug!("recv terminate signal")
             },
             _ = interrupt.recv() => {
-                tracing::info!("recv interrupt signal")
+                tracing::debug!("recv interrupt signal")
             }
         }
     };
