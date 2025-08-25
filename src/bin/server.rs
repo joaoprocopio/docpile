@@ -1,13 +1,11 @@
 use axum::Router;
-use docpie::{Result, config, graceful};
 use tokio::{net::TcpListener, runtime};
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-async fn run(handle: runtime::Handle) -> Result<()> {
-    let server = config::Server::new(handle);
-    let listener = TcpListener::bind((&*server.host, server.port)).await?;
-
+async fn run(handle: runtime::Handle) -> docpie::Result<()> {
+    let server = docpie::Server::new(handle);
+    let listener = TcpListener::bind((&*server.env.host, server.env.port)).await?;
     let routes = Router::new()
         .layer(TraceLayer::new_for_http())
         .with_state(server);
@@ -15,7 +13,7 @@ async fn run(handle: runtime::Handle) -> Result<()> {
     tracing::info!("server listening on: http://{}", listener.local_addr()?);
 
     axum::serve(listener, routes)
-        .with_graceful_shutdown(graceful::shutdown_signal().await?)
+        .with_graceful_shutdown(docpie::graceful::shutdown_signal().await?)
         .await?;
 
     tracing::info!("successfully shutdown server");
