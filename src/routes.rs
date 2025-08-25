@@ -1,6 +1,7 @@
 use crate::Server;
 use axum::{Router, http::StatusCode, response::IntoResponse};
 use tower_http::CompressionLevel;
+use tower_http::catch_panic::CatchPanicLayer;
 use tower_http::compression::CompressionLayer;
 use tower_http::cors::CorsLayer;
 use tower_http::normalize_path::NormalizePathLayer;
@@ -14,6 +15,7 @@ pub fn routes(server: &Server) -> Router<Server> {
         .layer(TimeoutLayer::new(server.env.timeout))
         .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
         .layer(NormalizePathLayer::trim_trailing_slash())
+        .layer(CatchPanicLayer::new())
         .layer(CorsLayer::new())
         .fallback(async || StatusCode::NOT_FOUND.into_response())
 }

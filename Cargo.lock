@@ -281,6 +281,7 @@ dependencies = [
  "futures-task",
  "pin-project-lite",
  "pin-utils",
+ "slab",
 ]
 
 [[package]]
@@ -777,8 +778,10 @@ dependencies = [
  "bitflags",
  "bytes",
  "futures-core",
+ "futures-util",
  "http",
  "http-body",
+ "http-body-util",
  "pin-project-lite",
  "tokio",
  "tokio-util",
