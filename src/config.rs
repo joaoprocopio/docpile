@@ -1,4 +1,4 @@
-use std::{env, ops::Deref, sync::Arc};
+use std::{env, ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
 #[derive(Clone)]
@@ -14,6 +14,8 @@ pub struct ServerImpl {
 pub struct ServerImplEnv {
     pub host: String,
     pub port: u16,
+    pub timeout: Duration,
+    pub body_timeout: Duration,
 }
 
 impl Server {
@@ -54,6 +56,28 @@ impl ServerImplEnv {
             .parse()
             .unwrap_or(DEFAULT_PORT)
     }
+
+    fn timeout() -> Duration {
+        const DEFAULT_TIMEOUT: u64 = 30;
+
+        Duration::from_secs(
+            env::var("DOCPIE_TIMEOUT")
+                .unwrap_or(DEFAULT_TIMEOUT.to_string())
+                .parse()
+                .unwrap_or(DEFAULT_TIMEOUT),
+        )
+    }
+
+    fn body_timeout() -> Duration {
+        const DEFAULT_BODY_TIMEOUT: u64 = 5;
+
+        Duration::from_secs(
+            env::var("DOCPIE_BODY_TIMEOUT")
+                .unwrap_or(DEFAULT_BODY_TIMEOUT.to_string())
+                .parse()
+                .unwrap_or(DEFAULT_BODY_TIMEOUT),
+        )
+    }
 }
 
 impl Default for ServerImplEnv {
@@ -61,6 +85,8 @@ impl Default for ServerImplEnv {
         Self {
             host: Self::host(),
             port: Self::port(),
+            timeout: Self::timeout(),
+            body_timeout: Self::body_timeout(),
         }
     }
 }
