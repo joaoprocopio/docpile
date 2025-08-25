@@ -1,17 +1,20 @@
 use axum::Router;
 use docpie::{Result, config, graceful};
-use tokio::net::TcpListener;
+use tokio::{net::TcpListener, runtime};
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-async fn run() -> Result<()> {
-    let app = Router::new().layer(TraceLayer::new_for_http());
-    let listener = TcpListener::bind((config::DOCPIE_HOST.as_str(), *config::DOCPIE_PORT)).await?;
-    let addr = listener.local_addr()?;
+async fn run(handle: runtime::Handle) -> Result<()> {
+    let server = config::Server::new(handle);
+    let listener = TcpListener::bind((&*server.host, server.port)).await?;
 
-    tracing::info!("server listening on: http://{}", addr);
+    let routes = Router::new()
+        .layer(TraceLayer::new_for_http())
+        .with_state(server);
 
-    axum::serve(listener, app)
+    tracing::info!("server listening on: http://{}", listener.local_addr()?);
+
+    axum::serve(listener, routes)
         .with_graceful_shutdown(graceful::shutdown_signal().await?)
         .await?;
 
@@ -20,8 +23,7 @@ async fn run() -> Result<()> {
     Ok(())
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() {
+fn main() {
     tracing_subscriber::registry()
         .with(
             tracing_subscriber::fmt::layer()
@@ -33,7 +35,15 @@ async fn main() {
         )
         .init();
 
-    if let Err(err) = run().await {
+    let runtime = match runtime::Builder::new_current_thread().enable_all().build() {
+        Ok(rt) => rt,
+        Err(err) => {
+            tracing::error!("failed to create runtime: {}", err);
+            std::process::exit(1);
+        }
+    };
+
+    if let Err(err) = runtime.block_on(async { run(runtime.handle().clone()).await }) {
         tracing::error!("fatal error occurred: {}", err);
         std::process::exit(1);
     }
