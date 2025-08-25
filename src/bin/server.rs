@@ -1,18 +1,13 @@
-use axum::Router;
 use tokio::{net::TcpListener, runtime};
-use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 async fn run(handle: runtime::Handle) -> docpie::Result<()> {
     let server = docpie::Server::new(handle);
     let listener = TcpListener::bind((&*server.env.host, server.env.port)).await?;
-    let routes = Router::new()
-        .layer(TraceLayer::new_for_http())
-        .with_state(server);
 
     tracing::info!("server listening on: http://{}", listener.local_addr()?);
 
-    axum::serve(listener, routes)
+    axum::serve(listener, docpie::routes().with_state(server))
         .with_graceful_shutdown(docpie::graceful::shutdown_signal().await?)
         .await?;
 
