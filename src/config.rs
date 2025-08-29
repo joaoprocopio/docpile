@@ -3,15 +3,15 @@ use tokio::runtime;
 
 #[derive(Clone)]
 pub struct Server {
-    inner: Arc<ServerImpl>,
+    inner: Arc<ServerInner>,
 }
 
-pub struct ServerImpl {
+pub struct ServerInner {
     pub handle: runtime::Handle,
-    pub env: ServerImplEnv,
+    pub env: ServerInnerEnv,
 }
 
-pub struct ServerImplEnv {
+pub struct ServerInnerEnv {
     pub host: String,
     pub port: u16,
     pub timeout: Duration,
@@ -21,29 +21,29 @@ pub struct ServerImplEnv {
 impl Server {
     pub fn new(handle: runtime::Handle) -> Self {
         Self {
-            inner: Arc::new(ServerImpl::new(handle)),
+            inner: Arc::new(ServerInner::new(handle)),
         }
     }
 }
 
 impl Deref for Server {
-    type Target = ServerImpl;
+    type Target = ServerInner;
 
     fn deref(&self) -> &Self::Target {
         &self.inner
     }
 }
 
-impl ServerImpl {
+impl ServerInner {
     fn new(handle: runtime::Handle) -> Self {
         Self {
             handle,
-            env: ServerImplEnv::default(),
+            env: ServerInnerEnv::default(),
         }
     }
 }
 
-impl ServerImplEnv {
+impl ServerInnerEnv {
     fn host() -> String {
         env::var("DOCPIE_HOST").unwrap_or("0.0.0.0".into())
     }
@@ -80,7 +80,7 @@ impl ServerImplEnv {
     }
 }
 
-impl Default for ServerImplEnv {
+impl Default for ServerInnerEnv {
     fn default() -> Self {
         Self {
             host: Self::host(),
