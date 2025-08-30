@@ -1,4 +1,4 @@
-use std::{env, ops::Deref, sync::Arc, time::Duration};
+use std::{env, net::Ipv4Addr, ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
 #[derive(Clone)]
@@ -45,7 +45,7 @@ impl ServerInner {
 
 impl ServerInnerEnv {
     fn host() -> String {
-        env::var("DOCPIE_HOST").unwrap_or("0.0.0.0".into())
+        env::var("DOCPIE_HOST").unwrap_or(Ipv4Addr::UNSPECIFIED.to_string())
     }
 
     fn port() -> u16 {

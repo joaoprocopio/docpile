@@ -3,6 +3,7 @@ static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 mod config;
 mod routes;
+
 pub use config::Server;
 pub use routes::routes;
 pub mod graceful;
