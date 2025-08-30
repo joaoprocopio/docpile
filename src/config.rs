@@ -1,17 +1,12 @@
-use std::{env, net::Ipv4Addr, ops::Deref, sync::Arc, time::Duration};
+use std::{env, net::Ipv4Addr, time::Duration};
 use tokio::runtime;
 
-#[derive(Clone)]
 pub struct Server {
-    inner: Arc<ServerInner>,
-}
-
-pub struct ServerInner {
     pub handle: runtime::Handle,
-    pub env: ServerInnerEnv,
+    pub env: ServerEnv,
 }
 
-pub struct ServerInnerEnv {
+pub struct ServerEnv {
     pub host: String,
     pub port: u16,
     pub timeout: Duration,
@@ -21,29 +16,13 @@ pub struct ServerInnerEnv {
 impl Server {
     pub fn new(handle: runtime::Handle) -> Self {
         Self {
-            inner: Arc::new(ServerInner::new(handle)),
+            handle: handle,
+            env: ServerEnv::default(),
         }
     }
 }
 
-impl Deref for Server {
-    type Target = ServerInner;
-
-    fn deref(&self) -> &Self::Target {
-        &self.inner
-    }
-}
-
-impl ServerInner {
-    fn new(handle: runtime::Handle) -> Self {
-        Self {
-            handle,
-            env: ServerInnerEnv::default(),
-        }
-    }
-}
-
-impl ServerInnerEnv {
+impl ServerEnv {
     fn host() -> String {
         env::var("DOCPIE_HOST").unwrap_or(Ipv4Addr::UNSPECIFIED.to_string())
     }
@@ -80,7 +59,7 @@ impl ServerInnerEnv {
     }
 }
 
-impl Default for ServerInnerEnv {
+impl Default for ServerEnv {
     fn default() -> Self {
         Self {
             host: Self::host(),

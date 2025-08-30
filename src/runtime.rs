@@ -1,6 +1,6 @@
 use tokio::runtime;
 
-pub fn new() -> runtime::Runtime {
+pub fn new_runtime() -> runtime::Runtime {
     match runtime::Builder::new_multi_thread().enable_all().build() {
         Ok(rt) => rt,
         Err(err) => {

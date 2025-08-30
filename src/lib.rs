@@ -1,12 +1,9 @@
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-mod config;
-mod routes;
-
-pub use config::Server;
-pub use routes::routes;
+pub mod config;
 pub mod graceful;
+pub mod routing;
 pub mod runtime;
 
 pub type Error = Box<dyn std::error::Error + Send + Sync>;
