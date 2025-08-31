@@ -7,6 +7,15 @@ import $url from "url";
 import withNuxt from "./.nuxt/eslint.config.mjs";
 
 /** @returns {import("eslint").Linter.Config} */
+function vue() {
+  return {
+    rules: {
+      "vue/multi-word-component-names": "off",
+    },
+  };
+}
+
+/** @returns {import("eslint").Linter.Config} */
 function prettier() {
   return $prettier;
 }
@@ -33,4 +42,4 @@ function sort() {
   };
 }
 
-export default withNuxt(gitignore(), prettier(), sort());
+export default withNuxt(gitignore(), prettier(), sort(), vue());
