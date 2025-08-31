@@ -1,16 +1,15 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "latest",
-  modules: [
-    "@nuxt/eslint",
-    "@nuxt/fonts",
-    "@nuxt/icon",
-    "@nuxt/image"
-  ],
-  srcDir: "src/",
-  ssr: false,
-  telemetry: false,
-  pages: false,
+  extends: ['./src/auth'],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/icon', '@nuxt/image'],
+  ssr: true,
   imports: { autoImport: false },
   devtools: { enabled: true },
+  srcDir: 'src/',
+  compatibilityDate: 'latest',
+  telemetry: false,
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
 })
