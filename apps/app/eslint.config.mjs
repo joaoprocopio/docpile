@@ -1,12 +1,12 @@
 import * as compat from '@eslint/compat'
-import sort from 'eslint-plugin-simple-import-sort'
+import sort_ from 'eslint-plugin-simple-import-sort'
 import path from 'path'
 import url from 'url'
 
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 /** @returns {import("eslint").Linter.Config} */
-function addGitignore() {
+function gitignore() {
   const filename = url.fileURLToPath(import.meta.url)
   const dirname = path.dirname(filename)
   const gitignore = path.resolve(dirname, '.gitignore')
@@ -15,10 +15,10 @@ function addGitignore() {
 }
 
 /** @returns {import("eslint").Linter.Config} */
-function addSimpleImportSort() {
+function sort() {
   return {
     plugins: {
-      'simple-import-sort': sort,
+      'simple-import-sort': sort_,
     },
     rules: {
       'simple-import-sort/imports': 'error',
@@ -28,8 +28,8 @@ function addSimpleImportSort() {
 }
 
 const config = withNuxt(
-  addGitignore(),
-  addSimpleImportSort(),
+  gitignore(),
+  sort(),
 )
 
 export default config
