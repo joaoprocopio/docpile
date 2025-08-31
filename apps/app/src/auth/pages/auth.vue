@@ -1,5 +1,5 @@
 <template>
-  <client-only>
-    <div>{{ $route }}</div>
-  </client-only>
+  <div>
+    <div>{{ $route.fullPath }}</div>
+  </div>
 </template>
