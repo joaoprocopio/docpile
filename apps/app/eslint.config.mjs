@@ -24,7 +24,8 @@ function prettier() {
 function gitignore() {
   const filename = $url.fileURLToPath(import.meta.url);
   const dirname = $path.dirname(filename);
-  const gitignore = $path.resolve(dirname, ".gitignore");
+  const rootdir = $path.resolve(dirname, "..", "..");
+  const gitignore = $path.resolve(rootdir, ".gitignore");
 
   return $compat.includeIgnoreFile(gitignore);
 }

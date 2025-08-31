@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "@docpie/codex",
+  "type": "module",
+  "files": [
+    "./src/**"
+  ],
+  "exports": {
+    "./state": "./src/state/index.ts",
+    "./view": "./src/view/index.ts",
+    "./view/style/prosemirror.css": "./node_modules/prosemirror-view/style/prosemirror.css",
+    "./schema-basic": "./src/schema-basic/index.ts"
+  },
+  "dependencies": {
+    "prosemirror-schema-basic": "^1.2.4",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-view": "^1.40.1"
+  }
+}
