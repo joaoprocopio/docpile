@@ -1,6 +1,5 @@
 {
   "private": true,
-  "name": "@docpie/app",
   "type": "module",
   "scripts": {
     "postinstall": "nuxt prepare",
