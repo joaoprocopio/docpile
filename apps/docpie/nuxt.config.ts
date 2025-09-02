@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "reka-ui/nuxt",
   ],
-  ssr: true,
+  ssr: false,
   imports: { autoImport: false },
   devtools: { enabled: true },
   css: ["~/shared/assets/tailwind.css"],
