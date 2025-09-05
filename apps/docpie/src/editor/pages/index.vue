@@ -27,5 +27,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="editor"></div>
+  <div>
+    <h1 class="font-bold">editor</h1>
+    <div ref="editor"></div>
+  </div>
 </template>
