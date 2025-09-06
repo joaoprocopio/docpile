@@ -1,0 +1,52 @@
+@custom-variant dark (&: is(.dark *));
+
+/* Reset classes */
+@theme {
+  --blur-*: initial;
+  --color-*: initial;
+  --drop-shadow-*: initial;
+  --inset-shadow-*: initial;
+  --leading-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --text-*: initial;
+  --text-shadow-*: initial;
+  --tracking-*: initial;
+}
+
+@layer base {
+  /* * {
+    @apply border-border ring-ring outline-ring/50;
+  } */
+
+  html,
+  body,
+  #__vue {
+    @apply h-full;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    /* @apply bg-background text-body text-foreground antialiased; */
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 5px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+}

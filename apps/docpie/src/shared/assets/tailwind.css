@@ -1,15 +1,6 @@
 @import "tailwindcss";
-
-@theme {
-  --font-sans: "Inter", sans-serif;
-  --blur-*: initial;
-  --color-*: initial;
-  --drop-shadow-*: initial;
-  --inset-shadow-*: initial;
-  --leading-*: initial;
-  --radius-*: initial;
-  --shadow-*: initial;
-  --text-*: initial;
-  --text-shadow-*: initial;
-  --tracking-*: initial;
-}
+@import "tw-animate-css";
+@import "./preflight.css";
+@import "./typography.css";
+@import "./radii.css";
+@import "./colors/slate.css";
