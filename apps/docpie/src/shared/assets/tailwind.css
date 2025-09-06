@@ -107,6 +107,34 @@
   --gray-a10: #00071b7f;
   --gray-a11: #0007149f;
   --gray-a12: #000509e3;
+
+  /* Error */
+  --error-1: #fffcfc;
+  --error-2: #fff7f7;
+  --error-3: #feebec;
+  --error-4: #ffdbdc;
+  --error-5: #ffcdce;
+  --error-6: #fdbdbe;
+  --error-7: #f4a9aa;
+  --error-8: #eb8e90;
+  --error-9: #e5484d;
+  --error-10: #dc3e42;
+  --error-11: #ce2c31;
+  --error-12: #641723;
+
+  /* Error Alpha */
+  --error-a1: #ff000003;
+  --error-a2: #ff000008;
+  --error-a3: #f3000d14;
+  --error-a4: #ff000824;
+  --error-a5: #ff000632;
+  --error-a6: #f8000442;
+  --error-a7: #df000356;
+  --error-a8: #d2000571;
+  --error-a9: #db0007b7;
+  --error-a10: #d10005c1;
+  --error-a11: #c40006d3;
+  --error-a12: #55000de8;
 }
 
 .dark {
@@ -165,10 +193,47 @@
   --gray-a10: #e5edfd7b;
   --gray-a11: #f1f7feb5;
   --gray-a12: #fcfdffef;
+
+  /* Error */
+  --error-1: #191111;
+  --error-2: #201314;
+  --error-3: #3b1219;
+  --error-4: #500f1c;
+  --error-5: #611623;
+  --error-6: #72232d;
+  --error-7: #8c333a;
+  --error-8: #b54548;
+  --error-9: #e5484d;
+  --error-10: #ec5d5e;
+  --error-11: #ff9592;
+  --error-12: #ffd1d9;
+
+  /* Error Alpha */
+  --error-a1: #f4121209;
+  --error-a2: #f22f3e11;
+  --error-a3: #ff173f2d;
+  --error-a4: #fe0a3b44;
+  --error-a5: #ff204756;
+  --error-a6: #ff3e5668;
+  --error-a7: #ff536184;
+  --error-a8: #ff5d61b0;
+  --error-a9: #fe4e54e4;
+  --error-a10: #ff6465eb;
+  --error-a11: #ff9592;
+  --error-a12: #ffd1d9;
 }
 
 @theme inline {
   --radius-md: var(--radius);
+
+  /* System-focused */
+  --color-background: var(--gray-1);
+  --color-foreground: var(--gray-12);
+  --color-input: var(--gray-3);
+  --color-border: var(--gray-4);
+  --color-ring: var(--gray-5);
+  --color-hover: var(--gray-a2);
+  --color-selected: var(--gray-a3);
 
   /* Accent */
   --color-accent-1: var(--accent-1);
@@ -226,14 +291,33 @@
   --color-gray-a11: var(--gray-a11);
   --color-gray-a12: var(--gray-a12);
 
-  /* System-focused */
-  --color-background: var(--gray-1);
-  --color-foreground: var(--gray-12);
-  --color-input: var(--gray-3);
-  --color-border: var(--gray-4);
-  --color-ring: var(--gray-5);
-  --color-hover: var(--gray-a2);
-  --color-selected: var(--gray-a3);
+  /* Error */
+  --color-error-1: var(--error-1);
+  --color-error-2: var(--error-2);
+  --color-error-3: var(--error-3);
+  --color-error-4: var(--error-4);
+  --color-error-5: var(--error-5);
+  --color-error-6: var(--error-6);
+  --color-error-7: var(--error-7);
+  --color-error-8: var(--error-8);
+  --color-error-9: var(--error-9);
+  --color-error-10: var(--error-10);
+  --color-error-11: var(--error-11);
+  --color-error-12: var(--error-12);
+
+  /* Error Alpha */
+  --color-error-a1: var(--error-a1);
+  --color-error-a2: var(--error-a2);
+  --color-error-a3: var(--error-a3);
+  --color-error-a4: var(--error-a4);
+  --color-error-a5: var(--error-a5);
+  --color-error-a6: var(--error-a6);
+  --color-error-a7: var(--error-a7);
+  --color-error-a8: var(--error-a8);
+  --color-error-a9: var(--error-a9);
+  --color-error-a10: var(--error-a10);
+  --color-error-a11: var(--error-a11);
+  --color-error-a12: var(--error-a12);
 }
 
 @layer base {
