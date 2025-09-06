@@ -4,12 +4,12 @@
 @custom-variant dark (&: is(.dark *));
 
 /*
-  gray    -> slate
-  accent  -> indigo
-  error   -> red
-  success -> green
-  info    -> sky
-  warning -> amber
+     gray == slate
+   accent == indigo
+    error == red
+  success == green
+     info == sky
+  warning == amber
 */
 
 @theme {
@@ -200,6 +200,34 @@
   --info-a10: #00bcf38b;
   --info-a11: #00749e;
   --info-a12: #002540e2;
+
+  /* Warning */
+  --warning-1: #fefdfb;
+  --warning-2: #fefbe9;
+  --warning-3: #fff7c2;
+  --warning-4: #ffee9c;
+  --warning-5: #fbe577;
+  --warning-6: #f3d673;
+  --warning-7: #e9c162;
+  --warning-8: #e2a336;
+  --warning-9: #ffc53d;
+  --warning-10: #ffba18;
+  --warning-11: #ab6400;
+  --warning-12: #4f3422;
+
+  /* Warning Alpha */
+  --warning-a1: #c0800004;
+  --warning-a2: #f4d10016;
+  --warning-a3: #ffde003d;
+  --warning-a4: #ffd40063;
+  --warning-a5: #f8cf0088;
+  --warning-a6: #eab5008c;
+  --warning-a7: #dc9b009d;
+  --warning-a8: #da8a00c9;
+  --warning-a9: #ffb300c2;
+  --warning-a10: #ffb300e7;
+  --warning-a11: #ab6400;
+  --warning-a12: #341500dd;
 }
 
 .dark {
@@ -342,6 +370,34 @@
   --info-a10: #a8eeff;
   --info-a11: #7cd3ffef;
   --info-a12: #c2f3ff;
+
+  /* Warning */
+  --warning-1: #16120c;
+  --warning-2: #1d180f;
+  --warning-3: #302008;
+  --warning-4: #3f2700;
+  --warning-5: #4d3000;
+  --warning-6: #5c3d05;
+  --warning-7: #714f19;
+  --warning-8: #8f6424;
+  --warning-9: #ffc53d;
+  --warning-10: #ffd60a;
+  --warning-11: #ffca16;
+  --warning-12: #ffe7b3;
+
+  /* Warning Alpha */
+  --warning-a1: #e63c0006;
+  --warning-a2: #fd9b000d;
+  --warning-a3: #fa820022;
+  --warning-a4: #fc820032;
+  --warning-a5: #fd8b0041;
+  --warning-a6: #fd9b0051;
+  --warning-a7: #ffab2567;
+  --warning-a8: #ffae3587;
+  --warning-a9: #ffc53d;
+  --warning-a10: #ffd60a;
+  --warning-a11: #ffca16;
+  --warning-a12: #ffe7b3;
 }
 
 @theme inline {
@@ -495,6 +551,34 @@
   --color-info-a10: var(--info-a10);
   --color-info-a11: var(--info-a11);
   --color-info-a12: var(--info-a12);
+
+  /* Warning */
+  --color-info-1: var(--info-1);
+  --color-info-2: var(--info-2);
+  --color-info-3: var(--info-3);
+  --color-info-4: var(--info-4);
+  --color-info-5: var(--info-5);
+  --color-info-6: var(--info-6);
+  --color-info-7: var(--info-7);
+  --color-info-8: var(--info-8);
+  --color-info-9: var(--info-9);
+  --color-info-10: var(--info-10);
+  --color-info-11: var(--info-11);
+  --color-info-12: var(--info-12);
+
+  /* Warning Alpha */
+  --color-warning-a1: var(--warning-a1);
+  --color-warning-a2: var(--warning-a2);
+  --color-warning-a3: var(--warning-a3);
+  --color-warning-a4: var(--warning-a4);
+  --color-warning-a5: var(--warning-a5);
+  --color-warning-a6: var(--warning-a6);
+  --color-warning-a7: var(--warning-a7);
+  --color-warning-a8: var(--warning-a8);
+  --color-warning-a9: var(--warning-a9);
+  --color-warning-a10: var(--warning-a10);
+  --color-warning-a11: var(--warning-a11);
+  --color-warning-a12: var(--warning-a12);
 }
 
 @layer base {
