@@ -1,7 +1,0 @@
-:root {
-  --radius: 0.5rem;
-}
-
-@theme inline {
-  --radius-md: var(--radius);
-}
