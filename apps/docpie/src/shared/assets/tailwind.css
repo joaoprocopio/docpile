@@ -172,6 +172,34 @@
   --success-a10: #008647d4;
   --success-a11: #00713fde;
   --success-a12: #002616e6;
+
+  /* Info */
+  --info-1: #f9feff;
+  --info-2: #f1fafd;
+  --info-3: #e1f6fd;
+  --info-4: #d1f0fa;
+  --info-5: #bee7f5;
+  --info-6: #a9daed;
+  --info-7: #8dcae3;
+  --info-8: #60b3d7;
+  --info-9: #7ce2fe;
+  --info-10: #74daf8;
+  --info-11: #00749e;
+  --info-12: #1d3e56;
+
+  /* Info Alpha */
+  --info-a1: #00d5ff06;
+  --info-a2: #00a4db0e;
+  --info-a3: #00b3ee1e;
+  --info-a4: #00ace42e;
+  --info-a5: #00a1d841;
+  --info-a6: #0092ca56;
+  --info-a7: #0089c172;
+  --info-a8: #0085bf9f;
+  --info-a9: #00c7fe83;
+  --info-a10: #00bcf38b;
+  --info-a11: #00749e;
+  --info-a12: #002540e2;
 }
 
 .dark {
@@ -286,6 +314,34 @@
   --success-a10: #43fea4ab;
   --success-a11: #46fea5d4;
   --success-a12: #bbffd7f0;
+
+  /* Info */
+  --info-a1: #0044ff0f;
+  --info-a2: #1171fb18;
+  --info-a3: #1184fc33;
+  --info-a4: #128fff49;
+  --info-a5: #1c9dfd5d;
+  --info-a6: #28a5ff72;
+  --info-a7: #2badfe8b;
+  --info-a8: #1db2fea9;
+  --info-a9: #7ce3fffe;
+  --info-a10: #a8eeff;
+  --info-a11: #7cd3ffef;
+  --info-a12: #c2f3ff;
+
+  /* Info Alpha */
+  --info-a1: #0044ff0f;
+  --info-a2: #1171fb18;
+  --info-a3: #1184fc33;
+  --info-a4: #128fff49;
+  --info-a5: #1c9dfd5d;
+  --info-a6: #28a5ff72;
+  --info-a7: #2badfe8b;
+  --info-a8: #1db2fea9;
+  --info-a9: #7ce3fffe;
+  --info-a10: #a8eeff;
+  --info-a11: #7cd3ffef;
+  --info-a12: #c2f3ff;
 }
 
 @theme inline {
@@ -411,6 +467,34 @@
   --color-success-a10: var(--success-a10);
   --color-success-a11: var(--success-a11);
   --color-success-a12: var(--success-a12);
+
+  /* Info */
+  --color-info-1: var(--info-1);
+  --color-info-2: var(--info-2);
+  --color-info-3: var(--info-3);
+  --color-info-4: var(--info-4);
+  --color-info-5: var(--info-5);
+  --color-info-6: var(--info-6);
+  --color-info-7: var(--info-7);
+  --color-info-8: var(--info-8);
+  --color-info-9: var(--info-9);
+  --color-info-10: var(--info-10);
+  --color-info-11: var(--info-11);
+  --color-info-12: var(--info-12);
+
+  /* Info Alpha */
+  --color-info-a1: var(--info-a1);
+  --color-info-a2: var(--info-a2);
+  --color-info-a3: var(--info-a3);
+  --color-info-a4: var(--info-a4);
+  --color-info-a5: var(--info-a5);
+  --color-info-a6: var(--info-a6);
+  --color-info-a7: var(--info-a7);
+  --color-info-a8: var(--info-a8);
+  --color-info-a9: var(--info-a9);
+  --color-info-a10: var(--info-a10);
+  --color-info-a11: var(--info-a11);
+  --color-info-a12: var(--info-a12);
 }
 
 @layer base {
