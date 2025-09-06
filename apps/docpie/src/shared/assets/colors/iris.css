@@ -1,0 +1,89 @@
+:root {
+  /* Iris */
+  --iris-1: #fdfdff;
+  --iris-2: #f8f8ff;
+  --iris-3: #f0f1fe;
+  --iris-4: #e6e7ff;
+  --iris-5: #dadcff;
+  --iris-6: #cbcdff;
+  --iris-7: #b8baf8;
+  --iris-8: #9b9ef0;
+  --iris-9: #5b5bd6;
+  --iris-10: #5151cd;
+  --iris-11: #5753c6;
+  --iris-12: #272962;
+
+  /* Iris Alpha */
+  --iris-a1: #0000ff02;
+  --iris-a2: #0000ff07;
+  --iris-a3: #0011ee0f;
+  --iris-a4: #000bff19;
+  --iris-a5: #000eff25;
+  --iris-a6: #000aff34;
+  --iris-a7: #0008e647;
+  --iris-a8: #0008d964;
+  --iris-a9: #0000c0a4;
+  --iris-a10: #0000b6ae;
+  --iris-a11: #0600abac;
+  --iris-a12: #000246d8;
+}
+
+.dark {
+  /* Iris Dark */
+  --iris-1: #13131e;
+  --iris-2: #171625;
+  --iris-3: #202248;
+  --iris-4: #262a65;
+  --iris-5: #303374;
+  --iris-6: #3d3e82;
+  --iris-7: #4a4a95;
+  --iris-8: #5958b1;
+  --iris-9: #5b5bd6;
+  --iris-10: #6e6ade;
+  --iris-11: #b1a9ff;
+  --iris-12: #e0dffe;
+
+  /* Iris Dark Alpha */
+  --iris-a1: #3636fe0e;
+  --iris-a2: #564bf916;
+  --iris-a3: #525bff3b;
+  --iris-a4: #4d58ff5a;
+  --iris-a5: #5b62fd6b;
+  --iris-a6: #6d6ffd7a;
+  --iris-a7: #7777fe8e;
+  --iris-a8: #7b7afeac;
+  --iris-a9: #6a6afed4;
+  --iris-a10: #7d79ffdc;
+  --iris-a11: #b1a9ff;
+  --iris-a12: #e1e0fffe;
+}
+
+@theme inline {
+  /* Iris */
+  --color-iris-1: var(--iris-1);
+  --color-iris-2: var(--iris-2);
+  --color-iris-3: var(--iris-3);
+  --color-iris-4: var(--iris-4);
+  --color-iris-5: var(--iris-5);
+  --color-iris-6: var(--iris-6);
+  --color-iris-7: var(--iris-7);
+  --color-iris-8: var(--iris-8);
+  --color-iris-9: var(--iris-9);
+  --color-iris-10: var(--iris-10);
+  --color-iris-11: var(--iris-11);
+  --color-iris-12: var(--iris-12);
+
+  /* Iris Alpha */
+  --color-iris-a1: var(--iris-a1);
+  --color-iris-a2: var(--iris-a2);
+  --color-iris-a3: var(--iris-a3);
+  --color-iris-a4: var(--iris-a4);
+  --color-iris-a5: var(--iris-a5);
+  --color-iris-a6: var(--iris-a6);
+  --color-iris-a7: var(--iris-a7);
+  --color-iris-a8: var(--iris-a8);
+  --color-iris-a9: var(--iris-a9);
+  --color-iris-a10: var(--iris-a10);
+  --color-iris-a11: var(--iris-a11);
+  --color-iris-a12: var(--iris-a12);
+}
