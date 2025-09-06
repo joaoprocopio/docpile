@@ -57,3 +57,33 @@
   --slate-a11: #f1f7feb5;
   --slate-a12: #fcfdffef;
 }
+
+@theme inline {
+  /* Slate */
+  --color-slate-1: var(--slate-1);
+  --color-slate-2: var(--slate-2);
+  --color-slate-3: var(--slate-3);
+  --color-slate-4: var(--slate-4);
+  --color-slate-5: var(--slate-5);
+  --color-slate-6: var(--slate-6);
+  --color-slate-7: var(--slate-7);
+  --color-slate-8: var(--slate-8);
+  --color-slate-9: var(--slate-9);
+  --color-slate-10: var(--slate-10);
+  --color-slate-11: var(--slate-11);
+  --color-slate-12: var(--slate-12);
+
+  /* Slate Alpha */
+  --color-slate-a1: var(--slate-a1);
+  --color-slate-a2: var(--slate-a2);
+  --color-slate-a3: var(--slate-a3);
+  --color-slate-a4: var(--slate-a4);
+  --color-slate-a5: var(--slate-a5);
+  --color-slate-a6: var(--slate-a6);
+  --color-slate-a7: var(--slate-a7);
+  --color-slate-a8: var(--slate-a8);
+  --color-slate-a9: var(--slate-a9);
+  --color-slate-a10: var(--slate-a10);
+  --color-slate-a11: var(--slate-a11);
+  --color-slate-a12: var(--slate-a12);
+}
