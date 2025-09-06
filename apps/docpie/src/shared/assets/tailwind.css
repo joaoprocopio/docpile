@@ -3,6 +3,15 @@
 
 @custom-variant dark (&: is(.dark *));
 
+/*
+  gray    -> slate
+  accent  -> indigo
+  error   -> red
+  success -> green
+  info    -> sky
+  warning -> amber
+*/
+
 @theme {
   --blur-*: initial;
   --color-*: initial;
@@ -135,6 +144,34 @@
   --error-a10: #d10005c1;
   --error-a11: #c40006d3;
   --error-a12: #55000de8;
+
+  /* Success */
+  --success-1: #fbfefc;
+  --success-2: #f4fbf6;
+  --success-3: #e6f6eb;
+  --success-4: #d6f1df;
+  --success-5: #c4e8d1;
+  --success-6: #adddc0;
+  --success-7: #8eceaa;
+  --success-8: #5bb98b;
+  --success-9: #30a46c;
+  --success-10: #2b9a66;
+  --success-11: #218358;
+  --success-12: #193b2d;
+
+  /* Success Alpha */
+  --success-a1: #00c04004;
+  --success-a2: #00a32f0b;
+  --success-a3: #00a43319;
+  --success-a4: #00a83829;
+  --success-a5: #019c393b;
+  --success-a6: #00963c52;
+  --success-a7: #00914071;
+  --success-a8: #00924ba4;
+  --success-a9: #008f4acf;
+  --success-a10: #008647d4;
+  --success-a11: #00713fde;
+  --success-a12: #002616e6;
 }
 
 .dark {
@@ -221,6 +258,34 @@
   --error-a10: #ff6465eb;
   --error-a11: #ff9592;
   --error-a12: #ffd1d9;
+
+  /* Success */
+  --success-1: #0e1512;
+  --success-2: #121b17;
+  --success-3: #132d21;
+  --success-4: #113b29;
+  --success-5: #174933;
+  --success-6: #20573e;
+  --success-7: #28684a;
+  --success-8: #2f7c57;
+  --success-9: #30a46c;
+  --success-10: #33b074;
+  --success-11: #3dd68c;
+  --success-12: #b1f1cb;
+
+  /* Success Alpha */
+  --success-a1: #00de4505;
+  --success-a2: #29f99d0b;
+  --success-a3: #22ff991e;
+  --success-a4: #11ff992d;
+  --success-a5: #2bffa23c;
+  --success-a6: #44ffaa4b;
+  --success-a7: #50fdac5e;
+  --success-a8: #54ffad73;
+  --success-a9: #44ffa49e;
+  --success-a10: #43fea4ab;
+  --success-a11: #46fea5d4;
+  --success-a12: #bbffd7f0;
 }
 
 @theme inline {
@@ -318,6 +383,34 @@
   --color-error-a10: var(--error-a10);
   --color-error-a11: var(--error-a11);
   --color-error-a12: var(--error-a12);
+
+  /* Success */
+  --color-success-1: var(--success-1);
+  --color-success-2: var(--success-2);
+  --color-success-3: var(--success-3);
+  --color-success-4: var(--success-4);
+  --color-success-5: var(--success-5);
+  --color-success-6: var(--success-6);
+  --color-success-7: var(--success-7);
+  --color-success-8: var(--success-8);
+  --color-success-9: var(--success-9);
+  --color-success-10: var(--success-10);
+  --color-success-11: var(--success-11);
+  --color-success-12: var(--success-12);
+
+  /* Success Alpha */
+  --color-success-a1: var(--success-a1);
+  --color-success-a2: var(--success-a2);
+  --color-success-a3: var(--success-a3);
+  --color-success-a4: var(--success-a4);
+  --color-success-a5: var(--success-a5);
+  --color-success-a6: var(--success-a6);
+  --color-success-a7: var(--success-a7);
+  --color-success-a8: var(--success-a8);
+  --color-success-a9: var(--success-a9);
+  --color-success-a10: var(--success-a10);
+  --color-success-a11: var(--success-a11);
+  --color-success-a12: var(--success-a12);
 }
 
 @layer base {
