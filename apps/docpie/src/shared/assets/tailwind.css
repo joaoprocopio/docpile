@@ -3,16 +3,5 @@
 @import "./preflight.css";
 @import "./typography.css";
 @import "./radii.css";
-@import "./colors/slate.css";
-@import "./colors/iris.css";
-
-@theme inline {
-  /* Colors */
-  --color-background: var(--slate-1);
-  --color-foreground: var(--slate-12);
-  --color-input: var(--slate-3);
-  --color-border: var(--slate-4);
-  --color-ring: var(--slate-5);
-  --color-hover: var(--slate-a2);
-  --color-selected: var(--slate-a3);
-}
+@import "./colors/gray.css";
+@import "./colors/accent.css";
