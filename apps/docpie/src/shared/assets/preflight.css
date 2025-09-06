@@ -15,9 +15,9 @@
 }
 
 @layer base {
-  /* * {
+  * {
     @apply border-border ring-ring outline-ring/50;
-  } */
+  }
 
   html,
   body,
@@ -30,7 +30,7 @@
   }
 
   body {
-    /* @apply bg-background text-body text-foreground antialiased; */
+    @apply bg-background text-foreground text-body antialiased;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
