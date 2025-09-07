@@ -12,13 +12,6 @@ onMounted(() => {
   const view = new EditorView(ref.value, {
     state: EditorState.create({ schema: schema }),
     dispatchTransaction(tr) {
-      console.log(
-        "Document size went from",
-        tr.before.content.size,
-        "to",
-        tr.doc.content.size,
-      );
-
       const newState = view.state.apply(tr);
       view.updateState(newState);
     },

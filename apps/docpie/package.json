@@ -1,7 +1,9 @@
 {
   "private": true,
   "type": "module",
+  "name": "docpie",
   "scripts": {
+    "clean": "git clean -xdf .nuxt .output node_modules",
     "postinstall": "nuxt prepare",
     "dev": "nuxt dev",
     "build": "nuxt build",
@@ -23,6 +25,7 @@
     "@nuxt/icon": "2.0.0",
     "@nuxt/image": "1.11.0",
     "@nuxt/schema": "^4.0.3",
+    "@nuxtjs/color-mode": "^3.5.2",
     "@tailwindcss/vite": "^4.1.12",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",

@@ -7,12 +7,17 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxt/icon",
     "@nuxt/image",
+    "@nuxtjs/color-mode",
     "reka-ui/nuxt",
   ],
   ssr: false,
   imports: { autoImport: false },
   devtools: { enabled: true },
   css: ["~/shared/assets/tailwind.css"],
+  colorMode: {
+    classSuffix: "",
+    storage: "cookie",
+  },
   srcDir: "src/",
   compatibilityDate: "latest",
   vite: {
@@ -28,6 +33,5 @@ export default defineNuxtConfig({
   },
   reka: {
     prefix: "internal",
-    components: true,
   },
 });
