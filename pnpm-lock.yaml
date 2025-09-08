@@ -14,7 +14,7 @@ importers:
 
   apps/docpie:
     dependencies:
-      '@docpie/codex':
+      codex:
         specifier: link:../../packages/codex
         version: link:../../packages/codex
       nuxt:

@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import "@docpie/codex/view/style/prosemirror.css";
-
-import { schema } from "@docpie/codex/schema-basic";
-import { EditorState } from "@docpie/codex/state";
-import { EditorView } from "@docpie/codex/view";
+import { schema } from "codex/schema-basic";
+import { EditorState } from "codex/state";
+import { EditorView } from "codex/view";
 import { onMounted, useTemplateRef } from "vue";
 
 const ref = useTemplateRef("editor");
@@ -23,5 +21,6 @@ onMounted(() => {
   <div>
     <h1 class="font-bold">editor</h1>
     <div ref="editor" />
+    <button>abc</button>
   </div>
 </template>

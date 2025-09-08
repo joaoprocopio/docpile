@@ -11,7 +11,7 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "@docpie/codex": "link:../../packages/codex",
+    "codex": "link:../../packages/codex",
     "nuxt": "^4.0.3",
     "reka-ui": "^2.5.0",
     "tw-animate-css": "^1.3.8",
