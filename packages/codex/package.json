@@ -6,11 +6,17 @@
     "./src/**"
   ],
   "exports": {
+    "./schema-basic": "./src/schema-basic/index.ts",
     "./state": "./src/state/index.ts",
     "./view": "./src/view/index.ts",
-    "./schema-basic": "./src/schema-basic/index.ts"
+    "./commands": "./src/commands/index.ts",
+    "./history": "./src/history/index.ts",
+    "./keymap": "./src/keymap/index.ts"
   },
   "dependencies": {
+    "prosemirror-commands": "^1.7.1",
+    "prosemirror-history": "^1.4.1",
+    "prosemirror-keymap": "^1.2.3",
     "prosemirror-schema-basic": "^1.2.4",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.40.1"
