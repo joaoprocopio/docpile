@@ -364,6 +364,7 @@
   --color-foreground: var(--gray-12);
   --color-border: var(--gray-4);
   --color-ring: var(--gray-5);
+  --color-outline: oklch(from var(--color-ring) l c h / 0.5) !important;
 
   /* Accent */
   --color-accent-1: var(--accent-1);
@@ -576,7 +577,7 @@
 
 @layer base {
   * {
-    @apply border-border ring-ring;
+    @apply border-border ring-ring outline-outline;
   }
 
   html,
