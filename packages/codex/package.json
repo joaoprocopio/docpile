@@ -9,6 +9,7 @@
     "./schema-basic": "./src/schema-basic/index.ts",
     "./state": "./src/state/index.ts",
     "./view": "./src/view/index.ts",
+    "./view/style/prosemirror.css": "./node_modules/prosemirror-view/style/prosemirror.css",
     "./commands": "./src/commands/index.ts",
     "./history": "./src/history/index.ts",
     "./keymap": "./src/keymap/index.ts"
