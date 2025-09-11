@@ -2,9 +2,9 @@
   "private": true,
   "packageManager": "pnpm@10.15.0",
   "scripts": {
-    "clean": "git clean -xdf .turbo node_modules",
+    "clean": "git clean -xdf node_modules",
     "clean:all": "pnpm -r clean",
-    "refresh": "turbo clean && pnpm store prune --force && pnpm install",
+    "refresh": "pnpm clean:all && pnpm store prune --force && pnpm install",
     "dev": "pnpm -r dev"
   }
 }
