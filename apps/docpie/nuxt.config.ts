@@ -10,6 +10,11 @@ export default defineNuxtConfig({
     "reka-ui/nuxt",
   ],
   ssr: false,
+  imports: {
+    scan: false,
+    autoImport: false,
+    dirs: [],
+  },
   devtools: {
     enabled: true,
   },
