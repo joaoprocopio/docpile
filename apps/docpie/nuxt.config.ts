@@ -3,6 +3,10 @@ import tailwindcss from "@tailwindcss/vite"
 export default defineNuxtConfig({
     modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image", "@nuxtjs/color-mode"],
     ssr: false,
+    pages: {
+        enabled: true,
+        pattern: [],
+    },
     components: {
         dirs: [],
     },

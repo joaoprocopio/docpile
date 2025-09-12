@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { tryOnScopeDispose } from "@vueuse/core"
 import { baseKeymap } from "codex/commands"
 import { history, redo, undo } from "codex/history"
 import { keymap } from "codex/keymap"
@@ -9,8 +10,11 @@ import { onMounted, useTemplateRef } from "vue"
 
 const editorRef = useTemplateRef("editor")
 
+let editorState: EditorState | undefined = undefined
+let editorView: EditorView | undefined = undefined
+
 onMounted(() => {
-    const state = EditorState.create({
+    editorState = EditorState.create({
         schema: schema,
         plugins: [
             history(),
@@ -22,13 +26,15 @@ onMounted(() => {
         ],
     })
 
-    const view = new EditorView(editorRef.value, {
-        state: state,
-        dispatchTransaction(tr) {
-            const newState = view.state.apply(tr)
-            view.updateState(newState)
-        },
+    editorView = new EditorView(editorRef.value, {
+        state: editorState,
     })
+})
+
+tryOnScopeDispose(() => {
+    if (editorView) {
+        editorView.destroy()
+    }
 })
 </script>
 
