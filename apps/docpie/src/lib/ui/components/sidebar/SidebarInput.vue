@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from "vue"
 
 import { cn } from "~/lib/ui/utils"
-import { Input } from "@/registry/new-york-v4/ui/input"
+import { Input } from "~/lib/ui/components/input"
 
 const props = defineProps<{
     class?: HTMLAttributes["class"]

@@ -7,7 +7,7 @@ import type { HTMLAttributes } from "vue"
 import { inject } from "vue"
 
 import { cn } from "~/lib/ui/utils"
-import { toggleVariants } from "@/registry/new-york-v4/ui/toggle"
+import { toggleVariants } from "~/lib/ui/components/toggle"
 
 type ToggleGroupVariants = VariantProps<typeof toggleVariants>
 

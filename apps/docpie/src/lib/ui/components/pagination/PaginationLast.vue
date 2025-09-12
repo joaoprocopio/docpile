@@ -6,8 +6,8 @@ import { PaginationLast, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
 import { cn } from "~/lib/ui/utils"
-import type { ButtonVariants } from "@/registry/new-york-v4/ui/button"
-import { buttonVariants } from "@/registry/new-york-v4/ui/button"
+import type { ButtonVariants } from "~/lib/ui/components/button"
+import { buttonVariants } from "~/lib/ui/components/button"
 
 const props = withDefaults(
     defineProps<

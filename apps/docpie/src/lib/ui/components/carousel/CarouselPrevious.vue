@@ -2,8 +2,8 @@
 import { ArrowLeft } from "lucide-vue-next"
 
 import { cn } from "~/lib/ui/utils"
-import type { ButtonVariants } from "@/registry/new-york-v4/ui/button"
-import { Button } from "@/registry/new-york-v4/ui/button"
+import type { ButtonVariants } from "~/lib/ui/components/button"
+import { Button } from "~/lib/ui/components/button"
 
 import type { WithClassAsProps } from "./interface"
 import { useCarousel } from "./useCarousel"

@@ -3,7 +3,7 @@ import type { LabelProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
 import { cn } from "~/lib/ui/utils"
-import { Label } from "@/registry/new-york-v4/ui/label"
+import { Label } from "~/lib/ui/components/label"
 
 import { useFormField } from "./useFormField"
 

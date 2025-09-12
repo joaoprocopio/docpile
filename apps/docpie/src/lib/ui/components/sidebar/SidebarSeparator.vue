@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from "vue"
 
 import { cn } from "~/lib/ui/utils"
-import { Separator } from "@/registry/new-york-v4/ui/separator"
+import { Separator } from "~/lib/ui/components/separator"
 
 const props = defineProps<{
     class?: HTMLAttributes["class"]

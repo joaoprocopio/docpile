@@ -7,7 +7,7 @@ import { useId } from "reka-ui"
 import { type Component, computed, ref } from "vue"
 
 import { cn } from "~/lib/ui/utils"
-import { ChartCrosshair, ChartLegend, defaultColors } from "@/registry/new-york/ui/chart"
+import { ChartCrosshair, ChartLegend, defaultColors } from "~/lib/ui/components/chart"
 
 import type { BaseChartProps } from "."
 
