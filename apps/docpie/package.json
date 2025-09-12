@@ -1,42 +1,45 @@
 {
-  "private": true,
-  "type": "module",
-  "name": "docpie",
-  "scripts": {
-    "postinstall": "nuxt prepare",
-    "clean": "git clean -xdf .nuxt .output node_modules",
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview"
-  },
-  "dependencies": {
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "codex": "link:../../packages/codex",
-    "nuxt": "^4.0.3",
-    "reka-ui": "^2.5.0",
-    "tailwind-merge": "^3.3.1",
-    "tw-animate-css": "^1.3.8",
-    "vue": "^3.5.20",
-    "vue-router": "^4.5.1"
-  },
-  "devDependencies": {
-    "@eslint/compat": "^1.3.2",
-    "@nuxt/eslint": "1.9.0",
-    "@nuxt/fonts": "0.11.4",
-    "@nuxt/icon": "2.0.0",
-    "@nuxt/image": "1.11.0",
-    "@nuxt/schema": "^4.0.3",
-    "@nuxtjs/color-mode": "^3.5.2",
-    "@tailwindcss/vite": "^4.1.12",
-    "eslint": "^9.34.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.14",
-    "tailwindcss": "^4.1.12",
-    "typescript": "^5.9.2"
-  }
+    "private": true,
+    "type": "module",
+    "name": "docpie",
+    "scripts": {
+        "postinstall": "nuxt prepare",
+        "clean": "git clean -xdf .nuxt .output node_modules",
+        "lint": "eslint .",
+        "dev": "nuxt dev",
+        "build": "nuxt build",
+        "generate": "nuxt generate",
+        "typecheck": "nuxt typecheck",
+        "preview": "nuxt preview"
+    },
+    "dependencies": {
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "codex": "link:../../packages/codex",
+        "nuxt": "^4.0.3",
+        "reka-ui": "^2.5.0",
+        "tailwind-merge": "^3.3.1",
+        "tw-animate-css": "^1.3.8",
+        "vue": "^3.5.20",
+        "vue-router": "^4.5.1"
+    },
+    "devDependencies": {
+        "@eslint/compat": "^1.3.2",
+        "@nuxt/eslint": "1.9.0",
+        "@nuxt/fonts": "0.11.4",
+        "@nuxt/icon": "2.0.0",
+        "@nuxt/image": "1.11.0",
+        "@nuxt/schema": "^4.0.3",
+        "@nuxtjs/color-mode": "^3.5.2",
+        "@tailwindcss/vite": "^4.1.12",
+        "eslint": "^9.34.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.4",
+        "eslint-plugin-simple-import-sort": "^12.1.1",
+        "prettier": "^3.6.2",
+        "prettier-plugin-tailwindcss": "^0.6.14",
+        "tailwindcss": "^4.1.12",
+        "typescript": "^5.9.2",
+        "vue-tsc": "^3.0.7"
+    }
 }
