@@ -4,8 +4,8 @@ import { VisDonut, VisSingleContainer } from "@unovis/vue"
 import { useMounted } from "@vueuse/core"
 import { type Component, computed, ref } from "vue"
 
-import { cn } from "~/lib/ui/utils"
 import { ChartSingleTooltip, defaultColors } from "~/lib/ui/components/chart"
+import { cn } from "~/lib/ui/utils"
 
 import type { BaseChartProps } from "."
 

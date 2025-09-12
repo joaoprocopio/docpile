@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ArrowLeft } from "lucide-vue-next"
 
-import { cn } from "~/lib/ui/utils"
 import type { ButtonVariants } from "~/lib/ui/components/button"
 import { Button } from "~/lib/ui/components/button"
+import { cn } from "~/lib/ui/utils"
 
 import type { WithClassAsProps } from "./interface"
 import { useCarousel } from "./useCarousel"

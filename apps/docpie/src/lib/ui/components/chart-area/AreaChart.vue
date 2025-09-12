@@ -6,8 +6,8 @@ import { useMounted } from "@vueuse/core"
 import { useId } from "reka-ui"
 import { type Component, computed, ref } from "vue"
 
-import { cn } from "~/lib/ui/utils"
 import { ChartCrosshair, ChartLegend, defaultColors } from "~/lib/ui/components/chart"
+import { cn } from "~/lib/ui/utils"
 
 import type { BaseChartProps } from "."
 

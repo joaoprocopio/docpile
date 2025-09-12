@@ -2,8 +2,8 @@
 import type { LabelProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "~/lib/ui/utils"
 import { Label } from "~/lib/ui/components/label"
+import { cn } from "~/lib/ui/utils"
 
 import { useFormField } from "./useFormField"
 

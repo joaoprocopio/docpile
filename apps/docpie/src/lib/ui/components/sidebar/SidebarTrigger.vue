@@ -2,8 +2,8 @@
 import { PanelLeft } from "lucide-vue-next"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "~/lib/ui/utils"
 import { Button } from "~/lib/ui/components/button"
+import { cn } from "~/lib/ui/utils"
 
 import { useSidebar } from "./utils"
 
