@@ -1,13 +1,16 @@
 import type { RouterConfig } from "@nuxt/schema"
+import type { RouteRecordRaw } from "vue-router"
 
-import { homeRouteName } from "~/pages/home"
+import { HomeRouteName } from "~/constants/routes"
+
+const routes = <Readonly<RouteRecordRaw[]>>[
+    {
+        name: HomeRouteName,
+        path: "/",
+        component: () => import("~/pages/home"),
+    },
+]
 
 export default <RouterConfig>{
-    routes: () => [
-        {
-            name: homeRouteName,
-            path: "/",
-            component: () => import("~/pages/home"),
-        },
-    ],
+    routes: () => routes,
 }

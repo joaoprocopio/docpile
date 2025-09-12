@@ -4,7 +4,7 @@
     "name": "docpie",
     "scripts": {
         "postinstall": "nuxt prepare",
-        "clean": "git clean -xdf .nuxt .output node_modules",
+        "clean": "git clean -xdf .nuxt .output dist node_modules",
         "lint": "eslint .",
         "dev": "nuxt dev",
         "build": "nuxt build",

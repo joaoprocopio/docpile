@@ -4,610 +4,612 @@
 @custom-variant dark (&: is(.dark *));
 
 @theme {
-  --blur-*: initial;
-  --color-*: initial;
-  --drop-shadow-*: initial;
-  --inset-shadow-*: initial;
-  --leading-*: initial;
-  --radius-*: initial;
-  --shadow-*: initial;
-  --text-*: initial;
-  --text-shadow-*: initial;
-  --tracking-*: initial;
+    --blur-*: initial;
+    --color-*: initial;
+    --drop-shadow-*: initial;
+    --inset-shadow-*: initial;
+    --leading-*: initial;
+    --radius-*: initial;
+    --shadow-*: initial;
+    --text-*: initial;
+    --text-shadow-*: initial;
+    --tracking-*: initial;
 }
 
 :root {
-  /* Accent */
-  --accent-1: oklch(99.433% 0.00132 286.38);
-  --accent-2: oklch(98.231% 0.00825 271.33);
-  --accent-3: oklch(96.086% 0.01696 267.79);
-  --accent-4: oklch(93.461% 0.03104 269.82);
-  --accent-5: oklch(90.194% 0.04715 269.62);
-  --accent-6: oklch(86.195% 0.06753 271.09);
-  --accent-7: oklch(80.616% 0.08754 271.41);
-  --accent-8: oklch(73.085% 0.11233 270.43);
-  --accent-9: oklch(54.375% 0.19102 267.01);
-  --accent-10: oklch(51.065% 0.19537 266.58);
-  --accent-11: oklch(50.921% 0.1725 267.17);
-  --accent-12: oklch(31.264% 0.08582 268.6);
+    /* Accent */
+    --accent-1: oklch(99.433% 0.00132 286.38);
+    --accent-2: oklch(98.231% 0.00825 271.33);
+    --accent-3: oklch(96.086% 0.01696 267.79);
+    --accent-4: oklch(93.461% 0.03104 269.82);
+    --accent-5: oklch(90.194% 0.04715 269.62);
+    --accent-6: oklch(86.195% 0.06753 271.09);
+    --accent-7: oklch(80.616% 0.08754 271.41);
+    --accent-8: oklch(73.085% 0.11233 270.43);
+    --accent-9: oklch(54.375% 0.19102 267.01);
+    --accent-10: oklch(51.065% 0.19537 266.58);
+    --accent-11: oklch(50.921% 0.1725 267.17);
+    --accent-12: oklch(31.264% 0.08582 268.6);
 
-  /* Accent Alpha */
-  --accent-a1: oklch(27.115% 0.18789 264.05 / 0.00784);
-  --accent-a2: oklch(50.109% 0.28035 263.82 / 0.03137);
-  --accent-a3: oklch(49.642% 0.25801 263.29 / 0.07059);
-  --accent-a4: oklch(50.668% 0.27669 263.67 / 0.11765);
-  --accent-a5: oklch(50.668% 0.27669 263.67 / 0.17647);
-  --accent-a6: oklch(49.84% 0.28212 263.89 / 0.24314);
-  --accent-a7: oklch(46.899% 0.26859 263.94 / 0.32941);
-  --accent-a8: oklch(44.566% 0.25245 263.89 / 0.44706);
-  --accent-a9: oklch(43.012% 0.24394 263.9 / 0.75686);
-  --accent-a10: oklch(41.559% 0.2365 263.91 / 0.8);
-  --accent-a11: oklch(39.04% 0.21863 263.83 / 0.77255);
-  --accent-a12: oklch(20.827% 0.10355 262.86 / 0.87843);
+    /* Accent Alpha */
+    --accent-a1: oklch(27.115% 0.18789 264.05 / 0.00784);
+    --accent-a2: oklch(50.109% 0.28035 263.82 / 0.03137);
+    --accent-a3: oklch(49.642% 0.25801 263.29 / 0.07059);
+    --accent-a4: oklch(50.668% 0.27669 263.67 / 0.11765);
+    --accent-a5: oklch(50.668% 0.27669 263.67 / 0.17647);
+    --accent-a6: oklch(49.84% 0.28212 263.89 / 0.24314);
+    --accent-a7: oklch(46.899% 0.26859 263.94 / 0.32941);
+    --accent-a8: oklch(44.566% 0.25245 263.89 / 0.44706);
+    --accent-a9: oklch(43.012% 0.24394 263.9 / 0.75686);
+    --accent-a10: oklch(41.559% 0.2365 263.91 / 0.8);
+    --accent-a11: oklch(39.04% 0.21863 263.83 / 0.77255);
+    --accent-a12: oklch(20.827% 0.10355 262.86 / 0.87843);
 
-  /* Gray */
-  --gray-1: oklch(99.135% 0.00132 286.38);
-  --gray-2: oklch(98.268% 0.00264 286.35);
-  --gray-3: oklch(95.599% 0.00399 286.32);
-  --gray-4: oklch(93.214% 0.00536 286.3);
-  --gray-5: oklch(91.042% 0.00685 277.16);
-  --gray-6: oklch(88.735% 0.00951 286.2);
-  --gray-7: oklch(85.301% 0.01105 280.45);
-  --gray-8: oklch(79.384% 0.0156 277.79);
-  --gray-9: oklch(64.531% 0.01645 277.7);
-  --gray-10: oklch(61.075% 0.01546 272.56);
-  --gray-11: oklch(50.249% 0.01362 264.44);
-  --gray-12: oklch(24.113% 0.00969 248.23);
+    /* Gray */
+    --gray-1: oklch(99.135% 0.00132 286.38);
+    --gray-2: oklch(98.268% 0.00264 286.35);
+    --gray-3: oklch(95.599% 0.00399 286.32);
+    --gray-4: oklch(93.214% 0.00536 286.3);
+    --gray-5: oklch(91.042% 0.00685 277.16);
+    --gray-6: oklch(88.735% 0.00951 286.2);
+    --gray-7: oklch(85.301% 0.01105 280.45);
+    --gray-8: oklch(79.384% 0.0156 277.79);
+    --gray-9: oklch(64.531% 0.01645 277.7);
+    --gray-10: oklch(61.075% 0.01546 272.56);
+    --gray-11: oklch(50.249% 0.01362 264.44);
+    --gray-12: oklch(24.113% 0.00969 248.23);
 
-  /* Gray Alpha */
-  --gray-a1: oklch(20.32% 0.1408 264.05 / 0.01176);
-  --gray-a2: oklch(20.32% 0.1408 264.05 / 0.02353);
-  --gray-a3: oklch(14.514% 0.10057 264.05 / 0.05882);
-  --gray-a4: oklch(13.432% 0.09308 264.05 / 0.0902);
-  --gray-a5: oklch(16.782% 0.08315 262.83 / 0.12157);
-  --gray-a6: oklch(13.795% 0.09559 264.05 / 0.14902);
-  --gray-a7: oklch(15.482% 0.08189 263.44 / 0.19608);
-  --gray-a8: oklch(16.278% 0.0816 262.95 / 0.27451);
-  --gray-a9: oklch(12.853% 0.05648 261.26 / 0.4549);
-  --gray-a10: oklch(13.379% 0.04842 257.47 / 0.49804);
-  --gray-a11: oklch(12.657% 0.03577 249.94 / 0.62353);
-  --gray-a12: oklch(10.739% 0.02107 228.56 / 0.8902);
+    /* Gray Alpha */
+    --gray-a1: oklch(20.32% 0.1408 264.05 / 0.01176);
+    --gray-a2: oklch(20.32% 0.1408 264.05 / 0.02353);
+    --gray-a3: oklch(14.514% 0.10057 264.05 / 0.05882);
+    --gray-a4: oklch(13.432% 0.09308 264.05 / 0.0902);
+    --gray-a5: oklch(16.782% 0.08315 262.83 / 0.12157);
+    --gray-a6: oklch(13.795% 0.09559 264.05 / 0.14902);
+    --gray-a7: oklch(15.482% 0.08189 263.44 / 0.19608);
+    --gray-a8: oklch(16.278% 0.0816 262.95 / 0.27451);
+    --gray-a9: oklch(12.853% 0.05648 261.26 / 0.4549);
+    --gray-a10: oklch(13.379% 0.04842 257.47 / 0.49804);
+    --gray-a11: oklch(12.657% 0.03577 249.94 / 0.62353);
+    --gray-a12: oklch(10.739% 0.02107 228.56 / 0.8902);
 
-  /* Error */
-  --error-1: oklch(99.336% 0.00319 17.211);
-  --error-2: oklch(98.232% 0.00858 17.302);
-  --error-3: oklch(95.547% 0.02072 13.857);
-  --error-4: oklch(92.172% 0.04011 16.004);
-  --error-5: oklch(89.204% 0.05675 16.926);
-  --error-6: oklch(85.69% 0.07407 17.676);
-  --error-7: oklch(80.699% 0.08879 18.32);
-  --error-8: oklch(74.434% 0.11325 18.753);
-  --error-9: oklch(62.557% 0.19334 23.026);
-  --error-10: oklch(59.902% 0.19466 24.035);
-  --error-11: oklch(55.7% 0.19743 25.168);
-  --error-12: oklch(33.899% 0.10891 16.6);
+    /* Error */
+    --error-1: oklch(99.336% 0.00319 17.211);
+    --error-2: oklch(98.232% 0.00858 17.302);
+    --error-3: oklch(95.547% 0.02072 13.857);
+    --error-4: oklch(92.172% 0.04011 16.004);
+    --error-5: oklch(89.204% 0.05675 16.926);
+    --error-6: oklch(85.69% 0.07407 17.676);
+    --error-7: oklch(80.699% 0.08879 18.32);
+    --error-8: oklch(74.434% 0.11325 18.753);
+    --error-9: oklch(62.557% 0.19334 23.026);
+    --error-10: oklch(59.902% 0.19466 24.035);
+    --error-11: oklch(55.7% 0.19743 25.168);
+    --error-12: oklch(33.899% 0.10891 16.6);
 
-  /* Error Alpha */
-  --error-a1: oklch(62.796% 0.25768 29.234 / 0.01176);
-  --error-a2: oklch(62.796% 0.25768 29.234 / 0.03137);
-  --error-a3: oklch(60.58% 0.24794 28.422 / 0.07843);
-  --error-a4: oklch(62.815% 0.25739 28.793 / 0.14118);
-  --error-a5: oklch(62.81% 0.25746 28.903 / 0.19608);
-  --error-a6: oklch(61.495% 0.25215 28.998 / 0.25882);
-  --error-a7: oklch(56.754% 0.23272 29.009 / 0.33725);
-  --error-a8: oklch(54.258% 0.22234 28.806 / 0.44314);
-  --error-a9: oklch(56% 0.22939 28.69 / 0.71765);
-  --error-a10: oklch(54.065% 0.22154 28.802 / 0.75686);
-  --error-a11: oklch(51.535% 0.21106 28.636 / 0.82745);
-  --error-a12: oklch(28.392% 0.11435 21.886 / 0.9098);
+    /* Error Alpha */
+    --error-a1: oklch(62.796% 0.25768 29.234 / 0.01176);
+    --error-a2: oklch(62.796% 0.25768 29.234 / 0.03137);
+    --error-a3: oklch(60.58% 0.24794 28.422 / 0.07843);
+    --error-a4: oklch(62.815% 0.25739 28.793 / 0.14118);
+    --error-a5: oklch(62.81% 0.25746 28.903 / 0.19608);
+    --error-a6: oklch(61.495% 0.25215 28.998 / 0.25882);
+    --error-a7: oklch(56.754% 0.23272 29.009 / 0.33725);
+    --error-a8: oklch(54.258% 0.22234 28.806 / 0.44314);
+    --error-a9: oklch(56% 0.22939 28.69 / 0.71765);
+    --error-a10: oklch(54.065% 0.22154 28.802 / 0.75686);
+    --error-a11: oklch(51.535% 0.21106 28.636 / 0.82745);
+    --error-a12: oklch(28.392% 0.11435 21.886 / 0.9098);
 
-  /* Success */
-  --success-1: oklch(99.421% 0.0041 157.18);
-  --success-2: oklch(98.145% 0.00988 155.1);
-  --success-3: oklch(95.825% 0.02227 155.93);
-  --success-4: oklch(93.353% 0.03718 156.43);
-  --success-5: oklch(89.88% 0.04894 157.25);
-  --success-6: oklch(85.582% 0.06406 158.2);
-  --success-7: oklch(79.815% 0.08316 159.15);
-  --success-8: oklch(71.559% 0.11331 160.28);
-  --success-9: oklch(64.06% 0.13288 157.68);
-  --success-10: oklch(61.147% 0.12664 158.23);
-  --success-11: oklch(54.346% 0.1116 159.5);
-  --success-12: oklch(32.198% 0.0475 164.53);
+    /* Success */
+    --success-1: oklch(99.421% 0.0041 157.18);
+    --success-2: oklch(98.145% 0.00988 155.1);
+    --success-3: oklch(95.825% 0.02227 155.93);
+    --success-4: oklch(93.353% 0.03718 156.43);
+    --success-5: oklch(89.88% 0.04894 157.25);
+    --success-6: oklch(85.582% 0.06406 158.2);
+    --success-7: oklch(79.815% 0.08316 159.15);
+    --success-8: oklch(71.559% 0.11331 160.28);
+    --success-9: oklch(64.06% 0.13288 157.68);
+    --success-10: oklch(61.147% 0.12664 158.23);
+    --success-11: oklch(54.346% 0.1116 159.5);
+    --success-12: oklch(32.198% 0.0475 164.53);
 
-  /* Success Alpha */
-  --success-a1: oklch(70.306% 0.21363 146.2 / 0.01569);
-  --success-a2: oklch(62.214% 0.19327 145.42 / 0.04314);
-  --success-a3: oklch(62.529% 0.19172 145.88 / 0.09804);
-  --success-a4: oklch(63.685% 0.1927 146.35 / 0.16078);
-  --success-a5: oklch(60.372% 0.17816 147.21 / 0.23137);
-  --success-a6: oklch(58.722% 0.16878 148.27 / 0.32157);
-  --success-a7: oklch(57.371% 0.15927 149.66 / 0.44314);
-  --success-a8: oklch(57.827% 0.15053 152.48 / 0.64314);
-  --success-a9: oklch(56.97% 0.14764 152.69 / 0.81176);
-  --success-a10: oklch(54.379% 0.13889 153.38 / 0.83137);
-  --success-a11: oklch(48.194% 0.11889 155.11 / 0.87059);
-  --success-a12: oklch(23.716% 0.05301 160.76 / 0.90196);
+    /* Success Alpha */
+    --success-a1: oklch(70.306% 0.21363 146.2 / 0.01569);
+    --success-a2: oklch(62.214% 0.19327 145.42 / 0.04314);
+    --success-a3: oklch(62.529% 0.19172 145.88 / 0.09804);
+    --success-a4: oklch(63.685% 0.1927 146.35 / 0.16078);
+    --success-a5: oklch(60.372% 0.17816 147.21 / 0.23137);
+    --success-a6: oklch(58.722% 0.16878 148.27 / 0.32157);
+    --success-a7: oklch(57.371% 0.15927 149.66 / 0.44314);
+    --success-a8: oklch(57.827% 0.15053 152.48 / 0.64314);
+    --success-a9: oklch(56.97% 0.14764 152.69 / 0.81176);
+    --success-a10: oklch(54.379% 0.13889 153.38 / 0.83137);
+    --success-a11: oklch(48.194% 0.11889 155.11 / 0.87059);
+    --success-a12: oklch(23.716% 0.05301 160.76 / 0.90196);
 
-  /* Info */
-  --info-1: oklch(99.355% 0.00546 211.04);
-  --info-2: oklch(97.923% 0.01035 219.59);
-  --info-3: oklch(95.982% 0.02401 219.72);
-  --info-4: oklch(93.584% 0.03511 219.19);
-  --info-5: oklch(90.333% 0.04669 220.56);
-  --info-6: oklch(86.036% 0.05715 223.65);
-  --info-7: oklch(80.625% 0.07162 225.48);
-  --info-8: oklch(72.83% 0.09614 228.43);
-  --info-9: oklch(86.107% 0.10272 217.8);
-  --info-10: oklch(83.776% 0.1038 219.37);
-  --info-11: oklch(52.547% 0.10793 232.55);
-  --info-12: oklch(35.068% 0.05717 242.37);
+    /* Info */
+    --info-1: oklch(99.355% 0.00546 211.04);
+    --info-2: oklch(97.923% 0.01035 219.59);
+    --info-3: oklch(95.982% 0.02401 219.72);
+    --info-4: oklch(93.584% 0.03511 219.19);
+    --info-5: oklch(90.333% 0.04669 220.56);
+    --info-6: oklch(86.036% 0.05715 223.65);
+    --info-7: oklch(80.625% 0.07162 225.48);
+    --info-8: oklch(72.83% 0.09614 228.43);
+    --info-9: oklch(86.107% 0.10272 217.8);
+    --info-10: oklch(83.776% 0.1038 219.37);
+    --info-11: oklch(52.547% 0.10793 232.55);
+    --info-12: oklch(35.068% 0.05717 242.37);
 
-  /* Info Alpha */
-  --info-a1: oklch(80.66% 0.14578 218.91 / 0.02353);
-  --info-a2: oklch(67.438% 0.13653 231.37 / 0.0549);
-  --info-a3: oklch(71.916% 0.14511 231.08 / 0.11765);
-  --info-a4: oklch(69.78% 0.14014 230.68 / 0.18039);
-  --info-a5: oklch(66.574% 0.13551 231.82 / 0.2549);
-  --info-a6: oklch(62.263% 0.13152 234.69 / 0.33725);
-  --info-a7: oklch(59.613% 0.12871 236.24 / 0.44706);
-  --info-a8: oklch(58.536% 0.12958 237.9 / 0.62353);
-  --info-a9: oklch(77.346% 0.14891 226.71 / 0.51373);
-  --info-a10: oklch(74.266% 0.14493 228.06 / 0.5451);
-  --info-a11: oklch(52.547% 0.10793 232.55);
-  --info-a12: oklch(25.593% 0.06504 245.45 / 0.88627);
+    /* Info Alpha */
+    --info-a1: oklch(80.66% 0.14578 218.91 / 0.02353);
+    --info-a2: oklch(67.438% 0.13653 231.37 / 0.0549);
+    --info-a3: oklch(71.916% 0.14511 231.08 / 0.11765);
+    --info-a4: oklch(69.78% 0.14014 230.68 / 0.18039);
+    --info-a5: oklch(66.574% 0.13551 231.82 / 0.2549);
+    --info-a6: oklch(62.263% 0.13152 234.69 / 0.33725);
+    --info-a7: oklch(59.613% 0.12871 236.24 / 0.44706);
+    --info-a8: oklch(58.536% 0.12958 237.9 / 0.62353);
+    --info-a9: oklch(77.346% 0.14891 226.71 / 0.51373);
+    --info-a10: oklch(74.266% 0.14493 228.06 / 0.5451);
+    --info-a11: oklch(52.547% 0.10793 232.55);
+    --info-a12: oklch(25.593% 0.06504 245.45 / 0.88627);
 
-  /* Warning */
-  --warning-1: oklch(99.425% 0.00285 84.559);
-  --warning-2: oklch(98.559% 0.02379 99.096);
-  --warning-3: oklch(96.954% 0.06842 100.39);
-  --warning-4: oklch(94.467% 0.10344 97.909);
-  --warning-5: oklch(91.799% 0.13264 98.231);
-  --warning-6: oklch(88.041% 0.12327 93.392);
-  --warning-7: oklch(82.727% 0.12243 86.695);
-  --warning-8: oklch(75.768% 0.14028 76.72);
-  --warning-9: oklch(85.37% 0.15721 84.13);
-  --warning-10: oklch(83.129% 0.16792 80.847);
-  --warning-11: oklch(57.065% 0.12914 63.938);
-  --warning-12: oklch(35.219% 0.04863 54.169);
+    /* Warning */
+    --warning-1: oklch(99.425% 0.00285 84.559);
+    --warning-2: oklch(98.559% 0.02379 99.096);
+    --warning-3: oklch(96.954% 0.06842 100.39);
+    --warning-4: oklch(94.467% 0.10344 97.909);
+    --warning-5: oklch(91.799% 0.13264 98.231);
+    --warning-6: oklch(88.041% 0.12327 93.392);
+    --warning-7: oklch(82.727% 0.12243 86.695);
+    --warning-8: oklch(75.768% 0.14028 76.72);
+    --warning-9: oklch(85.37% 0.15721 84.13);
+    --warning-10: oklch(83.129% 0.16792 80.847);
+    --warning-11: oklch(57.065% 0.12914 63.938);
+    --warning-12: oklch(35.219% 0.04863 54.169);
 
-  /* Warning Alpha */
-  --warning-a1: oklch(64.958% 0.13767 74.011 / 0.01569);
-  --warning-a2: oklch(86.437% 0.17813 96.823 / 0.08627);
-  --warning-a3: oklch(90.069% 0.18628 98.266 / 0.23922);
-  --warning-a4: oklch(88.085% 0.18059 94.02 / 0.38824);
-  --warning-a5: oklch(86.421% 0.17728 94.419 / 0.53333);
-  --warning-a6: oklch(79.901% 0.16338 87.289 / 0.54902);
-  --warning-a7: oklch(73.372% 0.15262 78.61 / 0.61569);
-  --warning-a8: oklch(69.99% 0.15234 69.246 / 0.78824);
-  --warning-a9: oklch(81.791% 0.17052 77.948 / 0.76078);
-  --warning-a10: oklch(81.791% 0.17052 77.948 / 0.90588);
-  --warning-a11: oklch(57.065% 0.12914 63.938);
-  --warning-a12: oklch(23.823% 0.06026 53.274 / 0.86667);
+    /* Warning Alpha */
+    --warning-a1: oklch(64.958% 0.13767 74.011 / 0.01569);
+    --warning-a2: oklch(86.437% 0.17813 96.823 / 0.08627);
+    --warning-a3: oklch(90.069% 0.18628 98.266 / 0.23922);
+    --warning-a4: oklch(88.085% 0.18059 94.02 / 0.38824);
+    --warning-a5: oklch(86.421% 0.17728 94.419 / 0.53333);
+    --warning-a6: oklch(79.901% 0.16338 87.289 / 0.54902);
+    --warning-a7: oklch(73.372% 0.15262 78.61 / 0.61569);
+    --warning-a8: oklch(69.99% 0.15234 69.246 / 0.78824);
+    --warning-a9: oklch(81.791% 0.17052 77.948 / 0.76078);
+    --warning-a10: oklch(81.791% 0.17052 77.948 / 0.90588);
+    --warning-a11: oklch(57.065% 0.12914 63.938);
+    --warning-a12: oklch(23.823% 0.06026 53.274 / 0.86667);
 }
 
 .dark {
-  /* Accent */
-  --accent-1: oklch(19.086% 0.02457 276.53);
-  --accent-2: oklch(20.937% 0.03015 274.84);
-  --accent-3: oklch(27.157% 0.07051 267.98);
-  --accent-4: oklch(31.845% 0.09463 267.25);
-  --accent-5: oklch(36.247% 0.10437 267.03);
-  --accent-6: oklch(40.33% 0.11123 268.76);
-  --accent-7: oklch(44.907% 0.1201 268.94);
-  --accent-8: oklch(50.208% 0.13661 268.25);
-  --accent-9: oklch(54.375% 0.19102 267.01);
-  --accent-10: oklch(58.915% 0.17577 269.3);
-  --accent-11: oklch(77.587% 0.1138 273.02);
-  --accent-12: oklch(91.078% 0.04275 269.55);
+    /* Accent */
+    --accent-1: oklch(19.086% 0.02457 276.53);
+    --accent-2: oklch(20.937% 0.03015 274.84);
+    --accent-3: oklch(27.157% 0.07051 267.98);
+    --accent-4: oklch(31.845% 0.09463 267.25);
+    --accent-5: oklch(36.247% 0.10437 267.03);
+    --accent-6: oklch(40.33% 0.11123 268.76);
+    --accent-7: oklch(44.907% 0.1201 268.94);
+    --accent-8: oklch(50.208% 0.13661 268.25);
+    --accent-9: oklch(54.375% 0.19102 267.01);
+    --accent-10: oklch(58.915% 0.17577 269.3);
+    --accent-11: oklch(77.587% 0.1138 273.02);
+    --accent-12: oklch(91.078% 0.04275 269.55);
 
-  /* Accent Alpha */
-  --accent-a1: oklch(48.703% 0.28944 265.14 / 0.05882);
-  --accent-a2: oklch(53.713% 0.24743 267.61 / 0.0902);
-  --accent-a3: oklch(56.412% 0.23914 265.25 / 0.23529);
-  --accent-a4: oklch(57.327% 0.23329 265.61 / 0.34118);
-  --accent-a5: oklch(59.651% 0.21515 265.75 / 0.41961);
-  --accent-a6: oklch(61.684% 0.20253 267.73 / 0.48627);
-  --accent-a7: oklch(63.613% 0.19424 268.3 / 0.56471);
-  --accent-a8: oklch(63.983% 0.19024 267.97 / 0.67451);
-  --accent-a9: oklch(60.01% 0.21637 266.85 / 0.85882);
-  --accent-a10: oklch(63.455% 0.19355 269.08 / 0.8902);
-  --accent-a11: oklch(77.587% 0.1138 273.02);
-  --accent-a12: oklch(91.078% 0.04275 269.55);
+    /* Accent Alpha */
+    --accent-a1: oklch(48.703% 0.28944 265.14 / 0.05882);
+    --accent-a2: oklch(53.713% 0.24743 267.61 / 0.0902);
+    --accent-a3: oklch(56.412% 0.23914 265.25 / 0.23529);
+    --accent-a4: oklch(57.327% 0.23329 265.61 / 0.34118);
+    --accent-a5: oklch(59.651% 0.21515 265.75 / 0.41961);
+    --accent-a6: oklch(61.684% 0.20253 267.73 / 0.48627);
+    --accent-a7: oklch(63.613% 0.19424 268.3 / 0.56471);
+    --accent-a8: oklch(63.983% 0.19024 267.97 / 0.67451);
+    --accent-a9: oklch(60.01% 0.21637 266.85 / 0.85882);
+    --accent-a10: oklch(63.455% 0.19355 269.08 / 0.8902);
+    --accent-a11: oklch(77.587% 0.1138 273.02);
+    --accent-a12: oklch(91.078% 0.04275 269.55);
 
-  /* Gray */
-  --gray-1: oklch(17.853% 0.00407 285.98);
-  --gray-2: oklch(21.318% 0.00421 264.48);
-  --gray-3: oklch(25.214% 0.00582 271.18);
-  --gray-4: oklch(28.319% 0.00699 248.07);
-  --gray-5: oklch(31.177% 0.0083 255.56);
-  --gray-6: oklch(34.655% 0.01029 253.97);
-  --gray-7: oklch(39.928% 0.01206 252.94);
-  --gray-8: oklch(48.932% 0.01551 251.69);
-  --gray-9: oklch(53.7% 0.01532 262.34);
-  --gray-10: oklch(58.251% 0.01454 266.63);
-  --gray-11: oklch(76.856% 0.00964 258.34);
-  --gray-12: oklch(94.892% 0.00289 264.54);
+    /* Gray */
+    --gray-1: oklch(17.853% 0.00407 285.98);
+    --gray-2: oklch(21.318% 0.00421 264.48);
+    --gray-3: oklch(25.214% 0.00582 271.18);
+    --gray-4: oklch(28.319% 0.00699 248.07);
+    --gray-5: oklch(31.177% 0.0083 255.56);
+    --gray-6: oklch(34.655% 0.01029 253.97);
+    --gray-7: oklch(39.928% 0.01206 252.94);
+    --gray-8: oklch(48.932% 0.01551 251.69);
+    --gray-9: oklch(53.7% 0.01532 262.34);
+    --gray-10: oklch(58.251% 0.01454 266.63);
+    --gray-11: oklch(76.856% 0.00964 258.34);
+    --gray-12: oklch(94.892% 0.00289 264.54);
 
-  /* Gray Alpha */
-  --gray-a1: oklch(0% 0 none / 0);
-  --gray-a2: oklch(94.75% 0.02935 201.91 / 0.03529);
-  --gray-a3: oklch(93.148% 0.02357 250.08 / 0.07843);
-  --gray-a4: oklch(93.047% 0.0312 225.1 / 0.11373);
-  --gray-a5: oklch(93.649% 0.03138 243.7 / 0.1451);
-  --gray-a6: oklch(93.007% 0.03315 243.96 / 0.18824);
-  --gray-a7: oklch(93.681% 0.0324 245.3 / 0.25098);
-  --gray-a8: oklch(93.681% 0.0324 245.3 / 0.36471);
-  --gray-a9: oklch(93.647% 0.0276 258.36 / 0.42745);
-  --gray-a10: oklch(94.481% 0.02325 264.46 / 0.48235);
-  --gray-a11: oklch(97.363% 0.01134 252.09 / 0.7098);
-  --gray-a12: oklch(99.385% 0.00285 264.54 / 0.93725);
+    /* Gray Alpha */
+    --gray-a1: oklch(0% 0 none / 0);
+    --gray-a2: oklch(94.75% 0.02935 201.91 / 0.03529);
+    --gray-a3: oklch(93.148% 0.02357 250.08 / 0.07843);
+    --gray-a4: oklch(93.047% 0.0312 225.1 / 0.11373);
+    --gray-a5: oklch(93.649% 0.03138 243.7 / 0.1451);
+    --gray-a6: oklch(93.007% 0.03315 243.96 / 0.18824);
+    --gray-a7: oklch(93.681% 0.0324 245.3 / 0.25098);
+    --gray-a8: oklch(93.681% 0.0324 245.3 / 0.36471);
+    --gray-a9: oklch(93.647% 0.0276 258.36 / 0.42745);
+    --gray-a10: oklch(94.481% 0.02325 264.46 / 0.48235);
+    --gray-a11: oklch(97.363% 0.01134 252.09 / 0.7098);
+    --gray-a12: oklch(99.385% 0.00285 264.54 / 0.93725);
 
-  /* Error */
-  --error-1: oklch(18.803% 0.01345 18.42);
-  --error-2: oklch(20.458% 0.02168 14.064);
-  --error-3: oklch(25.105% 0.06494 12.692);
-  --error-4: oklch(28.929% 0.09511 14.33);
-  --error-5: oklch(33.211% 0.10667 15.526);
-  --error-6: oklch(38.144% 0.11082 16.803);
-  --error-7: oklch(45.018% 0.12106 18.774);
-  --error-8: oklch(54.356% 0.14576 21.762);
-  --error-9: oklch(62.557% 0.19334 23.026);
-  --error-10: oklch(66.338% 0.17739 22.851);
-  --error-11: oklch(78.041% 0.12812 22.139);
-  --error-12: oklch(90.236% 0.05268 6.4541);
+    /* Error */
+    --error-1: oklch(18.803% 0.01345 18.42);
+    --error-2: oklch(20.458% 0.02168 14.064);
+    --error-3: oklch(25.105% 0.06494 12.692);
+    --error-4: oklch(28.929% 0.09511 14.33);
+    --error-5: oklch(33.211% 0.10667 15.526);
+    --error-6: oklch(38.144% 0.11082 16.803);
+    --error-7: oklch(45.018% 0.12106 18.774);
+    --error-8: oklch(54.356% 0.14576 21.762);
+    --error-9: oklch(62.557% 0.19334 23.026);
+    --error-10: oklch(66.338% 0.17739 22.851);
+    --error-11: oklch(78.041% 0.12812 22.139);
+    --error-12: oklch(90.236% 0.05268 6.4541);
 
-  /* Error Alpha */
-  --error-a1: oklch(61.153% 0.24494 28.705 / 0.03529);
-  --error-a2: oklch(62.466% 0.22694 23.589 / 0.06667);
-  --error-a3: oklch(63.682% 0.24918 21.918 / 0.17647);
-  --error-a4: oklch(63.141% 0.25183 22.213 / 0.26667);
-  --error-a5: oklch(64.112% 0.24541 20.56 / 0.33725);
-  --error-a6: oklch(66.125% 0.22643 19.733 / 0.40784);
-  --error-a7: oklch(68.211% 0.20722 20.072 / 0.51765);
-  --error-a8: oklch(69.292% 0.19715 22.461 / 0.6902);
-  --error-a9: oklch(67.334% 0.21195 23.148 / 0.89412);
-  --error-a10: oklch(70.183% 0.18943 22.963 / 0.92157);
-  --error-a11: oklch(78.041% 0.12812 22.139);
-  --error-a12: oklch(90.236% 0.05268 6.4541);
+    /* Error Alpha */
+    --error-a1: oklch(61.153% 0.24494 28.705 / 0.03529);
+    --error-a2: oklch(62.466% 0.22694 23.589 / 0.06667);
+    --error-a3: oklch(63.682% 0.24918 21.918 / 0.17647);
+    --error-a4: oklch(63.141% 0.25183 22.213 / 0.26667);
+    --error-a5: oklch(64.112% 0.24541 20.56 / 0.33725);
+    --error-a6: oklch(66.125% 0.22643 19.733 / 0.40784);
+    --error-a7: oklch(68.211% 0.20722 20.072 / 0.51765);
+    --error-a8: oklch(69.292% 0.19715 22.461 / 0.6902);
+    --error-a9: oklch(67.334% 0.21195 23.148 / 0.89412);
+    --error-a10: oklch(70.183% 0.18943 22.963 / 0.92157);
+    --error-a11: oklch(78.041% 0.12812 22.139);
+    --error-a12: oklch(90.236% 0.05268 6.4541);
 
-  /* Success */
-  --success-1: oklch(18.729% 0.01227 167.01);
-  --success-2: oklch(21.166% 0.01537 165.91);
-  --success-3: oklch(27.214% 0.03958 162.17);
-  --success-4: oklch(31.727% 0.05693 161.84);
-  --success-5: oklch(36.493% 0.06603 161.23);
-  --success-6: oklch(41.245% 0.07215 160.95);
-  --success-7: oklch(46.698% 0.08232 160.24);
-  --success-8: oklch(52.803% 0.09628 159.39);
-  --success-9: oklch(64.06% 0.13288 157.68);
-  --success-10: oklch(67.459% 0.14063 157.7);
-  --success-11: oklch(77.943% 0.16548 157.29);
-  --success-12: oklch(90.484% 0.08296 158.18);
+    /* Success */
+    --success-1: oklch(18.729% 0.01227 167.01);
+    --success-2: oklch(21.166% 0.01537 165.91);
+    --success-3: oklch(27.214% 0.03958 162.17);
+    --success-4: oklch(31.727% 0.05693 161.84);
+    --success-5: oklch(36.493% 0.06603 161.23);
+    --success-6: oklch(41.245% 0.07215 160.95);
+    --success-7: oklch(46.698% 0.08232 160.24);
+    --success-8: oklch(52.803% 0.09628 159.39);
+    --success-9: oklch(64.06% 0.13288 157.68);
+    --success-10: oklch(67.459% 0.14063 157.7);
+    --success-11: oklch(77.943% 0.16548 157.29);
+    --success-12: oklch(90.484% 0.08296 158.18);
 
-  /* Success Alpha */
-  --success-a1: oklch(78.326% 0.24226 145.57 / 0.01961);
-  --success-a2: oklch(86.745% 0.19895 157.05 / 0.04314);
-  --success-a3: oklch(88.095% 0.21059 155.44 / 0.11765);
-  --success-a4: oklch(87.978% 0.21242 155.77 / 0.17647);
-  --success-a5: oklch(88.354% 0.20151 157.3 / 0.23529);
-  --success-a6: oklch(88.885% 0.18891 158.3 / 0.29412);
-  --success-a7: oklch(88.685% 0.1809 158.47 / 0.36863);
-  --success-a8: oklch(89.285% 0.18114 158.12 / 0.45098);
-  --success-a9: oklch(88.766% 0.194 156.7 / 0.61961);
-  --success-a10: oklch(88.502% 0.19306 156.91 / 0.67059);
-  --success-a11: oklch(88.578% 0.19133 157 / 0.83137);
-  --success-a12: oklch(94.411% 0.08687 158.41 / 0.94118);
+    /* Success Alpha */
+    --success-a1: oklch(78.326% 0.24226 145.57 / 0.01961);
+    --success-a2: oklch(86.745% 0.19895 157.05 / 0.04314);
+    --success-a3: oklch(88.095% 0.21059 155.44 / 0.11765);
+    --success-a4: oklch(87.978% 0.21242 155.77 / 0.17647);
+    --success-a5: oklch(88.354% 0.20151 157.3 / 0.23529);
+    --success-a6: oklch(88.885% 0.18891 158.3 / 0.29412);
+    --success-a7: oklch(88.685% 0.1809 158.47 / 0.36863);
+    --success-a8: oklch(89.285% 0.18114 158.12 / 0.45098);
+    --success-a9: oklch(88.766% 0.194 156.7 / 0.61961);
+    --success-a10: oklch(88.502% 0.19306 156.91 / 0.67059);
+    --success-a11: oklch(88.578% 0.19133 157 / 0.83137);
+    --success-a12: oklch(94.411% 0.08687 158.41 / 0.94118);
 
-  /* Info */
-  --info-a1: oklch(50.668% 0.27669 263.67 / 0.05882);
-  --info-a2: oklch(58.292% 0.2219 259.55 / 0.09412);
-  --info-a3: oklch(62.273% 0.20129 255.38 / 0.2);
-  --info-a4: oklch(64.84% 0.19273 252.75 / 0.28627);
-  --info-a5: oklch(67.897% 0.17473 248.05 / 0.36471);
-  --info-a6: oklch(69.971% 0.16744 246.22 / 0.44706);
-  --info-a7: oklch(71.761% 0.15888 242.53 / 0.5451);
-  --info-a8: oklch(72.695% 0.15778 239.02 / 0.66275);
-  --info-a9: oklch(86.366% 0.10338 217.63 / 0.99608);
-  --info-a10: oklch(90.849% 0.07316 214.51);
-  --info-a11: oklch(82.834% 0.10441 231.94 / 0.93725);
-  --info-a12: oklch(93.399% 0.05256 214.32);
+    /* Info */
+    --info-a1: oklch(50.668% 0.27669 263.67 / 0.05882);
+    --info-a2: oklch(58.292% 0.2219 259.55 / 0.09412);
+    --info-a3: oklch(62.273% 0.20129 255.38 / 0.2);
+    --info-a4: oklch(64.84% 0.19273 252.75 / 0.28627);
+    --info-a5: oklch(67.897% 0.17473 248.05 / 0.36471);
+    --info-a6: oklch(69.971% 0.16744 246.22 / 0.44706);
+    --info-a7: oklch(71.761% 0.15888 242.53 / 0.5451);
+    --info-a8: oklch(72.695% 0.15778 239.02 / 0.66275);
+    --info-a9: oklch(86.366% 0.10338 217.63 / 0.99608);
+    --info-a10: oklch(90.849% 0.07316 214.51);
+    --info-a11: oklch(82.834% 0.10441 231.94 / 0.93725);
+    --info-a12: oklch(93.399% 0.05256 214.32);
 
-  /* Info Alpha */
-  --info-a1: oklch(50.668% 0.27669 263.67 / 0.05882);
-  --info-a2: oklch(58.292% 0.2219 259.55 / 0.09412);
-  --info-a3: oklch(62.273% 0.20129 255.38 / 0.2);
-  --info-a4: oklch(64.84% 0.19273 252.75 / 0.28627);
-  --info-a5: oklch(67.897% 0.17473 248.05 / 0.36471);
-  --info-a6: oklch(69.971% 0.16744 246.22 / 0.44706);
-  --info-a7: oklch(71.761% 0.15888 242.53 / 0.5451);
-  --info-a8: oklch(72.695% 0.15778 239.02 / 0.66275);
-  --info-a9: oklch(86.366% 0.10338 217.63 / 0.99608);
-  --info-a10: oklch(90.849% 0.07316 214.51);
-  --info-a11: oklch(82.834% 0.10441 231.94 / 0.93725);
-  --info-a12: oklch(93.399% 0.05256 214.32);
+    /* Info Alpha */
+    --info-a1: oklch(50.668% 0.27669 263.67 / 0.05882);
+    --info-a2: oklch(58.292% 0.2219 259.55 / 0.09412);
+    --info-a3: oklch(62.273% 0.20129 255.38 / 0.2);
+    --info-a4: oklch(64.84% 0.19273 252.75 / 0.28627);
+    --info-a5: oklch(67.897% 0.17473 248.05 / 0.36471);
+    --info-a6: oklch(69.971% 0.16744 246.22 / 0.44706);
+    --info-a7: oklch(71.761% 0.15888 242.53 / 0.5451);
+    --info-a8: oklch(72.695% 0.15778 239.02 / 0.66275);
+    --info-a9: oklch(86.366% 0.10338 217.63 / 0.99608);
+    --info-a10: oklch(90.849% 0.07316 214.51);
+    --info-a11: oklch(82.834% 0.10441 231.94 / 0.93725);
+    --info-a12: oklch(93.399% 0.05256 214.32);
 
-  /* Warning */
-  --warning-1: oklch(18.496% 0.01336 77.796);
-  --warning-2: oklch(21.199% 0.01841 81.986);
-  --warning-3: oklch(25.781% 0.04422 74.478);
-  --warning-4: oklch(29.55% 0.06267 73.879);
-  --warning-5: oklch(33.632% 0.07167 72.898);
-  --warning-6: oklch(38.633% 0.07839 75.255);
-  --warning-7: oklch(45.424% 0.08235 74.958);
-  --warning-8: oklch(53.638% 0.09639 73.435);
-  --warning-9: oklch(85.37% 0.15721 84.13);
-  --warning-10: oklch(88.491% 0.18051 94.784);
-  --warning-11: oklch(86.167% 0.17297 89.018);
-  --warning-12: oklch(93.505% 0.07171 86.068);
+    /* Warning */
+    --warning-1: oklch(18.496% 0.01336 77.796);
+    --warning-2: oklch(21.199% 0.01841 81.986);
+    --warning-3: oklch(25.781% 0.04422 74.478);
+    --warning-4: oklch(29.55% 0.06267 73.879);
+    --warning-5: oklch(33.632% 0.07167 72.898);
+    --warning-6: oklch(38.633% 0.07839 75.255);
+    --warning-7: oklch(45.424% 0.08235 74.958);
+    --warning-8: oklch(53.638% 0.09639 73.435);
+    --warning-9: oklch(85.37% 0.15721 84.13);
+    --warning-10: oklch(88.491% 0.18051 94.784);
+    --warning-11: oklch(86.167% 0.17297 89.018);
+    --warning-12: oklch(93.505% 0.07171 86.068);
 
-  /* Warning Alpha */
-  --warning-a1: oklch(60.95% 0.21306 35.145 / 0.02353);
-  --warning-a2: oklch(77.288% 0.17182 66.193 / 0.05098);
-  --warning-a3: oklch(72.81% 0.18026 55.008 / 0.13333);
-  --warning-a4: oklch(73.082% 0.18198 54.528 / 0.19608);
-  --warning-a5: oklch(74.631% 0.17798 58.35 / 0.2549);
-  --warning-a6: oklch(77.288% 0.17182 66.193 / 0.31765);
-  --warning-a7: oklch(80.426% 0.16368 71.909 / 0.40392);
-  --warning-a8: oklch(81.048% 0.1576 71.85 / 0.52941);
-  --warning-a9: oklch(85.37% 0.15721 84.13);
-  --warning-a10: oklch(88.491% 0.18051 94.784);
-  --warning-a11: oklch(86.167% 0.17297 89.018);
-  --warning-a12: oklch(93.505% 0.07171 86.068);
+    /* Warning Alpha */
+    --warning-a1: oklch(60.95% 0.21306 35.145 / 0.02353);
+    --warning-a2: oklch(77.288% 0.17182 66.193 / 0.05098);
+    --warning-a3: oklch(72.81% 0.18026 55.008 / 0.13333);
+    --warning-a4: oklch(73.082% 0.18198 54.528 / 0.19608);
+    --warning-a5: oklch(74.631% 0.17798 58.35 / 0.2549);
+    --warning-a6: oklch(77.288% 0.17182 66.193 / 0.31765);
+    --warning-a7: oklch(80.426% 0.16368 71.909 / 0.40392);
+    --warning-a8: oklch(81.048% 0.1576 71.85 / 0.52941);
+    --warning-a9: oklch(85.37% 0.15721 84.13);
+    --warning-a10: oklch(88.491% 0.18051 94.784);
+    --warning-a11: oklch(86.167% 0.17297 89.018);
+    --warning-a12: oklch(93.505% 0.07171 86.068);
 }
 
 @theme inline {
-  --radius-md: var(--radius);
+    --radius-md: var(--radius);
 
-  /* With semantic meaning */
-  --color-background: var(--gray-1);
-  --color-foreground: var(--gray-12);
-  --color-border: var(--gray-4);
-  --color-ring: var(--gray-5);
-  --color-outline: oklch(from var(--color-ring) l c h / 0.5) !important;
+    /* With semantic meaning */
+    --color-background: var(--gray-1);
+    --color-foreground: var(--gray-12);
+    --color-primary: var(--accent-9);
+    --color-primary-foreground: var(--gray-12);
+    --color-border: var(--gray-4);
+    --color-ring: var(--gray-5);
+    --color-outline: oklch(from var(--color-ring) l c h / 0.5) !important;
 
-  /* Accent */
-  --color-accent-1: var(--accent-1);
-  --color-accent-2: var(--accent-2);
-  --color-accent-3: var(--accent-3);
-  --color-accent-4: var(--accent-4);
-  --color-accent-5: var(--accent-5);
-  --color-accent-6: var(--accent-6);
-  --color-accent-7: var(--accent-7);
-  --color-accent-8: var(--accent-8);
-  --color-accent-9: var(--accent-9);
-  --color-accent-10: var(--accent-10);
-  --color-accent-11: var(--accent-11);
-  --color-accent-12: var(--accent-12);
+    /* Accent */
+    --color-accent-1: var(--accent-1);
+    --color-accent-2: var(--accent-2);
+    --color-accent-3: var(--accent-3);
+    --color-accent-4: var(--accent-4);
+    --color-accent-5: var(--accent-5);
+    --color-accent-6: var(--accent-6);
+    --color-accent-7: var(--accent-7);
+    --color-accent-8: var(--accent-8);
+    --color-accent-9: var(--accent-9);
+    --color-accent-10: var(--accent-10);
+    --color-accent-11: var(--accent-11);
+    --color-accent-12: var(--accent-12);
 
-  /* Accent Alpha */
-  --color-accent-a1: var(--accent-a1);
-  --color-accent-a2: var(--accent-a2);
-  --color-accent-a3: var(--accent-a3);
-  --color-accent-a4: var(--accent-a4);
-  --color-accent-a5: var(--accent-a5);
-  --color-accent-a6: var(--accent-a6);
-  --color-accent-a7: var(--accent-a7);
-  --color-accent-a8: var(--accent-a8);
-  --color-accent-a9: var(--accent-a9);
-  --color-accent-a10: var(--accent-a10);
-  --color-accent-a11: var(--accent-a11);
-  --color-accent-a12: var(--accent-a12);
+    /* Accent Alpha */
+    --color-accent-a1: var(--accent-a1);
+    --color-accent-a2: var(--accent-a2);
+    --color-accent-a3: var(--accent-a3);
+    --color-accent-a4: var(--accent-a4);
+    --color-accent-a5: var(--accent-a5);
+    --color-accent-a6: var(--accent-a6);
+    --color-accent-a7: var(--accent-a7);
+    --color-accent-a8: var(--accent-a8);
+    --color-accent-a9: var(--accent-a9);
+    --color-accent-a10: var(--accent-a10);
+    --color-accent-a11: var(--accent-a11);
+    --color-accent-a12: var(--accent-a12);
 
-  /* Gray */
-  --color-gray-1: var(--gray-1);
-  --color-gray-2: var(--gray-2);
-  --color-gray-3: var(--gray-3);
-  --color-gray-4: var(--gray-4);
-  --color-gray-5: var(--gray-5);
-  --color-gray-6: var(--gray-6);
-  --color-gray-7: var(--gray-7);
-  --color-gray-8: var(--gray-8);
-  --color-gray-9: var(--gray-9);
-  --color-gray-10: var(--gray-10);
-  --color-gray-11: var(--gray-11);
-  --color-gray-12: var(--gray-12);
+    /* Gray */
+    --color-gray-1: var(--gray-1);
+    --color-gray-2: var(--gray-2);
+    --color-gray-3: var(--gray-3);
+    --color-gray-4: var(--gray-4);
+    --color-gray-5: var(--gray-5);
+    --color-gray-6: var(--gray-6);
+    --color-gray-7: var(--gray-7);
+    --color-gray-8: var(--gray-8);
+    --color-gray-9: var(--gray-9);
+    --color-gray-10: var(--gray-10);
+    --color-gray-11: var(--gray-11);
+    --color-gray-12: var(--gray-12);
 
-  /* Gray Alpha */
-  --color-gray-a1: var(--gray-a1);
-  --color-gray-a2: var(--gray-a2);
-  --color-gray-a3: var(--gray-a3);
-  --color-gray-a4: var(--gray-a4);
-  --color-gray-a5: var(--gray-a5);
-  --color-gray-a6: var(--gray-a6);
-  --color-gray-a7: var(--gray-a7);
-  --color-gray-a8: var(--gray-a8);
-  --color-gray-a9: var(--gray-a9);
-  --color-gray-a10: var(--gray-a10);
-  --color-gray-a11: var(--gray-a11);
-  --color-gray-a12: var(--gray-a12);
+    /* Gray Alpha */
+    --color-gray-a1: var(--gray-a1);
+    --color-gray-a2: var(--gray-a2);
+    --color-gray-a3: var(--gray-a3);
+    --color-gray-a4: var(--gray-a4);
+    --color-gray-a5: var(--gray-a5);
+    --color-gray-a6: var(--gray-a6);
+    --color-gray-a7: var(--gray-a7);
+    --color-gray-a8: var(--gray-a8);
+    --color-gray-a9: var(--gray-a9);
+    --color-gray-a10: var(--gray-a10);
+    --color-gray-a11: var(--gray-a11);
+    --color-gray-a12: var(--gray-a12);
 
-  /* Error */
-  --color-error-1: var(--error-1);
-  --color-error-2: var(--error-2);
-  --color-error-3: var(--error-3);
-  --color-error-4: var(--error-4);
-  --color-error-5: var(--error-5);
-  --color-error-6: var(--error-6);
-  --color-error-7: var(--error-7);
-  --color-error-8: var(--error-8);
-  --color-error-9: var(--error-9);
-  --color-error-10: var(--error-10);
-  --color-error-11: var(--error-11);
-  --color-error-12: var(--error-12);
+    /* Error */
+    --color-error-1: var(--error-1);
+    --color-error-2: var(--error-2);
+    --color-error-3: var(--error-3);
+    --color-error-4: var(--error-4);
+    --color-error-5: var(--error-5);
+    --color-error-6: var(--error-6);
+    --color-error-7: var(--error-7);
+    --color-error-8: var(--error-8);
+    --color-error-9: var(--error-9);
+    --color-error-10: var(--error-10);
+    --color-error-11: var(--error-11);
+    --color-error-12: var(--error-12);
 
-  /* Error Alpha */
-  --color-error-a1: var(--error-a1);
-  --color-error-a2: var(--error-a2);
-  --color-error-a3: var(--error-a3);
-  --color-error-a4: var(--error-a4);
-  --color-error-a5: var(--error-a5);
-  --color-error-a6: var(--error-a6);
-  --color-error-a7: var(--error-a7);
-  --color-error-a8: var(--error-a8);
-  --color-error-a9: var(--error-a9);
-  --color-error-a10: var(--error-a10);
-  --color-error-a11: var(--error-a11);
-  --color-error-a12: var(--error-a12);
+    /* Error Alpha */
+    --color-error-a1: var(--error-a1);
+    --color-error-a2: var(--error-a2);
+    --color-error-a3: var(--error-a3);
+    --color-error-a4: var(--error-a4);
+    --color-error-a5: var(--error-a5);
+    --color-error-a6: var(--error-a6);
+    --color-error-a7: var(--error-a7);
+    --color-error-a8: var(--error-a8);
+    --color-error-a9: var(--error-a9);
+    --color-error-a10: var(--error-a10);
+    --color-error-a11: var(--error-a11);
+    --color-error-a12: var(--error-a12);
 
-  /* Success */
-  --color-success-1: var(--success-1);
-  --color-success-2: var(--success-2);
-  --color-success-3: var(--success-3);
-  --color-success-4: var(--success-4);
-  --color-success-5: var(--success-5);
-  --color-success-6: var(--success-6);
-  --color-success-7: var(--success-7);
-  --color-success-8: var(--success-8);
-  --color-success-9: var(--success-9);
-  --color-success-10: var(--success-10);
-  --color-success-11: var(--success-11);
-  --color-success-12: var(--success-12);
+    /* Success */
+    --color-success-1: var(--success-1);
+    --color-success-2: var(--success-2);
+    --color-success-3: var(--success-3);
+    --color-success-4: var(--success-4);
+    --color-success-5: var(--success-5);
+    --color-success-6: var(--success-6);
+    --color-success-7: var(--success-7);
+    --color-success-8: var(--success-8);
+    --color-success-9: var(--success-9);
+    --color-success-10: var(--success-10);
+    --color-success-11: var(--success-11);
+    --color-success-12: var(--success-12);
 
-  /* Success Alpha */
-  --color-success-a1: var(--success-a1);
-  --color-success-a2: var(--success-a2);
-  --color-success-a3: var(--success-a3);
-  --color-success-a4: var(--success-a4);
-  --color-success-a5: var(--success-a5);
-  --color-success-a6: var(--success-a6);
-  --color-success-a7: var(--success-a7);
-  --color-success-a8: var(--success-a8);
-  --color-success-a9: var(--success-a9);
-  --color-success-a10: var(--success-a10);
-  --color-success-a11: var(--success-a11);
-  --color-success-a12: var(--success-a12);
+    /* Success Alpha */
+    --color-success-a1: var(--success-a1);
+    --color-success-a2: var(--success-a2);
+    --color-success-a3: var(--success-a3);
+    --color-success-a4: var(--success-a4);
+    --color-success-a5: var(--success-a5);
+    --color-success-a6: var(--success-a6);
+    --color-success-a7: var(--success-a7);
+    --color-success-a8: var(--success-a8);
+    --color-success-a9: var(--success-a9);
+    --color-success-a10: var(--success-a10);
+    --color-success-a11: var(--success-a11);
+    --color-success-a12: var(--success-a12);
 
-  /* Info */
-  --color-info-1: var(--info-1);
-  --color-info-2: var(--info-2);
-  --color-info-3: var(--info-3);
-  --color-info-4: var(--info-4);
-  --color-info-5: var(--info-5);
-  --color-info-6: var(--info-6);
-  --color-info-7: var(--info-7);
-  --color-info-8: var(--info-8);
-  --color-info-9: var(--info-9);
-  --color-info-10: var(--info-10);
-  --color-info-11: var(--info-11);
-  --color-info-12: var(--info-12);
+    /* Info */
+    --color-info-1: var(--info-1);
+    --color-info-2: var(--info-2);
+    --color-info-3: var(--info-3);
+    --color-info-4: var(--info-4);
+    --color-info-5: var(--info-5);
+    --color-info-6: var(--info-6);
+    --color-info-7: var(--info-7);
+    --color-info-8: var(--info-8);
+    --color-info-9: var(--info-9);
+    --color-info-10: var(--info-10);
+    --color-info-11: var(--info-11);
+    --color-info-12: var(--info-12);
 
-  /* Info Alpha */
-  --color-info-a1: var(--info-a1);
-  --color-info-a2: var(--info-a2);
-  --color-info-a3: var(--info-a3);
-  --color-info-a4: var(--info-a4);
-  --color-info-a5: var(--info-a5);
-  --color-info-a6: var(--info-a6);
-  --color-info-a7: var(--info-a7);
-  --color-info-a8: var(--info-a8);
-  --color-info-a9: var(--info-a9);
-  --color-info-a10: var(--info-a10);
-  --color-info-a11: var(--info-a11);
-  --color-info-a12: var(--info-a12);
+    /* Info Alpha */
+    --color-info-a1: var(--info-a1);
+    --color-info-a2: var(--info-a2);
+    --color-info-a3: var(--info-a3);
+    --color-info-a4: var(--info-a4);
+    --color-info-a5: var(--info-a5);
+    --color-info-a6: var(--info-a6);
+    --color-info-a7: var(--info-a7);
+    --color-info-a8: var(--info-a8);
+    --color-info-a9: var(--info-a9);
+    --color-info-a10: var(--info-a10);
+    --color-info-a11: var(--info-a11);
+    --color-info-a12: var(--info-a12);
 
-  /* Warning */
-  --color-warning-1: var(--warning-1);
-  --color-warning-2: var(--warning-2);
-  --color-warning-3: var(--warning-3);
-  --color-warning-4: var(--warning-4);
-  --color-warning-5: var(--warning-5);
-  --color-warning-6: var(--warning-6);
-  --color-warning-7: var(--warning-7);
-  --color-warning-8: var(--warning-8);
-  --color-warning-9: var(--warning-9);
-  --color-warning-10: var(--warning-10);
-  --color-warning-11: var(--warning-11);
-  --color-warning-12: var(--warning-12);
+    /* Warning */
+    --color-warning-1: var(--warning-1);
+    --color-warning-2: var(--warning-2);
+    --color-warning-3: var(--warning-3);
+    --color-warning-4: var(--warning-4);
+    --color-warning-5: var(--warning-5);
+    --color-warning-6: var(--warning-6);
+    --color-warning-7: var(--warning-7);
+    --color-warning-8: var(--warning-8);
+    --color-warning-9: var(--warning-9);
+    --color-warning-10: var(--warning-10);
+    --color-warning-11: var(--warning-11);
+    --color-warning-12: var(--warning-12);
 
-  /* Warning Alpha */
-  --color-warning-a1: var(--warning-a1);
-  --color-warning-a2: var(--warning-a2);
-  --color-warning-a3: var(--warning-a3);
-  --color-warning-a4: var(--warning-a4);
-  --color-warning-a5: var(--warning-a5);
-  --color-warning-a6: var(--warning-a6);
-  --color-warning-a7: var(--warning-a7);
-  --color-warning-a8: var(--warning-a8);
-  --color-warning-a9: var(--warning-a9);
-  --color-warning-a10: var(--warning-a10);
-  --color-warning-a11: var(--warning-a11);
-  --color-warning-a12: var(--warning-a12);
+    /* Warning Alpha */
+    --color-warning-a1: var(--warning-a1);
+    --color-warning-a2: var(--warning-a2);
+    --color-warning-a3: var(--warning-a3);
+    --color-warning-a4: var(--warning-a4);
+    --color-warning-a5: var(--warning-a5);
+    --color-warning-a6: var(--warning-a6);
+    --color-warning-a7: var(--warning-a7);
+    --color-warning-a8: var(--warning-a8);
+    --color-warning-a9: var(--warning-a9);
+    --color-warning-a10: var(--warning-a10);
+    --color-warning-a11: var(--warning-a11);
+    --color-warning-a12: var(--warning-a12);
 }
 
 @theme {
-  /* Radii */
-  --radius: 0.5rem;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: var(--radius);
+    /* Radii */
+    --radius: 0.5rem;
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: var(--radius);
 
-  /* Typography */
-  --font-sans: "Inter", sans-serif;
-  --text-large-title: 2.125rem;
-  --text-large-title--line-height: 2.5625rem;
-  --text-large-title--letter-spacing: 0.012em;
-  --text-title-1: 1.75rem;
-  --text-title-1--line-height: 2.125rem;
-  --text-title-1--letter-spacing: 0.014em;
-  --text-title-2: 1.375rem;
-  --text-title-2--line-height: 1.75rem;
-  --text-title-2--letter-spacing: -0.012em;
-  --text-title-3: 1.25rem;
-  --text-title-3--line-height: 1.5625rem;
-  --text-title-3--letter-spacing: -0.023em;
-  --text-body: 1.0625rem;
-  --text-body--line-height: 1.375rem;
-  --text-body--letter-spacing: -0.026em;
-  --text-callout: 1rem;
-  --text-callout--line-height: 1.3125rem;
-  --text-callout--letter-spacing: -0.02em;
-  --text-subheadline: 0.9375rem;
-  --text-subheadline--line-height: 1.25rem;
-  --text-subheadline--letter-spacing: -0.016em;
-  --text-footnote: 0.8125rem;
-  --text-footnote--line-height: 1.125rem;
-  --text-footnote--letter-spacing: -0.006em;
-  --text-caption-1: 0.75rem;
-  --text-caption-1--line-height: 1rem;
-  --text-caption-1--letter-spacing: 0em;
-  --text-caption-2: 0.6875rem;
-  --text-caption-2--line-height: 0.8125rem;
-  --text-caption-2--letter-spacing: 0.006em;
+    /* Typography */
+    --font-sans: "Inter", sans-serif;
+    --text-large-title: 2.125rem;
+    --text-large-title--line-height: 2.5625rem;
+    --text-large-title--letter-spacing: 0.012em;
+    --text-title-1: 1.75rem;
+    --text-title-1--line-height: 2.125rem;
+    --text-title-1--letter-spacing: 0.014em;
+    --text-title-2: 1.375rem;
+    --text-title-2--line-height: 1.75rem;
+    --text-title-2--letter-spacing: -0.012em;
+    --text-title-3: 1.25rem;
+    --text-title-3--line-height: 1.5625rem;
+    --text-title-3--letter-spacing: -0.023em;
+    --text-body: 1.0625rem;
+    --text-body--line-height: 1.375rem;
+    --text-body--letter-spacing: -0.026em;
+    --text-callout: 1rem;
+    --text-callout--line-height: 1.3125rem;
+    --text-callout--letter-spacing: -0.02em;
+    --text-subheadline: 0.9375rem;
+    --text-subheadline--line-height: 1.25rem;
+    --text-subheadline--letter-spacing: -0.016em;
+    --text-footnote: 0.8125rem;
+    --text-footnote--line-height: 1.125rem;
+    --text-footnote--letter-spacing: -0.006em;
+    --text-caption-1: 0.75rem;
+    --text-caption-1--line-height: 1rem;
+    --text-caption-1--letter-spacing: 0em;
+    --text-caption-2: 0.6875rem;
+    --text-caption-2--line-height: 0.8125rem;
+    --text-caption-2--letter-spacing: 0.006em;
 }
 
 @layer base {
-  * {
-    @apply border-border ring-ring outline-outline;
-  }
+    * {
+        @apply border-border ring-ring outline-outline;
+    }
 
-  html,
-  body,
-  #__vue {
-    @apply h-full;
-  }
+    html,
+    body,
+    #__vue {
+        @apply h-full;
+    }
 
-  html {
-    @apply scroll-smooth;
-  }
+    html {
+        @apply scroll-smooth;
+    }
 
-  body {
-    @apply bg-background text-foreground text-body antialiased;
-    font-synthesis-weight: none;
-    text-rendering: optimizeLegibility;
-  }
+    body {
+        @apply bg-background text-foreground text-body antialiased;
+        font-synthesis-weight: none;
+        text-rendering: optimizeLegibility;
+    }
 
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-border);
-    border-radius: 5px;
-  }
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-border) transparent;
-  }
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-border);
+        border-radius: 5px;
+    }
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-border) transparent;
+    }
 }
