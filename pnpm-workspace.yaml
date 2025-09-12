@@ -1,13 +1,14 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - apps/*
+  - packages/*
+
+includeWorkspaceRoot: true
 
 onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - "@tailwindcss/oxide"
+  - '@parcel/watcher'
+  - '@tailwindcss/oxide'
   - esbuild
+  - maplibre-gl
   - sharp
   - unrs-resolver
   - vue-demi
-
-includeWorkspaceRoot: true
