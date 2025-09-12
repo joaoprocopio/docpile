@@ -1,21 +1,25 @@
 <script setup lang="ts">
-import { reactiveOmit } from "@vueuse/core";
-import type { HoverCardContentProps } from "reka-ui";
-import { HoverCardContent, HoverCardPortal, useForwardProps } from "reka-ui";
-import type { HTMLAttributes } from "vue";
+import type { HoverCardContentProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import {
+  HoverCardContent,
 
-import { cn } from "@/lib/utils";
+  HoverCardPortal,
+  useForwardProps,
+} from "reka-ui"
+import { cn } from "@/lib/utils"
 
 const props = withDefaults(
   defineProps<HoverCardContentProps & { class?: HTMLAttributes["class"] }>(),
   {
     sideOffset: 4,
   },
-);
+)
 
-const delegatedProps = reactiveOmit(props, "class");
+const delegatedProps = reactiveOmit(props, "class")
 
-const forwardedProps = useForwardProps(delegatedProps);
+const forwardedProps = useForwardProps(delegatedProps)
 </script>
 
 <template>

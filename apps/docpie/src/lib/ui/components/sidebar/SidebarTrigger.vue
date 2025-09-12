@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { PanelLeft } from "lucide-vue-next";
-import type { HTMLAttributes } from "vue";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/registry/new-york-v4/ui/button";
-
-import { useSidebar } from "./utils";
+import type { HTMLAttributes } from "vue"
+import { PanelLeft } from "lucide-vue-next"
+import { cn } from "@/lib/utils"
+import { Button } from "@/registry/new-york-v4/ui/button"
+import { useSidebar } from "./utils"
 
 const props = defineProps<{
-  class?: HTMLAttributes["class"];
-}>();
+  class?: HTMLAttributes["class"]
+}>()
 
-const { toggleSidebar } = useSidebar();
+const { toggleSidebar } = useSidebar()
 </script>
 
 <template>
