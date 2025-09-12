@@ -7,9 +7,11 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "@nuxtjs/color-mode",
-    "reka-ui/nuxt",
   ],
   ssr: false,
+  components: {
+    dirs: [],
+  },
   imports: {
     scan: false,
     autoImport: false,
@@ -35,8 +37,5 @@ export default defineNuxtConfig({
         sortConfigKeys: true,
       },
     },
-  },
-  reka: {
-    prefix: "internal",
   },
 });
