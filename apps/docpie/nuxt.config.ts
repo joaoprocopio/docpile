@@ -18,6 +18,11 @@ export default defineNuxtConfig({
     devtools: {
         enabled: true,
     },
+    app: {
+        head: {
+            title: "Docpie",
+        },
+    },
     css: ["~/assets/tailwind.css"],
     colorMode: {
         classSuffix: "",

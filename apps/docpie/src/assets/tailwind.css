@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&: is(.dark *));
+@custom-variant dark (&:is(.dark *));
 
 @theme {
     --blur-*: initial;
@@ -362,8 +362,14 @@
     /* With semantic meaning */
     --color-background: var(--gray-1);
     --color-foreground: var(--gray-12);
+    /* TODO: trocar primary pra accent */
     --color-primary: var(--accent-9);
     --color-primary-foreground: var(--gray-12);
+    /* TODO: trocar secondary pra outra coisa */
+    --color-secondary: var(--gray-5);
+    --color-secondary-foreground: var(--gray-12);
+    --color-muted: var(--gray-11);
+    --color-input: var(--gray-3);
     --color-border: var(--gray-4);
     --color-ring: var(--gray-5);
     --color-outline: oklch(from var(--color-ring) l c h / 0.5) !important;
@@ -584,7 +590,7 @@
 
     html,
     body,
-    #__vue {
+    #__nuxt {
         @apply h-full;
     }
 
