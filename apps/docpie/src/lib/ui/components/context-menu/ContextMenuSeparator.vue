@@ -4,7 +4,7 @@ import type { ContextMenuSeparatorProps } from "reka-ui"
 import { ContextMenuSeparator } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<ContextMenuSeparatorProps & { class?: HTMLAttributes["class"] }>()
 

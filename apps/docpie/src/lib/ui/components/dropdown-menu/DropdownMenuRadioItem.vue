@@ -5,7 +5,7 @@ import type { DropdownMenuRadioItemEmits, DropdownMenuRadioItemProps } from "rek
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<DropdownMenuRadioItemProps & { class?: HTMLAttributes["class"] }>()
 

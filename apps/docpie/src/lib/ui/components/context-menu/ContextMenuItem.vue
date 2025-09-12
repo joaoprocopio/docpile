@@ -4,7 +4,7 @@ import type { ContextMenuItemEmits, ContextMenuItemProps } from "reka-ui"
 import { ContextMenuItem, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = withDefaults(
     defineProps<

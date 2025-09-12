@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 import { Separator } from "@/registry/new-york-v4/ui/separator"
 
 const props = defineProps<{

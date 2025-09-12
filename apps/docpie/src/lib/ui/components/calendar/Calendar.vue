@@ -4,7 +4,7 @@ import type { CalendarRootEmits, CalendarRootProps } from "reka-ui"
 import { CalendarRoot, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 import {
     CalendarCell,

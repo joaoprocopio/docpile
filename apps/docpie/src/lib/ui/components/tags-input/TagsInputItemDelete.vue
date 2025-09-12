@@ -5,7 +5,7 @@ import type { TagsInputItemDeleteProps } from "reka-ui"
 import { TagsInputItemDelete, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<TagsInputItemDeleteProps & { class?: HTMLAttributes["class"] }>()
 

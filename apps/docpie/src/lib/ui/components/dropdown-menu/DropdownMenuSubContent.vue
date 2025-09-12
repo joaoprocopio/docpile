@@ -4,7 +4,7 @@ import type { DropdownMenuSubContentEmits, DropdownMenuSubContentProps } from "r
 import { DropdownMenuSubContent, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<DropdownMenuSubContentProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<DropdownMenuSubContentEmits>()

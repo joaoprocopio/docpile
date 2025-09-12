@@ -4,7 +4,7 @@ import type { PaginationListItemProps } from "reka-ui"
 import { PaginationListItem } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 import type { ButtonVariants } from "@/registry/new-york-v4/ui/button"
 import { buttonVariants } from "@/registry/new-york-v4/ui/button"
 

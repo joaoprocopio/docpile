@@ -4,7 +4,7 @@ import type { MenubarItemEmits, MenubarItemProps } from "reka-ui"
 import { MenubarItem, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<
     MenubarItemProps & {

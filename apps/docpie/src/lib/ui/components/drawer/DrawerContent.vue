@@ -4,7 +4,7 @@ import { useForwardPropsEmits } from "reka-ui"
 import { DrawerContent, DrawerPortal } from "vaul-vue"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 import DrawerOverlay from "./DrawerOverlay.vue"
 

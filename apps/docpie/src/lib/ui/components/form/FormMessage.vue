@@ -3,7 +3,7 @@ import { ErrorMessage } from "vee-validate"
 import type { HTMLAttributes } from "vue"
 import { toValue } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 import { useFormField } from "./useFormField"
 

@@ -4,7 +4,7 @@ import type { MenubarSubContentEmits, MenubarSubContentProps } from "reka-ui"
 import { MenubarPortal, MenubarSubContent, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<MenubarSubContentProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<MenubarSubContentEmits>()

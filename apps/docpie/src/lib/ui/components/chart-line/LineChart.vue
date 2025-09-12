@@ -5,7 +5,7 @@ import { VisAxis, VisLine, VisXYContainer } from "@unovis/vue"
 import { useMounted } from "@vueuse/core"
 import { type Component, computed, ref } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 import { ChartCrosshair, ChartLegend, defaultColors } from "@/registry/new-york/ui/chart"
 
 import type { BaseChartProps } from "."

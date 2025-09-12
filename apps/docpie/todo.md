@@ -1,8 +1,5 @@
-- @/lib/utils
+- accent classes
+
 - @/registry/new-york-v4/ui/toggle
 
-- @vueuse/core
-- @tanstack/vue-table
-- vue-sonner
-- lucide-vue-next
-- vaul-vue
+pnpm add -D ./apps/docpie @vueuse/core @tanstack/vue-table vue-sonner lucide-vue-next vaul-vue

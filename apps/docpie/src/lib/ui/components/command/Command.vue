@@ -5,7 +5,7 @@ import { ListboxRoot, useFilter, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { reactive, ref, watch } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 import { provideCommandContext } from "."
 

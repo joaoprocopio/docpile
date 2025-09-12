@@ -5,7 +5,7 @@ import type { ListboxFilterProps } from "reka-ui"
 import { ListboxFilter, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 import { useCommand } from "."
 

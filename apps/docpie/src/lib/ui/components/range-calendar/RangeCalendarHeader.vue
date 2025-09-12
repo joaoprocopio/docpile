@@ -4,7 +4,7 @@ import type { RangeCalendarHeaderProps } from "reka-ui"
 import { RangeCalendarHeader, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<RangeCalendarHeaderProps & { class?: HTMLAttributes["class"] }>()
 

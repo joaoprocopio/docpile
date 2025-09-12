@@ -5,7 +5,7 @@ import type { ContextMenuCheckboxItemEmits, ContextMenuCheckboxItemProps } from 
 import { ContextMenuCheckboxItem, ContextMenuItemIndicator, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<ContextMenuCheckboxItemProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<ContextMenuCheckboxItemEmits>()

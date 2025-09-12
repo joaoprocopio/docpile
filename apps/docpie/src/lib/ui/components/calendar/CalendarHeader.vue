@@ -4,7 +4,7 @@ import type { CalendarHeaderProps } from "reka-ui"
 import { CalendarHeader, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<CalendarHeaderProps & { class?: HTMLAttributes["class"] }>()
 

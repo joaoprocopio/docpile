@@ -5,7 +5,7 @@ import type { MenubarRadioItemEmits, MenubarRadioItemProps } from "reka-ui"
 import { MenubarItemIndicator, MenubarRadioItem, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<MenubarRadioItemProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<MenubarRadioItemEmits>()

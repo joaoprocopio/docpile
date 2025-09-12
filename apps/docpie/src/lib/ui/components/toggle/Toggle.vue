@@ -4,7 +4,7 @@ import type { ToggleEmits, ToggleProps } from "reka-ui"
 import { Toggle, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/ui/utils"
 
 import type { ToggleVariants } from "."
 import { toggleVariants } from "."
