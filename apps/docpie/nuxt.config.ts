@@ -1,7 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
-  extends: ["./src/editor"],
   modules: [
     "@nuxt/eslint",
     "@nuxt/fonts",
@@ -11,9 +10,10 @@ export default defineNuxtConfig({
     "reka-ui/nuxt",
   ],
   ssr: false,
-  imports: { autoImport: false },
-  devtools: { enabled: true },
-  css: ["~/shared/assets/tailwind.css"],
+  devtools: {
+    enabled: true,
+  },
+  css: ["~/assets/tailwind.css"],
   colorMode: {
     classSuffix: "",
     storage: "cookie",

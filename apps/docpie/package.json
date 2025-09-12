@@ -3,8 +3,8 @@
   "type": "module",
   "name": "docpie",
   "scripts": {
-    "clean": "git clean -xdf .nuxt .output node_modules",
     "postinstall": "nuxt prepare",
+    "clean": "git clean -xdf .nuxt .output node_modules",
     "dev": "nuxt dev",
     "build": "nuxt build",
     "generate": "nuxt generate",
