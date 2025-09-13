@@ -7,14 +7,16 @@
     /* Purge Tailwind theme */
     --blur-*: initial;
     --color-*: initial;
+    --shadow-*: initial;
     --drop-shadow-*: initial;
     --inset-shadow-*: initial;
     --leading-*: initial;
     --radius-*: initial;
-    --shadow-*: initial;
     --text-*: initial;
     --text-shadow-*: initial;
     --tracking-*: initial;
+    --breakpoint-*: initial;
+    /* --container-*: initial; */
 
     /* Breakpoints */
     --breakpoint-xs: 30rem;
@@ -22,7 +24,21 @@
     --breakpoint-md: 48rem;
     --breakpoint-lg: 64rem;
     --breakpoint-xl: 80rem;
-    --breakpoint-2xl: 96rem;
+
+    /* Containers */
+    --container-3xs: 16rem;
+    --container-2xs: 18rem;
+    --container-xs: 20rem;
+    --container-sm: 24rem;
+    --container-md: 28rem;
+    --container-lg: 32rem;
+    --container-xl: 36rem;
+    --container-2xl: 42rem;
+    --container-3xl: 48rem;
+    --container-4xl: 56rem;
+    --container-5xl: 64rem;
+    --container-6xl: 72rem;
+    --container-7xl: 80rem;
 
     /* Radii */
     --radius: 0.5rem;
@@ -31,36 +47,36 @@
 
     /* Typography */
     --font-sans: "Inter", sans-serif;
-    --text-large-title: 2.125rem;
-    --text-large-title--line-height: 2.5625rem;
-    --text-large-title--letter-spacing: 0.012em;
-    --text-title-1: 1.75rem;
-    --text-title-1--line-height: 2.125rem;
-    --text-title-1--letter-spacing: 0.014em;
-    --text-title-2: 1.375rem;
-    --text-title-2--line-height: 1.75rem;
-    --text-title-2--letter-spacing: -0.012em;
-    --text-title-3: 1.25rem;
-    --text-title-3--line-height: 1.5625rem;
-    --text-title-3--letter-spacing: -0.023em;
-    --text-body: 1.0625rem;
-    --text-body--line-height: 1.375rem;
-    --text-body--letter-spacing: -0.026em;
-    --text-callout: 1rem;
-    --text-callout--line-height: 1.3125rem;
-    --text-callout--letter-spacing: -0.02em;
-    --text-subheadline: 0.9375rem;
-    --text-subheadline--line-height: 1.25rem;
-    --text-subheadline--letter-spacing: -0.016em;
-    --text-footnote: 0.8125rem;
-    --text-footnote--line-height: 1.125rem;
-    --text-footnote--letter-spacing: -0.006em;
-    --text-caption-1: 0.75rem;
-    --text-caption-1--line-height: 1rem;
-    --text-caption-1--letter-spacing: 0em;
-    --text-caption-2: 0.6875rem;
-    --text-caption-2--line-height: 0.8125rem;
-    --text-caption-2--letter-spacing: 0.006em;
+    --text-3xl: 2.125rem;
+    --text-3xl--line-height: 2.5625rem;
+    --text-3xl--letter-spacing: 0.012em;
+    --text-2xl: 1.75rem;
+    --text-2xl--line-height: 2.125rem;
+    --text-2xl--letter-spacing: 0.014em;
+    --text-xl: 1.375rem;
+    --text-xl--line-height: 1.75rem;
+    --text-xl--letter-spacing: -0.012em;
+    --text-lg: 1.25rem;
+    --text-lg--line-height: 1.5625rem;
+    --text-lg--letter-spacing: -0.023em;
+    --text-base: 1.0625rem;
+    --text-base--line-height: 1.375rem;
+    --text-base--letter-spacing: -0.026em;
+    --text-sm: 1rem;
+    --text-sm--line-height: 1.3125rem;
+    --text-sm--letter-spacing: -0.02em;
+    --text-xs: 0.9375rem;
+    --text-xs--line-height: 1.25rem;
+    --text-xs--letter-spacing: -0.016em;
+    --text-2xs: 0.8125rem;
+    --text-2xs--line-height: 1.125rem;
+    --text-2xs--letter-spacing: -0.006em;
+    --text-3xs: 0.75rem;
+    --text-3xs--line-height: 1rem;
+    --text-3xs--letter-spacing: 0em;
+    --text-4xs: 0.6875rem;
+    --text-4xs--line-height: 0.8125rem;
+    --text-4xs--letter-spacing: 0.006em;
 }
 
 :root {
@@ -231,6 +247,20 @@
     --warning-a10: oklch(81.791% 0.17052 77.948 / 0.90588);
     --warning-a11: oklch(57.065% 0.12914 63.938);
     --warning-a12: oklch(23.823% 0.06026 53.274 / 0.86667);
+
+    /* With semantic-meaning */
+    --background: var(--gray-1);
+    --foreground: var(--gray-12);
+    --accent: var(--accent-9);
+    --accent-foreground: var(--accent-1);
+    --secondary: var(--gray-5);
+    --secondary-foreground: var(--gray-12);
+    --muted: var(--gray-11);
+    --muted-foreground: var(--gray-1);
+    --input: var(--gray-3);
+    --border: var(--gray-4);
+    --ring: var(--gray-5);
+    --outline: oklch(from var(--color-ring) l c h / 0.5);
 }
 
 .dark {
@@ -401,25 +431,38 @@
     --warning-a10: oklch(88.491% 0.18051 94.784);
     --warning-a11: oklch(86.167% 0.17297 89.018);
     --warning-a12: oklch(93.505% 0.07171 86.068);
+
+    /* With semantic-meaning */
+    --background: var(--gray-1);
+    --foreground: var(--gray-12);
+    --accent: var(--accent-9);
+    --accent-foreground: var(--accent-12);
+    --secondary: var(--gray-5);
+    --secondary-foreground: var(--gray-12);
+    --muted: var(--gray-4);
+    --muted-foreground: var(--gray-11);
+    --input: var(--gray-3);
+    --border: var(--gray-4);
+    --ring: var(--gray-5);
+    --outline: oklch(from var(--color-ring) l c h / 0.5);
 }
 
 @theme inline {
     --radius-md: var(--radius);
 
     /* With semantic meaning */
-    --color-background: var(--gray-1);
-    --color-foreground: var(--gray-12);
-    /* TODO: trocar primary pra accent */
-    --color-primary: var(--accent-9);
-    --color-primary-foreground: var(--accent-12);
-    /* TODO: trocar secondary pra outra coisa */
-    --color-secondary: var(--gray-5);
-    --color-secondary-foreground: var(--gray-12);
-    --color-muted: var(--gray-11);
-    --color-input: var(--gray-3);
-    --color-border: var(--gray-4);
-    --color-ring: var(--gray-5);
-    --color-outline: oklch(from var(--color-ring) l c h / 0.5) !important;
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-ring: var(--ring);
+    --color-outline: var(--outline);
 
     /* Accent */
     --color-accent-1: var(--accent-1);
@@ -606,7 +649,7 @@
     }
 
     body {
-        @apply bg-background text-foreground text-body antialiased;
+        @apply bg-background text-foreground text-base antialiased;
         font-synthesis-weight: none;
         text-rendering: optimizeLegibility;
     }

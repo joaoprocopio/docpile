@@ -6,34 +6,31 @@ import { Separator } from "~/lib/ui/components/separator"
 </script>
 
 <template>
-    <div class="container mx-auto max-w-sm">
-        <div class="flex flex-col items-center px-6 py-16">
-            <!-- TODO: consertar as alturas daqui junto com a tipografia -->
+    <div class="mx-auto max-w-sm">
+        <div class="flex flex-col items-center px-6 py-10 sm:py-16">
             <Icon
                 name="lucide:library-big"
-                class="logo size-12 first:!stroke-[1px]">
-                <template #default> asdf </template>
-            </Icon>
+                class="logo size-12 first:!stroke-[1px]" />
 
-            <h1 class="text-title-3 mt-8 font-semibold">Sign in to Docpie</h1>
+            <h1 class="mt-8 text-lg font-semibold">Login to Docpie</h1>
 
-            <Button class="text-subheadline mt-6 w-full"> Continue with Google </Button>
+            <Button class="mt-6 h-10 w-full"> Continue with Google </Button>
 
-            <Separator class="mt-8" />
+            <Separator class="mt-8"> or </Separator>
 
             <Input
-                class="text-subheadline mt-8"
+                class="mt-8 h-10"
                 placeholder="Enter your email address..." />
 
             <Button
-                class="text-subheadline mt-4 w-full"
+                class="mt-4 h-10 w-full"
                 variant="secondary">
                 Continue with email
             </Button>
 
             <p
-                class="text-footnote text-muted xs:flex-row mt-8 flex flex-col items-center gap-x-1 gap-y-0.5">
-                Don't have an account?
+                class="text-muted-foreground xs:flex-row text-2xs mt-8 flex flex-col items-center gap-x-1">
+                <span> Don't have an account? </span>
                 <NuxtLink
                     :to="{ name: SignupRouteName }"
                     class="text-foreground font-semibold">
