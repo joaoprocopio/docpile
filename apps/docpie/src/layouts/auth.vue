@@ -1,17 +1,5 @@
 <template>
-    <div class="bg-auth">
+    <div class="bg-auth h-full">
         <slot />
     </div>
 </template>
-
-<style>
-.bg-auth {
-    @apply h-full;
-
-    background: linear-gradient(
-        in oklch to bottom,
-        var(--color-gray-2) -24%,
-        var(--color-background) 42%
-    );
-}
-</style>
