@@ -41,4 +41,17 @@ export default defineNuxtConfig({
             },
         },
     },
+    fonts: {
+        families: [
+            {
+                preload: true,
+                name: "Inter",
+                provider: "google",
+                weights: [400, 500, 600, 700],
+            },
+        ],
+    },
+    icon: {
+        mode: "svg",
+    },
 })

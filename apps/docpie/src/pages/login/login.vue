@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SignupRouteName } from "~/constants/routes"
 import { Button } from "~/lib/ui/components/button"
 import { Input } from "~/lib/ui/components/input"
 import { Separator } from "~/lib/ui/components/separator"
@@ -6,15 +7,17 @@ import { Separator } from "~/lib/ui/components/separator"
 
 <template>
     <div class="container mx-auto max-w-sm">
-        <div class="flex flex-col items-center py-24">
+        <div class="flex flex-col items-center py-16">
             <!-- TODO: consertar as alturas daqui junto com a tipografia -->
             <Icon
                 name="lucide:library-big"
-                class="!size-12" />
+                class="logo size-12 first:!stroke-[1px]">
+                <template #default> asdf </template>
+            </Icon>
 
-            <h1 class="text-title-3 mt-8">Sign in to Docpie</h1>
+            <h1 class="text-title-3 mt-8 font-semibold">Sign in to Docpie</h1>
 
-            <Button class="mt-6 w-full"> Continue with Google </Button>
+            <Button class="text-subheadline mt-6 w-full"> Continue with Google </Button>
 
             <Separator class="mt-8" />
 
@@ -23,13 +26,18 @@ import { Separator } from "~/lib/ui/components/separator"
                 placeholder="Enter your email address..." />
 
             <Button
-                class="mt-4 w-full"
+                class="text-subheadline mt-4 w-full"
                 variant="secondary">
                 Continue with email
             </Button>
 
-            <p class="text-caption-1 text-muted mt-8">
-                Don't have an account? <span class="text-foreground font-bold">Sign up</span>
+            <p class="text-footnote text-muted mt-8">
+                Don't have an account?
+                <NuxtLink
+                    :to="{ name: SignupRouteName }"
+                    class="text-foreground font-semibold">
+                    Sign up
+                </NuxtLink>
             </p>
         </div>
     </div>
