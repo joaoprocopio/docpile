@@ -7,7 +7,7 @@ import { Separator } from "~/lib/ui/components/separator"
 
 <template>
     <div class="container mx-auto max-w-sm">
-        <div class="flex flex-col items-center py-16">
+        <div class="flex flex-col items-center px-6 py-16">
             <!-- TODO: consertar as alturas daqui junto com a tipografia -->
             <Icon
                 name="lucide:library-big"
@@ -31,7 +31,8 @@ import { Separator } from "~/lib/ui/components/separator"
                 Continue with email
             </Button>
 
-            <p class="text-footnote text-muted mt-8">
+            <p
+                class="text-footnote text-muted xs:flex-row mt-8 flex flex-col items-center gap-x-1 gap-y-0.5">
                 Don't have an account?
                 <NuxtLink
                     :to="{ name: SignupRouteName }"

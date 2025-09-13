@@ -1,13 +1,17 @@
 <template>
-    <div class="auth-layout-gradient h-full">
+    <div class="bg-auth">
         <slot />
     </div>
 </template>
 
-<style lang="css">
-/* from-gray-2 h-full bg-gradient-to-b from-0% to-transparent to-35% */
+<style>
+.bg-auth {
+    @apply h-full;
 
-.auth-layout-gradient {
-    background: linear-gradient(in oklch to bottom, var(--gray-2) 4%, var(--gray-1) 56%);
+    background: linear-gradient(
+        in oklch to bottom,
+        var(--color-gray-2) -24%,
+        var(--color-background) 42%
+    );
 }
 </style>
