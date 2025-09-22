@@ -1,10 +1,11 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import { type BulletLegendItemInterface, CurveType } from "@unovis/ts"
-import { Area, Axis, Line } from "@unovis/ts"
+import type { BulletLegendItemInterface } from "@unovis/ts"
+import { Area, Axis, CurveType, Line } from "@unovis/ts"
 import { VisArea, VisAxis, VisLine, VisXYContainer } from "@unovis/vue"
 import { useMounted } from "@vueuse/core"
 import { useId } from "reka-ui"
-import { type Component, computed, ref } from "vue"
+import type { Component } from "vue"
+import { computed, ref } from "vue"
 
 import { ChartCrosshair, ChartLegend, defaultColors } from "~/lib/ui/components/chart"
 import { cn } from "~/lib/ui/utils"
@@ -26,7 +27,7 @@ const props = withDefaults(
              * Controls the visibility of gradient.
              * @default true
              */
-            showGradiant?: boolean
+            showGradient?: boolean
         }
     >(),
     {
@@ -38,7 +39,7 @@ const props = withDefaults(
         showTooltip: true,
         showLegend: true,
         showGridLine: true,
-        showGradiant: true,
+        showGradient: true,
     },
 )
 
@@ -94,7 +95,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
                         y1="0"
                         x2="0"
                         y2="1">
-                        <template v-if="showGradiant">
+                        <template v-if="showGradient">
                             <stop
                                 offset="5%"
                                 :stop-color="color"
