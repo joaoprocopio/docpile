@@ -9,7 +9,7 @@ export const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                    "!bg-accent bg-highlight text-accent-foreground shadow-xs hover:bg-accent/90",
+                    "bg-gradient-highlight bg-accent text-accent-foreground shadow-xs hover:bg-accent/90",
                 error: "bg-error text-white shadow-xs hover:bg-error/90 focus-visible:ring-error/20 dark:focus-visible:ring-error/40 dark:bg-error/60",
                 outline:
                     "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",

@@ -633,12 +633,12 @@
     --color-warning-a12: var(--warning-a12);
 
     /* Gradients */
-    --background-image-auth: linear-gradient(
+    --background-image-gradient-auth: linear-gradient(
         in oklch to bottom,
         var(--color-gray-2) -24%,
         transparent 42%
     );
-    --background-image-highlight: linear-gradient(
+    --background-image-gradient-highlight: linear-gradient(
         in oklch to bottom,
         var(--gray-a10) -26%,
         transparent 100%
