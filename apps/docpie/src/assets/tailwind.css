@@ -80,33 +80,33 @@
 }
 
 :root {
-    /* Accent */
-    --accent-1: oklch(99.433% 0.00132 286.38);
-    --accent-2: oklch(98.231% 0.00825 271.33);
-    --accent-3: oklch(96.086% 0.01696 267.79);
-    --accent-4: oklch(93.461% 0.03104 269.82);
-    --accent-5: oklch(90.194% 0.04715 269.62);
-    --accent-6: oklch(86.195% 0.06753 271.09);
-    --accent-7: oklch(80.616% 0.08754 271.41);
-    --accent-8: oklch(73.085% 0.11233 270.43);
-    --accent-9: oklch(54.375% 0.19102 267.01);
-    --accent-10: oklch(51.065% 0.19537 266.58);
-    --accent-11: oklch(50.921% 0.1725 267.17);
-    --accent-12: oklch(31.264% 0.08582 268.6);
+    /* Primary */
+    --primary-1: oklch(99.433% 0.00132 286.38);
+    --primary-2: oklch(98.231% 0.00825 271.33);
+    --primary-3: oklch(96.086% 0.01696 267.79);
+    --primary-4: oklch(93.461% 0.03104 269.82);
+    --primary-5: oklch(90.194% 0.04715 269.62);
+    --primary-6: oklch(86.195% 0.06753 271.09);
+    --primary-7: oklch(80.616% 0.08754 271.41);
+    --primary-8: oklch(73.085% 0.11233 270.43);
+    --primary-9: oklch(54.375% 0.19102 267.01);
+    --primary-10: oklch(51.065% 0.19537 266.58);
+    --primary-11: oklch(50.921% 0.1725 267.17);
+    --primary-12: oklch(31.264% 0.08582 268.6);
 
-    /* Accent Alpha */
-    --accent-a1: oklch(27.115% 0.18789 264.05 / 0.00784);
-    --accent-a2: oklch(50.109% 0.28035 263.82 / 0.03137);
-    --accent-a3: oklch(49.642% 0.25801 263.29 / 0.07059);
-    --accent-a4: oklch(50.668% 0.27669 263.67 / 0.11765);
-    --accent-a5: oklch(50.668% 0.27669 263.67 / 0.17647);
-    --accent-a6: oklch(49.84% 0.28212 263.89 / 0.24314);
-    --accent-a7: oklch(46.899% 0.26859 263.94 / 0.32941);
-    --accent-a8: oklch(44.566% 0.25245 263.89 / 0.44706);
-    --accent-a9: oklch(43.012% 0.24394 263.9 / 0.75686);
-    --accent-a10: oklch(41.559% 0.2365 263.91 / 0.8);
-    --accent-a11: oklch(39.04% 0.21863 263.83 / 0.77255);
-    --accent-a12: oklch(20.827% 0.10355 262.86 / 0.87843);
+    /* Primary Alpha */
+    --primary-a1: oklch(27.115% 0.18789 264.05 / 0.00784);
+    --primary-a2: oklch(50.109% 0.28035 263.82 / 0.03137);
+    --primary-a3: oklch(49.642% 0.25801 263.29 / 0.07059);
+    --primary-a4: oklch(50.668% 0.27669 263.67 / 0.11765);
+    --primary-a5: oklch(50.668% 0.27669 263.67 / 0.17647);
+    --primary-a6: oklch(49.84% 0.28212 263.89 / 0.24314);
+    --primary-a7: oklch(46.899% 0.26859 263.94 / 0.32941);
+    --primary-a8: oklch(44.566% 0.25245 263.89 / 0.44706);
+    --primary-a9: oklch(43.012% 0.24394 263.9 / 0.75686);
+    --primary-a10: oklch(41.559% 0.2365 263.91 / 0.8);
+    --primary-a11: oklch(39.04% 0.21863 263.83 / 0.77255);
+    --primary-a12: oklch(20.827% 0.10355 262.86 / 0.87843);
 
     /* Gray */
     --gray-1: oklch(99.135% 0.00132 286.38);
@@ -251,8 +251,8 @@
     /* With semantic-meaning */
     --background: var(--gray-1);
     --foreground: var(--gray-12);
-    --accent: var(--accent-9);
-    --accent-foreground: var(--accent-1);
+    --primary: var(--primary-9);
+    --primary-foreground: var(--primary-1);
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
@@ -264,33 +264,33 @@
 }
 
 .dark {
-    /* Accent */
-    --accent-1: oklch(19.086% 0.02457 276.53);
-    --accent-2: oklch(20.937% 0.03015 274.84);
-    --accent-3: oklch(27.157% 0.07051 267.98);
-    --accent-4: oklch(31.845% 0.09463 267.25);
-    --accent-5: oklch(36.247% 0.10437 267.03);
-    --accent-6: oklch(40.33% 0.11123 268.76);
-    --accent-7: oklch(44.907% 0.1201 268.94);
-    --accent-8: oklch(50.208% 0.13661 268.25);
-    --accent-9: oklch(54.375% 0.19102 267.01);
-    --accent-10: oklch(58.915% 0.17577 269.3);
-    --accent-11: oklch(77.587% 0.1138 273.02);
-    --accent-12: oklch(91.078% 0.04275 269.55);
+    /* Primary */
+    --primary-1: oklch(19.086% 0.02457 276.53);
+    --primary-2: oklch(20.937% 0.03015 274.84);
+    --primary-3: oklch(27.157% 0.07051 267.98);
+    --primary-4: oklch(31.845% 0.09463 267.25);
+    --primary-5: oklch(36.247% 0.10437 267.03);
+    --primary-6: oklch(40.33% 0.11123 268.76);
+    --primary-7: oklch(44.907% 0.1201 268.94);
+    --primary-8: oklch(50.208% 0.13661 268.25);
+    --primary-9: oklch(54.375% 0.19102 267.01);
+    --primary-10: oklch(58.915% 0.17577 269.3);
+    --primary-11: oklch(77.587% 0.1138 273.02);
+    --primary-12: oklch(91.078% 0.04275 269.55);
 
-    /* Accent Alpha */
-    --accent-a1: oklch(48.703% 0.28944 265.14 / 0.05882);
-    --accent-a2: oklch(53.713% 0.24743 267.61 / 0.0902);
-    --accent-a3: oklch(56.412% 0.23914 265.25 / 0.23529);
-    --accent-a4: oklch(57.327% 0.23329 265.61 / 0.34118);
-    --accent-a5: oklch(59.651% 0.21515 265.75 / 0.41961);
-    --accent-a6: oklch(61.684% 0.20253 267.73 / 0.48627);
-    --accent-a7: oklch(63.613% 0.19424 268.3 / 0.56471);
-    --accent-a8: oklch(63.983% 0.19024 267.97 / 0.67451);
-    --accent-a9: oklch(60.01% 0.21637 266.85 / 0.85882);
-    --accent-a10: oklch(63.455% 0.19355 269.08 / 0.8902);
-    --accent-a11: oklch(77.587% 0.1138 273.02);
-    --accent-a12: oklch(91.078% 0.04275 269.55);
+    /* Primary Alpha */
+    --primary-a1: oklch(48.703% 0.28944 265.14 / 0.05882);
+    --primary-a2: oklch(53.713% 0.24743 267.61 / 0.0902);
+    --primary-a3: oklch(56.412% 0.23914 265.25 / 0.23529);
+    --primary-a4: oklch(57.327% 0.23329 265.61 / 0.34118);
+    --primary-a5: oklch(59.651% 0.21515 265.75 / 0.41961);
+    --primary-a6: oklch(61.684% 0.20253 267.73 / 0.48627);
+    --primary-a7: oklch(63.613% 0.19424 268.3 / 0.56471);
+    --primary-a8: oklch(63.983% 0.19024 267.97 / 0.67451);
+    --primary-a9: oklch(60.01% 0.21637 266.85 / 0.85882);
+    --primary-a10: oklch(63.455% 0.19355 269.08 / 0.8902);
+    --primary-a11: oklch(77.587% 0.1138 273.02);
+    --primary-a12: oklch(91.078% 0.04275 269.55);
 
     /* Gray */
     --gray-1: oklch(17.853% 0.00407 285.98);
@@ -435,8 +435,8 @@
     /* With semantic-meaning */
     --background: var(--gray-1);
     --foreground: var(--gray-12);
-    --accent: var(--accent-9);
-    --accent-foreground: var(--accent-12);
+    --primary: var(--primary-9);
+    --primary-foreground: var(--primary-12);
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
@@ -453,8 +453,8 @@
     /* With semantic meaning */
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-    --color-accent: var(--accent);
-    --color-accent-foreground: var(--accent-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-muted: var(--muted);
@@ -464,33 +464,33 @@
     --color-ring: var(--ring);
     --color-outline: var(--outline);
 
-    /* Accent */
-    --color-accent-1: var(--accent-1);
-    --color-accent-2: var(--accent-2);
-    --color-accent-3: var(--accent-3);
-    --color-accent-4: var(--accent-4);
-    --color-accent-5: var(--accent-5);
-    --color-accent-6: var(--accent-6);
-    --color-accent-7: var(--accent-7);
-    --color-accent-8: var(--accent-8);
-    --color-accent-9: var(--accent-9);
-    --color-accent-10: var(--accent-10);
-    --color-accent-11: var(--accent-11);
-    --color-accent-12: var(--accent-12);
+    /* Primary */
+    --color-primary-1: var(--primary-1);
+    --color-primary-2: var(--primary-2);
+    --color-primary-3: var(--primary-3);
+    --color-primary-4: var(--primary-4);
+    --color-primary-5: var(--primary-5);
+    --color-primary-6: var(--primary-6);
+    --color-primary-7: var(--primary-7);
+    --color-primary-8: var(--primary-8);
+    --color-primary-9: var(--primary-9);
+    --color-primary-10: var(--primary-10);
+    --color-primary-11: var(--primary-11);
+    --color-primary-12: var(--primary-12);
 
-    /* Accent Alpha */
-    --color-accent-a1: var(--accent-a1);
-    --color-accent-a2: var(--accent-a2);
-    --color-accent-a3: var(--accent-a3);
-    --color-accent-a4: var(--accent-a4);
-    --color-accent-a5: var(--accent-a5);
-    --color-accent-a6: var(--accent-a6);
-    --color-accent-a7: var(--accent-a7);
-    --color-accent-a8: var(--accent-a8);
-    --color-accent-a9: var(--accent-a9);
-    --color-accent-a10: var(--accent-a10);
-    --color-accent-a11: var(--accent-a11);
-    --color-accent-a12: var(--accent-a12);
+    /* Primary Alpha */
+    --color-primary-a1: var(--primary-a1);
+    --color-primary-a2: var(--primary-a2);
+    --color-primary-a3: var(--primary-a3);
+    --color-primary-a4: var(--primary-a4);
+    --color-primary-a5: var(--primary-a5);
+    --color-primary-a6: var(--primary-a6);
+    --color-primary-a7: var(--primary-a7);
+    --color-primary-a8: var(--primary-a8);
+    --color-primary-a9: var(--primary-a9);
+    --color-primary-a10: var(--primary-a10);
+    --color-primary-a11: var(--primary-a11);
+    --color-primary-a12: var(--primary-a12);
 
     /* Gray */
     --color-gray-1: var(--gray-1);
