@@ -2,8 +2,6 @@ import type { ClassValue } from "clsx"
 import { clsx } from "clsx"
 import { createTailwindMerge, getDefaultConfig, mergeConfigs } from "tailwind-merge"
 
-console.log("prev", getDefaultConfig().classGroups["bg-image"])
-
 const cfg = () =>
     mergeConfigs(getDefaultConfig(), {
         extend: {
@@ -12,8 +10,6 @@ const cfg = () =>
             },
         },
     })
-
-console.log("next", cfg().classGroups["bg-image"])
 
 export const twm = createTailwindMerge(cfg)
 

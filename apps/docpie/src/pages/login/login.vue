@@ -10,7 +10,7 @@ import { Separator } from "~/lib/ui/components/separator"
         <div class="flex flex-col items-center px-6 py-10 sm:py-16">
             <Icon
                 name="lucide:library-big"
-                class="logo size-12 first:!stroke-[1px]" />
+                class="logo size-12" />
 
             <h1 class="mt-8 text-lg font-semibold">Login to Docpie</h1>
 
