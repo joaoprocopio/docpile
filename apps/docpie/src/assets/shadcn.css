@@ -1,0 +1,192 @@
+:root {
+    /* Base colors */
+    --color-white: oklch(1 0 0);
+    --color-black: oklch(0.145 0 0);
+    --color-gray-100: oklch(0.985 0 0);
+    --color-gray-200: oklch(0.97 0 0);
+    --color-gray-300: oklch(0.922 0 0);
+    --color-gray-400: oklch(0.708 0 0);
+    --color-gray-500: oklch(0.556 0 0);
+    --color-gray-600: oklch(0.205 0 0);
+    --color-destructive: oklch(0.577 0.245 27.325);
+
+    /* Chart colors */
+    --color-chart-1: oklch(0.81 0.1 252);
+    --color-chart-2: oklch(0.62 0.19 260);
+    --color-chart-3: oklch(0.55 0.22 263);
+    --color-chart-4: oklch(0.49 0.22 264);
+    --color-chart-5: oklch(0.42 0.18 266);
+
+    /* Theme variables */
+    --background: var(--color-white);
+    --foreground: var(--color-black);
+    --card: var(--color-white);
+    --card-foreground: var(--color-black);
+    --popover: var(--color-white);
+    --popover-foreground: var(--color-black);
+    --primary: var(--color-gray-600);
+    --primary-foreground: var(--color-gray-100);
+    --secondary: var(--color-gray-200);
+    --secondary-foreground: var(--color-gray-600);
+    --muted: var(--color-gray-200);
+    --muted-foreground: var(--color-gray-500);
+    --accent: var(--color-gray-200);
+    --accent-foreground: var(--color-gray-600);
+    --destructive: var(--color-destructive);
+    --destructive-foreground: var(--color-white);
+    --border: var(--color-gray-300);
+    --input: var(--color-gray-300);
+    --ring: var(--color-gray-400);
+
+    /* Sidebar specific */
+    --sidebar: var(--color-gray-100);
+    --sidebar-foreground: var(--color-black);
+    --sidebar-primary: var(--color-gray-600);
+    --sidebar-primary-foreground: var(--color-gray-100);
+    --sidebar-accent: var(--color-gray-200);
+    --sidebar-accent-foreground: var(--color-gray-600);
+    --sidebar-border: var(--color-gray-300);
+    --sidebar-ring: var(--color-gray-400);
+    --font-sans:
+        ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", "Noto Color Emoji";
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+        monospace;
+    --radius: 0.625rem;
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --tracking-normal: 0em;
+    --spacing: 0.25rem;
+}
+
+.dark {
+    /* Dark mode specific colors */
+    --color-dark-100: oklch(0.985 0 0);
+    --color-dark-200: oklch(0.922 0 0);
+    --color-dark-300: oklch(0.371 0 0);
+    --color-dark-400: oklch(0.325 0 0);
+    --color-dark-500: oklch(0.275 0 0);
+    --color-dark-600: oklch(0.269 0 0);
+    --color-dark-700: oklch(0.205 0 0);
+    --color-dark-800: oklch(0.145 0 0);
+    --color-dark-destructive: oklch(0.704 0.191 22.216);
+    --color-dark-sidebar-primary: oklch(0.488 0.243 264.376);
+    --color-dark-sidebar-ring: oklch(0.439 0 0);
+
+    /* Theme variables */
+    --background: var(--color-dark-800);
+    --foreground: var(--color-dark-100);
+    --card: var(--color-dark-700);
+    --card-foreground: var(--color-dark-100);
+    --popover: var(--color-dark-600);
+    --popover-foreground: var(--color-dark-100);
+    --primary: var(--color-dark-200);
+    --primary-foreground: var(--color-dark-700);
+    --secondary: var(--color-dark-600);
+    --secondary-foreground: var(--color-dark-100);
+    --muted: var(--color-dark-600);
+    --muted-foreground: var(--color-gray-400);
+    --accent: var(--color-dark-300);
+    --accent-foreground: var(--color-dark-100);
+    --destructive: var(--color-dark-destructive);
+    --destructive-foreground: var(--color-dark-100);
+    --border: var(--color-dark-500);
+    --input: var(--color-dark-400);
+    --ring: var(--color-gray-500);
+
+    /* Chart colors remain the same */
+    --chart-1: var(--color-chart-1);
+    --chart-2: var(--color-chart-2);
+    --chart-3: var(--color-chart-3);
+    --chart-4: var(--color-chart-4);
+    --chart-5: var(--color-chart-5);
+
+    /* Sidebar specific */
+    --sidebar: var(--color-dark-700);
+    --sidebar-foreground: var(--color-dark-100);
+    --sidebar-primary: var(--color-dark-sidebar-primary);
+    --sidebar-primary-foreground: var(--color-dark-100);
+    --sidebar-accent: var(--color-dark-600);
+    --sidebar-accent-foreground: var(--color-dark-100);
+    --sidebar-border: var(--color-dark-500);
+    --sidebar-ring: var(--color-dark-sidebar-ring);
+    --font-sans:
+        ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", "Noto Color Emoji";
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+        monospace;
+    --radius: 0.625rem;
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    --font-sans: var(--font-sans);
+    --font-mono: var(--font-mono);
+    --font-serif: var(--font-serif);
+
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+
+    --shadow-2xs: var(--shadow-2xs);
+    --shadow-xs: var(--shadow-xs);
+    --shadow-sm: var(--shadow-sm);
+    --shadow: var(--shadow);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
+    --shadow-xl: var(--shadow-xl);
+    --shadow-2xl: var(--shadow-2xl);
+}

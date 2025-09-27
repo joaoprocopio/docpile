@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    /* Purge Tailwind theme */
+    /* Purge base theme */
     --blur-*: initial;
     --color-*: initial;
     --shadow-*: initial;
@@ -16,7 +16,7 @@
     --text-shadow-*: initial;
     --tracking-*: initial;
     --breakpoint-*: initial;
-    /* --container-*: initial; */
+    --container-*: initial;
 
     /* Breakpoints */
     --breakpoint-xs: 30rem;
@@ -448,22 +448,6 @@
 }
 
 @theme inline {
-    --radius-md: var(--radius);
-
-    /* With semantic meaning */
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-ring: var(--ring);
-    --color-outline: var(--outline);
-
     /* Primary */
     --color-primary-1: var(--primary-1);
     --color-primary-2: var(--primary-2);
@@ -665,6 +649,23 @@
             height: 0;
         }
     }
+
+    /* Radii */
+    --radius-md: var(--radius);
+
+    /* With semantic meaning */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-ring: var(--ring);
+    --color-outline: var(--outline);
 }
 
 @layer base {
