@@ -1,6 +1,7 @@
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
+pub mod block;
 pub mod config;
 pub mod graceful;
 pub mod routing;
