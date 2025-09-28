@@ -1,12 +1,15 @@
+use crate::auth;
 use crate::server::config::Server;
-use axum::{Router, http::StatusCode};
+use axum::{Router, http::StatusCode, routing::get};
 use std::sync::Arc;
-use tower_http::CompressionLevel;
-use tower_http::catch_panic::CatchPanicLayer;
-use tower_http::compression::CompressionLayer;
-use tower_http::cors::CorsLayer;
-use tower_http::timeout::{RequestBodyTimeoutLayer, TimeoutLayer};
-use tower_http::trace::TraceLayer;
+use tower_http::{
+    CompressionLevel,
+    catch_panic::CatchPanicLayer,
+    compression::CompressionLayer,
+    cors::CorsLayer,
+    timeout::{RequestBodyTimeoutLayer, TimeoutLayer},
+    trace::TraceLayer,
+};
 
 pub fn new_router(server: &Server) -> Router<Arc<Server>> {
     Router::new()
@@ -16,5 +19,6 @@ pub fn new_router(server: &Server) -> Router<Arc<Server>> {
         .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
         .layer(CatchPanicLayer::new())
         .layer(CorsLayer::new())
+        .route("/api/v1/auth/signin", get(auth::routes::sign_in))
         .fallback(async || StatusCode::NOT_FOUND)
 }

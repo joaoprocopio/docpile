@@ -4,7 +4,7 @@ use docpie::ext;
 use docpie::runtime;
 use docpie::server::config::Server;
 use docpie::server::graceful::shutdown_signal;
-use docpie::server::routing::new_router;
+use docpie::server::router::new_router;
 use std::sync::Arc;
 use tokio::{net::TcpListener, runtime::Handle};
 

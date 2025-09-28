@@ -5,12 +5,14 @@ use crate::{
 use std::{env, net::Ipv4Addr, time::Duration};
 use tokio::runtime;
 
+#[derive(Debug)]
 pub struct Server {
     pub handle: runtime::Handle,
     pub db: DbPool,
     pub env: ServerEnv,
 }
 
+#[derive(Debug)]
 pub struct ServerEnv {
     pub host: String,
     pub port: u16,
