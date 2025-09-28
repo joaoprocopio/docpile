@@ -5,11 +5,14 @@ edition = "2024"
 
 [dependencies]
 axum = "0.8.4"
+clap = "4.5.48"
 mimalloc = "0.1.47"
 sqlx = { version = "0.8.6", features = [
+    "runtime-tokio",
     "sqlite",
-    "runtime-tokio"
+    "migrate"
 ] }
+sqlx-cli = "0.8.6"
 tokio = { version = "1.45.1", features = [
     "rt",
     "rt-multi-thread",

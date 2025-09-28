@@ -1,31 +1,16 @@
 use docpie::Result;
 use docpie::config::Server;
+use docpie::ext;
 use docpie::graceful::shutdown_signal;
 use docpie::routing::new_router;
 use docpie::runtime::new_runtime;
 use std::sync::Arc;
-use tokio::{
-    net::TcpListener,
-    runtime::{Handle, Runtime},
-};
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use tokio::{net::TcpListener, runtime::Handle};
 
 fn main() {
-    tracing_subscriber::registry()
-        .with(
-            tracing_subscriber::fmt::layer()
-                .with_thread_ids(true)
-                .with_target(true)
-                .with_line_number(true)
-                .with_file(true),
-        )
-        .init();
-
+    ext::tracing::init();
     let runtime = new_runtime();
-    run_server_blocking(runtime);
-}
 
-fn run_server_blocking(runtime: Runtime) {
     if let Err(err) = runtime.block_on(async { run_server(runtime.handle().clone()).await }) {
         tracing::error!("fatal error occurred: {}", err);
         std::process::exit(1);
