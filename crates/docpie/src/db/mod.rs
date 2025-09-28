@@ -1,4 +1,4 @@
-use crate::config::ServerEnv;
+use crate::server::config::ServerEnv;
 
 pub type DbPool = sqlx::sqlite::SqlitePool;
 pub type DbPoolOptions = sqlx::sqlite::SqlitePoolOptions;

@@ -1,7 +1,8 @@
-use tokio::runtime;
-
-pub fn new_runtime() -> runtime::Runtime {
-    match runtime::Builder::new_multi_thread().enable_all().build() {
+pub fn new() -> tokio::runtime::Runtime {
+    match tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+    {
         Ok(rt) => rt,
         Err(err) => {
             tracing::error!("failed to create runtime: {}", err);

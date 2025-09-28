@@ -1,5 +1,5 @@
-use crate::config::Server;
-use axum::{Router, http::StatusCode, response::IntoResponse};
+use crate::server::config::Server;
+use axum::{Router, http::StatusCode};
 use std::sync::Arc;
 use tower_http::CompressionLevel;
 use tower_http::catch_panic::CatchPanicLayer;
@@ -16,5 +16,5 @@ pub fn new_router(server: &Server) -> Router<Arc<Server>> {
         .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
         .layer(CatchPanicLayer::new())
         .layer(CorsLayer::new())
-        .fallback(async || StatusCode::NOT_FOUND.into_response())
+        .fallback(async || StatusCode::NOT_FOUND)
 }
