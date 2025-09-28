@@ -1,8 +1,13 @@
+use crate::{
+    Result,
+    db::{DbPool, create_db_pool},
+};
 use std::{env, net::Ipv4Addr, time::Duration};
 use tokio::runtime;
 
 pub struct Server {
     pub handle: runtime::Handle,
+    pub db: DbPool,
     pub env: ServerEnv,
 }
 
@@ -11,14 +16,15 @@ pub struct ServerEnv {
     pub port: u16,
     pub timeout: Duration,
     pub body_timeout: Duration,
+    pub db_url: String,
 }
 
 impl Server {
-    pub fn new(handle: runtime::Handle) -> Self {
-        Self {
-            handle: handle,
-            env: ServerEnv::default(),
-        }
+    pub async fn new(handle: runtime::Handle) -> Result<Self> {
+        let env = ServerEnv::from_env_or_default();
+        let db = create_db_pool(&env).await?;
+
+        Ok(Self { handle, db, env })
     }
 }
 
@@ -57,15 +63,20 @@ impl ServerEnv {
                 .unwrap_or(DEFAULT_BODY_TIMEOUT),
         )
     }
+
+    fn db_url() -> String {
+        env::var("DOCPIE_DB_URL").unwrap_or("sqlite::memory:".to_string())
+    }
 }
 
-impl Default for ServerEnv {
-    fn default() -> Self {
+impl ServerEnv {
+    fn from_env_or_default() -> Self {
         Self {
             host: Self::host(),
             port: Self::port(),
             timeout: Self::timeout(),
             body_timeout: Self::body_timeout(),
+            db_url: Self::db_url(),
         }
     }
 }

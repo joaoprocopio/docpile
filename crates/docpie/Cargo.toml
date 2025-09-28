@@ -6,7 +6,10 @@ edition = "2024"
 [dependencies]
 axum = "0.8.4"
 mimalloc = "0.1.47"
-socket2 = "0.6.0"
+sqlx = { version = "0.8.6", features = [
+    "sqlite",
+    "runtime-tokio"
+] }
 tokio = { version = "1.45.1", features = [
     "rt",
     "rt-multi-thread",
