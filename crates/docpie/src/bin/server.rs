@@ -8,10 +8,16 @@ fn main() {
     ext::tracing::init();
     let rt = runtime::new();
 
-    if let Err(err) = rt.block_on(async { run_server(rt.handle().clone()).await }) {
-        tracing::error!("fatal error occurred: {}", err);
+    ext::dotenvy::from_current_crate().unwrap_or_else(|err| {
+        tracing::error!("failed to load .env file: {}", err);
         std::process::exit(1);
-    };
+    });
+
+    rt.block_on(async { run_server(rt.handle().clone()).await })
+        .unwrap_or_else(|err| {
+            tracing::error!("fatal error occurred: {}", err);
+            std::process::exit(1);
+        });
 }
 
 async fn run_server(handle: Handle) -> Result<()> {
