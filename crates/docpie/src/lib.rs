@@ -4,7 +4,6 @@ static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 pub mod auth;
 pub mod db;
 pub mod ext;
-pub mod runtime;
 pub mod server;
 
 pub type Error = Box<dyn std::error::Error + Send + Sync>;

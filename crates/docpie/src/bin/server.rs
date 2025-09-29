@@ -1,12 +1,12 @@
 use axum::serve as serve_http;
 use docpie::server::{config::Server, graceful::shutdown_signal, router::new_router};
-use docpie::{Result, ext, runtime};
+use docpie::{Result, ext};
 use std::sync::Arc;
 use tokio::{net::TcpListener, runtime::Handle};
 
 fn main() {
     ext::tracing::init();
-    let rt = runtime::new();
+    let rt = ext::tokio::new_runtime();
 
     ext::dotenvy::from_current_crate().unwrap_or_else(|err| {
         tracing::error!("failed to load .env file: {}", err);

@@ -1,10 +1,10 @@
 use clap::Parser;
-use docpie::{ext, runtime};
+use docpie::ext;
 use sqlx_cli::{Opt, run as run_cli};
 
 fn main() {
     ext::tracing::init();
-    let rt = runtime::new();
+    let rt = ext::tokio::new_runtime();
 
     ext::dotenvy::from_current_crate().unwrap_or_else(|err| {
         tracing::error!("failed to load .env file: {}", err);

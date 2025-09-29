@@ -1,4 +1,4 @@
-pub fn new() -> tokio::runtime::Runtime {
+pub fn new_runtime() -> tokio::runtime::Runtime {
     match tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()
