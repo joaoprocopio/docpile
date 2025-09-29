@@ -1,7 +1,6 @@
 use crate::auth;
 use crate::server::config::Server;
 use axum::{Router, http::StatusCode, routing::get};
-use std::sync::Arc;
 use tower_http::{
     CompressionLevel,
     catch_panic::CatchPanicLayer,
@@ -11,7 +10,7 @@ use tower_http::{
     trace::TraceLayer,
 };
 
-pub fn new_router(server: &Server) -> Router<Arc<Server>> {
+pub fn new_router(server: &Server) -> Router<Server> {
     Router::new()
         .layer(TraceLayer::new_for_http())
         .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))

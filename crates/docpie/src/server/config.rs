@@ -2,11 +2,24 @@ use crate::{
     Result,
     db::{DbPool, create_db_pool},
 };
-use std::{env, net::Ipv4Addr, time::Duration};
+use std::{env, net::Ipv4Addr, ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
-#[derive(Debug)]
+#[derive(Clone)]
 pub struct Server {
+    inner: Arc<ServerInner>,
+}
+
+impl Deref for Server {
+    type Target = Arc<ServerInner>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.inner
+    }
+}
+
+#[derive(Debug)]
+pub struct ServerInner {
     pub handle: runtime::Handle,
     pub db: DbPool,
     pub env: ServerEnv,
@@ -26,7 +39,9 @@ impl Server {
         let env = ServerEnv::from_env_or_default();
         let db = create_db_pool(&env).await?;
 
-        Ok(Self { handle, db, env })
+        Ok(Self {
+            inner: Arc::new(ServerInner { handle, db, env }),
+        })
     }
 }
 

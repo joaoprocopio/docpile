@@ -1,7 +1,6 @@
 use axum::serve as serve_http;
 use docpie::server::{config::Server, graceful::shutdown_signal, router::new_router};
 use docpie::{Result, ext};
-use std::sync::Arc;
 use tokio::{net::TcpListener, runtime::Handle};
 
 fn main() {
@@ -21,12 +20,12 @@ fn main() {
 }
 
 async fn run_server(handle: Handle) -> Result<()> {
-    let server = Arc::new(Server::new(handle).await?);
+    let server = Server::new(handle).await?;
     let listener = TcpListener::bind((&*server.env.host, server.env.port)).await?;
 
     tracing::info!("server listening on: http://{}", listener.local_addr()?);
 
-    let router = new_router(server.as_ref()).with_state(server);
+    let router = new_router(&server).with_state(server);
 
     serve_http(listener, router)
         .with_graceful_shutdown(shutdown_signal().await?)

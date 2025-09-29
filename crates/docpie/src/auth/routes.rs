@@ -1,9 +1,8 @@
 use crate::{auth::models::User, server::config::Server};
 use axum::{Json, extract::State};
 use chrono::Utc;
-use std::sync::Arc;
 
-pub async fn sign_in(State(state): State<Arc<Server>>) -> Json<User> {
+pub async fn sign_in(State(state): State<Server>) -> Json<User> {
     let _ = sqlx::query("SELECT $1")
         .bind(150)
         .fetch_one(&state.db)
