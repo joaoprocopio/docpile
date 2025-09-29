@@ -1,10 +1,6 @@
 use axum::serve as serve_http;
-use docpie::Result;
-use docpie::ext;
-use docpie::runtime;
-use docpie::server::config::Server;
-use docpie::server::graceful::shutdown_signal;
-use docpie::server::router::new_router;
+use docpie::server::{config::Server, graceful::shutdown_signal, router::new_router};
+use docpie::{Result, ext, runtime};
 use std::sync::Arc;
 use tokio::{net::TcpListener, runtime::Handle};
 

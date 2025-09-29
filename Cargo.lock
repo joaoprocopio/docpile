@@ -582,6 +582,7 @@ dependencies = [
  "axum",
  "chrono",
  "clap",
+ "dotenvy",
  "mimalloc",
  "serde",
  "serde_json",
