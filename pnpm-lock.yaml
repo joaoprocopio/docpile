@@ -120,6 +120,15 @@ importers:
         specifier: ^3.0.7
         version: 3.0.7(typescript@5.9.2)
 
+  apps/mocker:
+    devDependencies:
+      h3:
+        specifier: ^1.15.4
+        version: 1.15.4
+      nitropack:
+        specifier: ^2.12.4
+        version: 2.12.4(@netlify/blobs@9.1.2)
+
   packages/codex:
     dependencies:
       prosemirror-commands:
