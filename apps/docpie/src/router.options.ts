@@ -1,7 +1,7 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { HomeRouteName, LoginRouteName, SignupRouteName } from "~/constants/routes"
+import { HomeRouteName, SigninRouteName, SignupRouteName } from "~/constants/routes"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
@@ -10,9 +10,9 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/home"),
     },
     {
-        name: LoginRouteName,
-        path: "/login",
-        component: () => import("~/pages/login"),
+        name: SigninRouteName,
+        path: "/signin",
+        component: () => import("~/pages/signin"),
         meta: {
             layout: "auth",
         },

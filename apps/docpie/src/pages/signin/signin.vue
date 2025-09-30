@@ -11,7 +11,7 @@ import { Input } from "~/lib/ui/components/input"
                 name="lucide:library-big"
                 class="logo size-12" />
 
-            <h1 class="mt-8 text-lg font-semibold">Login to Docpie</h1>
+            <h1 class="mt-8 text-lg font-semibold">Sign in to Docpie</h1>
 
             <Input
                 class="mt-8 h-10"

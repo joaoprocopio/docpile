@@ -1,3 +1,3 @@
 export const HomeRouteName = "home"
-export const LoginRouteName = "login"
+export const SigninRouteName = "signin"
 export const SignupRouteName = "signup"
