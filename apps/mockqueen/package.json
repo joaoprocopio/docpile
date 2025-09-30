@@ -1,5 +1,5 @@
 {
-    "name": "mocker",
+    "name": "mockqueen",
     "private": true,
     "scripts": {
         "build": "nitro build",
