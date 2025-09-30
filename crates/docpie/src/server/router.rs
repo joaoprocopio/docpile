@@ -1,5 +1,5 @@
 use crate::auth;
-use crate::server::state::State;
+use crate::server::state::Server;
 use axum::{Router, http::StatusCode, routing};
 use tower::ServiceBuilder;
 use tower_http::{
@@ -11,12 +11,12 @@ use tower_http::{
     trace::TraceLayer,
 };
 
-pub fn new_router(state: &State) -> Router<State> {
+pub fn new_router(server: &Server) -> Router<Server> {
     Router::new()
         .layer(
             ServiceBuilder::new()
-                .layer(TimeoutLayer::new(state.env.timeout))
-                .layer(RequestBodyTimeoutLayer::new(state.env.body_timeout))
+                .layer(TimeoutLayer::new(server.env.timeout))
+                .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
                 .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
                 .layer(CorsLayer::new())
                 .layer(CatchPanicLayer::new())

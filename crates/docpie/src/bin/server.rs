@@ -1,5 +1,5 @@
 use axum::serve as serve_http;
-use docpie::server::{State, new_router, shutdown_signal};
+use docpie::server::{Server, graceful_shutdown_signal, new_router};
 use docpie::{Result, ext};
 use tokio::{net::TcpListener, runtime::Handle};
 
@@ -20,7 +20,7 @@ fn main() {
 }
 
 async fn run_server(handle: Handle) -> Result<()> {
-    let server = State::new(handle).await?;
+    let server = Server::new(handle).await?;
     let listener = TcpListener::bind((&*server.env.host, server.env.port)).await?;
 
     tracing::info!("server listening on: http://{}", listener.local_addr()?);
@@ -28,7 +28,7 @@ async fn run_server(handle: Handle) -> Result<()> {
     let router = new_router(&server).with_state(server);
 
     serve_http(listener, router)
-        .with_graceful_shutdown(shutdown_signal().await?)
+        .with_graceful_shutdown(graceful_shutdown_signal().await?)
         .await?;
 
     tracing::info!("successfully shutdown server");

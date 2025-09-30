@@ -6,10 +6,10 @@ use std::{env, net::Ipv4Addr, ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
 #[derive(Clone)]
-pub struct State(Arc<StateInner>);
+pub struct Server(Arc<ServerInner>);
 
-impl Deref for State {
-    type Target = Arc<StateInner>;
+impl Deref for Server {
+    type Target = Arc<ServerInner>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -17,14 +17,14 @@ impl Deref for State {
 }
 
 #[derive(Debug)]
-pub struct StateInner {
+pub struct ServerInner {
     pub handle: runtime::Handle,
     pub db: DbPool,
-    pub env: StateEnv,
+    pub env: ServerEnv,
 }
 
 #[derive(Debug)]
-pub struct StateEnv {
+pub struct ServerEnv {
     pub host: String,
     pub port: u16,
     pub timeout: Duration,
@@ -32,16 +32,20 @@ pub struct StateEnv {
     pub db_url: String,
 }
 
-impl State {
+impl Server {
     pub async fn new(handle: runtime::Handle) -> Result<Self> {
-        let env = StateEnv::from_env_or_default();
+        let env = ServerEnv::from_env_or_default();
         let db = create_db_pool(&env).await?;
 
-        Ok(Self(Arc::new(StateInner { handle, db, env })))
+        Ok(Self(Arc::new(ServerInner {
+            handle: handle,
+            db: db,
+            env: env,
+        })))
     }
 }
 
-impl StateEnv {
+impl ServerEnv {
     fn from_env_or_default() -> Self {
         Self {
             host: { env::var("DOCPIE_HOST").unwrap_or(Ipv4Addr::UNSPECIFIED.to_string()) },
