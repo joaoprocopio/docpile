@@ -14,17 +14,13 @@ import { Input } from "~/lib/ui/components/input"
             <h1 class="mt-8 text-lg font-semibold">Sign in to Docpie</h1>
 
             <Input
-                class="mt-8 h-10"
+                class="mt-8"
                 placeholder="Enter your email address..." />
-
-            <Input
-                class="mt-4 h-10"
-                placeholder="Enter your password..." />
 
             <Button
                 class="mt-4 h-10 w-full"
                 variant="secondary">
-                Sign in with email
+                Continue with email
             </Button>
 
             <p
