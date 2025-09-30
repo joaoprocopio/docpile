@@ -17,10 +17,14 @@ import { Input } from "~/lib/ui/components/input"
                 class="mt-8 h-10"
                 placeholder="Enter your email address..." />
 
+            <Input
+                class="mt-4 h-10"
+                placeholder="Enter your password..." />
+
             <Button
                 class="mt-4 h-10 w-full"
                 variant="secondary">
-                Continue with email
+                Sign in with email
             </Button>
 
             <p
