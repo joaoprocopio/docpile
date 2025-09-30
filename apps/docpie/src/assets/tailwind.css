@@ -136,33 +136,33 @@
     --gray-a11: oklch(12.657% 0.03577 249.94 / 0.62353);
     --gray-a12: oklch(10.739% 0.02107 228.56 / 0.8902);
 
-    /* Error */
-    --error-1: oklch(99.336% 0.00319 17.211);
-    --error-2: oklch(98.232% 0.00858 17.302);
-    --error-3: oklch(95.547% 0.02072 13.857);
-    --error-4: oklch(92.172% 0.04011 16.004);
-    --error-5: oklch(89.204% 0.05675 16.926);
-    --error-6: oklch(85.69% 0.07407 17.676);
-    --error-7: oklch(80.699% 0.08879 18.32);
-    --error-8: oklch(74.434% 0.11325 18.753);
-    --error-9: oklch(62.557% 0.19334 23.026);
-    --error-10: oklch(59.902% 0.19466 24.035);
-    --error-11: oklch(55.7% 0.19743 25.168);
-    --error-12: oklch(33.899% 0.10891 16.6);
+    /* Destructive */
+    --destructive-1: oklch(99.336% 0.00319 17.211);
+    --destructive-2: oklch(98.232% 0.00858 17.302);
+    --destructive-3: oklch(95.547% 0.02072 13.857);
+    --destructive-4: oklch(92.172% 0.04011 16.004);
+    --destructive-5: oklch(89.204% 0.05675 16.926);
+    --destructive-6: oklch(85.69% 0.07407 17.676);
+    --destructive-7: oklch(80.699% 0.08879 18.32);
+    --destructive-8: oklch(74.434% 0.11325 18.753);
+    --destructive-9: oklch(62.557% 0.19334 23.026);
+    --destructive-10: oklch(59.902% 0.19466 24.035);
+    --destructive-11: oklch(55.7% 0.19743 25.168);
+    --destructive-12: oklch(33.899% 0.10891 16.6);
 
-    /* Error Alpha */
-    --error-a1: oklch(62.796% 0.25768 29.234 / 0.01176);
-    --error-a2: oklch(62.796% 0.25768 29.234 / 0.03137);
-    --error-a3: oklch(60.58% 0.24794 28.422 / 0.07843);
-    --error-a4: oklch(62.815% 0.25739 28.793 / 0.14118);
-    --error-a5: oklch(62.81% 0.25746 28.903 / 0.19608);
-    --error-a6: oklch(61.495% 0.25215 28.998 / 0.25882);
-    --error-a7: oklch(56.754% 0.23272 29.009 / 0.33725);
-    --error-a8: oklch(54.258% 0.22234 28.806 / 0.44314);
-    --error-a9: oklch(56% 0.22939 28.69 / 0.71765);
-    --error-a10: oklch(54.065% 0.22154 28.802 / 0.75686);
-    --error-a11: oklch(51.535% 0.21106 28.636 / 0.82745);
-    --error-a12: oklch(28.392% 0.11435 21.886 / 0.9098);
+    /* Destructive Alpha */
+    --destructive-a1: oklch(62.796% 0.25768 29.234 / 0.01176);
+    --destructive-a2: oklch(62.796% 0.25768 29.234 / 0.03137);
+    --destructive-a3: oklch(60.58% 0.24794 28.422 / 0.07843);
+    --destructive-a4: oklch(62.815% 0.25739 28.793 / 0.14118);
+    --destructive-a5: oklch(62.81% 0.25746 28.903 / 0.19608);
+    --destructive-a6: oklch(61.495% 0.25215 28.998 / 0.25882);
+    --destructive-a7: oklch(56.754% 0.23272 29.009 / 0.33725);
+    --destructive-a8: oklch(54.258% 0.22234 28.806 / 0.44314);
+    --destructive-a9: oklch(56% 0.22939 28.69 / 0.71765);
+    --destructive-a10: oklch(54.065% 0.22154 28.802 / 0.75686);
+    --destructive-a11: oklch(51.535% 0.21106 28.636 / 0.82745);
+    --destructive-a12: oklch(28.392% 0.11435 21.886 / 0.9098);
 
     /* Success */
     --success-1: oklch(99.421% 0.0041 157.18);
@@ -320,33 +320,33 @@
     --gray-a11: oklch(97.363% 0.01134 252.09 / 0.7098);
     --gray-a12: oklch(99.385% 0.00285 264.54 / 0.93725);
 
-    /* Error */
-    --error-1: oklch(18.803% 0.01345 18.42);
-    --error-2: oklch(20.458% 0.02168 14.064);
-    --error-3: oklch(25.105% 0.06494 12.692);
-    --error-4: oklch(28.929% 0.09511 14.33);
-    --error-5: oklch(33.211% 0.10667 15.526);
-    --error-6: oklch(38.144% 0.11082 16.803);
-    --error-7: oklch(45.018% 0.12106 18.774);
-    --error-8: oklch(54.356% 0.14576 21.762);
-    --error-9: oklch(62.557% 0.19334 23.026);
-    --error-10: oklch(66.338% 0.17739 22.851);
-    --error-11: oklch(78.041% 0.12812 22.139);
-    --error-12: oklch(90.236% 0.05268 6.4541);
+    /* Destructive */
+    --destructive-1: oklch(18.803% 0.01345 18.42);
+    --destructive-2: oklch(20.458% 0.02168 14.064);
+    --destructive-3: oklch(25.105% 0.06494 12.692);
+    --destructive-4: oklch(28.929% 0.09511 14.33);
+    --destructive-5: oklch(33.211% 0.10667 15.526);
+    --destructive-6: oklch(38.144% 0.11082 16.803);
+    --destructive-7: oklch(45.018% 0.12106 18.774);
+    --destructive-8: oklch(54.356% 0.14576 21.762);
+    --destructive-9: oklch(62.557% 0.19334 23.026);
+    --destructive-10: oklch(66.338% 0.17739 22.851);
+    --destructive-11: oklch(78.041% 0.12812 22.139);
+    --destructive-12: oklch(90.236% 0.05268 6.4541);
 
-    /* Error Alpha */
-    --error-a1: oklch(61.153% 0.24494 28.705 / 0.03529);
-    --error-a2: oklch(62.466% 0.22694 23.589 / 0.06667);
-    --error-a3: oklch(63.682% 0.24918 21.918 / 0.17647);
-    --error-a4: oklch(63.141% 0.25183 22.213 / 0.26667);
-    --error-a5: oklch(64.112% 0.24541 20.56 / 0.33725);
-    --error-a6: oklch(66.125% 0.22643 19.733 / 0.40784);
-    --error-a7: oklch(68.211% 0.20722 20.072 / 0.51765);
-    --error-a8: oklch(69.292% 0.19715 22.461 / 0.6902);
-    --error-a9: oklch(67.334% 0.21195 23.148 / 0.89412);
-    --error-a10: oklch(70.183% 0.18943 22.963 / 0.92157);
-    --error-a11: oklch(78.041% 0.12812 22.139);
-    --error-a12: oklch(90.236% 0.05268 6.4541);
+    /* Destructive Alpha */
+    --destructive-a1: oklch(61.153% 0.24494 28.705 / 0.03529);
+    --destructive-a2: oklch(62.466% 0.22694 23.589 / 0.06667);
+    --destructive-a3: oklch(63.682% 0.24918 21.918 / 0.17647);
+    --destructive-a4: oklch(63.141% 0.25183 22.213 / 0.26667);
+    --destructive-a5: oklch(64.112% 0.24541 20.56 / 0.33725);
+    --destructive-a6: oklch(66.125% 0.22643 19.733 / 0.40784);
+    --destructive-a7: oklch(68.211% 0.20722 20.072 / 0.51765);
+    --destructive-a8: oklch(69.292% 0.19715 22.461 / 0.6902);
+    --destructive-a9: oklch(67.334% 0.21195 23.148 / 0.89412);
+    --destructive-a10: oklch(70.183% 0.18943 22.963 / 0.92157);
+    --destructive-a11: oklch(78.041% 0.12812 22.139);
+    --destructive-a12: oklch(90.236% 0.05268 6.4541);
 
     /* Success */
     --success-1: oklch(18.729% 0.01227 167.01);
@@ -504,33 +504,33 @@
     --color-gray-a11: var(--gray-a11);
     --color-gray-a12: var(--gray-a12);
 
-    /* Error */
-    --color-error-1: var(--error-1);
-    --color-error-2: var(--error-2);
-    --color-error-3: var(--error-3);
-    --color-error-4: var(--error-4);
-    --color-error-5: var(--error-5);
-    --color-error-6: var(--error-6);
-    --color-error-7: var(--error-7);
-    --color-error-8: var(--error-8);
-    --color-error-9: var(--error-9);
-    --color-error-10: var(--error-10);
-    --color-error-11: var(--error-11);
-    --color-error-12: var(--error-12);
+    /* Destructive */
+    --color-destructive-1: var(--destructive-1);
+    --color-destructive-2: var(--destructive-2);
+    --color-destructive-3: var(--destructive-3);
+    --color-destructive-4: var(--destructive-4);
+    --color-destructive-5: var(--destructive-5);
+    --color-destructive-6: var(--destructive-6);
+    --color-destructive-7: var(--destructive-7);
+    --color-destructive-8: var(--destructive-8);
+    --color-destructive-9: var(--destructive-9);
+    --color-destructive-10: var(--destructive-10);
+    --color-destructive-11: var(--destructive-11);
+    --color-destructive-12: var(--destructive-12);
 
-    /* Error Alpha */
-    --color-error-a1: var(--error-a1);
-    --color-error-a2: var(--error-a2);
-    --color-error-a3: var(--error-a3);
-    --color-error-a4: var(--error-a4);
-    --color-error-a5: var(--error-a5);
-    --color-error-a6: var(--error-a6);
-    --color-error-a7: var(--error-a7);
-    --color-error-a8: var(--error-a8);
-    --color-error-a9: var(--error-a9);
-    --color-error-a10: var(--error-a10);
-    --color-error-a11: var(--error-a11);
-    --color-error-a12: var(--error-a12);
+    /* Destructive Alpha */
+    --color-destructive-a1: var(--destructive-a1);
+    --color-destructive-a2: var(--destructive-a2);
+    --color-destructive-a3: var(--destructive-a3);
+    --color-destructive-a4: var(--destructive-a4);
+    --color-destructive-a5: var(--destructive-a5);
+    --color-destructive-a6: var(--destructive-a6);
+    --color-destructive-a7: var(--destructive-a7);
+    --color-destructive-a8: var(--destructive-a8);
+    --color-destructive-a9: var(--destructive-a9);
+    --color-destructive-a10: var(--destructive-a10);
+    --color-destructive-a11: var(--destructive-a11);
+    --color-destructive-a12: var(--destructive-a12);
 
     /* Success */
     --color-success-1: var(--success-1);
