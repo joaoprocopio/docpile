@@ -22,17 +22,11 @@ pub fn new_router(server: &Server) -> Router<Server> {
                 .layer(CatchPanicLayer::new())
                 .layer(TraceLayer::new_for_http()),
         )
-        .route(
-            "/api/v1/auth/signin",
-            routing::post(auth::handlers::sign_in),
-        )
-        .route(
-            "/api/v1/auth/signup",
-            routing::post(auth::handlers::sign_up),
-        )
+        .route("/api/v1/auth/signin", routing::post(auth::handlers::signin))
+        .route("/api/v1/auth/signup", routing::post(auth::handlers::signup))
         .route(
             "/api/v1/auth/signout",
-            routing::post(auth::handlers::sign_out),
+            routing::post(auth::handlers::signout),
         )
         .fallback(async || StatusCode::NOT_FOUND)
 }

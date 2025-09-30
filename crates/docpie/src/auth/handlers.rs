@@ -1,11 +1,11 @@
-pub async fn sign_in() -> &'static str {
+pub async fn signin() -> &'static str {
     "signed in"
 }
 
-pub async fn sign_out() -> &'static str {
+pub async fn signout() -> &'static str {
     "signed out"
 }
 
-pub async fn sign_up() -> &'static str {
+pub async fn signup() -> &'static str {
     "signed up"
 }

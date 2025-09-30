@@ -2,7 +2,6 @@
 import { SignupRouteName } from "~/constants/routes"
 import { Button } from "~/lib/ui/components/button"
 import { Input } from "~/lib/ui/components/input"
-import { Separator } from "~/lib/ui/components/separator"
 </script>
 
 <template>
@@ -13,10 +12,6 @@ import { Separator } from "~/lib/ui/components/separator"
                 class="logo size-12" />
 
             <h1 class="mt-8 text-lg font-semibold">Login to Docpie</h1>
-
-            <Button class="mt-6 h-10 w-full"> Continue with Google </Button>
-
-            <Separator class="mt-8"> or </Separator>
 
             <Input
                 class="mt-8 h-10"
