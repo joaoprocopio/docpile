@@ -1,9 +1,10 @@
 {
-  "private": true,
-  "packageManager": "pnpm@10.15.0",
-  "scripts": {
-    "clean:all": "pnpm -r clean",
-    "clean": "git clean -xdf node_modules",
-    "refresh": "pnpm clean:all && pnpm store prune --force && pnpm install"
-  }
+    "private": true,
+    "packageManager": "pnpm@10.15.0",
+    "scripts": {
+        "clean:all": "pnpm -r clean",
+        "dev": "pnpm -r dev",
+        "clean": "git clean -xdf node_modules",
+        "refresh": "pnpm clean:all && pnpm store prune --force && pnpm install"
+    }
 }
