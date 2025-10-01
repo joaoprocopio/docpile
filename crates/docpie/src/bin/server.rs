@@ -1,6 +1,8 @@
 use axum::serve as serve_http;
-use docpie::server::{Server, graceful_shutdown_signal, new_router};
-use docpie::{Result, ext};
+use docpie::{
+    Result, ext,
+    server::{graceful::graceful_shutdown_signal, router::new_router, state::Server},
+};
 use tokio::{net::TcpListener, runtime::Handle};
 
 fn main() {

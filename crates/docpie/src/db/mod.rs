@@ -1,4 +1,4 @@
-use crate::server::ServerEnv;
+use crate::server::state::ServerEnv;
 
 pub async fn create_db_pool(env: &ServerEnv) -> crate::Result<DbPool> {
     let pool = DbPoolOptions::new();
