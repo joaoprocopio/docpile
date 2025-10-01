@@ -9,10 +9,6 @@ fn main() {
     ext::tracing::init();
     let rt = ext::tokio::new_runtime();
 
-    let _ = dotenvy::dotenv().inspect_err(|err| {
-        tracing::warn!("failed to load .env file: {}", err);
-    });
-
     rt.block_on(async { run_server(rt.handle().clone()).await })
         .unwrap_or_else(|err| {
             tracing::error!("fatal error occurred: {}", err);
