@@ -19,6 +19,7 @@ sqlx = { version = "0.8.6", features = [
     "sqlite",
     "migrate"
 ] }
+thiserror = "2.0.17"
 tokio = { version = "1.45.1", features = [
     "rt",
     "rt-multi-thread",

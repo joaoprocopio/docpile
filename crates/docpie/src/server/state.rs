@@ -1,6 +1,5 @@
 use crate::{
-    Result,
-    db::{DbPool, create_db_pool},
+    db::{CreateDBPoolError, DbPool, create_db_pool},
     ext::env::env_or,
 };
 use std::{ops::Deref, sync::Arc, time::Duration};
@@ -33,8 +32,14 @@ pub struct ServerEnv {
     pub db_url: String,
 }
 
+#[derive(thiserror::Error, Debug)]
+pub enum NewServerError {
+    #[error(transparent)]
+    CreateDBPool(#[from] CreateDBPoolError),
+}
+
 impl Server {
-    pub async fn new(handle: runtime::Handle) -> Result<Self> {
+    pub async fn new(handle: runtime::Handle) -> Result<Self, NewServerError> {
         let env = ServerEnv::from_env_or_default();
         let db = create_db_pool(&env).await?;
 

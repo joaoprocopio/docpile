@@ -1,7 +1,11 @@
 use axum::serve as serve_http;
 use docpie::{
-    Result, ext,
-    server::{graceful::graceful_shutdown_signal, router::new_router, state::Server},
+    ext,
+    server::{
+        graceful::{ShutdownSignalError, shutdown_signal},
+        router::new_router,
+        state::{NewServerError, Server},
+    },
 };
 use tokio::{net::TcpListener, runtime::Handle};
 
@@ -11,12 +15,24 @@ fn main() {
 
     rt.block_on(async { run_server(rt.handle().clone()).await })
         .unwrap_or_else(|err| {
-            tracing::error!("fatal error occurred: {}", err);
+            tracing::error!(?err);
             std::process::exit(1);
         });
 }
 
-async fn run_server(handle: Handle) -> Result<()> {
+#[derive(thiserror::Error, Debug)]
+pub enum RunServerError {
+    #[error(transparent)]
+    NewServer(#[from] NewServerError),
+
+    #[error(transparent)]
+    TokioIO(#[from] tokio::io::Error),
+
+    #[error(transparent)]
+    ShutdownSignal(#[from] ShutdownSignalError),
+}
+
+async fn run_server(handle: Handle) -> Result<(), RunServerError> {
     let server = Server::new(handle).await?;
     let listener = TcpListener::bind((&*server.env.host, server.env.port)).await?;
 
@@ -25,7 +41,7 @@ async fn run_server(handle: Handle) -> Result<()> {
     let router = new_router(&server).with_state(server);
 
     serve_http(listener, router)
-        .with_graceful_shutdown(graceful_shutdown_signal().await?)
+        .with_graceful_shutdown(shutdown_signal().await?)
         .await?;
 
     tracing::info!("successfully shutdown server");

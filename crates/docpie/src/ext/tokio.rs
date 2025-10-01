@@ -5,7 +5,7 @@ pub fn new_runtime() -> tokio::runtime::Runtime {
     {
         Ok(rt) => rt,
         Err(err) => {
-            tracing::error!("failed to create runtime: {}", err);
+            tracing::error!(?err);
             std::process::exit(1);
         }
     }

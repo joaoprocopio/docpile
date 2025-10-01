@@ -1,6 +1,12 @@
 use tokio::signal::unix::{SignalKind, signal};
 
-pub async fn graceful_shutdown_signal() -> crate::Result<impl Future<Output = ()>> {
+#[derive(thiserror::Error, Debug)]
+pub enum ShutdownSignalError {
+    #[error(transparent)]
+    TokioIO(#[from] tokio::io::Error),
+}
+
+pub async fn shutdown_signal() -> Result<impl Future<Output = ()>, ShutdownSignalError> {
     let mut terminate = signal(SignalKind::terminate())?;
     let mut interrupt = signal(SignalKind::interrupt())?;
 
