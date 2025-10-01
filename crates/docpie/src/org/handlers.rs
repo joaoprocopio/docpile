@@ -1,9 +1,30 @@
-use crate::org::{models, services};
+use crate::org::{models::Org, services::list_orgs};
 use crate::server::state::Server;
+use axum::http::StatusCode;
 use axum::{Json, extract::State};
+use serde::Serialize;
 
-pub async fn list_orgs_v1(State(server): State<Server>) -> Json<Vec<models::Org>> {
-    let orgs = services::list_orgs(&server.db).await.unwrap();
+#[derive(Serialize)]
+#[serde(untagged)]
+pub enum ListOrgsV1Response {
+    Ok(Vec<Org>),
+    Err { detail: String },
+}
 
-    Json(orgs)
+pub async fn list_orgs_v1(State(server): State<Server>) -> (StatusCode, Json<ListOrgsV1Response>) {
+    let orgs = list_orgs(&server.db).await;
+
+    match orgs {
+        Ok(orgs) => (StatusCode::OK, Json(ListOrgsV1Response::Ok(orgs))),
+        Err(err) => {
+            tracing::error!(?err);
+
+            (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                Json(ListOrgsV1Response::Err {
+                    detail: err.to_string(),
+                }),
+            )
+        }
+    }
 }
