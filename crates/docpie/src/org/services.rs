@@ -11,12 +11,10 @@ pub enum ListOrgsError {
 }
 
 pub async fn list_orgs(pool: &Pool<Sqlite>) -> Result<Vec<models::Org>, ListOrgsError> {
-    let orgs: Result<Vec<models::Org>, strum::ParseError> = sqlx::query!("SELECT * FROM org")
-        .map(|r| Ok(models::Org::new(r.id, r.name.clone(), r.status.parse()?)))
+    let orgs = sqlx::query!("SELECT id, name, status FROM org")
+        .map(|r| Ok(models::Org::new(r.id, r.name, r.status.parse()?)))
         .fetch_all(pool)
-        .await?
-        .into_iter()
-        .collect();
+        .await?;
 
-    Ok(orgs?)
+    orgs.into_iter().collect()
 }
