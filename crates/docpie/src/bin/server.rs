@@ -9,7 +9,7 @@ fn main() {
     ext::tracing::init();
     let rt = ext::tokio::new_runtime();
 
-    ext::dotenvy::from_current_crate().unwrap_or_else(|err| {
+    let _ = dotenvy::dotenv().inspect_err(|err| {
         tracing::warn!("failed to load .env file: {}", err);
     });
 
