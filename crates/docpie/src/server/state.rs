@@ -1,9 +1,9 @@
 use crate::{
     Result,
     db::{DbPool, create_db_pool},
-    ext::env::env_var_or_default,
+    ext::env::env_or,
 };
-use std::{env, ops::Deref, sync::Arc, time::Duration};
+use std::{ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
 #[derive(Clone)]
@@ -49,35 +49,11 @@ impl Server {
 impl ServerEnv {
     fn from_env_or_default() -> Self {
         Self {
-            host: { env_var_or_default("DOCPIE_HOST", "0.0.0.0".into()) },
-            port: {
-                const DEFAULT_PORT: u16 = 8000;
-
-                env::var("DOCPIE_PORT")
-                    .unwrap_or(DEFAULT_PORT.to_string())
-                    .parse()
-                    .unwrap_or(DEFAULT_PORT)
-            },
-            timeout: {
-                const DEFAULT_TIMEOUT: u64 = 30;
-
-                Duration::from_secs(
-                    env::var("DOCPIE_TIMEOUT")
-                        .unwrap_or(DEFAULT_TIMEOUT.to_string())
-                        .parse()
-                        .unwrap_or(DEFAULT_TIMEOUT),
-                )
-            },
-            body_timeout: {
-                const DEFAULT_BODY_TIMEOUT: u64 = 5;
-                Duration::from_secs(
-                    env::var("DOCPIE_BODY_TIMEOUT")
-                        .unwrap_or(DEFAULT_BODY_TIMEOUT.to_string())
-                        .parse()
-                        .unwrap_or(DEFAULT_BODY_TIMEOUT),
-                )
-            },
-            db_url: { env::var("DOCPIE_DB_URL").unwrap_or("./db.sqlite3".to_string()) },
+            host: env_or("DOCPIE_HOST", "0.0.0.0".into()),
+            port: env_or("DOCPIE_PORT", 8000),
+            db_url: env_or("DOCPIE_DB_URL", "./db.sqlite3".into()),
+            timeout: Duration::from_secs(env_or("DOCPIE_TIMEOUT", 30)),
+            body_timeout: Duration::from_secs(env_or("DOCPIE_BODY_TIMEOUT", 5)),
         }
     }
 }

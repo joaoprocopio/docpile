@@ -1,5 +1,12 @@
-use std::{env, ffi::OsStr};
+use std::{env, ffi::OsStr, str::FromStr};
 
-pub fn env_var_or_default<K: AsRef<OsStr>>(key: K, default: String) -> String {
-    env::var(key).unwrap_or_else(|_| default)
+pub fn env_or<K, T>(key: K, default: T) -> T
+where
+    K: AsRef<OsStr>,
+    T: FromStr,
+{
+    env::var(key)
+        .ok()
+        .and_then(|v| v.parse().ok())
+        .unwrap_or_else(|| default)
 }
