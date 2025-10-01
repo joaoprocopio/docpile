@@ -1,4 +1,4 @@
-use crate::{org, server::state::Server};
+use crate::{auth, org, server::state::Server};
 use axum::{Router, http::StatusCode, routing};
 use tower::ServiceBuilder;
 use tower_http::{
@@ -22,5 +22,17 @@ pub fn new_router(server: &Server) -> Router<Server> {
                 .layer(TraceLayer::new_for_http()),
         )
         .route("/api/v1/orgs", routing::get(org::handlers::list_orgs_v1))
+        .route(
+            "/api/v1/auth/signin",
+            routing::get(auth::handlers::sign_in_v1),
+        )
+        .route(
+            "/api/v1/auth/signup",
+            routing::get(auth::handlers::sign_up_v1),
+        )
+        .route(
+            "/api/v1/auth/signout",
+            routing::get(auth::handlers::sign_out_v1),
+        )
         .fallback(async || StatusCode::NOT_FOUND)
 }

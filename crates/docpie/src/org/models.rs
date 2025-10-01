@@ -1,7 +1,7 @@
 pub struct Org {
-    id: i64,
-    name: String,
-    status: OrgStatus,
+    pub id: i64,
+    pub name: String,
+    pub status: OrgStatus,
 }
 
 pub enum OrgStatus {
