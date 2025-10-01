@@ -161,3 +161,6 @@ target/
 # Nitro
 .data
 .nitro
+
+# sqlite
+*.sqlite3

@@ -2,7 +2,7 @@ use crate::{
     Result,
     db::{DbPool, create_db_pool},
 };
-use std::{env, net::Ipv4Addr, ops::Deref, sync::Arc, time::Duration};
+use std::{env, ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
 #[derive(Clone)]
@@ -48,9 +48,10 @@ impl Server {
 impl ServerEnv {
     fn from_env_or_default() -> Self {
         Self {
-            host: { env::var("DOCPIE_HOST").unwrap_or(Ipv4Addr::UNSPECIFIED.to_string()) },
+            host: { env::var("DOCPIE_HOST").unwrap_or(String::from("0.0.0.0")) },
             port: {
                 const DEFAULT_PORT: u16 = 8000;
+
                 env::var("DOCPIE_PORT")
                     .unwrap_or(DEFAULT_PORT.to_string())
                     .parse()
@@ -75,7 +76,7 @@ impl ServerEnv {
                         .unwrap_or(DEFAULT_BODY_TIMEOUT),
                 )
             },
-            db_url: { env::var("DOCPIE_DB_URL").unwrap_or("sqlite::memory:".to_string()) },
+            db_url: { env::var("DOCPIE_DB_URL").unwrap_or("./db.sqlite3".to_string()) },
         }
     }
 }
