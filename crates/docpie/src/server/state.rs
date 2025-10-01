@@ -1,7 +1,8 @@
 use crate::{
-    db::{CreateDBPoolError, DbPool, create_db_pool},
+    db::{CreateDBPoolError, create_db_pool},
     ext::env::env_or,
 };
+use sqlx::SqlitePool;
 use std::{ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
@@ -19,7 +20,7 @@ impl Deref for Server {
 #[derive(Debug)]
 pub struct ServerInner {
     pub handle: runtime::Handle,
-    pub db: DbPool,
+    pub db: SqlitePool,
     pub env: ServerEnv,
 }
 

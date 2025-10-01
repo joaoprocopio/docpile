@@ -1,4 +1,8 @@
 use crate::server::state::ServerEnv;
+use sqlx::{
+    SqlitePool,
+    sqlite::{SqliteConnectOptions, SqliteJournalMode, SqlitePoolOptions, SqliteSynchronous},
+};
 use std::str::FromStr;
 
 #[derive(thiserror::Error, Debug)]
@@ -7,19 +11,13 @@ pub enum CreateDBPoolError {
     SQLX(#[from] sqlx::Error),
 }
 
-pub async fn create_db_pool(env: &ServerEnv) -> Result<DbPool, CreateDBPoolError> {
-    let pool = DbPoolOptions::new();
-    let connect = DbConnectOptions::from_str(&env.db_url)?
-        .journal_mode(DbJournalMode::Wal)
-        .synchronous(DbSynchronous::Normal)
+pub async fn create_db_pool(env: &ServerEnv) -> Result<SqlitePool, CreateDBPoolError> {
+    let pool = SqlitePoolOptions::new();
+    let connect = SqliteConnectOptions::from_str(&env.db_url)?
+        .journal_mode(SqliteJournalMode::Wal)
+        .synchronous(SqliteSynchronous::Normal)
         .create_if_missing(true)
         .foreign_keys(true);
 
     Ok(pool.connect_with(connect).await?)
 }
-
-pub type DbPool = sqlx::sqlite::SqlitePool;
-pub type DbPoolOptions = sqlx::sqlite::SqlitePoolOptions;
-pub type DbConnectOptions = sqlx::sqlite::SqliteConnectOptions;
-pub type DbJournalMode = sqlx::sqlite::SqliteJournalMode;
-pub type DbSynchronous = sqlx::sqlite::SqliteSynchronous;
