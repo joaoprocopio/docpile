@@ -14,7 +14,8 @@ impl Org {
 }
 
 #[derive(Debug, Serialize, Deserialize, strum::EnumString, strum::AsRefStr)]
-#[strum(serialize_all = "lowercase")]
+#[strum(serialize_all = "snake_case")]
+#[serde(rename_all = "snake_case")]
 pub enum OrgStatus {
     Active,
 }
