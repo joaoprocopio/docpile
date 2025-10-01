@@ -1,6 +1,5 @@
-use crate::auth;
 use crate::server::state::Server;
-use axum::{Router, http::StatusCode, routing};
+use axum::{Router, http::StatusCode};
 use tower::ServiceBuilder;
 use tower_http::{
     CompressionLevel,
@@ -21,12 +20,6 @@ pub fn new_router(server: &Server) -> Router<Server> {
                 .layer(CorsLayer::new())
                 .layer(CatchPanicLayer::new())
                 .layer(TraceLayer::new_for_http()),
-        )
-        .route("/api/v1/auth/signin", routing::post(auth::handlers::signin))
-        .route("/api/v1/auth/signup", routing::post(auth::handlers::signup))
-        .route(
-            "/api/v1/auth/signout",
-            routing::post(auth::handlers::signout),
         )
         .fallback(async || StatusCode::NOT_FOUND)
 }
