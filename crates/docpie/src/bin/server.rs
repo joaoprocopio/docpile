@@ -10,8 +10,7 @@ fn main() {
     let rt = ext::tokio::new_runtime();
 
     ext::dotenvy::from_current_crate().unwrap_or_else(|err| {
-        tracing::error!("failed to load .env file: {}", err);
-        std::process::exit(1);
+        tracing::warn!("failed to load .env file: {}", err);
     });
 
     rt.block_on(async { run_server(rt.handle().clone()).await })

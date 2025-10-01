@@ -1,9 +1,9 @@
 use crate::server::state::ServerEnv;
+use std::str::FromStr;
 
 pub async fn create_db_pool(env: &ServerEnv) -> crate::Result<DbPool> {
     let pool = DbPoolOptions::new();
-    let connect = DbConnectOptions::new()
-        .filename(&env.db_url)
+    let connect = DbConnectOptions::from_str(&env.db_url)?
         .journal_mode(DbJournalMode::Wal)
         .synchronous(DbSynchronous::Normal)
         .create_if_missing(true)

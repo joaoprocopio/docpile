@@ -6,7 +6,7 @@ use crate::{
 use std::{ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct Server(Arc<ServerInner>);
 
 impl Deref for Server {
@@ -51,7 +51,7 @@ impl ServerEnv {
         Self {
             host: env_or("DOCPIE_HOST", "0.0.0.0".into()),
             port: env_or("DOCPIE_PORT", 8000),
-            db_url: env_or("DOCPIE_DB_URL", "./db.sqlite3".into()),
+            db_url: env_or("DOCPIE_DB_URL", "sqlite:./db.sqlite3".into()),
             timeout: Duration::from_secs(env_or("DOCPIE_TIMEOUT", 30)),
             body_timeout: Duration::from_secs(env_or("DOCPIE_BODY_TIMEOUT", 5)),
         }
