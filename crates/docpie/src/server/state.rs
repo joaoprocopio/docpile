@@ -1,6 +1,7 @@
 use crate::{
     Result,
     db::{DbPool, create_db_pool},
+    ext::env::env_var_or_default,
 };
 use std::{env, ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
@@ -48,7 +49,7 @@ impl Server {
 impl ServerEnv {
     fn from_env_or_default() -> Self {
         Self {
-            host: { env::var("DOCPIE_HOST").unwrap_or(String::from("0.0.0.0")) },
+            host: { env_var_or_default("DOCPIE_HOST", "0.0.0.0".into()) },
             port: {
                 const DEFAULT_PORT: u16 = 8000;
 
