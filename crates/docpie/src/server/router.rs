@@ -1,5 +1,5 @@
-use crate::server::state::Server;
-use axum::{Router, http::StatusCode};
+use crate::{org, server::state::Server};
+use axum::{Router, http::StatusCode, routing};
 use tower::ServiceBuilder;
 use tower_http::{
     CompressionLevel,
@@ -21,5 +21,6 @@ pub fn new_router(server: &Server) -> Router<Server> {
                 .layer(CatchPanicLayer::new())
                 .layer(TraceLayer::new_for_http()),
         )
+        .route("/api/v1/orgs", routing::get(org::handlers::list_orgs_v1))
         .fallback(async || StatusCode::NOT_FOUND)
 }
