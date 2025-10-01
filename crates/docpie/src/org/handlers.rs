@@ -1,18 +1,9 @@
-use crate::org::models::Org;
+use crate::org::{models, services};
 use crate::server::state::Server;
 use axum::{Json, extract::State};
 
-pub async fn list_orgs_v1(State(server): State<Server>) -> Json<Vec<Org>> {
-    let orgs = sqlx::query_as!(
-        Org,
-        r#"
-            SELECT *
-            FROM org
-        "#
-    )
-    .fetch_all(&server.db)
-    .await
-    .unwrap();
+pub async fn list_orgs_v1(State(server): State<Server>) -> Json<Vec<models::Org>> {
+    let orgs = services::list_orgs(&server.db).await.unwrap();
 
     Json(orgs)
 }
