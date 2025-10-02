@@ -14,6 +14,7 @@
     },
     "dependencies": {
         "@iconify-json/lucide": "^1.2.67",
+        "@tanstack/vue-query": "^5.90.2",
         "@tanstack/vue-table": "^8.21.3",
         "@unovis/ts": "^1.6.1",
         "@unovis/vue": "^1.6.1",
@@ -47,8 +48,8 @@
         "eslint-plugin-prettier": "catalog:",
         "eslint-plugin-simple-import-sort": "catalog:",
         "prettier": "catalog:",
-        "prettier-plugin-tailwindcss": "^0.6.14",
         "prettier-config": "link:../../packages/prettier-config",
+        "prettier-plugin-tailwindcss": "^0.6.14",
         "tailwindcss": "^4.1.12",
         "typescript": "catalog:",
         "vue-tsc": "^3.0.7"

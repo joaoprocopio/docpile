@@ -277,7 +277,11 @@
     --warning-a12: oklch(23.823% 0.06026 53.274 / 0.86667);
 
     /* Gradients */
-    --gradient-auth: linear-gradient(in oklch to bottom, var(--color-gray-2) -24%, transparent 42%);
+    --gradient-auth: linear-gradient(
+        in oklch to bottom,
+        var(--color-gray-a3) -24%,
+        transparent 42%
+    );
     --gradient-highlight: linear-gradient(
         in oklch to bottom,
         var(--white-a6) -26%,
@@ -514,7 +518,11 @@
     --warning-a12: oklch(93.505% 0.07171 86.068);
 
     /* Gradients */
-    --gradient-auth: linear-gradient(in oklch to bottom, var(--color-gray-2) -24%, transparent 42%);
+    --gradient-auth: linear-gradient(
+        in oklch to bottom,
+        var(--color-gray-a2) -24%,
+        transparent 42%
+    );
     --gradient-highlight: linear-gradient(
         in oklch to bottom,
         var(--white-a6) -26%,
@@ -852,7 +860,7 @@
     }
 
     body {
-        @apply bg-background text-foreground text-base antialiased;
+        @apply bg-background text-base text-foreground antialiased;
         font-synthesis-weight: none;
         text-rendering: optimizeLegibility;
     }
