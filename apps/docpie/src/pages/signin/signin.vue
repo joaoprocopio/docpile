@@ -19,7 +19,7 @@ import { Input } from "~/lib/ui/components/input"
 
             <Button
                 class="mt-4 w-full"
-                variant="default">
+                variant="secondary">
                 Continue with email
             </Button>
 

@@ -276,6 +276,19 @@
     --warning-a11: oklch(57.065% 0.12914 63.938);
     --warning-a12: oklch(23.823% 0.06026 53.274 / 0.86667);
 
+    /* Gradients */
+    --gradient-auth: linear-gradient(in oklch to bottom, var(--color-gray-2) -24%, transparent 42%);
+    --gradient-highlight: linear-gradient(
+        in oklch to bottom,
+        var(--white-a6) -26%,
+        transparent 100%
+    );
+    --gradient-highlight-subtle: linear-gradient(
+        in oklch to bottom,
+        var(--white-a9) -67%,
+        transparent 100%
+    );
+
     /* Inset Shadow */
     --inset-shadow-md:
         inset 0 0 0 1px var(--gray-a5), inset 0 1.5px 2px 0 var(--gray-a2),
@@ -479,6 +492,19 @@
     --warning-a10: oklch(88.491% 0.18051 94.784);
     --warning-a11: oklch(86.167% 0.17297 89.018);
     --warning-a12: oklch(93.505% 0.07171 86.068);
+
+    /* Gradients */
+    --gradient-auth: linear-gradient(in oklch to bottom, var(--color-gray-2) -24%, transparent 42%);
+    --gradient-highlight: linear-gradient(
+        in oklch to bottom,
+        var(--white-a6) -26%,
+        transparent 100%
+    );
+    --gradient-highlight-subtle: linear-gradient(
+        in oklch to bottom,
+        var(--white-a1) -64%,
+        transparent 100%
+    );
 
     /* Inset Shadow */
     --inset-shadow-md:
@@ -685,16 +711,9 @@
     --color-warning-a12: var(--warning-a12);
 
     /* Gradients */
-    --background-image-gradient-auth: linear-gradient(
-        in oklch to bottom,
-        var(--color-gray-2) -24%,
-        transparent 42%
-    );
-    --background-image-gradient-highlight: linear-gradient(
-        in oklch to bottom,
-        var(--white-a6) -26%,
-        transparent 100%
-    );
+    --background-image-gradient-auth: var(--gradient-auth);
+    --background-image-gradient-highlight: var(--gradient-highlight);
+    --background-image-gradient-highlight-subtle: var(--gradient-highlight-subtle);
 
     /* Accordion */
     --animate-accordion-down: accordion-down 0.2s ease-out;
