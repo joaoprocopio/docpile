@@ -4,4 +4,6 @@ import config from "prettier-config"
 export default {
     ...config,
     plugins: ["prettier-plugin-tailwindcss"],
+    tailwindFunctions: ["cva", "cn", "cx", "clsx"],
+    tailwindStylesheet: "./src/assets/tailwind.css",
 }
