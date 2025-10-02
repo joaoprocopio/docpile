@@ -7,14 +7,8 @@ pub struct Org {
     pub status: OrgStatus,
 }
 
-impl Org {
-    pub fn new(id: i64, name: String, status: OrgStatus) -> Self {
-        Self { id, name, status }
-    }
-}
-
-#[derive(Debug, Serialize, Deserialize, strum::EnumString, strum::AsRefStr)]
-#[strum(serialize_all = "snake_case")]
+#[derive(Debug, Serialize, Deserialize, sqlx::Type)]
+#[sqlx(type_name = "org_status", rename_all = "snake_case")]
 #[serde(rename_all = "snake_case")]
 pub enum OrgStatus {
     Active,
