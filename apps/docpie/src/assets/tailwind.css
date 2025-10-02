@@ -310,6 +310,8 @@
         0 16px 36px -20px var(--gray-a7);
 
     /* With semantic-meaning */
+    --white: var(--white-a12);
+    --black: var(--black-a12);
     --background: var(--gray-1);
     --foreground: var(--gray-12);
     --primary: var(--primary-9);
@@ -318,6 +320,8 @@
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
     --muted-foreground: var(--gray-11);
+    --destructive: var(--destructive-5);
+    --destructive-foreground: var(--destructive-12);
     --input: var(--gray-4);
     --border: var(--gray-3);
     --ring: var(--gray-5);
@@ -533,8 +537,8 @@
     --primary-foreground: var(--gray-12);
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
-    --muted: var(--gray-4);
-    --muted-foreground: var(--gray-11);
+    --destructive: var(--destructive-5);
+    --destructive-foreground: var(--white);
     --input: var(--gray-4);
     --border: var(--gray-3);
     --ring: var(--gray-5);
@@ -542,6 +546,34 @@
 }
 
 @theme inline {
+    /* Black */
+    --color-black-a1: var(--black-a1);
+    --color-black-a2: var(--black-a2);
+    --color-black-a3: var(--black-a3);
+    --color-black-a4: var(--black-a4);
+    --color-black-a5: var(--black-a5);
+    --color-black-a6: var(--black-a6);
+    --color-black-a7: var(--black-a7);
+    --color-black-a8: var(--black-a8);
+    --color-black-a9: var(--black-a9);
+    --color-black-a10: var(--black-a10);
+    --color-black-a11: var(--black-a11);
+    --color-black-a12: var(--black-a12);
+
+    /* White */
+    --color-white-a1: var(--white-a1);
+    --color-white-a2: var(--white-a2);
+    --color-white-a3: var(--white-a3);
+    --color-white-a4: var(--white-a4);
+    --color-white-a5: var(--white-a5);
+    --color-white-a6: var(--white-a6);
+    --color-white-a7: var(--white-a7);
+    --color-white-a8: var(--white-a8);
+    --color-white-a9: var(--white-a9);
+    --color-white-a10: var(--white-a10);
+    --color-white-a11: var(--white-a11);
+    --color-white-a12: var(--white-a12);
+
     /* Primary */
     --color-primary-1: var(--primary-1);
     --color-primary-2: var(--primary-2);
@@ -751,6 +783,8 @@
     --shadow-xl: var(--shadow-xl);
 
     /* With semantic meaning */
+    --color-white: var(--white);
+    --color-black: var(--black);
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-primary: var(--primary);
@@ -759,6 +793,8 @@
     --color-secondary-foreground: var(--secondary-foreground);
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
     --color-input: var(--input);
     --color-border: var(--border);
     --color-ring: var(--ring);

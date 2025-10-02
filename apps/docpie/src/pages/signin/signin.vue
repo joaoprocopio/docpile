@@ -19,7 +19,37 @@ import { Input } from "~/lib/ui/components/input"
 
             <Button
                 class="mt-5 w-full"
+                variant="default">
+                Continue with email
+            </Button>
+
+            <Button
+                class="mt-5 w-full"
                 variant="secondary">
+                Continue with email
+            </Button>
+
+            <Button
+                class="mt-5 w-full"
+                variant="destructive">
+                Continue with email
+            </Button>
+
+            <Button
+                class="mt-5 w-full"
+                variant="outline">
+                Continue with email
+            </Button>
+
+            <Button
+                class="mt-5 w-full"
+                variant="ghost">
+                Continue with email
+            </Button>
+
+            <Button
+                class="mt-5 w-full"
+                variant="link">
                 Continue with email
             </Button>
 
