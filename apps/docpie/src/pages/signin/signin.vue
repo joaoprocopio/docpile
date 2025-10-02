@@ -11,14 +11,14 @@ import { Input } from "~/lib/ui/components/input"
                 name="lucide:library-big"
                 class="logo size-12" />
 
-            <h1 class="mt-8 text-lg font-semibold">Sign in to Docpie</h1>
+            <h1 class="mt-6 text-lg font-semibold">Sign in to Docpie</h1>
 
             <Input
                 class="mt-8"
                 placeholder="Enter your email address..." />
 
             <Button
-                class="mt-4 w-full"
+                class="mt-5 w-full"
                 variant="secondary">
                 Continue with email
             </Button>
