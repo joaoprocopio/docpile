@@ -80,6 +80,34 @@
 }
 
 :root {
+    /* Black */
+    --black-a1: oklch(0% 0 none / 0.05);
+    --black-a2: oklch(0% 0 none / 0.1);
+    --black-a3: oklch(0% 0 none / 0.15);
+    --black-a4: oklch(0% 0 none / 0.2);
+    --black-a5: oklch(0% 0 none / 0.3);
+    --black-a6: oklch(0% 0 none / 0.4);
+    --black-a7: oklch(0% 0 none / 0.5);
+    --black-a8: oklch(0% 0 none / 0.6);
+    --black-a9: oklch(0% 0 none / 0.7);
+    --black-a10: oklch(0% 0 none / 0.8);
+    --black-a11: oklch(0% 0 none / 0.9);
+    --black-a12: oklch(0% 0 none / 0.95);
+
+    /* White */
+    --white-a1: oklch(100% 0 none / 0.05);
+    --white-a2: oklch(100% 0 none / 0.1);
+    --white-a3: oklch(100% 0 none / 0.15);
+    --white-a4: oklch(100% 0 none / 0.2);
+    --white-a5: oklch(100% 0 none / 0.3);
+    --white-a6: oklch(100% 0 none / 0.4);
+    --white-a7: oklch(100% 0 none / 0.5);
+    --white-a8: oklch(100% 0 none / 0.6);
+    --white-a9: oklch(100% 0 none / 0.7);
+    --white-a10: oklch(100% 0 none / 0.8);
+    --white-a11: oklch(100% 0 none / 0.9);
+    --white-a12: oklch(100% 0 none / 0.95);
+
     /* Primary */
     --primary-1: oklch(99.433% 0.00132 286.38);
     --primary-2: oklch(98.231% 0.00825 271.33);
@@ -248,11 +276,31 @@
     --warning-a11: oklch(57.065% 0.12914 63.938);
     --warning-a12: oklch(23.823% 0.06026 53.274 / 0.86667);
 
+    /* Inset Shadow */
+    --inset-shadow-md:
+        inset 0 0 0 1px var(--gray-a5), inset 0 1.5px 2px 0 var(--gray-a2),
+        inset 0 1.5px 2px 0 var(--black-a2);
+
+    /* Shadows */
+    --shadow-xs:
+        0 0 0 1px var(--gray-a3), 0 0 0 0.5px var(--black-a1), 0 1px 1px 0 var(--gray-a2),
+        0 2px 1px -1px var(--black-a1), 0 1px 3px 0 var(--black-a1);
+    --shadow-sm:
+        0 0 0 1px var(--gray-a3), 0 2px 3px -2px var(--gray-a3), 0 3px 12px -4px var(--black-a2),
+        0 4px 16px -8px var(--black-a2);
+    --shadow-md:
+        0 0 0 1px var(--gray-a3), 0 8px 40px var(--black-a1), 0 12px 32px -16px var(--gray-a3);
+    --shadow-lg:
+        0 0 0 1px var(--gray-a3), 0 12px 60px var(--black-a3), 0 12px 32px -16px var(--gray-a5);
+    --shadow-xl:
+        0 0 0 1px var(--gray-a3), 0 12px 60px var(--black-a3), 0 16px 64px var(--gray-a2),
+        0 16px 36px -20px var(--gray-a7);
+
     /* With semantic-meaning */
     --background: var(--gray-1);
     --foreground: var(--gray-12);
     --primary: var(--primary-9);
-    --primary-foreground: var(--primary-1);
+    --primary-foreground: var(--gray-1);
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
@@ -432,11 +480,31 @@
     --warning-a11: oklch(86.167% 0.17297 89.018);
     --warning-a12: oklch(93.505% 0.07171 86.068);
 
+    /* Inset Shadow */
+    --inset-shadow-md:
+        inset 0 -1px 1px 0 var(--gray-a3), inset 0 0 0 1px var(--gray-a3),
+        inset 0 3px 4px 0 var(--black-a5), inset 0 0 0 1px var(--gray-a4);
+
+    /* Shadows */
+    --shadow-xs:
+        0 0 0 1px var(--gray-a6), 0 0 0 0.5px var(--black-a3), 0 1px 1px 0 var(--black-a6),
+        0 2px 1px -1px var(--black-a6), 0 1px 3px 0 var(--black-a5);
+    --shadow-sm:
+        0 0 0 1px var(--gray-a6), 0 2px 3px -2px var(--black-a3), 0 3px 8px -2px var(--black-a6),
+        0 4px 12px -4px var(--black-a7);
+    --shadow-md:
+        0 0 0 1px var(--gray-a6), 0 8px 40px var(--black-a3), 0 12px 32px -16px var(--black-a5);
+    --shadow-lg:
+        0 0 0 1px var(--gray-a6), 0 12px 60px var(--black-a5), 0 12px 32px -16px var(--black-a7);
+    --shadow-xl:
+        0 0 0 1px var(--gray-a6), 0 12px 60px var(--black-a4), 0 16px 64px var(--black-a6),
+        0 16px 36px -20px var(--black-a11);
+
     /* With semantic-meaning */
     --background: var(--gray-1);
     --foreground: var(--gray-12);
     --primary: var(--primary-9);
-    --primary-foreground: var(--primary-12);
+    --primary-foreground: var(--gray-12);
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
@@ -624,7 +692,7 @@
     );
     --background-image-gradient-highlight: linear-gradient(
         in oklch to bottom,
-        var(--gray-a10) -26%,
+        var(--white-a6) -26%,
         transparent 100%
     );
 
@@ -652,6 +720,16 @@
 
     /* Radii */
     --radius-md: var(--radius);
+
+    /* Inset Shadow */
+    --inset-shadow-md: var(--inset-shadow-md);
+
+    /* Shadows */
+    --shadow-xs: var(--shadow-xs);
+    --shadow-sm: var(--shadow-sm);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
+    --shadow-xl: var(--shadow-xl);
 
     /* With semantic meaning */
     --color-background: var(--background);
