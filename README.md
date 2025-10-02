@@ -6,7 +6,6 @@
 
 ```sh
 cargo install sqlx-cli
-cargo sqlx prepare --workspace --database-url 'sqlite:./db.sqlite3'
-sqlx migrate run --database-url 'sqlite:./db.sqlite3' --source './crates/docpie/src/db/migrations'
-sqlx migrate run --database-url 'sqlite:./db.sqlite3' --source './crates/docpie/src/db/seeds' --ignore-missing
+sqlx migrate run --source './crates/docpie/src/db/migrations'
+sqlx migrate run --source './crates/docpie/src/db/seeds' --ignore-missing
 ```

@@ -2,7 +2,7 @@ use crate::{
     db::{CreateDBPoolError, create_db_pool},
     ext::env::env_or,
 };
-use sqlx::SqlitePool;
+use sqlx::postgres::PgPool;
 use std::{ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
 
@@ -20,7 +20,7 @@ impl Deref for Server {
 #[derive(Debug)]
 pub struct ServerInner {
     pub handle: runtime::Handle,
-    pub db: SqlitePool,
+    pub db: PgPool,
     pub env: ServerEnv,
 }
 
@@ -57,7 +57,10 @@ impl ServerEnv {
         Self {
             host: env_or("DOCPIE_HOST", "0.0.0.0".into()),
             port: env_or("DOCPIE_PORT", 8000),
-            db_url: env_or("DOCPIE_DB_URL", "sqlite:./db.sqlite3".into()),
+            db_url: env_or(
+                "DOCPIE_DB_URL",
+                "postgres://postgres:postgres@localhost:5432/postgres".into(),
+            ),
             timeout: Duration::from_secs(env_or("DOCPIE_TIMEOUT", 30)),
             body_timeout: Duration::from_secs(env_or("DOCPIE_BODY_TIMEOUT", 5)),
         }

@@ -1,7 +1,7 @@
 use crate::server::state::ServerEnv;
 use sqlx::{
-    SqlitePool,
-    sqlite::{SqliteConnectOptions, SqliteJournalMode, SqlitePoolOptions, SqliteSynchronous},
+    PgPool,
+    postgres::{PgConnectOptions, PgPoolOptions},
 };
 use std::str::FromStr;
 
@@ -11,13 +11,9 @@ pub enum CreateDBPoolError {
     SQLX(#[from] sqlx::Error),
 }
 
-pub async fn create_db_pool(env: &ServerEnv) -> Result<SqlitePool, CreateDBPoolError> {
-    let pool = SqlitePoolOptions::new();
-    let connect = SqliteConnectOptions::from_str(&env.db_url)?
-        .journal_mode(SqliteJournalMode::Wal)
-        .synchronous(SqliteSynchronous::Normal)
-        .create_if_missing(true)
-        .foreign_keys(true);
+pub async fn create_db_pool(env: &ServerEnv) -> Result<PgPool, CreateDBPoolError> {
+    let pool = PgPoolOptions::new();
+    let connect = PgConnectOptions::from_str(&env.db_url)?;
 
     Ok(pool.connect_with(connect).await?)
 }
