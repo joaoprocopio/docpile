@@ -19,46 +19,16 @@ import { Input } from "~/lib/ui/components/input"
 
             <Button
                 class="mt-5 w-full"
-                variant="default">
-                Continue with email
-            </Button>
-
-            <Button
-                class="mt-5 w-full"
                 variant="secondary">
                 Continue with email
             </Button>
 
-            <Button
-                class="mt-5 w-full"
-                variant="destructive">
-                Continue with email
-            </Button>
-
-            <Button
-                class="mt-5 w-full"
-                variant="outline">
-                Continue with email
-            </Button>
-
-            <Button
-                class="mt-5 w-full"
-                variant="ghost">
-                Continue with email
-            </Button>
-
-            <Button
-                class="mt-5 w-full"
-                variant="link">
-                Continue with email
-            </Button>
-
             <p
-                class="text-muted-foreground xs:flex-row text-2xs mt-8 flex flex-col items-center gap-x-1">
+                class="mt-8 flex flex-col items-center gap-x-1 text-2xs text-muted-foreground xs:flex-row">
                 <span> Don't have an account? </span>
                 <NuxtLink
                     :to="{ name: SignupRouteName }"
-                    class="text-foreground font-semibold">
+                    class="font-semibold text-foreground">
                     Sign up
                 </NuxtLink>
             </p>
