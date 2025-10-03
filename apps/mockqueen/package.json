@@ -4,7 +4,7 @@
     "scripts": {
         "clean": "git clean -xdf .nitro .output node_modules",
         "build": "nitro build",
-        "dev": "nitro dev --port 8000",
+        "dev": "nitro dev --port 8001",
         "prepare": "nitro prepare",
         "preview": "node .output/server/index.mjs"
     },
