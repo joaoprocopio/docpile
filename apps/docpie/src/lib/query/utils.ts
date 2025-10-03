@@ -1,21 +1,20 @@
 import type { DefaultError, MutationKey, QueryKey, UseMutationOptions } from "@tanstack/vue-query"
+import type { AnyFn } from "@vueuse/core"
 
 export type TKeyring<
     TKind extends "query" | "mutation",
     TRoot extends string,
-    TDefs extends object = object,
+    TDefs extends Record<string, AnyFn> = Record<string, AnyFn>,
 > = {
     all(): [TRoot]
 } & {
-    [TDef in keyof TDefs]: TDefs[TDef] extends (...args: infer TArgs) => infer TReturnType
-        ? (
-              ...args: TArgs
-          ) => TKind extends "query"
-              ? { queryKey: [TRoot, ...QueryKey] } & TReturnType
-              : TKind extends "mutation"
-                ? { mutationKey: [TRoot, ...MutationKey] } & TReturnType
-                : never
-        : never
+    [TDef in keyof TDefs]: (
+        ...args: Parameters<TDefs[TDef]>
+    ) => TKind extends "query"
+        ? { queryKey: [TRoot, ...QueryKey] } & ReturnType<TDefs[TDef]>
+        : TKind extends "mutation"
+          ? { mutationKey: [TRoot, ...MutationKey] } & ReturnType<TDefs[TDef]>
+          : never
 }
 
 export function mutationOptions<
