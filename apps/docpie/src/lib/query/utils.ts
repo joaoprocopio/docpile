@@ -8,18 +8,16 @@ import {
 
 export type TKey = string
 
-type EnforceRootKey<TRootKey extends TKey, T extends object> = T & {
-    queryKey: [TRootKey, ...QueryKey]
-}
-
 export type TQueries<
     TRootKey extends TKey,
-    TKeyring extends Record<string, (...args: any) => { queryKey: any }>,
+    TKeyring extends Record<string, (...args: any) => any>,
 > = {
     all(): [TRootKey]
 } & {
     [K in keyof TKeyring]: TKeyring[K] extends (...args: infer P) => infer R
-        ? (...args: P) => EnforceRootKey<TRootKey, R>
+        ? (...args: P) => {
+              queryKey: [TRootKey, ...QueryKey]
+          } & R
         : never
 }
 
@@ -49,6 +47,8 @@ const users = defineQueries("users", {
         }),
 })
 
+users.all()
+users.list()
 users.detail(123)
 
 export function mutationOptions<
