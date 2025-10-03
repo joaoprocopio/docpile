@@ -96,7 +96,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
             v-bind="$attrs">
             <div
                 data-sidebar="sidebar"
-                class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm">
+                class="bg-sidebar group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:rounded-lg flex h-full w-full flex-col group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm">
                 <slot />
             </div>
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gradient-auth h-full">
+    <div class="h-full bg-gradient-auth">
         <slot />
     </div>
 </template>
