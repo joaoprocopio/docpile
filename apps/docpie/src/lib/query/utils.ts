@@ -1,55 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-    type DefaultError,
-    type QueryKey,
-    queryOptions,
-    type UseMutationOptions,
-} from "@tanstack/vue-query"
+import type { DefaultError, QueryKey, UseMutationOptions } from "@tanstack/vue-query"
 
 export type TKey = string
 
-export type TQueries<
+export type TKind = "query" | "mutation"
+
+export type TDefs<
+    TKindIn extends TKind,
     TRootKey extends TKey,
-    TKeyring extends Record<string, (...args: any) => any>,
+    TParams extends unknown[],
+    TReturnType,
+> = (
+    ...args: TParams
+) => TKindIn extends "query"
+    ? { queryKey: [TRootKey, ...QueryKey] } & TReturnType
+    : { mutationKey: [TRootKey, ...QueryKey] } & TReturnType
+
+export type TKeyring<
+    TKindIn extends TKind,
+    TRootKey extends TKey,
+    TDefsIn extends Record<string, (...args: any[]) => any>,
 > = {
     all(): [TRootKey]
 } & {
-    [K in keyof TKeyring]: TKeyring[K] extends (...args: infer P) => infer R
-        ? (...args: P) => {
-              queryKey: [TRootKey, ...QueryKey]
-          } & R
+    [TDef in keyof TDefsIn]: TDefsIn[TDef] extends (...args: infer TParams) => infer TReturnType
+        ? TDefs<TKindIn, TRootKey, TParams, TReturnType>
         : never
 }
 
-export function defineQueries<
+export function defineKeyring<
+    TKindIn extends TKind,
     TRootKey extends TKey,
-    TKeyring extends Record<string, (...args: any[]) => { queryKey: [TRootKey, ...QueryKey] }>,
->(rootKey: TRootKey, keyring: TKeyring): TQueries<TRootKey, TKeyring> {
+    TDefsIn extends Record<string, any>,
+>(rootKey: TRootKey, defsIn: TDefsIn): TKeyring<TKindIn, TRootKey, TDefsIn> {
     return {
-        all() {
-            return [rootKey]
-        },
-        ...keyring,
+        all: () => [rootKey],
+        ...defsIn,
     } as any
 }
 
-const users = defineQueries("users", {
-    detail: (id: number) =>
-        queryOptions({
-            queryKey: ["users", "detail", id], // ✅ must start with "users"
-            queryFn: () => Promise.resolve({ id, name: "João" }),
-        }),
+export const defineQueries = <TRootKey extends TKey, TDefsIn extends Record<string, any>>(
+    rootKey: TRootKey,
+    defsIn: TDefsIn,
+) => defineKeyring<"query", TRootKey, TDefsIn>(rootKey, defsIn)
 
-    list: () =>
-        queryOptions({
-            queryKey: ["users", "list"], // ✅ also must start with "users"
-            queryFn: () => Promise.resolve([{ id: 1, name: "João" }]),
-        }),
-})
-
-users.all()
-users.list()
-users.detail(123)
+export const defineMutations = <TRootKey extends TKey, TDefsIn extends Record<string, any>>(
+    rootKey: TRootKey,
+    defsIn: TDefsIn,
+) => defineKeyring<"mutation", TRootKey, TDefsIn>(rootKey, defsIn)
 
 export function mutationOptions<
     TData = unknown,
