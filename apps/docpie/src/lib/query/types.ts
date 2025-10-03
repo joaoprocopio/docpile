@@ -12,71 +12,43 @@ import type {
 export type TKey = string
 
 export const BaseKeySymbol = Symbol("baseKey")
-export const AllKeySymbol = Symbol("allKey")
 
 export type TBaseKeySymbol = typeof BaseKeySymbol
-export type TAllKeySymbol = typeof AllKeySymbol
 
 // ============================================================================
-// Query Builder Types
+// Query Types
 // ============================================================================
 
 /**
- * A function that takes a base key and returns a query options builder
+ * A function that returns query options when called with arguments
  */
-export type QueryBuilder<TArgs extends unknown[], TData, TError = DefaultError> = (
-    baseKey: TKey,
-) => (...args: TArgs) => UseQueryOptions<TData, TError>
-
-/**
- * A function that can be called with args to get query options
- */
-export type QueryRunner<TArgs extends unknown[], TData, TError = DefaultError> = (
+export type QueryFunction<TArgs extends unknown[], TData, TError = DefaultError> = (
     ...args: TArgs
 ) => UseQueryOptions<TData, TError>
 
 /**
- * Pre-keyring for queries - maps query names to their builders
+ * Pre-keyring for queries - maps query names to their functions
  */
-export type TPreQueryKeyring<TKeys extends TKey> = {
-    [K in TKeys]: QueryBuilder<any[], any, any>
-}
+export type TPreQueryKeyring = Record<string, QueryFunction<unknown[], unknown, unknown>>
 
 /**
  * The final query keyring with base key access and all() method
  */
-export type TQueryKeyring<TBaseKey extends TKey, TPreKeyring extends TPreQueryKeyring<any>> = {
+export type TQueryKeyring<TBaseKey extends TKey, TPreKeyring extends TPreQueryKeyring> = {
     [BaseKeySymbol]: TBaseKey
     all(): QueryKey
 } & {
-    [K in keyof TPreKeyring]: TPreKeyring[K] extends QueryBuilder<
-        infer TArgs,
-        infer TData,
-        infer TError
-    >
-        ? QueryRunner<TArgs, TData, TError>
-        : never
+    [K in keyof TPreKeyring]: TPreKeyring[K]
 }
 
 // ============================================================================
-// Mutation Builder Types
+// Mutation Types
 // ============================================================================
 
 /**
- * A function that takes a base key and returns a mutation options builder
+ * A function that returns mutation options when called with arguments
  */
-export type MutationBuilder<
-    TArgs extends unknown[],
-    TData,
-    TVariables,
-    TError = DefaultError,
-    TContext = unknown,
-> = (baseKey: TKey) => (...args: TArgs) => UseMutationOptions<TData, TError, TVariables, TContext>
-
-/**
- * A function that can be called with args to get mutation options
- */
-export type MutationRunner<
+export type MutationFunction<
     TArgs extends unknown[],
     TData,
     TVariables,
@@ -85,31 +57,21 @@ export type MutationRunner<
 > = (...args: TArgs) => UseMutationOptions<TData, TError, TVariables, TContext>
 
 /**
- * Pre-keyring for mutations - maps mutation names to their builders
+ * Pre-keyring for mutations - maps mutation names to their functions
  */
-export type TPreMutationKeyring<TKeys extends TKey> = {
-    [K in TKeys]: MutationBuilder<any[], any, any, any, any>
-}
+export type TPreMutationKeyring = Record<
+    string,
+    MutationFunction<unknown[], unknown, unknown, unknown, unknown>
+>
 
 /**
  * The final mutation keyring with base key access and all() method
  */
-export type TMutationKeyring<
-    TBaseKey extends TKey,
-    TPreKeyring extends TPreMutationKeyring<any>,
-> = {
+export type TMutationKeyring<TBaseKey extends TKey, TPreKeyring extends TPreMutationKeyring> = {
     [BaseKeySymbol]: TBaseKey
     all(): QueryKey
 } & {
-    [K in keyof TPreKeyring]: TPreKeyring[K] extends MutationBuilder<
-        infer TArgs,
-        infer TData,
-        infer TVariables,
-        infer TError,
-        infer TContext
-    >
-        ? MutationRunner<TArgs, TData, TVariables, TError, TContext>
-        : never
+    [K in keyof TPreKeyring]: TPreKeyring[K]
 }
 
 // ============================================================================
@@ -149,14 +111,14 @@ export function mutationOptions<
  * @example
  * ```ts
  * const userQueries = defineQueries("users", {
- *   byId: (baseKey) => (id: string) =>
+ *   byId: (id: string) =>
  *     queryOptions({
- *       queryKey: [baseKey, "byId", id],
+ *       queryKey: ["users", "byId", id],
  *       queryFn: () => fetchUser(id),
  *     }),
- *   list: (baseKey) => (filters?: UserFilters) =>
+ *   list: (filters?: UserFilters) =>
  *     queryOptions({
- *       queryKey: [baseKey, "list", filters],
+ *       queryKey: ["users", "list", filters],
  *       queryFn: () => fetchUsers(filters),
  *     }),
  * })
@@ -166,24 +128,17 @@ export function mutationOptions<
  * queryClient.invalidateQueries({ queryKey: userQueries.all() })
  * ```
  */
-export function defineQueries<
-    TBaseKey extends TKey,
-    TPreKeyring extends TPreQueryKeyring<keyof TPreKeyring & string>,
->(baseKey: TBaseKey, preKeyring: TPreKeyring): TQueryKeyring<TBaseKey, TPreKeyring> {
-    const keyring: any = {
+export function defineQueries<TBaseKey extends TKey, TPreKeyring extends TPreQueryKeyring>(
+    baseKey: TBaseKey,
+    preKeyring: TPreKeyring,
+): TQueryKeyring<TBaseKey, TPreKeyring> {
+    return {
         [BaseKeySymbol]: baseKey,
         all() {
             return [baseKey]
         },
-    }
-
-    // Transform each builder into a runner
-    for (const key in preKeyring) {
-        const builder = preKeyring[key]
-        keyring[key] = builder(baseKey)
-    }
-
-    return keyring
+        ...preKeyring,
+    } as TQueryKeyring<TBaseKey, TPreKeyring>
 }
 
 /**
@@ -192,14 +147,14 @@ export function defineQueries<
  * @example
  * ```ts
  * const userMutations = defineMutations("users", {
- *   create: (baseKey) => () =>
+ *   create: () =>
  *     mutationOptions({
- *       mutationKey: [baseKey, "create"],
+ *       mutationKey: ["users", "create"],
  *       mutationFn: (data: CreateUserData) => createUser(data),
  *     }),
- *   update: (baseKey) => (id: string) =>
+ *   update: (id: string) =>
  *     mutationOptions({
- *       mutationKey: [baseKey, "update", id],
+ *       mutationKey: ["users", "update", id],
  *       mutationFn: (data: UpdateUserData) => updateUser(id, data),
  *     }),
  * })
@@ -209,24 +164,17 @@ export function defineQueries<
  * const updateMutation = useMutation(userMutations.update("123"))
  * ```
  */
-export function defineMutations<
-    TBaseKey extends TKey,
-    TPreKeyring extends TPreMutationKeyring<keyof TPreKeyring & string>,
->(baseKey: TBaseKey, preKeyring: TPreKeyring): TMutationKeyring<TBaseKey, TPreKeyring> {
-    const keyring: any = {
+export function defineMutations<TBaseKey extends TKey, TPreKeyring extends TPreMutationKeyring>(
+    baseKey: TBaseKey,
+    preKeyring: TPreKeyring,
+): TMutationKeyring<TBaseKey, TPreKeyring> {
+    return {
         [BaseKeySymbol]: baseKey,
         all() {
             return [baseKey]
         },
-    }
-
-    // Transform each builder into a runner
-    for (const key in preKeyring) {
-        const builder = preKeyring[key]
-        keyring[key] = builder(baseKey)
-    }
-
-    return keyring
+        ...preKeyring,
+    } as TMutationKeyring<TBaseKey, TPreKeyring>
 }
 
 // ============================================================================
@@ -238,9 +186,9 @@ export function defineMutations<
  */
 export const exampleUserQueries = defineQueries("users", {
     // Simple query with no args
-    all: (baseKey) => () =>
+    all: () =>
         queryOptions({
-            queryKey: [baseKey, "all"],
+            queryKey: ["users", "all"],
             queryFn: async () => {
                 // Fetch logic
                 return [] as User[]
@@ -248,9 +196,9 @@ export const exampleUserQueries = defineQueries("users", {
         }),
 
     // Query with single arg
-    byId: (baseKey) => (id: string) =>
+    byId: (id: string) =>
         queryOptions({
-            queryKey: [baseKey, "byId", id],
+            queryKey: ["users", "byId", id],
             queryFn: async () => {
                 // Fetch logic
                 return {} as User
@@ -258,9 +206,9 @@ export const exampleUserQueries = defineQueries("users", {
         }),
 
     // Query with multiple args
-    search: (baseKey) => (query: string, limit: number) =>
+    search: (query: string, limit: number) =>
         queryOptions({
-            queryKey: [baseKey, "search", query, limit],
+            queryKey: ["users", "search", query, limit],
             queryFn: async () => {
                 // Fetch logic
                 return [] as User[]
@@ -269,9 +217,9 @@ export const exampleUserQueries = defineQueries("users", {
         }),
 
     // Query with object arg
-    filter: (baseKey) => (filters: UserFilters) =>
+    filter: (filters: UserFilters) =>
         queryOptions({
-            queryKey: [baseKey, "filter", filters],
+            queryKey: ["users", "filter", filters],
             queryFn: async () => {
                 // Fetch logic
                 return [] as User[]
@@ -282,40 +230,37 @@ export const exampleUserQueries = defineQueries("users", {
 /**
  * Example: User mutations
  */
-
 export const exampleUserMutations = defineMutations("users", {
     // Mutation with no setup args
-    create: (baseKey) => () =>
+    create: () =>
         mutationOptions({
-            mutationKey: [baseKey, "create"],
-            mutationFn: async (data: CreateUserData) => {
+            mutationKey: ["users", "create"],
+            mutationFn: async (_data: CreateUserData) => {
                 // Create logic
                 return {} as User
             },
         }),
 
     // Mutation with setup arg
-    update: (baseKey) => (id: string) =>
+    update: (id: string) =>
         mutationOptions({
-            mutationKey: [baseKey, "update", id],
-            mutationFn: async (data: UpdateUserData) => {
+            mutationKey: ["users", "update", id],
+            mutationFn: async (_data: UpdateUserData) => {
                 // Update logic
                 return {} as User
             },
         }),
 
     // Mutation with multiple setup args
-    assign: (baseKey) => (userId: string, roleId: string) =>
+    assign: (userId: string, roleId: string) =>
         mutationOptions({
-            mutationKey: [baseKey, "assign", userId, roleId],
+            mutationKey: ["users", "assign", userId, roleId],
             mutationFn: async () => {
                 // Assignment logic
                 return true
             },
         }),
 })
-
-exampleUserMutations.all()
 
 // ============================================================================
 // Type Definitions for Examples
