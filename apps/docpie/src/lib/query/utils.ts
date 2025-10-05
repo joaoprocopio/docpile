@@ -1,42 +1,60 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { DefaultError, MutationKey, QueryKey, UseMutationOptions } from "@tanstack/vue-query"
 
-export type QueryKeyFactory<T extends string = string> = {
-    all: () => [T]
-    [key: string]: (...args: any[]) => QueryKey
+type ValidateQueryKey<TRootKey extends string, TKey> = TKey extends readonly [
+    infer First,
+    ...infer Rest,
+]
+    ? First extends TRootKey
+        ? readonly [TRootKey, ...Rest]
+        : { _error: `Key must start with "${TRootKey}", got "${First & string}"` }
+    : { _error: `Key must be an array starting with "${TRootKey}"` }
+
+type ValidateMutationKey<TRootKey extends string, TKey> = TKey extends readonly [
+    infer First,
+    ...infer Rest,
+]
+    ? First extends TRootKey
+        ? readonly [TRootKey, ...Rest]
+        : { _error: `Key must start with "${TRootKey}", got "${First & string}"` }
+    : { _error: `Key must be an array starting with "${TRootKey}"` }
+
+export function defineQueries<TRootKey extends string>() {
+    return <
+        const TFactory extends {
+            all: () => [TRootKey]
+            [K: string]: (...args: any[]) => any
+        },
+    >(
+        factory: TFactory & {
+            [K in keyof TFactory]: K extends "all"
+                ? () => [TRootKey]
+                : TFactory[K] extends (...args: infer Args) => infer Return
+                  ? Return extends { queryKey: infer QK }
+                      ? (...args: Args) => Return & { queryKey: ValidateQueryKey<TRootKey, QK> }
+                      : TFactory[K]
+                  : TFactory[K]
+        },
+    ): TFactory => factory
 }
 
-export type MutationKeyFactory<T extends string = string> = {
-    all: () => [T]
-    [key: string]: (...args: any[]) => MutationKey
-}
-
-export type QueryFactory<T extends string = string> = QueryKeyFactory<T> & {
-    [K in keyof QueryKeyFactory<T>]: K extends "all"
-        ? QueryKeyFactory<T>[K]
-        : ((...args: any[]) => any) | QueryKeyFactory<T>[K]
-}
-
-export type MutationFactory<T extends string = string> = MutationKeyFactory<T> & {
-    [K in keyof MutationKeyFactory<T>]: K extends "all"
-        ? MutationKeyFactory<T>[K]
-        : ((...args: any[]) => any) | MutationKeyFactory<T>[K]
-}
-
-export type ExtractBaseKey<T> = T extends QueryKeyFactory<infer U> ? U : never
-
-export function defineQueries<T extends string>(factory: {
-    all: () => [T]
-    [K: string]: any
-}): QueryFactory<T> {
-    return factory as QueryFactory<T>
-}
-
-export function defineMutations<T extends string>(factory: {
-    all: () => [T]
-    [K: string]: any
-}): MutationFactory<T> {
-    return factory as MutationFactory<T>
+export function defineMutations<TRootKey extends string>() {
+    return <
+        const TFactory extends {
+            all: () => [TRootKey]
+            [K: string]: (...args: any[]) => any
+        },
+    >(
+        factory: TFactory & {
+            [K in keyof TFactory]: K extends "all"
+                ? () => [TRootKey]
+                : TFactory[K] extends (...args: infer Args) => infer Return
+                  ? Return extends { mutationKey: infer MK }
+                      ? (...args: Args) => Return & { mutationKey: ValidateMutationKey<TRootKey, MK> }
+                      : TFactory[K]
+                  : TFactory[K]
+        },
+    ): TFactory => factory
 }
 
 export function mutationOptions<
@@ -48,4 +66,4 @@ export function mutationOptions<
     return options
 }
 
-export { queryOptions } from "@tanstack/vue-query"
+export { queryOptions, infiniteQueryOptions } from "@tanstack/vue-query"
