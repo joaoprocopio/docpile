@@ -1,23 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DefaultError, MutationKey, QueryKey, UseMutationOptions } from "@tanstack/vue-query"
-
-type ValidateQueryKey<TRootKey extends string, TKey> = TKey extends readonly [
-    infer First,
-    ...infer Rest,
-]
-    ? First extends TRootKey
-        ? readonly [TRootKey, ...Rest]
-        : { _error: `Key must start with "${TRootKey}", got "${First & string}"` }
-    : { _error: `Key must be an array starting with "${TRootKey}"` }
-
-type ValidateMutationKey<TRootKey extends string, TKey> = TKey extends readonly [
-    infer First,
-    ...infer Rest,
-]
-    ? First extends TRootKey
-        ? readonly [TRootKey, ...Rest]
-        : { _error: `Key must start with "${TRootKey}", got "${First & string}"` }
-    : { _error: `Key must be an array starting with "${TRootKey}"` }
+import type { DefaultError, UseMutationOptions, MutationKey } from "@tanstack/vue-query"
 
 export function defineQueries<TRootKey extends string>() {
     return <
@@ -31,7 +13,9 @@ export function defineQueries<TRootKey extends string>() {
                 ? () => [TRootKey]
                 : TFactory[K] extends (...args: infer Args) => infer Return
                   ? Return extends { queryKey: infer QK }
-                      ? (...args: Args) => Return & { queryKey: ValidateQueryKey<TRootKey, QK> }
+                      ? QK extends Array<unknown>
+                          ? (...args: Args) => Return & { queryKey: [TRootKey, ...QK] }
+                          : TFactory[K]
                       : TFactory[K]
                   : TFactory[K]
         },
@@ -50,7 +34,9 @@ export function defineMutations<TRootKey extends string>() {
                 ? () => [TRootKey]
                 : TFactory[K] extends (...args: infer Args) => infer Return
                   ? Return extends { mutationKey: infer MK }
-                      ? (...args: Args) => Return & { mutationKey: ValidateMutationKey<TRootKey, MK> }
+                      ? MK extends Array<unknown>
+                          ? (...args: Args) => Return & { mutationKey: [TRootKey, ...MK] }
+                          : TFactory[K]
                       : TFactory[K]
                   : TFactory[K]
         },
@@ -62,7 +48,7 @@ export function mutationOptions<
     TError = DefaultError,
     TVariables = void,
     TContext = unknown,
->(options: UseMutationOptions<TData, TError, TVariables, TContext>) {
+>(options: UseMutationOptions<TData, TError, TVariables, TContext> & { mutationKey: MutationKey }) {
     return options
 }
 
