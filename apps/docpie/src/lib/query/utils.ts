@@ -1,35 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DefaultError, UseMutationOptions } from "@tanstack/vue-query"
+import type { DefaultError, MutationKey, QueryKey, UseMutationOptions } from "@tanstack/vue-query"
 
-export type TKey = string
-export type TAnyDef = (...args: any[]) => any
-export type TAnyDefs = Record<TKey, TAnyDef>
-export type TActionKind = "query" | "mutation"
-
-export type TKeyring<TKind extends TActionKind, TRootKey extends TKey, TDefs extends TAnyDefs> = {
-    all(): [TRootKey] | TRootKey[]
-} & {
-    [TDef in keyof TDefs]: TDefs[TDef] extends (...args: infer TArgs) => infer TReturnType
-        ? (
-              ...args: TArgs
-          ) => TKind extends "query"
-              ? { queryKey: [TRootKey, TDef, ...unknown[]] } & TReturnType
-              : TKind extends "mutation"
-                ? { mutationKey: [TRootKey, TDef, ...unknown[]] } & TReturnType
-                : never
-        : never
+export type QueryKeyFactory<T extends string = string> = {
+    all: () => [T]
+    [key: string]: (...args: any[]) => QueryKey
 }
 
-export function defineQueries<TRootKey extends TKey, TDefs extends TAnyDefs>(
-    defs: TKeyring<"query", TRootKey, TDefs>,
-): TKeyring<"query", TRootKey, TDefs> {
-    return defs
+export type MutationKeyFactory<T extends string = string> = {
+    all: () => [T]
+    [key: string]: (...args: any[]) => MutationKey
 }
 
-export function defineMutations<TRootKey extends TKey, TDefs extends TAnyDefs>(
-    defs: TKeyring<"mutation", TRootKey, TDefs>,
-): TKeyring<"mutation", TRootKey, TDefs> {
-    return defs
+export type QueryFactory<T extends string = string> = QueryKeyFactory<T> & {
+    [K in keyof QueryKeyFactory<T>]: K extends "all"
+        ? QueryKeyFactory<T>[K]
+        : ((...args: any[]) => any) | QueryKeyFactory<T>[K]
+}
+
+export type MutationFactory<T extends string = string> = MutationKeyFactory<T> & {
+    [K in keyof MutationKeyFactory<T>]: K extends "all"
+        ? MutationKeyFactory<T>[K]
+        : ((...args: any[]) => any) | MutationKeyFactory<T>[K]
+}
+
+export type ExtractBaseKey<T> = T extends QueryKeyFactory<infer U> ? U : never
+
+export function defineQueries<T extends string>(factory: {
+    all: () => [T]
+    [K: string]: any
+}): QueryFactory<T> {
+    return factory as QueryFactory<T>
+}
+
+export function defineMutations<T extends string>(factory: {
+    all: () => [T]
+    [K: string]: any
+}): MutationFactory<T> {
+    return factory as MutationFactory<T>
 }
 
 export function mutationOptions<
