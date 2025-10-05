@@ -1,46 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DefaultError, UseMutationOptions, MutationKey } from "@tanstack/vue-query"
+import type { DefaultError, MutationKey, UseMutationOptions } from "@tanstack/vue-query"
 
-export function defineQueries<TRootKey extends string>() {
-    return <
-        const TFactory extends {
-            all: () => [TRootKey]
-            [K: string]: (...args: any[]) => any
-        },
-    >(
-        factory: TFactory & {
-            [K in keyof TFactory]: K extends "all"
-                ? () => [TRootKey]
-                : TFactory[K] extends (...args: infer Args) => infer Return
-                  ? Return extends { queryKey: infer QK }
-                      ? QK extends Array<unknown>
-                          ? (...args: Args) => Return & { queryKey: [TRootKey, ...QK] }
-                          : TFactory[K]
-                      : TFactory[K]
-                  : TFactory[K]
-        },
-    ): TFactory => factory
-}
-
-export function defineMutations<TRootKey extends string>() {
-    return <
-        const TFactory extends {
-            all: () => [TRootKey]
-            [K: string]: (...args: any[]) => any
-        },
-    >(
-        factory: TFactory & {
-            [K in keyof TFactory]: K extends "all"
-                ? () => [TRootKey]
-                : TFactory[K] extends (...args: infer Args) => infer Return
-                  ? Return extends { mutationKey: infer MK }
-                      ? MK extends Array<unknown>
-                          ? (...args: Args) => Return & { mutationKey: [TRootKey, ...MK] }
-                          : TFactory[K]
-                      : TFactory[K]
-                  : TFactory[K]
-        },
-    ): TFactory => factory
+export function defineQueries<
+    const TRootKey extends string,
+    const TDefs extends {
+        [TDef in keyof TDefs]: TDef extends "all"
+            ? () => [TRootKey] | readonly [TRootKey]
+            : TDefs[TDef] extends (...args: infer TArgs) => infer TReturn
+              ? TReturn extends { queryKey: infer QK }
+                  ? QK extends any[]
+                      ? (...args: TArgs) => TReturn & { queryKey: [TRootKey, ...QK] }
+                      : TDefs[TDef]
+                  : TDefs[TDef]
+              : TDefs[TDef]
+    },
+>(__rootKey: TRootKey, defs: TDefs) {
+    return defs
 }
 
 export function mutationOptions<
@@ -52,4 +27,4 @@ export function mutationOptions<
     return options
 }
 
-export { queryOptions, infiniteQueryOptions } from "@tanstack/vue-query"
+export { infiniteQueryOptions, queryOptions } from "@tanstack/vue-query"
