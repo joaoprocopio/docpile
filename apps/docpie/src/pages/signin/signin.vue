@@ -15,17 +15,26 @@ import { SignIn } from "~/schemas/auth"
 const form = useForm({
     validationSchema: toTypedSchema(SignIn),
 })
+const submit = form.handleSubmit((values) => {
+    mutation.mutate(values)
+})
 
-const mutation = useMutation(authMutations.signIn())
+const mutation = useMutation({
+    ...authMutations.signIn(),
+    onError: () => {
+        const msg = "Email or password is invalid"
+
+        form.setErrors({
+            email: msg,
+            password: msg,
+        })
+    },
+})
 const isMutating = useIsMutating({
     mutationKey: authMutations.signIn().mutationKey,
     exact: true,
 })
 const isLoading = computed(() => Boolean(isMutating.value))
-
-const submit = form.handleSubmit(async (values) => {
-    mutation.mutate(values)
-})
 
 const [showPassword, toggleShowPassword] = useToggle(false)
 </script>

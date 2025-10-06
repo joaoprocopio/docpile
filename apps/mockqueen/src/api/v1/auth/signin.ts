@@ -1,6 +1,7 @@
 import { defineEventHandler, isMethod, readValidatedBody, setResponseStatus } from "h3"
 
-import { SignIn } from "~/data/auth/schemas"
+import { users } from "~/data/auth/fixtures"
+import { SafeUser, SignIn } from "~/data/auth/schemas"
 import { HttpStatus } from "~/utils/http"
 
 export default defineEventHandler(async (event) => {
@@ -10,6 +11,12 @@ export default defineEventHandler(async (event) => {
     }
 
     const body = await readValidatedBody(event, SignIn.parse)
+    const user = users.find((user) => user.email === body.email && user.password == body.password)
 
-    return body
+    if (!user) {
+        setResponseStatus(event, HttpStatus.Unauthorized)
+        return undefined
+    }
+
+    return SafeUser.parse(user)
 })

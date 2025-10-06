@@ -1,5 +1,10 @@
 import { useRuntimeConfig } from "#app"
 
-export const http = $fetch.create({
-    baseURL: useRuntimeConfig().public.apiUrl,
-})
+export function useHTTP() {
+    const config = useRuntimeConfig()
+    const http = $fetch.create({
+        baseURL: config.public.apiUrl,
+    })
+
+    return http
+}

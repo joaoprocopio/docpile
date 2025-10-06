@@ -1,8 +1,13 @@
-import { defineKeyring, key, mutationOptions } from "~/lib/query/utils"
+import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/query/utils"
 import { AuthServices } from "~/services/auth"
 
 export const authQueries = defineKeyring({
     all: () => key("auth"),
+    me: () =>
+        queryOptions({
+            queryKey: key("auth", "me"),
+            queryFn: AuthServices.me,
+        }),
 })
 
 export const authMutations = defineKeyring({
