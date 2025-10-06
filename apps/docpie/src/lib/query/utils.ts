@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { DefaultError, MutationKey, QueryKey, UseMutationOptions } from "@tanstack/vue-query"
 
-export function defineQueries<
+export function key<const TKey extends readonly unknown[]>(...args: TKey) {
+    return args
+}
+
+export function defineKeyring<
     const TRootKey extends string,
     const TDefs extends Record<string, (...args: any[]) => any>,
 >(
@@ -11,32 +15,15 @@ export function defineQueries<
                 ? (...args: TArgs) => Omit<TReturn, "queryKey"> & {
                       queryKey: readonly [TRootKey, ...QueryKey]
                   }
-                : TDefs[TDef]
+                : TReturn extends { mutationKey: readonly [...infer _] }
+                  ? (...args: TArgs) => Omit<TReturn, "mutationKey"> & {
+                        mutationKey: readonly [TRootKey, ...MutationKey]
+                    }
+                  : TDefs[TDef]
             : TDefs[TDef]
     },
 ) {
     return defs
-}
-
-export function defineMutations<
-    const TRootKey extends string,
-    const TDefs extends Record<string, (...args: any[]) => any>,
->(
-    defs: { all: () => readonly [TRootKey] } & {
-        [TDef in keyof TDefs]: TDefs[TDef] extends (...args: infer TArgs) => infer TReturn
-            ? TReturn extends { mutationKey: readonly [...infer _] }
-                ? (...args: TArgs) => Omit<TReturn, "mutationKey"> & {
-                      mutationKey: readonly [TRootKey, ...MutationKey]
-                  }
-                : TDefs[TDef]
-            : TDefs[TDef]
-    },
-) {
-    return defs
-}
-
-export function key<const TKey extends readonly unknown[]>(...args: TKey) {
-    return args
 }
 
 export function mutationOptions<
