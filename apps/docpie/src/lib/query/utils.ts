@@ -44,7 +44,12 @@ export function mutationOptions<
     TError = DefaultError,
     TVariables = void,
     TContext = unknown,
->(options: UseMutationOptions<TData, TError, TVariables, TContext> & { mutationKey: MutationKey }) {
+    TMutationKey = MutationKey,
+>(
+    options: UseMutationOptions<TData, TError, TVariables, TContext> & {
+        mutationKey: TMutationKey
+    },
+) {
     return options
 }
 
