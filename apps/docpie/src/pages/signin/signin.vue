@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useMutation } from "@tanstack/vue-query"
+import { useIsMutating, useMutation } from "@tanstack/vue-query"
 import { toTypedSchema } from "@vee-validate/zod"
 import { useForm } from "vee-validate"
+import { computed } from "vue"
 
 import { SignupRouteName } from "~/constants/routes"
 import { Button } from "~/lib/ui/components/button"
@@ -15,6 +16,11 @@ const identifyForm = useForm({
 })
 
 const identifyMutation = useMutation(authMutations.identify())
+const identifyIsMutating = useIsMutating({
+    mutationKey: authMutations.identify().mutationKey,
+    exact: true,
+})
+const identifyIsLoading = computed(() => Boolean(identifyIsMutating.value))
 
 const identifySubmit = identifyForm.handleSubmit((values) => {
     identifyMutation.mutate(values)
@@ -48,8 +54,14 @@ const identifySubmit = identifyForm.handleSubmit((values) => {
                 </FormField>
 
                 <Button
+                    :disabled="identifyIsLoading"
                     type="submit"
                     variant="secondary">
+                    <Icon
+                        v-show="identifyIsLoading"
+                        class="animate-spin"
+                        name="lucide:loader-circle" />
+
                     Continue with email
                 </Button>
             </form>
