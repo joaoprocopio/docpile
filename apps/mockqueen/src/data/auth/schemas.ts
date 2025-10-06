@@ -1,3 +1,3 @@
 import z from "zod"
 
-export const Signin = z.object({ email: z.email() })
+export const SignIn = z.object({ email: z.email() })

@@ -5,20 +5,20 @@ import { useToggle } from "@vueuse/core"
 import { useForm } from "vee-validate"
 import { computed } from "vue"
 
-import { SignupRouteName } from "~/constants/routes"
+import { SignUpRouteName } from "~/constants/routes"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
 import { authMutations } from "~/query/auth"
-import { Signin } from "~/schemas/auth"
+import { SignIn } from "~/schemas/auth"
 
 const form = useForm({
-    validationSchema: toTypedSchema(Signin),
+    validationSchema: toTypedSchema(SignIn),
 })
 
-const mutation = useMutation(authMutations.signin())
+const mutation = useMutation(authMutations.signIn())
 const isMutating = useIsMutating({
-    mutationKey: authMutations.signin().mutationKey,
+    mutationKey: authMutations.signIn().mutationKey,
     exact: true,
 })
 const isLoading = computed(() => Boolean(isMutating.value))
@@ -95,7 +95,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             class="mt-8 flex flex-col items-center gap-x-1 text-2xs text-muted-foreground xs:flex-row">
             <span> Don't have an account? </span>
             <NuxtLink
-                :to="{ name: SignupRouteName }"
+                :to="{ name: SignUpRouteName }"
                 class="font-semibold text-foreground">
                 Sign up
             </NuxtLink>

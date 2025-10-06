@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/core"
 
-import { SigninRouteName } from "~/constants/routes"
+import { SignInRouteName } from "~/constants/routes"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
@@ -70,7 +70,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             class="mt-8 flex flex-col items-center gap-x-1 text-center text-2xs text-muted-foreground xs:flex-row">
             <span> Already have an account? </span>
             <NuxtLink
-                :to="{ name: SigninRouteName }"
+                :to="{ name: SignInRouteName }"
                 class="font-semibold text-foreground">
                 Sign in
             </NuxtLink>
