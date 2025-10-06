@@ -29,6 +29,11 @@ export default defineNuxtConfig({
         classSuffix: "",
         storage: "cookie",
     },
+    runtimeConfig: {
+        public: {
+            apiUrl: "http://localhost:8001/api",
+        },
+    },
     srcDir: "src/",
     compatibilityDate: "latest",
     vite: {
