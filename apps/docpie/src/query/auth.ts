@@ -7,9 +7,9 @@ export const authQueries = defineKeyring({
 
 export const authMutations = defineKeyring({
     all: () => key("auth"),
-    identify: () =>
+    signin: () =>
         mutationOptions({
-            mutationKey: key("auth", "identify"),
-            mutationFn: AuthServices.identify,
+            mutationKey: key("auth", "signin"),
+            mutationFn: AuthServices.signin,
         }),
 })

@@ -1,8 +1,8 @@
-import type { TSigninIdentifyOut } from "~/schemas/auth"
+import type { TSigninOut } from "~/schemas/auth"
 import { http } from "~/services/clients/http"
 
-async function identify(payload: TSigninIdentifyOut) {
-    const response = await http("/v1/auth/signin/identify", {
+async function signin(payload: TSigninOut) {
+    const response = await http("/v1/auth/signin", {
         method: "POST",
         body: payload,
     })
@@ -11,5 +11,5 @@ async function identify(payload: TSigninIdentifyOut) {
 }
 
 export const AuthServices = {
-    identify,
+    signin,
 }

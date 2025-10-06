@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useIsMutating, useMutation } from "@tanstack/vue-query"
 import { toTypedSchema } from "@vee-validate/zod"
+import { useToggle } from "@vueuse/core"
 import { useForm } from "vee-validate"
 import { computed } from "vue"
 
@@ -9,15 +10,15 @@ import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
 import { authMutations } from "~/query/auth"
-import { SigninIdentify } from "~/schemas/auth"
+import { Signin } from "~/schemas/auth"
 
 const form = useForm({
-    validationSchema: toTypedSchema(SigninIdentify),
+    validationSchema: toTypedSchema(Signin),
 })
 
-const mutation = useMutation(authMutations.identify())
+const mutation = useMutation(authMutations.signin())
 const isMutating = useIsMutating({
-    mutationKey: authMutations.identify().mutationKey,
+    mutationKey: authMutations.signin().mutationKey,
     exact: true,
 })
 const isLoading = computed(() => Boolean(isMutating.value))
@@ -25,6 +26,8 @@ const isLoading = computed(() => Boolean(isMutating.value))
 const submit = form.handleSubmit(async (values) => {
     mutation.mutate(values)
 })
+
+const [showPassword, toggleShowPassword] = useToggle(false)
 </script>
 
 <template>
@@ -34,25 +37,57 @@ const submit = form.handleSubmit(async (values) => {
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
             @submit="submit">
-            <FormField
-                v-slot="field"
-                name="email">
-                <FormItem>
-                    <FormLabel class="sr-only">Email</FormLabel>
-                    <FormControl>
-                        <Input
-                            v-bind="field.componentField"
-                            placeholder="Enter your email address..." />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
+            <div class="flex flex-col gap-y-3">
+                <FormField
+                    v-slot="field"
+                    name="email">
+                    <FormItem>
+                        <FormLabel class="sr-only">Email</FormLabel>
+                        <FormControl>
+                            <Input
+                                v-bind="field.componentField"
+                                placeholder="Enter your email address..." />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+
+                <FormField
+                    v-slot="field"
+                    name="password">
+                    <FormItem>
+                        <FormLabel class="sr-only">Password</FormLabel>
+                        <div class="relative">
+                            <FormControl>
+                                <Input
+                                    v-bind="field.componentField"
+                                    :type="showPassword ? 'text' : 'password'"
+                                    placeholder="Enter your password..."
+                                    class="pr-9">
+                                </Input>
+                            </FormControl>
+
+                            <Button
+                                class="absolute top-0 right-0 m-1 size-7 text-muted-foreground"
+                                type="button"
+                                size="icon"
+                                variant="ghost"
+                                @click="() => toggleShowPassword()">
+                                <Icon
+                                    class="size-4"
+                                    :name="showPassword ? 'lucide:eye' : 'lucide:eye-off'" />
+                            </Button>
+                        </div>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+            </div>
 
             <Button
                 :disabled="isLoading"
                 type="submit"
                 variant="secondary">
-                Continue with email
+                Sign in with email
             </Button>
         </form>
 

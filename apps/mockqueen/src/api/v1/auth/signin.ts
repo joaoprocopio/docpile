@@ -1,6 +1,6 @@
 import { defineEventHandler, isMethod, readValidatedBody, setResponseStatus } from "h3"
 
-import { Identify } from "~/data/auth/schemas"
+import { Signin } from "~/data/auth/schemas"
 import { HttpStatus } from "~/utils/http"
 
 export default defineEventHandler(async (event) => {
@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
         return undefined
     }
 
-    const body = await readValidatedBody(event, Identify.parse)
+    const body = await readValidatedBody(event, Signin.parse)
 
     return body
 })
