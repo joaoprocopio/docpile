@@ -1,25 +1,10 @@
 import { useQueryClient } from "@tanstack/vue-query"
 
-import { defineNuxtRouteMiddleware, navigateTo } from "#imports"
-import { SignInRouteName, SignUpRouteName } from "~/constants/routes"
+import { defineNuxtRouteMiddleware } from "#imports"
 import { authQueries } from "~/query/auth"
-import type { TUserOut } from "~/schemas/auth"
 
-const AuthRoutes = new Set([SignInRouteName, SignUpRouteName])
-
-export default defineNuxtRouteMiddleware(async (to) => {
+export default defineNuxtRouteMiddleware(async () => {
     const queryClient = useQueryClient()
 
-    let user: TUserOut | undefined = undefined
-    let error: Error | undefined = undefined
-
-    try {
-        user = await queryClient.fetchQuery(authQueries.me())
-    } catch (e) {
-        error = e as Error
-    }
-
-    if ((!user || error) && !AuthRoutes.has(to?.name as string)) {
-        return navigateTo({ name: SignInRouteName })
-    }
+    queryClient.prefetchQuery(authQueries.me())
 })

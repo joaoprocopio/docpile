@@ -55,6 +55,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                         <FormControl>
                             <Input
                                 v-bind="field.componentField"
+                                autocomplete="email"
                                 placeholder="Enter your email address..." />
                         </FormControl>
                         <FormMessage />
@@ -71,6 +72,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                                 <Input
                                     v-bind="field.componentField"
                                     :type="showPassword ? 'text' : 'password'"
+                                    autocomplete="current-password"
                                     placeholder="Enter your password..."
                                     class="pr-9">
                                 </Input>

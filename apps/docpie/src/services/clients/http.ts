@@ -1,9 +1,8 @@
-import { useRuntimeConfig } from "#app"
+import { env } from "~/env"
 
 export function useHTTP() {
-    const config = useRuntimeConfig()
     const http = $fetch.create({
-        baseURL: config.public.apiUrl,
+        baseURL: env.API_URL,
     })
 
     return http
