@@ -1,18 +1,25 @@
-import { defineQueries } from "~/lib/query/utils"
+import {
+    defineMutations,
+    defineQueries,
+    key,
+    mutationOptions,
+    queryOptions,
+} from "~/lib/query/utils"
 
-export const authQueries = defineQueries("auth", {
-    all: () => ["auth"] as const,
-    detail: () => ({
-        queryKey: ["auth", "detail"] as const,
-        queryFn: () => Promise.resolve(),
-    }),
+export const authQueries = defineQueries({
+    all: () => key("auth"),
+    detail: () =>
+        queryOptions({
+            queryKey: key("auth", 123),
+            queryFn: () => Promise.resolve(),
+        }),
 })
 
-// export const authMutations = defineMutations<"auth">({
-//     all: () => ["auth"],
-//     detail: () =>
-//         mutationOptions({
-//             mutationKey: ["auth", "detail"],
-//             mutationFn: () => Promise.resolve(),
-//         }),
-// })
+export const authMutations = defineMutations({
+    all: () => key("auth"),
+    detail: () =>
+        mutationOptions({
+            mutationKey: key("auth", 123),
+            mutationFn: () => Promise.resolve(),
+        }),
+})

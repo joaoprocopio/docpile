@@ -5,20 +5,38 @@ export function defineQueries<
     const TRootKey extends string,
     const TDefs extends Record<string, (...args: any[]) => any>,
 >(
-    _: TRootKey,
-    defs: {
-        [TDef in keyof TDefs]: TDef extends "all"
-            ? () => [TRootKey] | readonly [TRootKey]
-            : TDefs[TDef] extends (...args: infer TArgs) => infer TReturn
-              ? TReturn extends { queryKey: [...infer _] | readonly [...infer _] }
-                  ? (...args: TArgs) => Omit<TReturn, "queryKey"> & {
-                        queryKey: readonly [TRootKey, ...QueryKey]
-                    }
-                  : TDefs[TDef]
-              : TDefs[TDef]
+    defs: { all: () => readonly [TRootKey] } & {
+        [TDef in keyof TDefs]: TDefs[TDef] extends (...args: infer TArgs) => infer TReturn
+            ? TReturn extends { queryKey: readonly [...infer _] }
+                ? (...args: TArgs) => Omit<TReturn, "queryKey"> & {
+                      queryKey: readonly [TRootKey, ...QueryKey]
+                  }
+                : TDefs[TDef]
+            : TDefs[TDef]
     },
 ) {
     return defs
+}
+
+export function defineMutations<
+    const TRootKey extends string,
+    const TDefs extends Record<string, (...args: any[]) => any>,
+>(
+    defs: { all: () => readonly [TRootKey] } & {
+        [TDef in keyof TDefs]: TDefs[TDef] extends (...args: infer TArgs) => infer TReturn
+            ? TReturn extends { mutationKey: readonly [...infer _] }
+                ? (...args: TArgs) => Omit<TReturn, "mutationKey"> & {
+                      mutationKey: readonly [TRootKey, ...MutationKey]
+                  }
+                : TDefs[TDef]
+            : TDefs[TDef]
+    },
+) {
+    return defs
+}
+
+export function key<const TKey extends readonly unknown[]>(...args: TKey) {
+    return args
 }
 
 export function mutationOptions<
