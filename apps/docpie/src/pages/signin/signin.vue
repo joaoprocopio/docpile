@@ -9,21 +9,21 @@ import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
 import { authMutations } from "~/query/auth"
-import { SigninIdentify } from "~/schemas/auth"
+import { Identify } from "~/schemas/auth"
 
-const identifyForm = useForm({
-    validationSchema: toTypedSchema(SigninIdentify),
+const form = useForm({
+    validationSchema: toTypedSchema(Identify),
 })
 
-const identifyMutation = useMutation(authMutations.identify())
-const identifyIsMutating = useIsMutating({
+const mutation = useMutation(authMutations.identify())
+const isMutating = useIsMutating({
     mutationKey: authMutations.identify().mutationKey,
     exact: true,
 })
-const identifyIsLoading = computed(() => Boolean(identifyIsMutating.value))
+const isLoading = computed(() => Boolean(isMutating.value))
 
-const identifySubmit = identifyForm.handleSubmit(async (values) => {
-    identifyMutation.mutate(values)
+const submit = form.handleSubmit(async (values) => {
+    mutation.mutate(values)
 })
 </script>
 
@@ -38,7 +38,7 @@ const identifySubmit = identifyForm.handleSubmit(async (values) => {
 
             <form
                 class="mt-8 flex w-full flex-col gap-y-5"
-                @submit="identifySubmit">
+                @submit="submit">
                 <FormField
                     v-slot="field"
                     name="email">
@@ -54,11 +54,11 @@ const identifySubmit = identifyForm.handleSubmit(async (values) => {
                 </FormField>
 
                 <Button
-                    :disabled="identifyIsLoading"
+                    :disabled="isLoading"
                     type="submit"
                     variant="secondary">
                     <Icon
-                        v-show="identifyIsLoading"
+                        v-show="isLoading"
                         class="animate-spin"
                         name="lucide:loader-circle" />
 

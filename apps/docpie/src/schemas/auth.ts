@@ -1,9 +1,9 @@
-import { z } from "zod"
+import { z } from "zod/v3"
 
-export type TSigninIdentifyIn = z.input<typeof SigninIdentify>
-export type TSigninIdentifyOut = z.output<typeof SigninIdentify>
+export type TIdentifyIn = z.input<typeof Identify>
+export type TIdentifyOut = z.output<typeof Identify>
 
-export const SigninIdentify = z.object({
+export const Identify = z.object({
     email: z
         .string({ message: "Please enter a email address" })
         .email({ message: "Please enter a valid email address" }),
