@@ -22,7 +22,7 @@ const identifyIsMutating = useIsMutating({
 })
 const identifyIsLoading = computed(() => Boolean(identifyIsMutating.value))
 
-const identifySubmit = identifyForm.handleSubmit((values) => {
+const identifySubmit = identifyForm.handleSubmit(async (values) => {
     identifyMutation.mutate(values)
 })
 </script>
