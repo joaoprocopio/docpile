@@ -6,5 +6,5 @@ import { randomInt } from "~/utils/random"
 const BASE_DELAY = 15
 
 export default defineEventHandler(async () => {
-    await delay(randomInt(BASE_DELAY, BASE_DELAY * 10))
+    await delay(randomInt(BASE_DELAY, BASE_DELAY * 75))
 })
