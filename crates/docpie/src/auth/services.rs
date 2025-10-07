@@ -1,6 +1,6 @@
 use crate::{auth::models::User, server::state::Server};
-use chrono::Utc;
 use password_auth::generate_hash;
+use time::OffsetDateTime;
 
 #[derive(thiserror::Error, Debug)]
 pub enum CreateUserError {
@@ -57,7 +57,7 @@ pub async fn create_user(
         password,
         first_name,
         last_name,
-        Utc::now()
+        OffsetDateTime::now_utc()
     )
     .fetch_one(&server.db)
     .await?;

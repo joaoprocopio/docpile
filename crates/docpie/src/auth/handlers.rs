@@ -1,21 +1,18 @@
 use crate::{
-    auth::{schemas::SignUp, services::create_user, sessions::AuthSession},
+    auth::{models::User, schemas::SignUp, services::create_user},
     ext::validator::Valid,
     server::state::Server,
 };
 use axum::{Json, extract::State};
 
-pub async fn sign_in_v1(session: AuthSession, State(server): State<Server>) -> &'static str {
-    dbg!(session);
-    dbg!(server);
-
+pub async fn sign_in_v1() -> &'static str {
     "sign_in"
 }
 
 pub async fn sign_up_v1(
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
-) -> &'static str {
+) -> Json<User> {
     let user = create_user(
         &server,
         sign_up.email,
@@ -23,11 +20,11 @@ pub async fn sign_up_v1(
         sign_up.first_name,
         sign_up.last_name,
     )
-    .await;
+    .await
+    // TODO: remove unwrap
+    .unwrap();
 
-    dbg!(&user);
-
-    "sign_up"
+    Json(user)
 }
 
 pub async fn sign_out_v1() -> &'static str {
