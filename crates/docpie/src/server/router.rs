@@ -1,6 +1,6 @@
 use crate::{auth, org, server::state::Server};
 use axum::{Router, http::StatusCode, routing};
-use axum_login::{AuthManagerLayerBuilder, tower_sessions::SessionManagerLayer};
+// use axum_login::{AuthManagerLayerBuilder, tower_sessions::SessionManagerLayer};
 use tower::ServiceBuilder;
 use tower_http::{
     CompressionLevel,
@@ -10,7 +10,7 @@ use tower_http::{
     timeout::{RequestBodyTimeoutLayer, TimeoutLayer},
     trace::TraceLayer,
 };
-use tower_sessions_sqlx_store::PostgresStore;
+// use tower_sessions_sqlx_store::PostgresStore;
 
 pub fn new_router(server: &Server) -> Router<Server> {
     Router::new()
@@ -30,13 +30,13 @@ pub fn new_router(server: &Server) -> Router<Server> {
         .fallback(async || StatusCode::NOT_FOUND)
         .layer(
             ServiceBuilder::new()
-                .layer(
-                    AuthManagerLayerBuilder::<Server, PostgresStore>::new(
-                        server.clone(),
-                        SessionManagerLayer::new(PostgresStore::new(server.db.clone())),
-                    )
-                    .build(),
-                )
+                // .layer(
+                //     AuthManagerLayerBuilder::<Server, PostgresStore>::new(
+                //         server.clone(),
+                //         SessionManagerLayer::new(PostgresStore::new(server.db.clone())),
+                //     )
+                //     .build(),
+                // )
                 .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
                 .layer(TimeoutLayer::new(server.env.timeout))
                 .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
