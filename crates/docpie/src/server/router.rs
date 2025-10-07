@@ -31,7 +31,7 @@ pub fn new_router(server: &Server) -> Router<Server> {
         .layer(
             ServiceBuilder::new()
                 .layer(
-                    AuthManagerLayerBuilder::<Server, PostgresStore>::new(
+                    AuthManagerLayerBuilder::new(
                         server.clone(),
                         SessionManagerLayer::new(PostgresStore::new(server.db.clone())),
                     )

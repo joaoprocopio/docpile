@@ -17,6 +17,12 @@ pub enum GetUserError {
     SQLX(#[from] sqlx::Error),
 }
 
+#[derive(thiserror::Error, Debug)]
+pub enum EmailTakenError {
+    #[error(transparent)]
+    SQLX(#[from] sqlx::Error),
+}
+
 pub async fn get_user_by_id(server: &Server, user_id: i32) -> Result<Option<User>, GetUserError> {
     let user = sqlx::query_as!(User, r#"SELECT * FROM users WHERE id = $1"#, user_id)
         .fetch_optional(&server.db)
@@ -34,6 +40,18 @@ pub async fn get_user_by_email(
         .await?;
 
     Ok(user)
+}
+
+pub async fn check_email_taken(server: &Server, email: String) -> Result<bool, EmailTakenError> {
+    let is_taken = sqlx::query!(
+        r#"SELECT EXISTS(SELECT 1 FROM users WHERE email = $1) AS "exists!" "#,
+        email
+    )
+    .map(|record| record.exists)
+    .fetch_one(&server.db)
+    .await?;
+
+    Ok(is_taken)
 }
 
 pub async fn create_user(

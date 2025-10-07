@@ -1,5 +1,9 @@
 use crate::{
-    auth::{models::User, schemas::SignUp, services::create_user},
+    auth::{
+        models::User,
+        schemas::SignUp,
+        services::{check_email_taken, create_user},
+    },
     ext::validator::Valid,
     server::state::Server,
 };
@@ -13,6 +17,8 @@ pub async fn sign_up_v1(
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
 ) -> Json<User> {
+    let mail_taken = check_email_taken(&server, sign_up.email).await?;
+
     let user = create_user(
         &server,
         sign_up.email,
@@ -20,9 +26,7 @@ pub async fn sign_up_v1(
         sign_up.first_name,
         sign_up.last_name,
     )
-    .await
-    // TODO: remove unwrap
-    .unwrap();
+    .await?;
 
     Json(user)
 }
