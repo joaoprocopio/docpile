@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useIsMutating, useMutation } from "@tanstack/vue-query"
+import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { toTypedSchema } from "@vee-validate/zod"
 import { useToggle } from "@vueuse/core"
 import { useForm } from "vee-validate"
@@ -9,30 +9,28 @@ import { SignUpRouteName } from "~/constants/routes"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
-import { authMutations } from "~/query/auth"
+import { authMutations, authQueries } from "~/query/auth"
 import { SignIn } from "~/schemas/auth"
 
-const form = useForm({
-    validationSchema: toTypedSchema(SignIn),
-})
-const submit = form.handleSubmit((values) => {
-    mutation.mutate(values)
-})
+const queryClient = useQueryClient()
+
+const form = useForm({ validationSchema: toTypedSchema(SignIn) })
+const submit = form.handleSubmit((values) => mutation.mutate(values))
 
 const mutation = useMutation({
     ...authMutations.signIn(),
+    onSuccess(data) {
+        queryClient.setQueryData(authQueries.me().queryKey, data)
+    },
     onError: () => {
-        const msg = "Email or password is invalid"
-
         form.setErrors({
-            email: msg,
-            password: msg,
+            email: "Email may be invalid",
+            password: "Password may be invalid",
         })
     },
 })
 const isMutating = useIsMutating({
     mutationKey: authMutations.signIn().mutationKey,
-    exact: true,
 })
 const isLoading = computed(() => Boolean(isMutating.value))
 

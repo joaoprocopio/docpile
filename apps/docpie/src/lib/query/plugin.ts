@@ -7,7 +7,23 @@ export default defineNuxtPlugin((nuxt) => {
     const vueQueryState = useState<DehydratedState | null>("vue-query")
 
     const queryClient = new QueryClient({
-        defaultOptions: { queries: { staleTime: 5000 } },
+        defaultOptions: {
+            queries: {
+                staleTime: 5000,
+                retry: 0,
+                throwOnError(error, query) {
+                    console.error(error, query)
+                    return false
+                },
+            },
+            mutations: {
+                retry: 0,
+                throwOnError: (error) => {
+                    console.error(error)
+                    return false
+                },
+            },
+        },
     })
     const options: VueQueryPluginOptions = { queryClient }
 

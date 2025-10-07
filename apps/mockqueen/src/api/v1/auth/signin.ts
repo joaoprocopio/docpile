@@ -7,7 +7,7 @@ import { HttpStatus } from "~/utils/http"
 export default defineEventHandler(async (event) => {
     if (!isMethod(event, "POST")) {
         setResponseStatus(event, HttpStatus.MethodNotAllowed)
-        return undefined
+        return null
     }
 
     const body = await readValidatedBody(event, SignIn.parse)
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
 
     if (!user) {
         setResponseStatus(event, HttpStatus.Unauthorized)
-        return undefined
+        return null
     }
 
     return SafeUser.parse(user)
