@@ -7,3 +7,5 @@ CREATE TABLE users (
     "last_name" VARCHAR(128) NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL
 );
+
+CREATE INDEX idx_users_email ON users(email);
