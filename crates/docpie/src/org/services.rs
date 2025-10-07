@@ -13,7 +13,7 @@ pub enum ListOrgsError {
 pub async fn list_orgs(pool: &Pool<Postgres>) -> Result<Vec<Org>, ListOrgsError> {
     let orgs = sqlx::query_as!(
         Org,
-        r#"SELECT id, name, status as "status: OrgStatus" FROM org"#
+        r#"SELECT id, name, status as "status: OrgStatus" FROM orgs"#
     )
     .fetch_all(pool)
     .await;

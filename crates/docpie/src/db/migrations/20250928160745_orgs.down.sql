@@ -1,3 +1,3 @@
 -- Add down migration script here
-DROP TABLE org;
+DROP TABLE orgs;
 DROP TYPE org_status;

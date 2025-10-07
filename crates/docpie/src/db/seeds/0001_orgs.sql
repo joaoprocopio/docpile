@@ -1,4 +1,4 @@
 -- Add up migration script here
-INSERT INTO org (name, status)
+INSERT INTO orgs (name, status)
 VALUES ('Buser', 'active'),
     ('Roboflow', 'active');
