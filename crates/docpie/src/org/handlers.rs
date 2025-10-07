@@ -12,7 +12,7 @@ pub enum ListOrgsV1Response {
 }
 
 pub async fn list_orgs_v1(State(server): State<Server>) -> (StatusCode, Json<ListOrgsV1Response>) {
-    let orgs = list_orgs(&server.db).await;
+    let orgs = list_orgs(&server).await;
 
     match orgs {
         Ok(orgs) => (StatusCode::OK, Json(ListOrgsV1Response::Ok(orgs))),

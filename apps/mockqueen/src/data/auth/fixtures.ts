@@ -7,6 +7,5 @@ export const users: TUserOut[] = [
         password: "2abacates",
         first_name: "João",
         last_name: "Procópio",
-        full_name: "João Procópio",
     },
 ]

@@ -33,5 +33,4 @@ export const User = z.object({
     email: Email,
     first_name: z.string(),
     last_name: z.string(),
-    full_name: z.string(),
 })

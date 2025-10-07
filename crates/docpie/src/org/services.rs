@@ -1,5 +1,7 @@
-use crate::org::models::{Org, OrgStatus};
-use sqlx::{Pool, Postgres};
+use crate::{
+    org::models::{Org, OrgStatus},
+    server::state::Server,
+};
 
 #[derive(thiserror::Error, Debug)]
 pub enum ListOrgsError {
@@ -10,13 +12,13 @@ pub enum ListOrgsError {
     STRParse(#[from] strum::ParseError),
 }
 
-pub async fn list_orgs(pool: &Pool<Postgres>) -> Result<Vec<Org>, ListOrgsError> {
+pub async fn list_orgs(server: &Server) -> Result<Vec<Org>, ListOrgsError> {
     let orgs = sqlx::query_as!(
         Org,
         r#"SELECT id, name, status as "status: OrgStatus" FROM orgs"#
     )
-    .fetch_all(pool)
-    .await;
+    .fetch_all(&server.db)
+    .await?;
 
-    orgs.map_err(|err| err.into())
+    Ok(orgs)
 }

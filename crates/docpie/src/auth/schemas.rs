@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct SignIn {
+pub struct SignUp {
     #[validate(email, length(max = 320))]
     pub email: String,
 

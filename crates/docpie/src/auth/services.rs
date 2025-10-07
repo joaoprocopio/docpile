@@ -1,28 +1,9 @@
 use crate::{auth::models::User, server::state::Server};
-use axum_login::{AuthUser, AuthnBackend};
-use password_auth::verify_password;
-
-pub struct Credentials {
-    email: String,
-    password: String,
-}
-
-pub type AuthSession = axum_login::AuthSession<Server>;
-
-impl AuthUser for User {
-    type Id = i64;
-
-    fn id(&self) -> Self::Id {
-        self.id
-    }
-
-    fn session_auth_hash(&self) -> &[u8] {
-        self.password.as_bytes()
-    }
-}
+use chrono::Utc;
+use password_auth::generate_hash;
 
 #[derive(thiserror::Error, Debug)]
-pub enum AuthnError {
+pub enum CreateUserError {
     #[error(transparent)]
     SQLX(#[from] sqlx::Error),
 
@@ -30,38 +11,56 @@ pub enum AuthnError {
     TokioJoin(#[from] tokio::task::JoinError),
 }
 
-impl AuthnBackend for Server {
-    type User = User;
-    type Credentials = Credentials;
-    type Error = AuthnError;
+#[derive(thiserror::Error, Debug)]
+pub enum GetUserError {
+    #[error(transparent)]
+    SQLX(#[from] sqlx::Error),
+}
 
-    async fn authenticate(
-        &self,
-        creds: Self::Credentials,
-    ) -> Result<Option<Self::User>, Self::Error> {
-        let user = sqlx::query_as!(User, r#"SELECT * FROM users WHERE email = $1"#, creds.email)
-            .fetch_optional(&self.db)
-            .await?;
-
-        self.handle
-            .spawn_blocking(|| {
-                Ok(user.filter(|user| verify_password(creds.password, &user.password).is_ok()))
-            })
-            .await?
-    }
-
-    async fn get_user(
-        &self,
-        user_id: &axum_login::UserId<Self>,
-    ) -> Result<Option<Self::User>, Self::Error> {
-        let user = sqlx::query_as!(
-            User,
-            r#"SELECT * FROM users WHERE id = $1"#,
-            *user_id as i32
-        )
-        .fetch_optional(&self.db)
+pub async fn get_user_by_id(server: &Server, user_id: i32) -> Result<Option<User>, GetUserError> {
+    let user = sqlx::query_as!(User, r#"SELECT * FROM users WHERE id = $1"#, user_id)
+        .fetch_optional(&server.db)
         .await?;
 
-        Ok(user)
-    }
+    Ok(user)
+}
+
+pub async fn get_user_by_email(
+    server: &Server,
+    email: String,
+) -> Result<Option<User>, GetUserError> {
+    let user = sqlx::query_as!(User, r#"SELECT * FROM users WHERE email = $1"#, email)
+        .fetch_optional(&server.db)
+        .await?;
+
+    Ok(user)
+}
+
+pub async fn create_user(
+    server: &Server,
+    email: String,
+    password: String,
+    first_name: String,
+    last_name: String,
+) -> Result<User, CreateUserError> {
+    let password = server
+        .handle
+        .spawn_blocking(|| generate_hash(password))
+        .await?;
+
+    let user = sqlx::query_as!(
+        User,
+        r#"INSERT INTO users (email, password, first_name, last_name, created_at)
+           VALUES ($1, $2, $3, $4, $5)
+           RETURNING *"#,
+        email,
+        password,
+        first_name,
+        last_name,
+        Utc::now()
+    )
+    .fetch_one(&server.db)
+    .await?;
+
+    Ok(user)
 }
