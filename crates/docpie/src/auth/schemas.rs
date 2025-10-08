@@ -16,7 +16,7 @@ pub struct SignUp {
     pub last_name: String,
 }
 
-#[derive(Debug, Validate)]
+#[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct SignIn {
     #[validate(email, length(max = 320))]
     pub email: String,

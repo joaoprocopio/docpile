@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-axum = "0.8.4"
+axum = { version = "0.8.4", features = [
+    "macros"
+] }
 axum-login = "0.18.0"
 clap = "4.5.48"
 mimalloc = "0.1.47"

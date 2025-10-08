@@ -24,7 +24,7 @@ impl AuthUser for User {
 }
 
 #[derive(thiserror::Error, Debug)]
-pub enum AuthnError {
+pub enum AuthError {
     #[error(transparent)]
     TokioJoin(#[from] tokio::task::JoinError),
 
@@ -38,7 +38,7 @@ pub enum AuthnError {
 impl AuthnBackend for Server {
     type User = User;
     type Credentials = SignIn;
-    type Error = AuthnError;
+    type Error = AuthError;
 
     async fn authenticate(
         &self,
