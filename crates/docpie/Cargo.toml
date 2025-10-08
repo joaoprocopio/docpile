@@ -29,6 +29,7 @@ tokio = { version = "1.45.1", features = [
     "rt-multi-thread",
     "parking_lot",
     "net",
+    "time",
     "signal"
 ] }
 tower = "0.5.2"
