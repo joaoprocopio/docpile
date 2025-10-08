@@ -1,6 +1,6 @@
 use crate::{
     auth::{
-        models::User,
+        models::SafeUser,
         schemas::SignUp,
         services::{check_email_taken, create_user},
     },
@@ -9,18 +9,18 @@ use crate::{
 };
 use axum::{Json, extract::State, http::StatusCode};
 
-pub async fn sign_in_v1() -> &'static str {
+pub async fn sign_in() -> &'static str {
     "sign_in"
 }
 
-pub async fn sign_out_v1() -> &'static str {
+pub async fn sign_out() -> &'static str {
     "sign_out"
 }
 
-pub async fn sign_up_v1(
+pub async fn sign_up(
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
-) -> (StatusCode, Json<User>) {
+) -> (StatusCode, Json<SafeUser>) {
     // TODO: remove unwrap
     check_email_taken(&server, &sign_up.email).await.unwrap();
 
@@ -35,5 +35,5 @@ pub async fn sign_up_v1(
     // TODO: remove unwrap
     .unwrap();
 
-    (StatusCode::CREATED, Json(user))
+    (StatusCode::CREATED, Json(user.into()))
 }

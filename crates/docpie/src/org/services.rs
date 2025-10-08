@@ -12,7 +12,7 @@ pub enum ListOrgsError {
     STRParse(#[from] strum::ParseError),
 }
 
-pub async fn list_orgs(server: &Server) -> Result<Vec<Org>, ListOrgsError> {
+pub async fn list_all_orgs(server: &Server) -> Result<Vec<Org>, ListOrgsError> {
     let orgs = sqlx::query_as!(
         Org,
         r#"SELECT id, name, status as "status: OrgStatus" FROM orgs"#

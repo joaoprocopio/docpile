@@ -14,18 +14,18 @@ use tower_sessions_sqlx_store::PostgresStore;
 
 pub fn new_router(server: &Server) -> Router<Server> {
     Router::new()
-        .route("/api/v1/orgs", routing::get(org::handlers::list_orgs_v1))
+        .route("/api/v1/orgs", routing::get(org::handlers::list_orgs))
         .route(
             "/api/v1/auth/signin",
-            routing::post(auth::handlers::sign_in_v1),
+            routing::post(auth::handlers::sign_in),
         )
         .route(
             "/api/v1/auth/signup",
-            routing::post(auth::handlers::sign_up_v1),
+            routing::post(auth::handlers::sign_up),
         )
         .route(
             "/api/v1/auth/signout",
-            routing::post(auth::handlers::sign_out_v1),
+            routing::post(auth::handlers::sign_out),
         )
         .fallback(async || StatusCode::NOT_FOUND)
         .layer(

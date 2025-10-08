@@ -15,3 +15,11 @@ pub struct SignUp {
     #[validate(length(max = 128))]
     pub last_name: String,
 }
+
+#[derive(Debug, Validate)]
+pub struct SignIn {
+    #[validate(email, length(max = 320))]
+    pub email: String,
+
+    pub password: String,
+}

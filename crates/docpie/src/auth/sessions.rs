@@ -1,17 +1,13 @@
 use crate::{
     auth::{
         models::User,
+        schemas::SignIn,
         services::{CreateUserError, GetUserError, get_user_by_email, get_user_by_id},
     },
     server::state::Server,
 };
 use axum_login::{AuthUser, AuthnBackend};
 use password_auth::verify_password;
-
-pub struct Credentials {
-    email: String,
-    password: String,
-}
 
 pub type AuthSession = axum_login::AuthSession<Server>;
 
@@ -41,7 +37,7 @@ pub enum AuthnError {
 
 impl AuthnBackend for Server {
     type User = User;
-    type Credentials = Credentials;
+    type Credentials = SignIn;
     type Error = AuthnError;
 
     async fn authenticate(
