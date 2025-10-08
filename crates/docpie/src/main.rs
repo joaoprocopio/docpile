@@ -3,7 +3,7 @@ use docpie::{
     ext,
     server::{
         graceful::{ShutdownSignalError, shutdown_signal},
-        router::new_router,
+        router::{NewRouterError, new_router},
         state::{NewServerError, Server},
     },
 };
@@ -23,6 +23,9 @@ fn main() {
 #[derive(thiserror::Error, Debug)]
 pub enum RunServerError {
     #[error(transparent)]
+    NewRouter(#[from] NewRouterError),
+
+    #[error(transparent)]
     NewServer(#[from] NewServerError),
 
     #[error(transparent)]
@@ -38,7 +41,7 @@ async fn run_server(handle: Handle) -> Result<(), RunServerError> {
 
     tracing::info!("server listening on: http://{}", listener.local_addr()?);
 
-    let router = new_router(&server).with_state(server);
+    let router = new_router(&server).await?.with_state(server);
 
     serve_http(listener, router)
         .with_graceful_shutdown(shutdown_signal().await?)
