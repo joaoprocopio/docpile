@@ -20,7 +20,7 @@ pub async fn new_auth_layer(
 ) -> Result<AuthManagerLayer<Server, PostgresStore>, AuthLayerError> {
     let store = PostgresStore::new(server.db.clone())
         .with_schema_name("public")
-        .and_then(|r| r.with_table_name("sessions"))
+        .and_then(|s| s.with_table_name("sessions"))
         .map_err(|e| AuthLayerError::Store(e))?;
 
     store.migrate().await?;
