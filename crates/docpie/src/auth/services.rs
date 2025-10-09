@@ -31,8 +31,7 @@ pub async fn get_user_by_id(server: &Server, user_id: i32) -> Result<Option<User
             id,
             email,
             password,
-            first_name,
-            last_name,
+            display_name,
             created_at
         FROM users
         WHERE id = $1
@@ -56,8 +55,7 @@ pub async fn get_user_by_email(
             id,
             email,
             password,
-            first_name,
-            last_name,
+            display_name,
             created_at
         FROM users
         WHERE email = $1
@@ -88,8 +86,7 @@ pub async fn create_user(
     server: &Server,
     email: &String,
     password: &String,
-    first_name: &String,
-    last_name: &String,
+    display_name: &String,
 ) -> Result<User, CreateUserError> {
     let password = password.to_owned();
     let password = server
@@ -100,14 +97,13 @@ pub async fn create_user(
     let user = sqlx::query_as!(
         User,
         r#"
-        INSERT INTO users (email, password, first_name, last_name, created_at)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING id, email, password, first_name, last_name, created_at
+        INSERT INTO users (email, password, display_name, created_at)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, email, password, display_name, created_at
         "#,
         email,
         password,
-        first_name,
-        last_name,
+        display_name,
         OffsetDateTime::now_utc()
     )
     .fetch_one(&server.db)

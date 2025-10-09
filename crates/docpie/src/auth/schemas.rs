@@ -9,11 +9,8 @@ pub struct SignUp {
     #[validate(length(min = 8, max = 256))]
     pub password: String,
 
-    #[validate(length(max = 128))]
-    pub first_name: String,
-
-    #[validate(length(max = 128))]
-    pub last_name: String,
+    #[validate(length(max = 256))]
+    pub display_name: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]

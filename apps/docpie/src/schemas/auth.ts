@@ -31,6 +31,5 @@ export type TUserOut = z.output<typeof User>
 
 export const User = z.object({
     email: Email,
-    first_name: z.string(),
-    last_name: z.string(),
+    display_name: z.string(),
 })

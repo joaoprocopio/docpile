@@ -3,8 +3,7 @@ CREATE TABLE users (
     "id" SERIAL PRIMARY KEY,
     "email" VARCHAR(320) NOT NULL,
     "password" TEXT NOT NULL,
-    "first_name" VARCHAR(128) NOT NULL,
-    "last_name" VARCHAR(128) NOT NULL,
+    "display_name" VARCHAR(256) NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL
 );
 

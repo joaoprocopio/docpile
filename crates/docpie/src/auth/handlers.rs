@@ -39,8 +39,7 @@ pub async fn sign_up(
         &server,
         &sign_up.email,
         &sign_up.password,
-        &sign_up.first_name,
-        &sign_up.last_name,
+        &sign_up.display_name,
     )
     .await
     // TODO: remove unwrap

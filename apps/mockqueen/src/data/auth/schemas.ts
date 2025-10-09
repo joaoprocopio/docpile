@@ -15,8 +15,7 @@ export const User = z.object({
     id: z.int(),
     email: z.string(),
     password: z.string(),
-    first_name: z.string(),
-    last_name: z.string(),
+    display_name: z.string(),
 })
 
 export type TSafeUserIn = z.output<typeof SafeUser>
