@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
+use crate::auth::models::User;
+
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct SignUp {
     #[validate(email, length(max = 320))]
@@ -19,4 +21,19 @@ pub struct SignIn {
     pub email: String,
 
     pub password: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SafeUser {
+    pub email: String,
+    pub display_name: String,
+}
+
+impl From<User> for SafeUser {
+    fn from(value: User) -> Self {
+        Self {
+            email: value.email,
+            display_name: value.display_name,
+        }
+    }
 }

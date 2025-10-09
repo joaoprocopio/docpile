@@ -1,7 +1,6 @@
 use crate::{
     auth::{
-        models::SafeUser,
-        schemas::{SignIn, SignUp},
+        schemas::{SafeUser, SignIn, SignUp},
         services::{check_email_taken, create_user},
         sessions::AuthSession,
     },
