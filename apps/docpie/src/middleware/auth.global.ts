@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/vue-query"
 
 import { defineNuxtRouteMiddleware } from "#app"
-import { SignInRouteName, SignUpRouteName } from "~/constants/routes"
+import { SignInRouteName, SignUpRouteName } from "~/lib/router/constants"
 import { authQueries } from "~/query/auth"
 
 const _AuthRoutes = new Set([SignInRouteName, SignUpRouteName])

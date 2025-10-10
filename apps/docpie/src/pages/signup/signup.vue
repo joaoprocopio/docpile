@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/core"
 
-import { SignInRouteName } from "~/constants/routes"
+import { SignInRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"

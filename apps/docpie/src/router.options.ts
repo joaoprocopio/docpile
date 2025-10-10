@@ -1,7 +1,7 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { HomeRouteName, SignInRouteName, SignUpRouteName } from "~/constants/routes"
+import { HomeRouteName, SignInRouteName, SignUpRouteName } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {

@@ -5,7 +5,7 @@ import { useToggle } from "@vueuse/core"
 import { useForm } from "vee-validate"
 import { computed } from "vue"
 
-import { SignUpRouteName } from "~/constants/routes"
+import { SignUpRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
