@@ -1,4 +1,4 @@
-use crate::error::Error;
+use crate::error::{Error, ErrorKind};
 use axum::{
     Json,
     extract::{FromRequest, Request, rejection::JsonRejection},
@@ -26,16 +26,18 @@ impl IntoResponse for ValidJsonError {
                 let title = err.body_text();
                 let status = err.status();
 
-                Error::<serde_json::Value>::new(err)
+                Error::<serde_json::Value>::new(ErrorKind::JsonValidation, err)
                     .with_title(Some(title))
                     .with_status(Some(status))
                     .into_response()
             }
 
-            ValidJsonError::ValidationMultiple(outer_err) => Error::new(outer_err.to_owned())
-                .with_status(Some(StatusCode::BAD_REQUEST))
-                .with_context(outer_err.0)
-                .into_response(),
+            ValidJsonError::ValidationMultiple(outer_err) => {
+                Error::new(ErrorKind::SchemaValidation, outer_err.to_owned())
+                    .with_status(Some(StatusCode::BAD_REQUEST))
+                    .with_context(outer_err.0)
+                    .into_response()
+            }
         }
     }
 }

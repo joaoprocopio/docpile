@@ -20,22 +20,35 @@ pub struct Error<CV: Serialize + Debug = AnyJson> {
     #[source]
     #[serde(skip)]
     pub cause: AnyError,
-
     #[serde(skip_serializing_if = "Context::is_empty")]
     pub context: Context<CV>,
+    pub kind: ErrorKind,
 
     #[serde(serialize_with = "serialize_status")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<StatusCode>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub code: Option<CowStr>,
-
     #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<CowStr>,
-
     #[serde(skip_serializing_if = "Option::is_none")]
     pub details: Option<CowStr>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ErrorKind {
+    // Auth
+    EmailIsAlreadyTaken,
+    InvalidCredentials,
+
+    // DB
+    Database,
+
+    // Validation
+    JsonValidation,
+    SchemaValidation,
+
+    // Others
+    Unspecified,
 }
 
 fn serialize_status<S>(status: &Option<StatusCode>, serializer: S) -> Result<S::Ok, S::Error>
@@ -49,22 +62,21 @@ where
 }
 
 impl<CV: Serialize + Debug> Error<CV> {
-    pub fn new(cause: impl Into<AnyError>) -> Self {
+    pub fn new(kind: ErrorKind, cause: impl Into<AnyError>) -> Self {
         Self {
             cause: cause.into(),
             context: Context::new(),
-            code: None,
+            kind: kind,
             status: None,
             title: None,
             details: None,
         }
     }
 
-    pub fn from_status(status: impl TryInto<StatusCode>, cause: impl Into<AnyError>) -> Self {
-        let status: StatusCode = status.try_into().unwrap_or(StatusCode::IM_A_TEAPOT);
+    pub fn from_status(status: StatusCode, kind: ErrorKind, cause: impl Into<AnyError>) -> Self {
         let title = status.canonical_reason().unwrap_or("<none>");
 
-        Self::new(cause)
+        Self::new(kind, cause)
             .with_status(Some(status))
             .with_title(Some(title))
     }
@@ -81,13 +93,13 @@ impl<CV: Serialize + Debug> Error<CV> {
         self
     }
 
-    pub fn with_code(mut self, code: Option<impl Into<CowStr>>) -> Self {
-        self.code = code.and_then(|c| Some(c.into()));
+    pub fn with_kind(mut self, kind: ErrorKind) -> Self {
+        self.kind = kind;
         self
     }
 
-    pub fn with_status(mut self, status: Option<impl Into<StatusCode>>) -> Self {
-        self.status = status.and_then(|s| Some(s.into()));
+    pub fn with_status(mut self, status: Option<StatusCode>) -> Self {
+        self.status = status;
         self
     }
 
