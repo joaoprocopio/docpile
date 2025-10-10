@@ -29,24 +29,22 @@ impl IntoResponse for ValidJsonError {
                 let title = err.body_text();
                 let status = err.status();
 
-                Error::new(err)
-                    .with_title(title)
-                    .with_status(status)
+                Error::<serde_json::Value>::new(err)
+                    .with_title(Some(title))
+                    .with_status(Some(status))
                     .into_response()
             }
-            ValidJsonError::Validation(err) => {
-                let new_err = Error::new(err.to_owned())
-                    .with_status(StatusCode::BAD_REQUEST)
-                    .with_code(err.code)
-                    .with_context(err.params);
+            ValidJsonError::Validation(outer_err) => Error::new(outer_err.to_owned())
+                .with_status(Some(StatusCode::BAD_REQUEST))
+                .with_code(Some(outer_err.code))
+                .with_title(outer_err.message)
+                .with_context(outer_err.params)
+                .into_response(),
 
-                new_err.into_response()
-            }
-            ValidJsonError::ValidationMultiple(err) => {
-                let new_err = Error::new(err.to_owned()).with_status(StatusCode::BAD_REQUEST);
-
-                new_err.into_response()
-            }
+            ValidJsonError::ValidationMultiple(outer_err) => Error::new(outer_err.to_owned())
+                .with_status(Some(StatusCode::BAD_REQUEST))
+                .with_context(outer_err.0)
+                .into_response(),
         }
     }
 }
