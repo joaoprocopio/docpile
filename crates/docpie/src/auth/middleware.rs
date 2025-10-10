@@ -1,4 +1,7 @@
-use crate::server::state::Server;
+use crate::{
+    error::{Result, anyerror},
+    server::state::Server,
+};
 use axum_login::{
     AuthManagerLayer, AuthManagerLayerBuilder,
     tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion},
@@ -6,22 +9,11 @@ use axum_login::{
 use tokio::time::Duration;
 use tower_sessions_sqlx_store::PostgresStore;
 
-#[derive(thiserror::Error, Debug)]
-pub enum AuthLayerError {
-    #[error("{0}")]
-    Store(String),
-
-    #[error(transparent)]
-    SQLX(#[from] sqlx::Error),
-}
-
-pub async fn new_auth_layer(
-    server: &Server,
-) -> Result<AuthManagerLayer<Server, PostgresStore>, AuthLayerError> {
+pub async fn new_auth_layer(server: &Server) -> Result<AuthManagerLayer<Server, PostgresStore>> {
     let store = PostgresStore::new(server.db.clone())
         .with_schema_name("public")
         .and_then(|s| s.with_table_name("sessions"))
-        .map_err(|e| AuthLayerError::Store(e))?;
+        .map_err(|e| anyerror!(e))?;
 
     store.migrate().await?;
 

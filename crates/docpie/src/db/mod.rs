@@ -1,17 +1,11 @@
-use crate::server::state::ServerEnv;
+use crate::{error::Result, server::state::ServerEnv};
 use sqlx::{
     PgPool,
     postgres::{PgConnectOptions, PgPoolOptions},
 };
 use std::str::FromStr;
 
-#[derive(thiserror::Error, Debug)]
-pub enum CreateDBPoolError {
-    #[error(transparent)]
-    SQLX(#[from] sqlx::Error),
-}
-
-pub async fn create_db_pool(env: &ServerEnv) -> Result<PgPool, CreateDBPoolError> {
+pub async fn create_db_pool(env: &ServerEnv) -> Result<PgPool> {
     let pool = PgPoolOptions::new();
     let connect = PgConnectOptions::from_str(&env.db_url)?;
 

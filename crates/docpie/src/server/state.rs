@@ -1,7 +1,4 @@
-use crate::{
-    db::{CreateDBPoolError, create_db_pool},
-    ext::env::env_or,
-};
+use crate::{db::create_db_pool, error::Result, ext::env::env_or};
 use sqlx::postgres::PgPool;
 use std::{ops::Deref, sync::Arc, time::Duration};
 use tokio::runtime;
@@ -33,14 +30,8 @@ pub struct ServerEnv {
     pub db_url: String,
 }
 
-#[derive(thiserror::Error, Debug)]
-pub enum NewServerError {
-    #[error(transparent)]
-    CreateDBPool(#[from] CreateDBPoolError),
-}
-
 impl Server {
-    pub async fn new(handle: runtime::Handle) -> Result<Self, NewServerError> {
+    pub async fn new(handle: runtime::Handle) -> Result<Self> {
         let env = ServerEnv::from_env_or_default();
         let db = create_db_pool(&env).await?;
 

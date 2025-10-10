@@ -25,11 +25,9 @@ impl IntoResponse for ValidJsonError {
     fn into_response(self) -> Response {
         match self {
             ValidJsonError::Json(err) => err.into_response(),
-            ValidJsonError::Validation(err) => {
-                (StatusCode::BAD_REQUEST, format!("{}", err)).into_response()
-            }
+            ValidJsonError::Validation(err) => (StatusCode::BAD_REQUEST, Json(err)).into_response(),
             ValidJsonError::ValidationMultiple(err) => {
-                (StatusCode::BAD_REQUEST, format!("{}", err)).into_response()
+                (StatusCode::BAD_REQUEST, Json(err)).into_response()
             }
         }
     }

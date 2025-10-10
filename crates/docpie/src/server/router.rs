@@ -1,8 +1,4 @@
-use crate::{
-    auth::{self, middleware::AuthLayerError},
-    org,
-    server::state::Server,
-};
+use crate::{auth, error::Result, org, server::state::Server};
 use axum::{Router, http::StatusCode, routing};
 use tower::ServiceBuilder;
 use tower_http::{
@@ -14,13 +10,7 @@ use tower_http::{
     trace::TraceLayer,
 };
 
-#[derive(thiserror::Error, Debug)]
-pub enum NewRouterError {
-    #[error(transparent)]
-    Auth(#[from] AuthLayerError),
-}
-
-pub async fn new_router(server: &Server) -> Result<Router<Server>, NewRouterError> {
+pub async fn new_router(server: &Server) -> Result<Router<Server>> {
     let router = Router::new()
         .route("/api/v1/orgs", routing::get(org::handlers::list_orgs))
         .route(

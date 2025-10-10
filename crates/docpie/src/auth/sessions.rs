@@ -2,14 +2,27 @@ use crate::{
     auth::{
         models::User,
         schemas::SignIn,
-        services::{CreateUserError, GetUserError, get_user_by_email, get_user_by_id},
+        services::{get_user_by_email, get_user_by_id},
     },
+    error::AnyError,
     server::state::Server,
 };
 use axum_login::{AuthUser, AuthnBackend};
 use password_auth::verify_password;
 
 pub type AuthSession = axum_login::AuthSession<Server>;
+
+#[derive(thiserror::Error, Debug)]
+pub enum AuthnError {
+    #[error(transparent)]
+    SQLX(#[from] sqlx::Error),
+
+    #[error(transparent)]
+    TaskJoin(#[from] tokio::task::JoinError),
+
+    #[error(transparent)]
+    Any(#[from] AnyError),
+}
 
 impl AuthUser for User {
     type Id = i64;
@@ -23,22 +36,10 @@ impl AuthUser for User {
     }
 }
 
-#[derive(thiserror::Error, Debug)]
-pub enum AuthError {
-    #[error(transparent)]
-    TokioJoin(#[from] tokio::task::JoinError),
-
-    #[error(transparent)]
-    GetUser(#[from] GetUserError),
-
-    #[error(transparent)]
-    CreateUser(#[from] CreateUserError),
-}
-
 impl AuthnBackend for Server {
     type User = User;
     type Credentials = SignIn;
-    type Error = AuthError;
+    type Error = AuthnError;
 
     async fn authenticate(
         &self,
@@ -47,7 +48,7 @@ impl AuthnBackend for Server {
         let user = get_user_by_email(self, creds.email).await?;
 
         self.handle
-            .spawn_blocking(|| {
+            .spawn_blocking(move || {
                 Ok(user.filter(|user| verify_password(creds.password, &user.password).is_ok()))
             })
             .await?

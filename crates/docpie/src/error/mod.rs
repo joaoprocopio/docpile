@@ -6,13 +6,16 @@ use axum::{
 use serde::Serialize;
 use std::borrow::Cow;
 
-pub type AnyError = anyhow::Error;
+pub use anyhow::Error as AnyError;
+pub use anyhow::anyhow as anyerror;
+
+pub type Result<T, E = AnyError> = std::result::Result<T, E>;
 
 type CowStr = Cow<'static, str>;
 
 #[derive(thiserror::Error, Debug, Serialize)]
 #[error("{cause}")]
-pub struct Problem {
+pub struct Error {
     #[source]
     #[serde(skip)]
     pub cause: AnyError,
@@ -41,7 +44,7 @@ where
     }
 }
 
-impl Problem {
+impl Error {
     pub fn new(cause: impl Into<AnyError>) -> Self {
         Self {
             cause: cause.into(),
@@ -60,7 +63,7 @@ impl Problem {
     }
 }
 
-impl Problem {
+impl Error {
     pub fn with_cause(mut self, cause: impl Into<AnyError>) -> Self {
         self.cause = cause.into();
         self
@@ -87,7 +90,7 @@ impl Problem {
     }
 }
 
-impl IntoResponse for Problem {
+impl IntoResponse for Error {
     fn into_response(self) -> Response {
         tracing::error!(?self);
 

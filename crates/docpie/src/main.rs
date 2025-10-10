@@ -1,11 +1,8 @@
 use axum::serve as serve_http;
 use docpie::{
+    error::Result,
     ext,
-    server::{
-        graceful::{ShutdownSignalError, shutdown_signal},
-        router::{NewRouterError, new_router},
-        state::{NewServerError, Server},
-    },
+    server::{graceful::shutdown_signal, router::new_router, state::Server},
 };
 use tokio::{net::TcpListener, runtime::Handle};
 
@@ -20,22 +17,7 @@ fn main() {
         });
 }
 
-#[derive(thiserror::Error, Debug)]
-pub enum RunServerError {
-    #[error(transparent)]
-    NewRouter(#[from] NewRouterError),
-
-    #[error(transparent)]
-    NewServer(#[from] NewServerError),
-
-    #[error(transparent)]
-    TokioIO(#[from] tokio::io::Error),
-
-    #[error(transparent)]
-    ShutdownSignal(#[from] ShutdownSignalError),
-}
-
-async fn run_server(handle: Handle) -> Result<(), RunServerError> {
+async fn run_server(handle: Handle) -> Result<()> {
     let server = Server::new(handle).await?;
     let listener = TcpListener::bind((&*server.env.host, server.env.port)).await?;
 

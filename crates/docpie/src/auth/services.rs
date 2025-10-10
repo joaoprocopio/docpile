@@ -1,29 +1,8 @@
-use crate::{auth::models::User, server::state::Server};
+use crate::{auth::models::User, error::Result, server::state::Server};
 use password_auth::generate_hash;
 use time::OffsetDateTime;
 
-#[derive(thiserror::Error, Debug)]
-pub enum CreateUserError {
-    #[error(transparent)]
-    SQLX(#[from] sqlx::Error),
-
-    #[error(transparent)]
-    TokioJoin(#[from] tokio::task::JoinError),
-}
-
-#[derive(thiserror::Error, Debug)]
-pub enum GetUserError {
-    #[error(transparent)]
-    SQLX(#[from] sqlx::Error),
-}
-
-#[derive(thiserror::Error, Debug)]
-pub enum EmailTakenError {
-    #[error(transparent)]
-    SQLX(#[from] sqlx::Error),
-}
-
-pub async fn get_user_by_id(server: &Server, user_id: i32) -> Result<Option<User>, GetUserError> {
+pub async fn get_user_by_id(server: &Server, user_id: i32) -> Result<Option<User>> {
     let user = sqlx::query_as!(
         User,
         r#"
@@ -44,10 +23,7 @@ pub async fn get_user_by_id(server: &Server, user_id: i32) -> Result<Option<User
     Ok(user)
 }
 
-pub async fn get_user_by_email(
-    server: &Server,
-    email: String,
-) -> Result<Option<User>, GetUserError> {
+pub async fn get_user_by_email(server: &Server, email: String) -> Result<Option<User>> {
     let user = sqlx::query_as!(
         User,
         r#"
@@ -68,7 +44,7 @@ pub async fn get_user_by_email(
     Ok(user)
 }
 
-pub async fn check_email_taken(server: &Server, email: &String) -> Result<bool, EmailTakenError> {
+pub async fn check_email_taken(server: &Server, email: &String) -> Result<bool> {
     let is_taken = sqlx::query!(
         r#"
         SELECT EXISTS(SELECT 1 FROM users WHERE email = $1) AS "exists!"
@@ -87,7 +63,7 @@ pub async fn create_user(
     email: &String,
     password: &String,
     display_name: &String,
-) -> Result<User, CreateUserError> {
+) -> Result<User> {
     let password = password.to_owned();
     let password = server
         .handle
