@@ -49,6 +49,7 @@ pub async fn sign_out(mut auth_session: AuthSession) -> Result<(), Error> {
 }
 
 pub async fn sign_up(
+    mut auth_session: AuthSession,
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
 ) -> Result<(StatusCode, Json<SafeUser>), Error> {
@@ -77,6 +78,10 @@ pub async fn sign_up(
     )
     .await
     .map_err(|e| Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e))?;
+
+    auth_session.login(&user).await.map_err(|e| {
+        Error::from_status(StatusCode::UNAUTHORIZED, ErrorKind::InvalidCredentials, e)
+    })?;
 
     Ok((StatusCode::CREATED, Json(user.into())))
 }
