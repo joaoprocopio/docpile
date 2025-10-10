@@ -1,7 +1,7 @@
 use crate::{auth, error::Result, org, server::state::Server};
 use axum::{
     Router,
-    http::{StatusCode, header},
+    http::{Method, StatusCode, header},
     routing,
 };
 use tower::ServiceBuilder;
@@ -40,8 +40,17 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
                 .layer(
                     CorsLayer::new()
                         .allow_headers(AllowHeaders::list([header::CONTENT_TYPE]))
-                        .allow_methods(AllowMethods::any())
-                        .allow_origin(AllowOrigin::list(server.env.allowed_origins.clone())),
+                        .allow_methods(AllowMethods::list([
+                            Method::PUT,
+                            Method::POST,
+                            Method::PATCH,
+                            Method::OPTIONS,
+                            Method::HEAD,
+                            Method::GET,
+                            Method::DELETE,
+                        ]))
+                        .allow_origin(AllowOrigin::list(server.env.allowed_origins.clone()))
+                        .allow_credentials(true),
                 )
                 .layer(CatchPanicLayer::new())
                 .layer(TraceLayer::new_for_http()),

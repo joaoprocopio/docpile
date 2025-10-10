@@ -10,7 +10,10 @@ export const Password = z
     .min(8, { message: "Must be at least 8 characters long" })
     .max(256, { message: "Exceeds maximum length of 256 characters" })
 
-export const DisplayName = z.string().min(1).max(256)
+export const DisplayName = z
+    .string({ message: "Please enter your name" })
+    .min(1, { message: "Must not be empty" })
+    .max(256, { message: "Exceeds maximum length of 256 characters" })
 
 export type TSignInIn = z.input<typeof SignIn>
 export type TSignInOut = z.output<typeof SignIn>
@@ -24,6 +27,7 @@ export type TSignUpIn = z.input<typeof SignUp>
 export type TSignUpOut = z.output<typeof SignUp>
 
 export const SignUp = z.object({
+    display_name: DisplayName,
     email: Email,
     password: Password,
 })

@@ -1,10 +1,33 @@
 <script setup lang="ts">
+import { useMutation, useQueryClient } from "@tanstack/vue-query"
+import { toTypedSchema } from "@vee-validate/zod"
 import { useToggle } from "@vueuse/core"
+import { useForm } from "vee-validate"
 
+import { authMutations, authQueries } from "~/lib/auth/query"
+import { SignUp } from "~/lib/auth/schemas"
 import { SignInRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
+
+const client = useQueryClient()
+
+const form = useForm({ validationSchema: toTypedSchema(SignUp) })
+const submit = form.handleSubmit((values) => mutation.mutate(values))
+
+const mutation = useMutation({
+    ...authMutations.signUp(),
+    onSuccess(data) {
+        client.setQueryData(authQueries.whoami().queryKey, data)
+    },
+    onError: () => {
+        form.setErrors({
+            email: "Email may be invalid",
+            password: "Password may be invalid",
+        })
+    },
+})
 
 const [showPassword, toggleShowPassword] = useToggle(false)
 </script>
@@ -13,8 +36,24 @@ const [showPassword, toggleShowPassword] = useToggle(false)
     <div class="flex flex-col items-center">
         <h1 class="text-lg font-semibold">Sign up to Docpie</h1>
 
-        <form class="mt-8 flex w-full flex-col gap-y-5">
+        <form
+            class="mt-8 flex w-full flex-col gap-y-5"
+            @submit="submit">
             <div class="flex flex-col gap-y-3">
+                <FormField
+                    v-slot="field"
+                    name="display_name">
+                    <FormItem>
+                        <FormLabel class="sr-only">Name</FormLabel>
+                        <FormControl>
+                            <Input
+                                v-bind="field.componentField"
+                                placeholder="Enter your name..." />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+
                 <FormField
                     v-slot="field"
                     name="email">

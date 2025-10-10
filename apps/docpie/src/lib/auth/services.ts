@@ -1,4 +1,4 @@
-import { type TSignInOut, type TUserOut, User } from "~/lib/auth/schemas"
+import { type TSignInOut, type TSignUpOut, type TUserOut, User } from "~/lib/auth/schemas"
 import { useHTTP } from "~/lib/clients/http"
 
 async function whoami(): Promise<TUserOut> {
@@ -18,7 +18,18 @@ async function signIn(payload: TSignInOut): Promise<TUserOut> {
     return User.parse(response)
 }
 
+async function signUp(payload: TSignUpOut): Promise<TUserOut> {
+    const http = useHTTP()
+    const response = await http("/v1/auth/signup", {
+        method: "POST",
+        body: payload,
+    })
+
+    return User.parse(response)
+}
+
 export const AuthServices = {
     whoami,
     signIn,
+    signUp,
 }

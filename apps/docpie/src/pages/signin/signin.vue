@@ -97,7 +97,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                 :disabled="isLoading"
                 type="submit"
                 variant="secondary">
-                Sign in with email
+                Continue with email
             </Button>
         </form>
 
