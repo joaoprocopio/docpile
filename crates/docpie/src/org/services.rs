@@ -7,9 +7,6 @@ use crate::{
 pub enum ListOrgsError {
     #[error(transparent)]
     SQLX(#[from] sqlx::Error),
-
-    #[error(transparent)]
-    STRParse(#[from] strum::ParseError),
 }
 
 pub async fn list_all_orgs(server: &Server) -> Result<Vec<Org>, ListOrgsError> {
