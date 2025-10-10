@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { BulletLegendItemInterface } from "@unovis/ts"
 import { omit } from "@unovis/ts"
 import { VisTooltip } from "@unovis/vue"

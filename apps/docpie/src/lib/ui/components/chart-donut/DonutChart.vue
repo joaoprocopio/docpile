@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Donut } from "@unovis/ts"
 import { VisDonut, VisSingleContainer } from "@unovis/vue"
 import { useMounted } from "@vueuse/core"
@@ -42,17 +43,18 @@ const props = withDefaults(
     {
         margin: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
         sortFunction: () => undefined,
+        valueFormatter: (tick: number) => `${tick}`,
         type: "donut",
         filterOpacity: 0.2,
         showTooltip: true,
         showLegend: true,
+        customTooltip: undefined,
     },
 )
 
 type KeyOfT = Extract<keyof T, string>
 type Data = (typeof props.data)[number]
 
-const valueFormatter = props.valueFormatter ?? ((tick: number) => `${tick}`)
 const category = computed(() => props.category as KeyOfT)
 const index = computed(() => props.index as KeyOfT)
 

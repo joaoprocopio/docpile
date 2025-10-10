@@ -5,6 +5,7 @@ import { DrawerRoot } from "vaul-vue"
 
 const props = withDefaults(defineProps<DrawerRootProps>(), {
     shouldScaleBackground: true,
+    fadeFromIndex: undefined,
 })
 
 const emits = defineEmits<DrawerRootEmits>()
