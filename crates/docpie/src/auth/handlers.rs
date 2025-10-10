@@ -60,14 +60,14 @@ pub async fn sign_up(
         })?;
 
     if is_taken {
-        const DETAIL: &str = "This email is already taken";
+        const ERR: &str = "This email is already taken";
 
         return Err(Error::from_status(
             StatusCode::CONFLICT,
             ErrorKind::EmailIsAlreadyTaken,
-            anyerror!(DETAIL),
+            anyerror!(ERR),
         )
-        .with_details(Some(DETAIL)));
+        .with_details(Some(ERR)));
     }
 
     let user = create_user(
