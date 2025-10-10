@@ -4,6 +4,7 @@ use crate::{
         services::{check_email_taken, create_user},
         sessions::AuthSession,
     },
+    error::{Error, Result, anyerror},
     ext::validator::Valid,
     server::state::Server,
 };
@@ -30,9 +31,14 @@ pub async fn sign_out(mut auth_session: AuthSession) {
 pub async fn sign_up(
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
-) -> (StatusCode, Json<SafeUser>) {
-    // TODO: remove unwrap
-    check_email_taken(&server, &sign_up.email).await.unwrap();
+) -> Result<(StatusCode, Json<SafeUser>), Error> {
+    let is_taken = check_email_taken(&server, &sign_up.email)
+        .await
+        .map_err(|e| Error::new(e))?;
+
+    if is_taken {
+        return Err(Error::new(anyerror!("This email is already being used")));
+    }
 
     let user = create_user(
         &server,
@@ -41,8 +47,7 @@ pub async fn sign_up(
         &sign_up.display_name,
     )
     .await
-    // TODO: remove unwrap
-    .unwrap();
+    .map_err(|e| Error::new(e))?;
 
-    (StatusCode::CREATED, Json(user.into()))
+    Ok((StatusCode::CREATED, Json(user.into())))
 }
