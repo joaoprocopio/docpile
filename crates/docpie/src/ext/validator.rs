@@ -13,9 +13,6 @@ pub struct Valid<T>(pub T);
 #[derive(thiserror::Error, Debug)]
 pub enum ValidJsonError {
     #[error(transparent)]
-    Validation(#[from] validator::ValidationError),
-
-    #[error(transparent)]
     ValidationMultiple(#[from] validator::ValidationErrors),
 
     #[error(transparent)]
@@ -34,12 +31,6 @@ impl IntoResponse for ValidJsonError {
                     .with_status(Some(status))
                     .into_response()
             }
-            ValidJsonError::Validation(outer_err) => Error::new(outer_err.to_owned())
-                .with_status(Some(StatusCode::BAD_REQUEST))
-                .with_code(Some(outer_err.code))
-                .with_title(outer_err.message)
-                .with_context(outer_err.params)
-                .into_response(),
 
             ValidJsonError::ValidationMultiple(outer_err) => Error::new(outer_err.to_owned())
                 .with_status(Some(StatusCode::BAD_REQUEST))
