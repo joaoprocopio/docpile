@@ -17,7 +17,5 @@ pub async fn list_all_orgs(server: &Server) -> Result<Vec<Org>, ListOrgsError> {
     .fetch_all(&server.db)
     .await?;
 
-    Err(ListOrgsError::SQLX(sqlx::Error::WorkerCrashed))?;
-
     Ok(orgs)
 }
