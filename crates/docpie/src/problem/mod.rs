@@ -1,13 +1,13 @@
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-pub struct MyError {
+pub struct Problem {
     msg: String,
     #[source] // optional if field name is `source`
     source: anyhow::Error,
 }
 
-impl std::fmt::Display for MyError {
+impl std::fmt::Display for Problem {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "{}", self.msg)?;
 

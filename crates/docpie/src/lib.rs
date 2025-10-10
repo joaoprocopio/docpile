@@ -10,7 +10,7 @@ pub use sqlx::prelude::*;
 
 pub mod auth;
 pub mod db;
-pub mod error;
 pub mod ext;
 pub mod org;
+pub mod problem;
 pub mod server;
