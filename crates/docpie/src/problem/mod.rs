@@ -1,29 +1,52 @@
-use thiserror::Error;
+use std::borrow::Cow;
 
-#[derive(Error, Debug)]
+use axum::{
+    Json,
+    http::StatusCode,
+    response::{IntoResponse, Response},
+};
+use serde::{Serialize, Serializer, ser::SerializeMap};
+
+type CowStr = Cow<'static, str>;
+
+#[derive(thiserror::Error, Debug)]
+#[error("{status}: {title}")]
 pub struct Problem {
-    msg: String,
-    #[source] // optional if field name is `source`
-    source: anyhow::Error,
+    pub title: CowStr,
+    pub status: StatusCode,
+
+    #[source]
+    pub source: anyhow::Error,
 }
 
-impl std::fmt::Display for Problem {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "{}", self.msg)?;
+impl Problem {
+    pub fn from_status(status: StatusCode) -> Self {
+        let title = status.canonical_reason().unwrap_or("<none>");
 
-        Ok(())
+        Self {
+            title: title.into(),
+            source: anyhow::Error::msg(title),
+            status: status,
+        }
     }
 }
 
-// impl serde::Serialize for Error {
-//     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-//     where
-//         S: serde::Serializer,
-//     {
-//         let mut map = serializer.serialize_map(None)?;
+impl IntoResponse for Problem {
+    fn into_response(self) -> Response {
+        (self.status, Json(&self)).into_response()
+    }
+}
 
-//         map.serialize_entry(&"status", &self.status.as_u16())?;
+impl Serialize for Problem {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut map = serializer.serialize_map(None)?;
 
-//         map.end()
-//     }
-// }
+        map.serialize_entry(&"status", &self.status.as_u16())?;
+        map.serialize_entry(&"title", &self.title)?;
+
+        map.end()
+    }
+}
