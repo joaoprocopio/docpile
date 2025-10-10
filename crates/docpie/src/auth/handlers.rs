@@ -11,6 +11,8 @@ use crate::{
 use axum::{Json, extract::State, http::StatusCode};
 
 pub async fn whoami(auth_session: AuthSession) -> (StatusCode, Json<Option<SafeUser>>) {
+    tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+
     match auth_session.user {
         Some(user) => (StatusCode::OK, Json(Some(user.into()))),
         None => (StatusCode::OK, Json(None)),
