@@ -13,6 +13,7 @@ use tower_http::{
 pub async fn new_router(server: &Server) -> Result<Router<Server>> {
     let router = Router::new()
         .route("/api/v1/orgs", routing::get(org::handlers::list_orgs))
+        .route("/api/v1/auth/whoami", routing::get(auth::handlers::whoami))
         .route(
             "/api/v1/auth/signin",
             routing::post(auth::handlers::sign_in),

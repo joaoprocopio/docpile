@@ -10,6 +10,13 @@ use crate::{
 };
 use axum::{Json, extract::State, http::StatusCode};
 
+pub async fn whoami(auth_session: AuthSession) -> (StatusCode, Json<Option<SafeUser>>) {
+    match auth_session.user {
+        Some(user) => (StatusCode::OK, Json(Some(user.into()))),
+        None => (StatusCode::OK, Json(None)),
+    }
+}
+
 pub async fn sign_in(
     mut auth_session: AuthSession,
     Valid(Json(sign_in)): Valid<Json<SignIn>>,
