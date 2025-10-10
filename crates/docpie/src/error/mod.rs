@@ -4,14 +4,14 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use serde::Serialize;
-use std::borrow::Cow;
+use std::{borrow::Cow, collections::HashMap};
 
 pub use anyhow::Error as AnyError;
 pub use anyhow::anyhow as anyerror;
-
 pub type Result<T, E = AnyError> = std::result::Result<T, E>;
 
-type CowStr = Cow<'static, str>;
+pub type CowStr = Cow<'static, str>;
+pub type Context = HashMap<CowStr, serde_json::Value>;
 
 #[derive(thiserror::Error, Debug, Serialize)]
 #[error("{cause}")]
@@ -19,6 +19,7 @@ pub struct Error {
     #[source]
     #[serde(skip)]
     pub cause: AnyError,
+    pub context: Context,
 
     #[serde(serialize_with = "serialize_status")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -48,6 +49,7 @@ impl Error {
     pub fn new(cause: impl Into<AnyError>) -> Self {
         Self {
             cause: cause.into(),
+            context: Context::new(),
             code: None,
             status: None,
             title: None,
@@ -66,6 +68,11 @@ impl Error {
 impl Error {
     pub fn with_cause(mut self, cause: impl Into<AnyError>) -> Self {
         self.cause = cause.into();
+        self
+    }
+
+    pub fn with_context(mut self, context: Context) -> Self {
+        self.context = context;
         self
     }
 

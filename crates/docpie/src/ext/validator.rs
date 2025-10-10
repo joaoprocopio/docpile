@@ -1,3 +1,4 @@
+use crate::error::Error;
 use axum::{
     Json,
     extract::{FromRequest, Request, rejection::JsonRejection},
@@ -24,10 +25,27 @@ pub enum ValidJsonError {
 impl IntoResponse for ValidJsonError {
     fn into_response(self) -> Response {
         match self {
-            ValidJsonError::Json(err) => err.into_response(),
-            ValidJsonError::Validation(err) => (StatusCode::BAD_REQUEST, Json(err)).into_response(),
+            ValidJsonError::Json(err) => {
+                let title = err.body_text();
+                let status = err.status();
+
+                Error::new(err)
+                    .with_title(title)
+                    .with_status(status)
+                    .into_response()
+            }
+            ValidJsonError::Validation(err) => {
+                let new_err = Error::new(err.to_owned())
+                    .with_status(StatusCode::BAD_REQUEST)
+                    .with_code(err.code)
+                    .with_context(err.params);
+
+                new_err.into_response()
+            }
             ValidJsonError::ValidationMultiple(err) => {
-                (StatusCode::BAD_REQUEST, Json(err)).into_response()
+                let new_err = Error::new(err.to_owned()).with_status(StatusCode::BAD_REQUEST);
+
+                new_err.into_response()
             }
         }
     }
