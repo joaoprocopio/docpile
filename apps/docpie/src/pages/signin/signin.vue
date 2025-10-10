@@ -5,12 +5,12 @@ import { useToggle } from "@vueuse/core"
 import { useForm } from "vee-validate"
 import { computed } from "vue"
 
+import { authMutations, authQueries } from "~/lib/auth/query"
+import { SignIn } from "~/lib/auth/schemas"
 import { SignUpRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
-import { authMutations, authQueries } from "~/query/auth"
-import { SignIn } from "~/schemas/auth"
 
 const queryClient = useQueryClient()
 
