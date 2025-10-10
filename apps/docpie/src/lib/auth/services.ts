@@ -1,5 +1,5 @@
 import { type TSignInOut, type TSignUpOut, type TUserOut, User } from "~/lib/auth/schemas"
-import { useHTTP } from "~/lib/clients/http"
+import { useHTTP } from "~/lib/http/clients"
 
 async function whoami(): Promise<TUserOut> {
     const http = useHTTP()

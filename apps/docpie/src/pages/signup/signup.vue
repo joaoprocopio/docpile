@@ -2,17 +2,21 @@
 import { useMutation, useQueryClient } from "@tanstack/vue-query"
 import { toTypedSchema } from "@vee-validate/zod"
 import { useToggle } from "@vueuse/core"
+import { FetchError } from "ofetch"
 import { useForm } from "vee-validate"
 
+import { useRouter } from "#app"
 import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignUp } from "~/lib/auth/schemas"
-import { SignInRouteName } from "~/lib/router/constants"
+import { HttpStatus } from "~/lib/http/status"
+import { HomeRouteName, SignInRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
 
 const client = useQueryClient()
 
+const router = useRouter()
 const form = useForm({ validationSchema: toTypedSchema(SignUp) })
 const submit = form.handleSubmit((values) => mutation.mutate(values))
 
@@ -20,8 +24,17 @@ const mutation = useMutation({
     ...authMutations.signUp(),
     onSuccess(data) {
         client.setQueryData(authQueries.whoami().queryKey, data)
+        router.push({ name: HomeRouteName })
     },
-    onError: () => {
+    onError: async (err) => {
+        if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
+            form.setErrors({
+                email: "This email is already taken",
+            })
+
+            return undefined
+        }
+
         form.setErrors({
             email: "Email may be invalid",
             password: "Password may be invalid",

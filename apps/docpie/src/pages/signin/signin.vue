@@ -5,9 +5,10 @@ import { useToggle } from "@vueuse/core"
 import { useForm } from "vee-validate"
 import { computed } from "vue"
 
+import { useRouter } from "#app"
 import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignIn } from "~/lib/auth/schemas"
-import { SignUpRouteName } from "~/lib/router/constants"
+import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
@@ -15,6 +16,7 @@ import { Input } from "~/lib/ui/components/input"
 const client = useQueryClient()
 const _user = useQuery(authQueries.whoami())
 
+const router = useRouter()
 const form = useForm({ validationSchema: toTypedSchema(SignIn) })
 const submit = form.handleSubmit((values) => mutation.mutate(values))
 
@@ -22,6 +24,7 @@ const mutation = useMutation({
     ...authMutations.signIn(),
     onSuccess(data) {
         client.setQueryData(authQueries.whoami().queryKey, data)
+        router.push({ name: HomeRouteName })
     },
     onError: () => {
         form.setErrors({
