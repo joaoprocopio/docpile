@@ -1,11 +1,15 @@
 use crate::{auth, error::Result, org, server::state::Server};
-use axum::{Router, http::StatusCode, routing};
+use axum::{
+    Router,
+    http::{StatusCode, header},
+    routing,
+};
 use tower::ServiceBuilder;
 use tower_http::{
     CompressionLevel,
     catch_panic::CatchPanicLayer,
     compression::CompressionLayer,
-    cors::CorsLayer,
+    cors::{AllowHeaders, AllowMethods, AllowOrigin, CorsLayer},
     timeout::{RequestBodyTimeoutLayer, TimeoutLayer},
     trace::TraceLayer,
 };
@@ -33,7 +37,12 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
                 .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
                 .layer(TimeoutLayer::new(server.env.timeout))
                 .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
-                .layer(CorsLayer::new().allow_origin(server.env.allowed_origins.clone()))
+                .layer(
+                    CorsLayer::new()
+                        .allow_headers(AllowHeaders::list([header::CONTENT_TYPE]))
+                        .allow_methods(AllowMethods::any())
+                        .allow_origin(AllowOrigin::list(server.env.allowed_origins.clone())),
+                )
                 .layer(CatchPanicLayer::new())
                 .layer(TraceLayer::new_for_http()),
         );

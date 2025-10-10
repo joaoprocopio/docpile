@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            apiUrl: "http://localhost:8001/api",
+            apiUrl: "http://localhost:8000/api",
         },
     },
     srcDir: "src/",

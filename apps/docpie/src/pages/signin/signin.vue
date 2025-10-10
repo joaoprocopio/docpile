@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
+import { useIsMutating, useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { toTypedSchema } from "@vee-validate/zod"
 import { useToggle } from "@vueuse/core"
 import { useForm } from "vee-validate"
@@ -12,7 +12,8 @@ import { Button } from "~/lib/ui/components/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/components/form"
 import { Input } from "~/lib/ui/components/input"
 
-const queryClient = useQueryClient()
+const client = useQueryClient()
+const _user = useQuery(authQueries.whoami())
 
 const form = useForm({ validationSchema: toTypedSchema(SignIn) })
 const submit = form.handleSubmit((values) => mutation.mutate(values))
@@ -20,7 +21,7 @@ const submit = form.handleSubmit((values) => mutation.mutate(values))
 const mutation = useMutation({
     ...authMutations.signIn(),
     onSuccess(data) {
-        queryClient.setQueryData(authQueries.whoami().queryKey, data)
+        client.setQueryData(authQueries.whoami().queryKey, data)
     },
     onError: () => {
         form.setErrors({
