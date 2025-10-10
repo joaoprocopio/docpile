@@ -1,29 +1,29 @@
-use axum::http::StatusCode;
-use serde::ser::SerializeMap;
-use std::{borrow::Cow, collections::HashMap};
+use thiserror::Error;
 
-type CowStr = Cow<'static, str>;
-
-pub type Extensions = HashMap<CowStr, serde_json::Value>;
-
-#[derive(Debug)]
-pub struct Error {
-    r#type: CowStr,
-    title: CowStr,
-    details: CowStr,
-    status: StatusCode,
-    extensions: Extensions,
+#[derive(Error, Debug)]
+pub struct MyError {
+    msg: String,
+    #[source] // optional if field name is `source`
+    source: anyhow::Error,
 }
 
-impl serde::Serialize for Error {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        let mut map = serializer.serialize_map(None)?;
+impl std::fmt::Display for MyError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "{}", self.msg)?;
 
-        map.serialize_entry(&"status", &self.status.as_u16())?;
-
-        map.end()
+        Ok(())
     }
 }
+
+// impl serde::Serialize for Error {
+//     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+//     where
+//         S: serde::Serializer,
+//     {
+//         let mut map = serializer.serialize_map(None)?;
+
+//         map.serialize_entry(&"status", &self.status.as_u16())?;
+
+//         map.end()
+//     }
+// }
