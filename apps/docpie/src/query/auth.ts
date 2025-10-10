@@ -3,10 +3,10 @@ import { AuthServices } from "~/services/auth"
 
 export const authQueries = defineKeyring({
     all: () => key("auth"),
-    me: () =>
+    whoami: () =>
         queryOptions({
-            queryKey: key("auth", "me"),
-            queryFn: AuthServices.me,
+            queryKey: key("auth", "whoami"),
+            queryFn: AuthServices.whoami,
         }),
 })
 

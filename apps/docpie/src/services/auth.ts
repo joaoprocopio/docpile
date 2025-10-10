@@ -1,11 +1,9 @@
 import { type TSignInOut, type TUserOut, User } from "~/schemas/auth"
 import { useHTTP } from "~/services/clients/http"
 
-async function me(): Promise<TUserOut> {
+async function whoami(): Promise<TUserOut> {
     const http = useHTTP()
-    const response = await http("/v1/auth/me", {
-        method: "GET",
-    })
+    const response = await http("/v1/auth/whoami")
 
     return User.parse(response)
 }
@@ -21,6 +19,6 @@ async function signIn(payload: TSignInOut): Promise<TUserOut> {
 }
 
 export const AuthServices = {
-    me,
+    whoami,
     signIn,
 }

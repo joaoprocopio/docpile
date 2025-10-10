@@ -33,7 +33,7 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
                 .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
                 .layer(TimeoutLayer::new(server.env.timeout))
                 .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
-                .layer(CorsLayer::new())
+                .layer(CorsLayer::new().allow_origin(server.env.allowed_origins.clone()))
                 .layer(CatchPanicLayer::new())
                 .layer(TraceLayer::new_for_http()),
         );

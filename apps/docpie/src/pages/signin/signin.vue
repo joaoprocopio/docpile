@@ -20,7 +20,7 @@ const submit = form.handleSubmit((values) => mutation.mutate(values))
 const mutation = useMutation({
     ...authMutations.signIn(),
     onSuccess(data) {
-        queryClient.setQueryData(authQueries.me().queryKey, data)
+        queryClient.setQueryData(authQueries.whoami().queryKey, data)
     },
     onError: () => {
         form.setErrors({
