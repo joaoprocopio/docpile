@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { reactiveOmit } from "@vueuse/core"
-import { ChevronLeft } from "lucide-vue-next"
 import type { CalendarPrevProps } from "reka-ui"
 import { CalendarPrev, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
@@ -28,7 +27,9 @@ const forwardedProps = useForwardProps(delegatedProps)
         "
         v-bind="forwardedProps">
         <slot>
-            <ChevronLeft class="size-4" />
+            <Icon
+                name="lucide:chevron-left"
+                class="size-4" />
         </slot>
     </CalendarPrev>
 </template>

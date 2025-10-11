@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Minus } from "lucide-vue-next"
 import type { PrimitiveProps } from "reka-ui"
 import { Primitive, useForwardProps } from "reka-ui"
 
@@ -12,7 +11,7 @@ const forwardedProps = useForwardProps(props)
         data-slot="pin-input-separator"
         v-bind="forwardedProps">
         <slot>
-            <Minus />
+            <Icon name="lucide:minus" />
         </slot>
     </Primitive>
 </template>

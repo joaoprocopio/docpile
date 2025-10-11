@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { reactiveOmit } from "@vueuse/core"
-import { Circle } from "lucide-vue-next"
 import type { DropdownMenuRadioItemEmits, DropdownMenuRadioItemProps } from "reka-ui"
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
@@ -28,7 +27,9 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         ">
         <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
             <DropdownMenuItemIndicator>
-                <Circle class="size-2 fill-current" />
+                <Icon
+                    name="lucide:circle"
+                    class="size-2 fill-current" />
             </DropdownMenuItemIndicator>
         </span>
         <slot />

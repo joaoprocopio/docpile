@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { reactiveOmit } from "@vueuse/core"
-import { Search } from "lucide-vue-next"
 import type { ListboxFilterProps } from "reka-ui"
 import { ListboxFilter, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
@@ -30,7 +29,9 @@ const { filterState } = useCommand()
     <div
         data-slot="command-input-wrapper"
         class="flex h-12 items-center gap-2 border-b px-3">
-        <Search class="size-4 shrink-0 opacity-50" />
+        <Icon
+            name="lucide:search"
+            class="size-4 shrink-0 opacity-50" />
         <ListboxFilter
             v-bind="{ ...forwardedProps, ...$attrs }"
             v-model="filterState.search"

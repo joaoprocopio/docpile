@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { reactiveOmit } from "@vueuse/core"
-import { GripVertical } from "lucide-vue-next"
 import type { SplitterResizeHandleEmits, SplitterResizeHandleProps } from "reka-ui"
 import { SplitterResizeHandle, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
@@ -28,7 +27,9 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         ">
         <template v-if="props.withHandle">
             <div class="rounded-xs z-10 flex h-4 w-3 items-center justify-center border bg-border">
-                <GripVertical class="size-2.5" />
+                <Icon
+                    name="lucide:grip-vertical"
+                    class="size-2.5" />
             </div>
         </template>
     </SplitterResizeHandle>

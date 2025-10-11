@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { reactiveOmit } from "@vueuse/core"
-import { ChevronRightIcon } from "lucide-vue-next"
 import type { PaginationNextProps } from "reka-ui"
 import { PaginationNext, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
@@ -34,7 +33,7 @@ const forwarded = useForwardProps(delegatedProps)
         v-bind="forwarded">
         <slot>
             <span class="hidden sm:block">Next</span>
-            <ChevronRightIcon />
+            <Icon name="lucide:chevron-right" />
         </slot>
     </PaginationNext>
 </template>

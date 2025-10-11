@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ArrowLeft } from "lucide-vue-next"
-
 import type { ButtonVariants } from "~/lib/ui/button"
 import { Button } from "~/lib/ui/button"
 import { cn } from "~/lib/ui/utils"
@@ -41,7 +39,7 @@ const { orientation, canScrollPrev, scrollPrev } = useCarousel()
         :size="size"
         @click="scrollPrev">
         <slot>
-            <ArrowLeft />
+            <Icon name="lucide:arrow-left" />
             <span class="sr-only">Previous Slide</span>
         </slot>
     </Button>

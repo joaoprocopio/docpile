@@ -3,9 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/vue-query"
 import { toTypedSchema } from "@vee-validate/zod"
 import { useToggle } from "@vueuse/core"
 import { FetchError } from "ofetch"
-import { Button } from "~/lib/ui/button"
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/form"
-import { Input } from "~/lib/ui/input"
 import { useForm } from "vee-validate"
 
 import { useRouter } from "#app"
@@ -13,6 +10,9 @@ import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignUp } from "~/lib/auth/schemas"
 import { HttpStatus } from "~/lib/http/status"
 import { HomeRouteName, SignInRouteName } from "~/lib/router/constants"
+import { Button } from "~/lib/ui/button"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/form"
+import { Input } from "~/lib/ui/input"
 
 const client = useQueryClient()
 
