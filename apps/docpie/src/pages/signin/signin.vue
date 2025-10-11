@@ -7,19 +7,25 @@ import { computed } from "vue"
 import { useRouter } from "#app"
 import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignIn } from "~/lib/auth/schemas"
+import { isFieldInvalid } from "~/lib/form/utils"
 import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/components/button"
+import { Field, FieldGroup, FieldLabel } from "~/lib/ui/components/field"
 import { Input } from "~/lib/ui/components/input"
 
 const client = useQueryClient()
 
 const router = useRouter()
 const form = useForm({
-    onSubmit(props) {
-        mutation.mutate(props.value)
+    defaultValues: {
+        email: "",
+        password: "",
     },
     validators: {
         onBlur: SignIn,
+    },
+    onSubmit(props) {
+        mutation.mutate(props.value)
     },
 })
 
@@ -31,8 +37,8 @@ const mutation = useMutation({
     },
     onError: () => {
         form.setErrorMap({
-            email: "Email may be invalid",
-            password: "Password may be invalid",
+            // email: "Email may be invalid",
+            // password: "Password may be invalid",
         })
     },
 })
@@ -50,8 +56,31 @@ const [showPassword, toggleShowPassword] = useToggle(false)
 
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
-            @submit="submit">
-            <div class="flex flex-col gap-y-3">
+            @submit.prevent.stop="form.handleSubmit">
+            <div class="flex flex-col gap-y-3"></div>
+            <FieldGroup>
+                <form.Field
+                    v-slot="{ field }"
+                    name="email">
+                    <Field :data-invalid="isFieldInvalid(field)">
+                        <FieldLabel
+                            :html-for="field.name"
+                            class="sr-only">
+                            Email
+                        </FieldLabel>
+                        <Input
+                            :name="field.name"
+                            :model-value="field.state.value"
+                            autocomplete="email"
+                            placeholder="Enter your email address..."
+                            @blur="field.handleBlur"
+                            @change="(e) => field.handleChange(e.target.value)" />
+                    </Field>
+                </form.Field>
+            </FieldGroup>
+
+            <!--
+
                 <FormField
                     v-slot="field"
                     name="email">
@@ -97,7 +126,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                         <FormMessage />
                     </FormItem>
                 </FormField>
-            </div>
+             -->
 
             <Button
                 :disabled="isLoading"

@@ -1,19 +1,18 @@
-import { z } from "zod/v3"
+import { z } from "zod/v4"
 
 export const Email = z
-    .string({ message: "Please enter an email address" })
-    .email({ message: "Please enter an valid email address" })
-    .max(320)
+    .email("Please enter an valid email address")
+    .max(320, "Exceeds maximum length of 320 characters")
 
 export const Password = z
-    .string({ message: "Please enter an password" })
-    .min(8, { message: "Must be at least 8 characters long" })
-    .max(256, { message: "Exceeds maximum length of 256 characters" })
+    .string("Please enter an password")
+    .min(8, "Must be at least 8 characters long")
+    .max(256, "Exceeds maximum length of 256 characters")
 
 export const DisplayName = z
-    .string({ message: "Please enter your name" })
-    .min(1, { message: "Must not be empty" })
-    .max(256, { message: "Exceeds maximum length of 256 characters" })
+    .string("Please enter your name")
+    .min(1, "Must not be empty")
+    .max(256, "Exceeds maximum length of 256 characters")
 
 export type TSignInIn = z.input<typeof SignIn>
 export type TSignInOut = z.output<typeof SignIn>

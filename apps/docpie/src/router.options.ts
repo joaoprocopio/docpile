@@ -20,10 +20,10 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     {
         name: SignUpRouteName,
         path: "/signup",
-        component: () => import("~/pages/signup"),
-        meta: {
-            layout: "auth",
-        },
+        // component: () => import("~/pages/signup"),
+        // meta: {
+        //     layout: "auth",
+        // },
     },
 ]
 
