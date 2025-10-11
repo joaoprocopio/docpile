@@ -2,7 +2,7 @@ import tailwindcss from "@tailwindcss/vite"
 
 export default defineNuxtConfig({
     modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image", "@nuxtjs/color-mode"],
-    plugins: ["~/lib/query/plugin.ts", "~/lib/form/plugin.ts"],
+    plugins: ["~/lib/query/plugin.ts"],
     ssr: false,
     pages: {
         enabled: true,
