@@ -1,6 +1,7 @@
 {
     "include": ["./src/**/*.ts", "./src/**/*.vue"],
     "compilerOptions": {
+        "baseUrl": ".",
         "paths": {
             "~/": ["./src"],
             "~/*": ["./src/*"]
