@@ -2,7 +2,6 @@
 import { useForm } from "@tanstack/vue-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useToggle } from "@vueuse/core"
-import {} from "ui/input"
 import { computed } from "vue"
 
 import { useRouter } from "#app"
@@ -10,9 +9,9 @@ import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignIn } from "~/lib/auth/schemas"
 import { isFieldInvalid } from "~/lib/form/utils"
 import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
-import { Button } from "ui/button"
-import { Field, FieldGroup, FieldLabel } from "ui/field"
-import { Input } from "ui/input"
+import { Button } from "~/lib/ui/button"
+import { Field, FieldGroup, FieldLabel } from "~/lib/ui/field"
+import { Input } from "~/lib/ui/input"
 
 const client = useQueryClient()
 

@@ -1,8 +1,18 @@
-import config from "prettier-config"
-
 /** @type {import("prettier").Config} */
 export default {
-    ...config,
+    semi: false,
+    singleQuote: false,
+    trailingComma: "all",
+    endOfLine: "lf",
+    singleAttributePerLine: true,
+    arrowParens: "always",
+    printWidth: 100,
+    tabWidth: 4,
+    useTabs: false,
+    bracketSpacing: true,
+    bracketSameLine: true,
+    jsxBracketSameLine: false,
+    vueIndentScriptAndStyle: false,
     plugins: ["prettier-plugin-tailwindcss"],
     tailwindFunctions: ["cva", "cn", "cx", "clsx"],
     tailwindStylesheet: "./src/assets/tailwind.css",
