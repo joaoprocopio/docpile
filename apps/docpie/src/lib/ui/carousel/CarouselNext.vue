@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ArrowRight } from "lucide-vue-next"
 
-import type { ButtonVariants } from "~/button"
-import { Button } from "~/button"
+import type { ButtonVariants } from "~/lib/ui/button"
+import { Button } from "~/lib/ui/button"
 import { cn } from "~/lib/ui/utils"
 
 import type { WithClassAsProps } from "./interface"

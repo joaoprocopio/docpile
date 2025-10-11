@@ -6,7 +6,7 @@ import { useMounted } from "@vueuse/core"
 import type { Component } from "vue"
 import { computed, ref } from "vue"
 
-import { ChartSingleTooltip, defaultColors } from "~/chart"
+import { ChartSingleTooltip, defaultColors } from "~/lib/ui/chart"
 import { cn } from "~/lib/ui/utils"
 
 import type { BaseChartProps } from "."

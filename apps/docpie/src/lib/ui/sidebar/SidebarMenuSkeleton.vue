@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from "vue"
 import { computed } from "vue"
 
-import { Skeleton } from "~/skeleton"
+import { Skeleton } from "~/lib/ui/skeleton"
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<{

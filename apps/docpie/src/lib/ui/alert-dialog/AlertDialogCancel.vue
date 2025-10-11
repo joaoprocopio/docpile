@@ -4,7 +4,7 @@ import type { AlertDialogCancelProps } from "reka-ui"
 import { AlertDialogCancel } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { buttonVariants } from "~/button"
+import { buttonVariants } from "~/lib/ui/button"
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<AlertDialogCancelProps & { class?: HTMLAttributes["class"] }>()

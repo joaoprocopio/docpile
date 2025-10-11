@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Sheet, SheetContent } from "~/sheet"
+import { Sheet, SheetContent } from "~/lib/ui/sheet"
 import SheetDescription from "~/sheet/SheetDescription.vue"
 import SheetHeader from "~/sheet/SheetHeader.vue"
 import SheetTitle from "~/sheet/SheetTitle.vue"

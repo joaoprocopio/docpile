@@ -8,7 +8,7 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-} from "~/dialog"
+} from "~/lib/ui/dialog"
 
 import Command from "./Command.vue"
 

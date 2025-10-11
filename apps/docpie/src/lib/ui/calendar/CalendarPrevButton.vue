@@ -5,7 +5,7 @@ import type { CalendarPrevProps } from "reka-ui"
 import { CalendarPrev, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { buttonVariants } from "~/button"
+import { buttonVariants } from "~/lib/ui/button"
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<CalendarPrevProps & { class?: HTMLAttributes["class"] }>()
