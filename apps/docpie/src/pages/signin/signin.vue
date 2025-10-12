@@ -15,10 +15,10 @@ import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { isString } from "~/utils/is"
 
-const client = useQueryClient()
+const queryClient = useQueryClient()
 
 const router = useRouter()
-const form = useForm({
+const signinForm = useForm({
     defaultValues: {
         email: "",
         password: "",
@@ -27,18 +27,18 @@ const form = useForm({
         onSubmit: SignIn,
     },
     onSubmit(props) {
-        mutation.mutate(props.value)
+        signinMutation.mutate(props.value)
     },
 })
 
-const mutation = useMutation({
+const signinMutation = useMutation({
     ...authMutations.signIn(),
     onSuccess(data) {
-        client.setQueryData(authQueries.whoami().queryKey, data)
+        queryClient.setQueryData(authQueries.whoami().queryKey, data)
         router.push({ name: HomeRouteName })
     },
     onError: async () => {
-        form.setErrorMap({
+        signinForm.setErrorMap({
             onSubmit: {
                 form: "Email or password may be invalid",
                 fields: {},
@@ -46,9 +46,7 @@ const mutation = useMutation({
         })
     },
 })
-const isMutating = useIsMutating({
-    mutationKey: authMutations.signIn().mutationKey,
-})
+const isMutating = useIsMutating({ mutationKey: authMutations.signIn().mutationKey })
 const isLoading = computed(() => Boolean(isMutating.value))
 
 const [showPassword, toggleShowPassword] = useToggle(false)
@@ -60,21 +58,21 @@ const [showPassword, toggleShowPassword] = useToggle(false)
 
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
-            @submit.prevent.stop="form.handleSubmit">
+            @submit.prevent.stop="signinForm.handleSubmit">
             <FieldGroup class="gap-3">
                 <Alert
-                    v-if="isString(form.state.errorMap.onSubmit)"
+                    v-if="signinForm.state.errorMap.onSubmit"
                     variant="destructive"
                     class="items-center">
                     <Icon
                         name="lucide:circle-x"
                         class="translate-y-0!" />
                     <AlertTitle class="text-xs">
-                        {{ form.state.errorMap.onSubmit }}
+                        {{ signinForm.state.errorMap.onSubmit }}
                     </AlertTitle>
                 </Alert>
 
-                <form.Field
+                <signinForm.Field
                     v-slot="{ field }"
                     name="email">
                     <Field
@@ -103,9 +101,9 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                             v-if="isInvalid"
                             :errors="field.state.meta.errors" />
                     </Field>
-                </form.Field>
+                </signinForm.Field>
 
-                <form.Field
+                <signinForm.Field
                     v-slot="{ field }"
                     name="password">
                     <Field
@@ -150,7 +148,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                             v-if="isInvalid"
                             :errors="field.state.meta.errors" />
                     </Field>
-                </form.Field>
+                </signinForm.Field>
             </FieldGroup>
 
             <Button
