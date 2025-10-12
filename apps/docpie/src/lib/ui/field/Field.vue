@@ -16,7 +16,6 @@ const props = defineProps<{
 }>()
 
 // Since `@tanstack/vue-form` is all based on re-renders, it's better to wrap the logic into getter functions.
-//
 function isFieldInvalid() {
     return props.field.state.meta.isTouched && !props.field.state.meta.isValid
 }

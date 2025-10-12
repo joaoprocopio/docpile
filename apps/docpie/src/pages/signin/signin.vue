@@ -8,11 +8,12 @@ import { useRouter } from "#app"
 import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignIn } from "~/lib/auth/schemas"
 import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
+import { Alert, AlertTitle } from "~/lib/ui/alert"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
-import { isArray } from "~/utils/is"
+import { isString } from "~/utils/is"
 
 const client = useQueryClient()
 
@@ -37,18 +38,12 @@ const mutation = useMutation({
         router.push({ name: HomeRouteName })
     },
     onError: async () => {
-        const emailField = form.getFieldInfo("email")
-        const passwordField = form.getFieldInfo("password")
-
-        emailField.instance?.setMeta((prev) => ({
-            ...prev,
-            errors: ["Email may be invalid"],
-        }))
-
-        passwordField.instance?.setMeta((prev) => ({
-            ...prev,
-            errors: ["Password may be invalid"],
-        }))
+        form.setErrorMap({
+            onSubmit: {
+                form: "Email or password may be invalid",
+                fields: {},
+            },
+        })
     },
 })
 const isMutating = useIsMutating({
@@ -67,6 +62,18 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             class="mt-8 flex w-full flex-col gap-y-5"
             @submit.prevent.stop="form.handleSubmit">
             <FieldGroup class="gap-3">
+                <Alert
+                    v-if="isString(form.state.errorMap.onSubmit)"
+                    variant="destructive"
+                    class="items-center">
+                    <Icon
+                        name="lucide:circle-x"
+                        class="translate-y-0!" />
+                    <AlertTitle class="text-xs">
+                        {{ form.state.errorMap.onSubmit }}
+                    </AlertTitle>
+                </Alert>
+
                 <form.Field
                     v-slot="{ field }"
                     name="email">

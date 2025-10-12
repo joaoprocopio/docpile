@@ -1,11 +1,11 @@
-export function isNil(subject: unknown): subject is null | undefined {
-    return subject == null
+export function isNil(value: unknown): value is null | undefined {
+    return value == null
 }
 
-export function isString(val: unknown): val is string {
-    return typeof val === "string" || val instanceof String
+export function isString(value: unknown): value is string {
+    return typeof value === "string" || value instanceof String
 }
 
-export function isArray<T>(subject: unknown): subject is Array<T> {
-    return Array.isArray(subject)
+export function isArray<T>(value: unknown): value is Array<T> {
+    return Array.isArray(value)
 }
