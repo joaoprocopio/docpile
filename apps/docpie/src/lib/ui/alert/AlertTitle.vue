@@ -11,7 +11,9 @@ const props = defineProps<{
 <template>
     <div
         data-slot="alert-title"
-        :class="cn('tracking-tight col-start-2 line-clamp-1 min-h-4 font-medium', props.class)">
+        :class="
+            cn('tracking-tight col-start-2 line-clamp-1 min-h-4 text-sm font-medium', props.class)
+        ">
         <slot />
     </div>
 </template>

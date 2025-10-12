@@ -7,11 +7,12 @@ import { computed } from "vue"
 import { useRouter } from "#app"
 import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignIn } from "~/lib/auth/schemas"
-import { isFieldInvalid } from "~/lib/form/utils"
 import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
-import { Field, FieldGroup, FieldLabel } from "~/lib/ui/field"
+import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
+import { isArray } from "~/utils/is"
 
 const client = useQueryClient()
 
@@ -22,7 +23,7 @@ const form = useForm({
         password: "",
     },
     validators: {
-        onBlur: SignIn,
+        onSubmit: SignIn,
     },
     onSubmit(props) {
         mutation.mutate(props.value)
@@ -35,11 +36,19 @@ const mutation = useMutation({
         client.setQueryData(authQueries.whoami().queryKey, data)
         router.push({ name: HomeRouteName })
     },
-    onError: () => {
-        form.setErrorMap({
-            // email: "Email may be invalid",
-            // password: "Password may be invalid",
-        })
+    onError: async () => {
+        const emailField = form.getFieldInfo("email")
+        const passwordField = form.getFieldInfo("password")
+
+        emailField.instance?.setMeta((prev) => ({
+            ...prev,
+            errors: ["Email may be invalid"],
+        }))
+
+        passwordField.instance?.setMeta((prev) => ({
+            ...prev,
+            errors: ["Password may be invalid"],
+        }))
     },
 })
 const isMutating = useIsMutating({
@@ -57,76 +66,85 @@ const [showPassword, toggleShowPassword] = useToggle(false)
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
             @submit.prevent.stop="form.handleSubmit">
-            <div class="flex flex-col gap-y-3"></div>
-            <FieldGroup>
+            <FieldGroup class="gap-3">
                 <form.Field
                     v-slot="{ field }"
                     name="email">
-                    <Field :data-invalid="isFieldInvalid(field)">
+                    <Field
+                        v-slot="{ isInvalid }"
+                        :field="field">
                         <FieldLabel
-                            :html-for="field.name"
+                            :for="field.name"
                             class="sr-only">
                             Email
                         </FieldLabel>
+
                         <Input
+                            :id="field.name"
                             :name="field.name"
+                            :aria-invalid="isInvalid"
                             :model-value="field.state.value"
                             autocomplete="email"
                             placeholder="Enter your email address..."
                             @blur="field.handleBlur"
-                            @change="(e) => field.handleChange(e.target.value)" />
+                            @change="
+                                (e: Event) =>
+                                    field.handleChange((e.target as HTMLInputElement).value)
+                            " />
+
+                        <FieldError
+                            v-if="isInvalid"
+                            :errors="field.state.meta.errors" />
+                    </Field>
+                </form.Field>
+
+                <form.Field
+                    v-slot="{ field }"
+                    name="password">
+                    <Field
+                        v-slot="{ isInvalid }"
+                        :field="field">
+                        <FieldLabel
+                            :for="field.name"
+                            class="sr-only">
+                            Password
+                        </FieldLabel>
+
+                        <InputGroup>
+                            <InputGroupInput
+                                :id="field.name"
+                                :name="field.name"
+                                :aria-invalid="isInvalid"
+                                :model-value="field.state.value"
+                                :type="showPassword ? 'text' : 'password'"
+                                autocomplete="current-password"
+                                placeholder="Enter your password..."
+                                @blur="field.handleBlur"
+                                @change="
+                                    (e: Event) =>
+                                        field.handleChange((e.target as HTMLInputElement).value)
+                                " />
+
+                            <InputGroupAddon align="inline-end">
+                                <Button
+                                    class="size-auto p-1"
+                                    type="button"
+                                    size="icon"
+                                    variant="ghost"
+                                    @click="() => toggleShowPassword()">
+                                    <Icon
+                                        class="size-[1.125rem]"
+                                        :name="showPassword ? 'lucide:eye' : 'lucide:eye-off'" />
+                                </Button>
+                            </InputGroupAddon>
+                        </InputGroup>
+
+                        <FieldError
+                            v-if="isInvalid"
+                            :errors="field.state.meta.errors" />
                     </Field>
                 </form.Field>
             </FieldGroup>
-
-            <!--
-
-                <FormField
-                    v-slot="field"
-                    name="email">
-                    <FormItem>
-                        <FormLabel class="sr-only">Email</FormLabel>
-                        <FormControl>
-                            <Input
-                                v-bind="field.componentField"
-                                autocomplete="email"
-                                placeholder="Enter your email address..." />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-
-                <FormField
-                    v-slot="field"
-                    name="password">
-                    <FormItem>
-                        <FormLabel class="sr-only">Password</FormLabel>
-                        <div class="relative">
-                            <FormControl>
-                                <Input
-                                    v-bind="field.componentField"
-                                    :type="showPassword ? 'text' : 'password'"
-                                    autocomplete="current-password"
-                                    placeholder="Enter your password..."
-                                    class="pr-9">
-                                </Input>
-                            </FormControl>
-
-                            <Button
-                                class="absolute top-0 right-0 m-1 size-7 text-muted-foreground"
-                                type="button"
-                                size="icon"
-                                variant="ghost"
-                                @click="() => toggleShowPassword()">
-                                <Icon
-                                    class="size-4"
-                                    :name="showPassword ? 'lucide:eye' : 'lucide:eye-off'" />
-                            </Button>
-                        </div>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-             -->
 
             <Button
                 :disabled="isLoading"

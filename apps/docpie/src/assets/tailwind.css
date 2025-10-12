@@ -44,6 +44,7 @@
     --radius: 0.5rem;
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: var(--radius);
+    --radius-lg: calc(var(--radius) + 4px);
 
     /* Typography */
     --font-sans: "Inter", sans-serif;
@@ -316,6 +317,8 @@
     /* With semantic-meaning */
     --background: var(--gray-1);
     --foreground: var(--gray-12);
+    --card: var(--gray-1);
+    --card-foreground: var(--gray-12);
     --primary: var(--primary-9);
     --primary-foreground: var(--gray-1);
     --secondary: var(--gray-4);
@@ -541,6 +544,8 @@
     /* With semantic-meaning */
     --background: var(--gray-1);
     --foreground: var(--gray-12);
+    --card: var(--gray-a2);
+    --card-foreground: var(--gray-12);
     --primary: var(--primary-9);
     --primary-foreground: var(--gray-12);
     --secondary: var(--gray-4);
@@ -550,7 +555,7 @@
     --accent: var(--gray-3);
     --accent-foreground: var(--gray-12);
     --destructive: var(--destructive-4);
-    --destructive-foreground: var(--destructive-11);
+    --destructive-foreground: var(--destructive-10);
     --input: var(--gray-4);
     --border: var(--gray-3);
     --ring: var(--gray-5);
@@ -796,6 +801,9 @@
     --color-black: var(--black-a12);
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);

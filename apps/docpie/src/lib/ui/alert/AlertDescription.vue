@@ -13,7 +13,7 @@ const props = defineProps<{
         data-slot="alert-description"
         :class="
             cn(
-                '[&_p]:leading-relaxed col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground',
+                '[&_p]:leading-relaxed col-start-2 grid justify-items-start gap-1 text-xs text-muted-foreground',
                 props.class,
             )
         ">
