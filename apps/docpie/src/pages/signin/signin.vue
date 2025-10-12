@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from "@tanstack/vue-form"
+import { useForm, useStore } from "@tanstack/vue-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useToggle } from "@vueuse/core"
 import { computed } from "vue"
@@ -13,12 +13,12 @@ import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
-import { isString } from "~/utils/is"
+import { isEmpty, isString } from "~/utils/is"
 
-const queryClient = useQueryClient()
-
+const client = useQueryClient()
 const router = useRouter()
-const signinForm = useForm({
+
+const form = useForm({
     defaultValues: {
         email: "",
         password: "",
@@ -27,27 +27,25 @@ const signinForm = useForm({
         onSubmit: SignIn,
     },
     onSubmit(props) {
-        signinMutation.mutate(props.value)
+        mutation.mutate(props.value)
+    },
+})
+const error = form.useStore((s) => s.errorMap.onSubmit)
+
+const mutation = useMutation({
+    ...authMutations.signIn(),
+    onSuccess(data) {
+        client.setQueryData(authQueries.whoami().queryKey, data)
+        router.push({ name: HomeRouteName })
+    },
+    onError: () => {
+        form.setErrorMap({ onSubmit: { form: "Email or password may be invalid", fields: {} } })
     },
 })
 
-const signinMutation = useMutation({
-    ...authMutations.signIn(),
-    onSuccess(data) {
-        queryClient.setQueryData(authQueries.whoami().queryKey, data)
-        router.push({ name: HomeRouteName })
-    },
-    onError: async () => {
-        signinForm.setErrorMap({
-            onSubmit: {
-                form: "Email or password may be invalid",
-                fields: {},
-            },
-        })
-    },
-})
-const isMutating = useIsMutating({ mutationKey: authMutations.signIn().mutationKey })
-const isLoading = computed(() => Boolean(isMutating.value))
+const isLoading = computed(() =>
+    Boolean(useIsMutating({ mutationKey: authMutations.signIn().mutationKey }).value),
+)
 
 const [showPassword, toggleShowPassword] = useToggle(false)
 </script>
@@ -58,21 +56,21 @@ const [showPassword, toggleShowPassword] = useToggle(false)
 
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
-            @submit.prevent.stop="signinForm.handleSubmit">
+            @submit.prevent.stop="form.handleSubmit">
             <FieldGroup class="gap-3">
                 <Alert
-                    v-if="signinForm.state.errorMap.onSubmit"
+                    v-if="isString(error) && !isEmpty(error)"
                     variant="destructive"
                     class="items-center">
                     <Icon
                         name="lucide:circle-x"
                         class="translate-y-0!" />
                     <AlertTitle class="text-xs">
-                        {{ signinForm.state.errorMap.onSubmit }}
+                        {{ error }}
                     </AlertTitle>
                 </Alert>
 
-                <signinForm.Field
+                <form.Field
                     v-slot="{ field }"
                     name="email">
                     <Field
@@ -101,9 +99,9 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                             v-if="isInvalid"
                             :errors="field.state.meta.errors" />
                     </Field>
-                </signinForm.Field>
+                </form.Field>
 
-                <signinForm.Field
+                <form.Field
                     v-slot="{ field }"
                     name="password">
                     <Field
@@ -148,7 +146,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                             v-if="isInvalid"
                             :errors="field.state.meta.errors" />
                     </Field>
-                </signinForm.Field>
+                </form.Field>
             </FieldGroup>
 
             <Button
