@@ -10,10 +10,16 @@ use crate::{
 };
 use axum::{Json, extract::State, http::StatusCode};
 
-pub async fn whoami(auth_session: AuthSession) -> (StatusCode, Json<Option<SafeUser>>) {
+pub async fn whoami(auth_session: AuthSession) -> Result<Json<Option<SafeUser>>, Error> {
     match auth_session.user {
-        Some(user) => (StatusCode::OK, Json(Some(user.into()))),
-        None => (StatusCode::OK, Json(None)),
+        Some(user) => {
+            auth_session.session.cycle_id().await.map_err(|e| {
+                Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
+            })?;
+
+            Ok(Json(Some(user.into())))
+        }
+        None => Ok(Json(None)),
     }
 }
 
@@ -60,14 +66,14 @@ pub async fn sign_up(
         })?;
 
     if is_taken {
-        const ERR: &str = "This email is already taken";
+        const TEXT: &str = "This email is already taken";
 
         return Err(Error::from_status(
             StatusCode::CONFLICT,
             ErrorKind::EmailIsAlreadyTaken,
-            anyerror!(ERR),
+            anyerror!(TEXT),
         )
-        .with_details(Some(ERR)));
+        .with_details(Some(TEXT)));
     }
 
     let user = create_user(

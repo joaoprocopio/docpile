@@ -43,9 +43,8 @@ const mutation = useMutation({
     },
 })
 
-const isLoading = computed(() =>
-    Boolean(useIsMutating({ mutationKey: authMutations.signIn().mutationKey }).value),
-)
+const isMutating = useIsMutating({ mutationKey: authMutations.signIn().mutationKey })
+const isLoading = computed(() => Boolean(isMutating.value))
 
 const [showPassword, toggleShowPassword] = useToggle(false)
 </script>
