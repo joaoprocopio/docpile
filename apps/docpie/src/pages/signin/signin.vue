@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, useStore } from "@tanstack/vue-form"
+import { useForm } from "@tanstack/vue-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useToggle } from "@vueuse/core"
 import { computed } from "vue"
@@ -30,7 +30,7 @@ const form = useForm({
         mutation.mutate(props.value)
     },
 })
-const error = form.useStore((s) => s.errorMap.onSubmit)
+const error = form.useStore((state) => state.errorMap.onSubmit)
 
 const mutation = useMutation({
     ...authMutations.signIn(),

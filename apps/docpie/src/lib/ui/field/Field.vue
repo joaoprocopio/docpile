@@ -2,6 +2,7 @@
 
 <script setup lang="ts">
 import type { AnyFieldApi } from "@tanstack/vue-form"
+import { useStore } from "@tanstack/vue-form"
 import type { HTMLAttributes } from "vue"
 
 import { cn } from "~/lib/ui/utils"
@@ -15,22 +16,22 @@ const props = defineProps<{
     orientation?: FieldVariants["orientation"]
 }>()
 
-// Since `@tanstack/vue-form` is all based on re-renders, it's better to wrap the logic into getter functions.
-function isFieldInvalid() {
-    return props.field.state.meta.isTouched && !props.field.state.meta.isValid
-}
+const isInvalid = useStore(
+    props.field.store,
+    (state) => state.meta.isTouched && !state.meta.isValid,
+)
 </script>
 
 <template>
     <div
         role="group"
         data-slot="field"
-        :data-invalid="isFieldInvalid()"
+        :data-invalid="isInvalid"
         :data-orientation="orientation"
         :class="cn(fieldVariants({ orientation }), props.class)">
         <slot
             v-bind="{
-                isInvalid: isFieldInvalid(),
+                isInvalid: isInvalid,
             }" />
     </div>
 </template>
