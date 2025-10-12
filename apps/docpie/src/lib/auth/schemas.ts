@@ -5,13 +5,13 @@ export const Email = z
     .max(320, "Exceeds maximum length of 320 characters")
 
 export const Password = z
-    .string("Please enter an password")
-    .min(8, "Must be at least 8 characters long")
+    .string()
+    .min(8, "Your password must be at least 8 characters long")
     .max(256, "Exceeds maximum length of 256 characters")
 
 export const DisplayName = z
-    .string("Please enter your name")
-    .min(1, "Must not be empty")
+    .string()
+    .min(1, "Please enter your name")
     .max(256, "Exceeds maximum length of 256 characters")
 
 export type TSignInIn = z.input<typeof SignIn>

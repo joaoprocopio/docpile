@@ -11,7 +11,7 @@ import { SignUp } from "~/lib/auth/schemas"
 import { HttpStatus } from "~/lib/http/status"
 import { HomeRouteName, SignInRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
+import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
@@ -39,18 +39,13 @@ const mutation = useMutation({
         client.setQueryData(authQueries.whoami().queryKey, data)
         router.push({ name: HomeRouteName })
     },
-    // onError: (err) => {
-    // if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
-    //     form.setErrors({
-    //         email: "This email is already taken",
-    //     })
-    //     return undefined
-    // }
-    // form.setErrors({
-    //     email: "Email may be invalid",
-    //     password: "Password may be invalid",
-    // })
-    // },
+    onError: (err) => {
+        if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
+            form.setErrorMap({
+                onSubmit: { fields: { email: { message: "This email is already taken" } } },
+            })
+        }
+    },
 })
 
 const isMutating = useIsMutating({ mutationKey: authMutations.signIn().mutationKey })
