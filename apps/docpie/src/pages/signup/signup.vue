@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useMutation, useQueryClient } from "@tanstack/vue-query"
-import { toTypedSchema } from "@vee-validate/zod"
+import { useForm } from "@tanstack/vue-form"
+import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useToggle } from "@vueuse/core"
 import { FetchError } from "ofetch"
-import { useForm } from "vee-validate"
+import { computed } from "vue"
 
 import { useRouter } from "#app"
 import { authMutations, authQueries } from "~/lib/auth/query"
@@ -11,14 +11,27 @@ import { SignUp } from "~/lib/auth/schemas"
 import { HttpStatus } from "~/lib/http/status"
 import { HomeRouteName, SignInRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/lib/ui/form"
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
+import { Spinner } from "~/lib/ui/spinner"
 
 const client = useQueryClient()
-
 const router = useRouter()
-const form = useForm({ validationSchema: toTypedSchema(SignUp) })
-const submit = form.handleSubmit((values) => mutation.mutate(values))
+
+const form = useForm({
+    defaultValues: {
+        display_name: "",
+        email: "",
+        password: "",
+    },
+    validators: {
+        onSubmit: SignUp,
+    },
+    onSubmit(props) {
+        mutation.mutate(props.value)
+    },
+})
 
 const mutation = useMutation({
     ...authMutations.signUp(),
@@ -26,21 +39,22 @@ const mutation = useMutation({
         client.setQueryData(authQueries.whoami().queryKey, data)
         router.push({ name: HomeRouteName })
     },
-    onError: async (err) => {
-        if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
-            form.setErrors({
-                email: "This email is already taken",
-            })
-
-            return undefined
-        }
-
-        form.setErrors({
-            email: "Email may be invalid",
-            password: "Password may be invalid",
-        })
-    },
+    // onError: (err) => {
+    // if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
+    //     form.setErrors({
+    //         email: "This email is already taken",
+    //     })
+    //     return undefined
+    // }
+    // form.setErrors({
+    //     email: "Email may be invalid",
+    //     password: "Password may be invalid",
+    // })
+    // },
 })
+
+const isMutating = useIsMutating({ mutationKey: authMutations.signIn().mutationKey })
+const isLoading = computed(() => Boolean(isMutating.value))
 
 const [showPassword, toggleShowPassword] = useToggle(false)
 </script>
@@ -51,69 +65,121 @@ const [showPassword, toggleShowPassword] = useToggle(false)
 
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
-            @submit="submit">
-            <div class="flex flex-col gap-y-3">
-                <FormField
-                    v-slot="field"
+            @submit.prevent.stop="form.handleSubmit">
+            <FieldGroup class="gap-3">
+                <form.Field
+                    v-slot="{ field }"
                     name="display_name">
-                    <FormItem>
-                        <FormLabel class="sr-only">Name</FormLabel>
-                        <FormControl>
-                            <Input
-                                v-bind="field.componentField"
-                                placeholder="Enter your name..." />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
+                    <Field
+                        v-slot="{ isInvalid }"
+                        :field="field">
+                        <FieldLabel
+                            :for="field.name"
+                            class="sr-only">
+                            Name
+                        </FieldLabel>
 
-                <FormField
-                    v-slot="field"
+                        <Input
+                            :id="field.name"
+                            :name="field.name"
+                            :aria-invalid="isInvalid"
+                            :model-value="field.state.value"
+                            placeholder="Enter your name..."
+                            @blur="field.handleBlur"
+                            @change="
+                                (e: Event) =>
+                                    field.handleChange((e.target as HTMLInputElement).value)
+                            " />
+
+                        <FieldError
+                            v-if="isInvalid"
+                            :errors="field.state.meta.errors" />
+                    </Field>
+                </form.Field>
+
+                <form.Field
+                    v-slot="{ field }"
                     name="email">
-                    <FormItem>
-                        <FormLabel class="sr-only">Email</FormLabel>
-                        <FormControl>
-                            <Input
-                                v-bind="field.componentField"
-                                placeholder="Enter your email address..." />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
+                    <Field
+                        v-slot="{ isInvalid }"
+                        :field="field">
+                        <FieldLabel
+                            :for="field.name"
+                            class="sr-only">
+                            Email
+                        </FieldLabel>
 
-                <FormField
-                    v-slot="field"
+                        <Input
+                            :id="field.name"
+                            :name="field.name"
+                            :aria-invalid="isInvalid"
+                            :model-value="field.state.value"
+                            placeholder="Enter your email address..."
+                            @blur="field.handleBlur"
+                            @change="
+                                (e: Event) =>
+                                    field.handleChange((e.target as HTMLInputElement).value)
+                            " />
+
+                        <FieldError
+                            v-if="isInvalid"
+                            :errors="field.state.meta.errors" />
+                    </Field>
+                </form.Field>
+
+                <form.Field
+                    v-slot="{ field }"
                     name="password">
-                    <FormItem>
-                        <FormLabel class="sr-only">Password</FormLabel>
-                        <FormControl>
-                            <div class="relative">
-                                <Input
-                                    v-bind="field.componentField"
-                                    class="pr-9"
-                                    :type="showPassword ? 'text' : 'password'"
-                                    placeholder="Enter your password..." />
+                    <Field
+                        v-slot="{ isInvalid }"
+                        :field="field">
+                        <FieldLabel
+                            :for="field.name"
+                            class="sr-only">
+                            Password
+                        </FieldLabel>
 
+                        <InputGroup>
+                            <InputGroupInput
+                                :id="field.name"
+                                :name="field.name"
+                                :aria-invalid="isInvalid"
+                                :model-value="field.state.value"
+                                :type="showPassword ? 'text' : 'password'"
+                                autocomplete="current-password"
+                                placeholder="Enter your password..."
+                                @blur="field.handleBlur"
+                                @change="
+                                    (e: Event) =>
+                                        field.handleChange((e.target as HTMLInputElement).value)
+                                " />
+
+                            <InputGroupAddon align="inline-end">
                                 <Button
-                                    class="absolute top-0 right-0 m-1 size-7 text-muted-foreground"
+                                    class="size-auto p-1"
                                     type="button"
                                     size="icon"
                                     variant="ghost"
                                     @click="() => toggleShowPassword()">
                                     <Icon
-                                        class="size-4"
+                                        class="size-[1.125rem]"
                                         :name="showPassword ? 'lucide:eye' : 'lucide:eye-off'" />
                                 </Button>
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-            </div>
+                            </InputGroupAddon>
+                        </InputGroup>
+
+                        <FieldError
+                            v-if="isInvalid"
+                            :errors="field.state.meta.errors" />
+                    </Field>
+                </form.Field>
+            </FieldGroup>
 
             <Button
+                :disabled="isLoading"
                 type="submit"
                 variant="secondary">
+                <Spinner v-if="isLoading" />
                 Continue with email
             </Button>
         </form>

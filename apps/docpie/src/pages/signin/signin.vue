@@ -13,6 +13,7 @@ import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
+import { Spinner } from "~/lib/ui/spinner"
 import { isEmpty, isString } from "~/utils/is"
 
 const client = useQueryClient()
@@ -152,6 +153,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                 :disabled="isLoading"
                 type="submit"
                 variant="secondary">
+                <Spinner v-if="isLoading" />
                 Continue with email
             </Button>
         </form>
