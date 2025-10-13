@@ -1,15 +1,8 @@
-use serde::{Deserialize, Serialize};
+use crate::org::schemas;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug)]
 pub struct Org {
     pub id: i64,
     pub name: String,
-    pub status: OrgStatus,
-}
-
-#[derive(Debug, Serialize, Deserialize, sqlx::Type)]
-#[sqlx(type_name = "org_status", rename_all = "snake_case")]
-#[serde(rename_all = "snake_case")]
-pub enum OrgStatus {
-    Active,
+    pub status: schemas::OrgStatus,
 }

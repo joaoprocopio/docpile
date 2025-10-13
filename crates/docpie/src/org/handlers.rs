@@ -1,5 +1,5 @@
 use crate::error::{Error, ErrorKind, Result};
-use crate::org::{models::Org, services::list_all_orgs};
+use crate::org::{schemas::Org, services::list_all_orgs};
 use crate::server::state::Server;
 use axum::http::StatusCode;
 use axum::{Json, extract::State};
@@ -9,5 +9,5 @@ pub async fn list_orgs(State(server): State<Server>) -> Result<Json<Vec<Org>>, E
         Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
     })?;
 
-    Ok(Json(orgs))
+    Ok(Json(orgs.into_iter().map(|u| u.into()).collect()))
 }

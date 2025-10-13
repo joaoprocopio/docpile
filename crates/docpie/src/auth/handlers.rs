@@ -1,6 +1,6 @@
 use crate::{
     auth::{
-        schemas::{SafeUser, SignIn, SignUp},
+        schemas::{SignIn, SignUp, User},
         services::{check_email_taken, create_user},
         sessions::AuthSession,
     },
@@ -10,7 +10,7 @@ use crate::{
 };
 use axum::{Json, extract::State, http::StatusCode};
 
-pub async fn whoami(auth_session: AuthSession) -> Result<Json<Option<SafeUser>>, Error> {
+pub async fn whoami(auth_session: AuthSession) -> Result<Json<Option<User>>, Error> {
     match auth_session.user {
         Some(user) => {
             auth_session.session.cycle_id().await.map_err(|e| {
@@ -26,7 +26,7 @@ pub async fn whoami(auth_session: AuthSession) -> Result<Json<Option<SafeUser>>,
 pub async fn sign_in(
     mut auth_session: AuthSession,
     Valid(Json(sign_in)): Valid<Json<SignIn>>,
-) -> Result<Json<SafeUser>, Error> {
+) -> Result<Json<User>, Error> {
     let user = auth_session
         .authenticate(sign_in)
         .await
@@ -58,7 +58,7 @@ pub async fn sign_up(
     mut auth_session: AuthSession,
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
-) -> Result<(StatusCode, Json<SafeUser>), Error> {
+) -> Result<(StatusCode, Json<User>), Error> {
     let is_taken = check_email_taken(&server, &sign_up.email)
         .await
         .map_err(|e| {
