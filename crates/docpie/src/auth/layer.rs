@@ -1,4 +1,7 @@
-use std::task::{Context, Poll};
+use std::{
+    pin::Pin,
+    task::{Context, Poll},
+};
 
 use crate::{
     auth::sessions::AuthSession,
@@ -7,9 +10,11 @@ use crate::{
 };
 use axum::{
     http::{Request, StatusCode},
-    response::IntoResponse,
+    response::{IntoResponse, Response},
 };
 use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
+use futures::future::FutureExt;
+use std::future::Future;
 use tokio::time::Duration;
 use tower::{Layer, Service};
 use tower_sessions_sqlx_store::PostgresStore;
@@ -21,39 +26,44 @@ pub struct AuthProtection<S> {
 
 impl<S, B> Service<Request<B>> for AuthProtection<S>
 where
-    S: Service<Request<B>>,
+    S: Service<Request<B>, Response = Response> + Send + 'static,
+    S::Future: Send + 'static,
+    B: Send + 'static,
 {
-    type Response = S::Response;
+    type Response = Response;
     type Error = S::Error;
-    type Future = S::Future;
+    type Future = Pin<Box<dyn Future<Output = Result<Response, Self::Error>> + Send>>;
 
     fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
         self.inner.poll_ready(cx)
     }
 
     fn call(&mut self, req: Request<B>) -> Self::Future {
-        let session = req.extensions().get::<AuthSession>();
+        let session = req.extensions().get::<AuthSession>().cloned();
 
-        match session {
-            Some(session) => {
-                if session.user.is_some() {
-                    self.inner.call(req)
-                } else {
-                    Error::from_status(
-                        StatusCode::UNAUTHORIZED,
-                        ErrorKind::UnauthorizedRoute,
-                        anyerror!("This is a protected route"),
-                    )
-                    .into_response()
-                }
+        if let Some(session) = session {
+            if session.user.is_some() {
+                return self.inner.call(req).boxed();
             }
-            None => Error::from_status(
+
+            return Box::pin(async {
+                Ok(Error::<serde_json::Value>::from_status(
+                    StatusCode::UNAUTHORIZED,
+                    ErrorKind::UnauthorizedRoute,
+                    anyerror!("This is a protected route"),
+                )
+                .into_response())
+            });
+        }
+
+        Box::pin(async {
+            Ok(Error::<serde_json::Value>::from_status(
                 StatusCode::INTERNAL_SERVER_ERROR,
                 ErrorKind::Server,
                 anyerror!("AuthSession is not setup correctly"),
             )
-            .into_response(),
-        }
+            .into_response())
+        })
     }
 }
 
