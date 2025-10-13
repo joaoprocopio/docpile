@@ -101,3 +101,7 @@ pub async fn new_session_manager_layer(
 
     Ok(SessionManagerLayer::new(store).with_name("sessionid"))
 }
+
+pub fn unprotected<S>(inner: S) -> S {
+    inner
+}

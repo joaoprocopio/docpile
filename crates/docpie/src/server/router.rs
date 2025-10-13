@@ -29,15 +29,15 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
         .route("/api/v1/auth/whoami", routing::get(auth::handlers::whoami))
         .route(
             "/api/v1/auth/signin",
-            routing::post(auth::handlers::sign_in),
+            auth::unprotected(routing::post(auth::handlers::sign_in)),
         )
         .route(
             "/api/v1/auth/signup",
-            routing::post(auth::handlers::sign_up),
+            auth::unprotected(routing::post(auth::handlers::sign_up)),
         )
         .route(
             "/api/v1/auth/signout",
-            routing::post(auth::handlers::sign_out),
+            auth::unprotected(routing::post(auth::handlers::sign_out)),
         )
         .layer(
             ServiceBuilder::new()
