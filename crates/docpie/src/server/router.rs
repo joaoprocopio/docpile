@@ -33,10 +33,9 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
         .fallback(async || StatusCode::NOT_FOUND)
         .layer(
             ServiceBuilder::new()
-                .layer(auth::middleware::new_auth_layer(&server).await?)
-                .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
+                .layer(TraceLayer::new_for_http())
+                .layer(CatchPanicLayer::new())
                 .layer(TimeoutLayer::new(server.env.timeout))
-                .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
                 .layer(
                     CorsLayer::new()
                         .allow_headers(AllowHeaders::list([header::CONTENT_TYPE]))
@@ -52,8 +51,9 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
                         .allow_origin(AllowOrigin::list(server.env.allowed_origins.clone()))
                         .allow_credentials(true),
                 )
-                .layer(CatchPanicLayer::new())
-                .layer(TraceLayer::new_for_http()),
+                .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
+                .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
+                .layer(auth::middleware::new_auth_layer(&server).await?),
         );
 
     Ok(router)
