@@ -1,8 +1,3 @@
-use std::{
-    pin::Pin,
-    task::{Context, Poll},
-};
-
 use crate::{
     auth::sessions::AuthSession,
     error::{Error, ErrorKind, Result, anyerror},
@@ -13,37 +8,36 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
-use futures::future::FutureExt;
 use std::future::Future;
+use std::{
+    pin::Pin,
+    task::{Context, Poll},
+};
 use tokio::time::Duration;
 use tower::{Layer, Service};
 use tower_sessions_sqlx_store::PostgresStore;
 
 #[derive(Clone)]
-pub struct AuthProtection<S> {
-    inner: S,
+pub struct AuthProtection<Svc> {
+    inner: Svc,
 }
 
-impl<S, B> Service<Request<B>> for AuthProtection<S>
+impl<Svc, ReqBody> Service<Request<ReqBody>> for AuthProtection<Svc>
 where
-    S: Service<Request<B>, Response = Response> + Send + 'static,
-    S::Future: Send + 'static,
-    B: Send + 'static,
+    Svc: Service<Request<ReqBody>, Response = Response> + Send + 'static,
+    Svc::Future: Send + 'static,
+    ReqBody: Send + 'static,
 {
     type Response = Response;
-    type Error = S::Error;
+    type Error = Svc::Error;
     type Future = Pin<Box<dyn Future<Output = Result<Response, Self::Error>> + Send>>;
 
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        self.inner.poll_ready(cx)
-    }
-
-    fn call(&mut self, req: Request<B>) -> Self::Future {
+    fn call(&mut self, req: Request<ReqBody>) -> Self::Future {
         let session = req.extensions().get::<AuthSession>().cloned();
 
         if let Some(session) = session {
             if session.user.is_some() {
-                return self.inner.call(req).boxed();
+                return Box::pin(self.inner.call(req));
             }
 
             return Box::pin(async {
@@ -65,6 +59,10 @@ where
             .into_response())
         })
     }
+
+    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        self.inner.poll_ready(cx)
+    }
 }
 
 #[derive(Clone)]
@@ -76,10 +74,10 @@ impl AuthProtectionLayer {
     }
 }
 
-impl<S> Layer<S> for AuthProtectionLayer {
-    type Service = AuthProtection<S>;
+impl<Svc> Layer<Svc> for AuthProtectionLayer {
+    type Service = AuthProtection<Svc>;
 
-    fn layer(&self, inner: S) -> Self::Service {
+    fn layer(&self, inner: Svc) -> Self::Service {
         Self::Service { inner: inner }
     }
 }

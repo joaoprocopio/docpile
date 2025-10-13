@@ -10,7 +10,6 @@ axum = { version = "0.8.4", features = [
 ] }
 axum-login = "0.18.0"
 clap = "4.5.48"
-futures = "0.3.31"
 mimalloc = "0.1.47"
 password-auth = "1.0.0"
 serde = { version = "1.0.228", features = [
