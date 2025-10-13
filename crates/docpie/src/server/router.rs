@@ -1,9 +1,18 @@
-use crate::{auth, error::Result, org, server::state::Server};
+use crate::{
+    auth::{
+        self,
+        layer::{AuthProtectionLayer, new_session_manager_layer},
+    },
+    error::Result,
+    org,
+    server::state::Server,
+};
 use axum::{
     Router,
     http::{Method, StatusCode, header},
     routing,
 };
+use axum_login::AuthManagerLayerBuilder;
 use tower::ServiceBuilder;
 use tower_http::{
     CompressionLevel,
@@ -30,7 +39,6 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
             "/api/v1/auth/signout",
             routing::post(auth::handlers::sign_out),
         )
-        .fallback(async || StatusCode::NOT_FOUND)
         .layer(
             ServiceBuilder::new()
                 .layer(TraceLayer::new_for_http())
@@ -53,8 +61,16 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
                 )
                 .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
                 .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
-                .layer(auth::layer::new_auth_manager_layer(&server).await?),
-        );
+                .layer(
+                    AuthManagerLayerBuilder::new(
+                        server.clone(),
+                        new_session_manager_layer(&server).await?,
+                    )
+                    .build(),
+                )
+                .layer(AuthProtectionLayer::new()),
+        )
+        .fallback(async || StatusCode::NOT_FOUND);
 
     Ok(router)
 }
