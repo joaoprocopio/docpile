@@ -1,13 +1,8 @@
 pub mod handlers;
-#[path = "layer.rs"]
-mod layer_internal;
+pub mod layer;
+pub use layer::Unprotected;
+pub use layer::unprotected;
 pub mod models;
 pub mod schemas;
 pub mod services;
 pub mod sessions;
-
-pub use layer_internal::unprotected;
-
-pub mod layer {
-    pub use super::layer_internal::*;
-}

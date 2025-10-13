@@ -4,7 +4,9 @@ use crate::{
     server::state::Server,
 };
 use axum::{
-    http::{Request, StatusCode},
+    extract::Request,
+    http::StatusCode,
+    middleware::Next,
     response::{IntoResponse, Response},
 };
 use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
@@ -16,6 +18,14 @@ use std::{
 use tokio::time::Duration;
 use tower::{Layer, Service};
 use tower_sessions_sqlx_store::PostgresStore;
+
+#[derive(Clone, Debug)]
+pub struct Unprotected;
+
+pub async fn unprotected(mut req: Request, next: Next) -> Response {
+    req.extensions_mut().insert(Unprotected);
+    next.run(req).await
+}
 
 #[derive(Clone)]
 pub struct AuthProtection<Svc> {
@@ -34,9 +44,10 @@ where
 
     fn call(&mut self, req: Request<ReqBody>) -> Self::Future {
         let session = req.extensions().get::<AuthSession>().cloned();
+        let unprotected = req.extensions().get::<Unprotected>().cloned();
 
         if let Some(session) = session {
-            if session.user.is_some() {
+            if unprotected.is_some() || session.user.is_some() {
                 return Box::pin(self.inner.call(req));
             }
 
@@ -100,8 +111,4 @@ pub async fn new_session_manager_layer(
     );
 
     Ok(SessionManagerLayer::new(store).with_name("sessionid"))
-}
-
-pub fn unprotected<S>(inner: S) -> S {
-    inner
 }

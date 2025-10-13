@@ -10,67 +10,100 @@ use crate::{
 use axum::{
     Router,
     http::{Method, StatusCode, header},
+    middleware::from_fn,
     routing,
 };
-use axum_login::AuthManagerLayerBuilder;
-use tower::ServiceBuilder;
+use axum_login::{AuthManagerLayer, AuthManagerLayerBuilder};
+use tower::{
+    ServiceBuilder,
+    layer::util::{Identity, Stack},
+};
 use tower_http::{
     CompressionLevel,
-    catch_panic::CatchPanicLayer,
+    catch_panic::{CatchPanicLayer, DefaultResponseForPanic},
+    classify::{ServerErrorsAsFailures, SharedClassifier},
     compression::CompressionLayer,
     cors::{AllowHeaders, AllowMethods, AllowOrigin, CorsLayer},
     timeout::{RequestBodyTimeoutLayer, TimeoutLayer},
     trace::TraceLayer,
 };
+use tower_sessions_sqlx_store::PostgresStore;
 
-pub async fn new_router(server: &Server) -> Result<Router<Server>> {
-    let router = Router::new()
-        .route("/api/v1/orgs", routing::get(org::handlers::list_orgs))
-        .route("/api/v1/auth/whoami", routing::get(auth::handlers::whoami))
-        .route(
-            "/api/v1/auth/signin",
-            auth::unprotected(routing::post(auth::handlers::sign_in)),
-        )
-        .route(
-            "/api/v1/auth/signup",
-            auth::unprotected(routing::post(auth::handlers::sign_up)),
-        )
-        .route(
-            "/api/v1/auth/signout",
-            auth::unprotected(routing::post(auth::handlers::sign_out)),
-        )
+pub type Middleware = ServiceBuilder<
+    Stack<
+        AuthProtectionLayer,
+        Stack<
+            AuthManagerLayer<Server, PostgresStore>,
+            Stack<
+                RequestBodyTimeoutLayer,
+                Stack<
+                    CompressionLayer,
+                    Stack<
+                        CorsLayer,
+                        Stack<
+                            TimeoutLayer,
+                            Stack<
+                                CatchPanicLayer<DefaultResponseForPanic>,
+                                Stack<
+                                    TraceLayer<SharedClassifier<ServerErrorsAsFailures>>,
+                                    Identity,
+                                >,
+                            >,
+                        >,
+                    >,
+                >,
+            >,
+        >,
+    >,
+>;
+
+pub async fn new_middleware(server: &Server) -> Result<Middleware> {
+    let middleware = ServiceBuilder::new()
+        .layer(TraceLayer::new_for_http())
+        .layer(CatchPanicLayer::new())
+        .layer(TimeoutLayer::new(server.env.timeout))
         .layer(
-            ServiceBuilder::new()
-                .layer(TraceLayer::new_for_http())
-                .layer(CatchPanicLayer::new())
-                .layer(TimeoutLayer::new(server.env.timeout))
-                .layer(
-                    CorsLayer::new()
-                        .allow_headers(AllowHeaders::list([header::CONTENT_TYPE]))
-                        .allow_methods(AllowMethods::list([
-                            Method::PUT,
-                            Method::POST,
-                            Method::PATCH,
-                            Method::OPTIONS,
-                            Method::HEAD,
-                            Method::GET,
-                            Method::DELETE,
-                        ]))
-                        .allow_origin(AllowOrigin::list(server.env.allowed_origins.clone()))
-                        .allow_credentials(true),
-                )
-                .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
-                .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
-                .layer(
-                    AuthManagerLayerBuilder::new(
-                        server.clone(),
-                        new_session_manager_layer(&server).await?,
-                    )
-                    .build(),
-                )
-                .layer(AuthProtectionLayer::new()),
+            CorsLayer::new()
+                .allow_headers(AllowHeaders::list([header::CONTENT_TYPE]))
+                .allow_methods(AllowMethods::list([
+                    Method::PUT,
+                    Method::POST,
+                    Method::PATCH,
+                    Method::OPTIONS,
+                    Method::HEAD,
+                    Method::GET,
+                    Method::DELETE,
+                ]))
+                .allow_origin(AllowOrigin::list(server.env.allowed_origins.clone()))
+                .allow_credentials(true),
         )
-        .fallback(async || StatusCode::NOT_FOUND);
+        .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
+        .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
+        .layer(
+            AuthManagerLayerBuilder::new(server.clone(), new_session_manager_layer(&server).await?)
+                .build(),
+        )
+        .layer(AuthProtectionLayer::new());
 
-    Ok(router)
+    Ok(middleware)
+}
+
+pub fn new_router() -> Router<Server> {
+    let auth_router = Router::new()
+        .route("/signout", routing::post(auth::handlers::sign_out))
+        // .route_layer(from_fn(auth::unprotected))
+        .route("/whoami", routing::get(auth::handlers::whoami))
+        .route("/signin", routing::post(auth::handlers::sign_in))
+        .route("/signup", routing::post(auth::handlers::sign_up));
+
+    let orgs_router = Router::new()
+        // .route_layer(from_fn(auth::unprotected))
+        .route("/", routing::get(org::handlers::list_orgs));
+
+    let router = Router::new()
+        .fallback(async || StatusCode::NOT_FOUND)
+        .nest("/api/v1/auth", auth_router)
+        .nest("/api/v1/orgs", orgs_router);
+
+    router
 }
