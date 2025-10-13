@@ -1,8 +1,14 @@
+use std::task::{Context, Poll};
+
 use crate::{
-    error::{Result, anyerror},
+    auth::sessions::AuthSession,
+    error::{Error, ErrorKind, Result, anyerror},
     server::state::Server,
 };
-use axum::http::Request;
+use axum::{
+    http::{Request, StatusCode},
+    response::IntoResponse,
+};
 use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
 use tokio::time::Duration;
 use tower::{Layer, Service};
@@ -21,15 +27,33 @@ where
     type Error = S::Error;
     type Future = S::Future;
 
-    fn poll_ready(
-        &mut self,
-        cx: &mut std::task::Context<'_>,
-    ) -> std::task::Poll<std::result::Result<(), Self::Error>> {
+    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
         self.inner.poll_ready(cx)
     }
 
     fn call(&mut self, req: Request<B>) -> Self::Future {
-        self.inner.call(req)
+        let session = req.extensions().get::<AuthSession>();
+
+        match session {
+            Some(session) => {
+                if session.user.is_some() {
+                    self.inner.call(req)
+                } else {
+                    Error::from_status(
+                        StatusCode::UNAUTHORIZED,
+                        ErrorKind::UnauthorizedRoute,
+                        anyerror!("This is a protected route"),
+                    )
+                    .into_response()
+                }
+            }
+            None => Error::from_status(
+                StatusCode::INTERNAL_SERVER_ERROR,
+                ErrorKind::Server,
+                anyerror!("AuthSession is not setup correctly"),
+            )
+            .into_response(),
+        }
     }
 }
 

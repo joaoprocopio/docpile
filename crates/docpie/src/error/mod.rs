@@ -39,9 +39,11 @@ pub enum ErrorKind {
     // Auth
     EmailIsAlreadyTaken,
     InvalidCredentials,
+    UnauthorizedRoute,
 
-    // DB
+    // Systems
     Database,
+    Server,
 
     // Validation
     JsonValidation,
