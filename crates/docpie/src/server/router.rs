@@ -53,7 +53,7 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
                 )
                 .layer(CompressionLayer::new().quality(CompressionLevel::Fastest))
                 .layer(RequestBodyTimeoutLayer::new(server.env.body_timeout))
-                .layer(auth::middleware::new_auth_layer(&server).await?),
+                .layer(auth::layer::new_auth_manager_layer(&server).await?),
         );
 
     Ok(router)

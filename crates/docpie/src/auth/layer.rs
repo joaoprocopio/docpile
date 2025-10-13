@@ -9,7 +9,9 @@ use axum_login::{
 use tokio::time::Duration;
 use tower_sessions_sqlx_store::PostgresStore;
 
-pub async fn new_auth_layer(server: &Server) -> Result<AuthManagerLayer<Server, PostgresStore>> {
+pub async fn new_auth_manager_layer(
+    server: &Server,
+) -> Result<AuthManagerLayer<Server, PostgresStore>> {
     let store = PostgresStore::new(server.db.clone())
         .with_schema_name("public")
         .and_then(|s| s.with_table_name("sessions"))
