@@ -1,6 +1,6 @@
 use crate::{
     auth::sessions::AuthSession,
-    error::{Error, ErrorKind, Result, anyerror},
+    error::{AnyJson, Error, ErrorKind, Result, anyerror},
     server::state::Server,
 };
 use axum::{
@@ -52,7 +52,7 @@ where
             }
 
             return Box::pin(async {
-                Ok(Error::<serde_json::Value>::from_status(
+                Ok(Error::<AnyJson>::from_status(
                     StatusCode::UNAUTHORIZED,
                     ErrorKind::UnauthorizedRoute,
                     anyerror!("This is a protected route"),
@@ -62,7 +62,7 @@ where
         }
 
         Box::pin(async {
-            Ok(Error::<serde_json::Value>::from_status(
+            Ok(Error::<AnyJson>::from_status(
                 StatusCode::INTERNAL_SERVER_ERROR,
                 ErrorKind::Server,
                 anyerror!("AuthSession is not setup correctly"),

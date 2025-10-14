@@ -3,14 +3,16 @@ use crate::{
         self,
         layer::{AuthProtectionLayer, new_session_manager_layer},
     },
-    error::Result,
+    error::{AnyJson, Error, ErrorKind, Result},
     org,
     server::state::Server,
 };
+use anyhow::anyhow;
 use axum::{
     Router,
     http::{Method, StatusCode, header},
     middleware::from_fn,
+    response::IntoResponse,
     routing,
 };
 use axum_login::{AuthManagerLayer, AuthManagerLayerBuilder};
@@ -101,9 +103,15 @@ pub fn new_router() -> Router<Server> {
         .route("/", routing::get(org::handlers::list_orgs));
 
     let router = Router::new()
-        .fallback(async || StatusCode::NOT_FOUND)
         .nest("/api/v1/auth", auth_router)
         .nest("/api/v1/orgs", orgs_router);
 
-    router
+    router.fallback(async || {
+        Error::<AnyJson>::from_status(
+            StatusCode::NOT_FOUND,
+            ErrorKind::Unspecified,
+            anyhow!("Route not found"),
+        )
+        .into_response()
+    })
 }

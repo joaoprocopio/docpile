@@ -1,4 +1,4 @@
-use crate::error::{Error, ErrorKind};
+use crate::error::{AnyJson, Error, ErrorKind};
 use axum::{
     Json,
     extract::{FromRequest, Request, rejection::JsonRejection},
@@ -26,7 +26,7 @@ impl IntoResponse for ValidJsonError {
                 let title = err.body_text();
                 let status = err.status();
 
-                Error::<serde_json::Value>::new(ErrorKind::JsonValidation, err)
+                Error::<AnyJson>::new(ErrorKind::JsonValidation, err)
                     .with_title(Some(title))
                     .with_status(Some(status))
                     .into_response()
