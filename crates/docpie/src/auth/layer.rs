@@ -1,43 +1,38 @@
-use std::pin::Pin;
-
 use crate::{
-    auth::sessions::AuthSession,
-    error::{AnyJson, Error, ErrorKind, Result, anyerror},
+    error::{Result, anyerror},
     server::state::Server,
-};
-use axum::{
-    extract::Request,
-    http::StatusCode,
-    middleware::{FromFnLayer, Next, from_fn},
-    response::{IntoResponse, Response},
 };
 use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
 use tokio::time::Duration;
 use tower_sessions_sqlx_store::PostgresStore;
 
-async fn protected_impl(session: AuthSession, req: Request, next: Next) -> Response {
-    if session.user.is_some() {
-        next.run(req).await
-    } else {
-        Error::<AnyJson>::from_status(
-            StatusCode::UNAUTHORIZED,
-            ErrorKind::UnauthorizedRoute,
-            anyerror!("This is a protected route"),
+macro_rules! protected {
+    () => {{
+        use axum::{
+            extract::Request,
+            middleware::{Next, from_fn},
+            response::IntoResponse,
+        };
+        use $crate::auth::sessions::AuthSession;
+
+        from_fn(
+            |session: AuthSession, req: Request, next: Next| async move {
+                if session.user.is_some() {
+                    next.run(req).await
+                } else {
+                    Error::<AnyJson>::from_status(
+                        StatusCode::UNAUTHORIZED,
+                        ErrorKind::UnauthorizedRoute,
+                        anyerror!("This is a protected route"),
+                    )
+                    .into_response()
+                }
+            },
         )
-        .into_response()
-    }
+    }};
 }
 
-pub fn protected() -> FromFnLayer<
-    fn(AuthSession, Request, Next) -> Pin<Box<dyn Future<Output = Response> + Send>>,
-    (),
-    (AuthSession, Request),
-> {
-    from_fn(|session: AuthSession, req: Request, next: Next| {
-        Box::pin(protected_impl(session, req, next))
-            as Pin<Box<dyn Future<Output = Response> + Send>>
-    })
-}
+pub(crate) use protected;
 
 pub async fn new_session_manager_layer(
     server: &Server,

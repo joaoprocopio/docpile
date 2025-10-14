@@ -52,7 +52,7 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
         .route("/api/v1/auth/whoami", routing::get(auth::handlers::whoami))
         .route(
             "/api/v1/auth/signin",
-            routing::post(auth::handlers::sign_in).route_layer(auth::layer::protected()),
+            routing::post(auth::handlers::sign_in),
         )
         .route(
             "/api/v1/auth/signup",
@@ -60,9 +60,12 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
         )
         .route(
             "/api/v1/auth/signout",
-            routing::post(auth::handlers::sign_out),
+            routing::post(auth::handlers::sign_out).route_layer(auth::protected!()),
         )
-        .route("/api/v1/orgs", routing::get(org::handlers::list_orgs))
+        .route(
+            "/api/v1/orgs",
+            routing::get(org::handlers::list_orgs).route_layer(auth::protected!()),
+        )
         .layer(middleware)
         .fallback(async || {
             Error::<AnyJson>::from_status(
