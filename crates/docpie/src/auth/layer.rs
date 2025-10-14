@@ -1,3 +1,5 @@
+use std::pin::Pin;
+
 use crate::{
     auth::sessions::AuthSession,
     error::{AnyJson, Error, ErrorKind, Result, anyerror},
@@ -6,96 +8,35 @@ use crate::{
 use axum::{
     extract::Request,
     http::StatusCode,
-    middleware::Next,
+    middleware::{FromFnLayer, Next, from_fn},
     response::{IntoResponse, Response},
 };
 use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
-use std::future::Future;
-use std::{
-    pin::Pin,
-    task::{Context, Poll},
-};
 use tokio::time::Duration;
-use tower::{Layer, Service};
 use tower_sessions_sqlx_store::PostgresStore;
 
-#[derive(Clone, Debug)]
-pub struct Unprotected;
-
-pub async fn unprotected(mut req: Request, next: Next) -> Response {
-    req.extensions_mut().insert(Unprotected);
-    next.run(req).await
-}
-
-#[derive(Clone)]
-pub struct AuthProtection<Svc> {
-    inner: Svc,
-}
-
-impl<Svc, ReqBody> Service<Request<ReqBody>> for AuthProtection<Svc>
-where
-    Svc: Service<Request<ReqBody>, Response = Response> + Send + 'static,
-    Svc::Future: Send + 'static,
-    ReqBody: Send + 'static,
-{
-    type Response = Response;
-    type Error = Svc::Error;
-    type Future = Pin<Box<dyn Future<Output = Result<Response, Self::Error>> + Send>>;
-
-    fn call(&mut self, req: Request<ReqBody>) -> Self::Future {
-        let unprotected = req.extensions().get::<Unprotected>().cloned();
-
-        if let Some(_) = unprotected {
-            return Box::pin(self.inner.call(req));
-        }
-
-        let session = req.extensions().get::<AuthSession>().cloned();
-
-        if let Some(session) = session {
-            if session.user.is_some() {
-                return Box::pin(self.inner.call(req));
-            }
-
-            return Box::pin(async {
-                Ok(Error::<AnyJson>::from_status(
-                    StatusCode::UNAUTHORIZED,
-                    ErrorKind::UnauthorizedRoute,
-                    anyerror!("This is a protected route"),
-                )
-                .into_response())
-            });
-        }
-
-        Box::pin(async {
-            Ok(Error::<AnyJson>::from_status(
-                StatusCode::INTERNAL_SERVER_ERROR,
-                ErrorKind::Server,
-                anyerror!("AuthSession is not setup correctly"),
-            )
-            .into_response())
-        })
-    }
-
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        self.inner.poll_ready(cx)
+async fn protected_impl(session: AuthSession, req: Request, next: Next) -> Response {
+    if session.user.is_some() {
+        next.run(req).await
+    } else {
+        Error::<AnyJson>::from_status(
+            StatusCode::UNAUTHORIZED,
+            ErrorKind::UnauthorizedRoute,
+            anyerror!("This is a protected route"),
+        )
+        .into_response()
     }
 }
 
-#[derive(Clone)]
-pub struct AuthProtectionLayer;
-
-impl AuthProtectionLayer {
-    pub fn new() -> Self {
-        Self
-    }
-}
-
-impl<Svc> Layer<Svc> for AuthProtectionLayer {
-    type Service = AuthProtection<Svc>;
-
-    fn layer(&self, inner: Svc) -> Self::Service {
-        Self::Service { inner: inner }
-    }
+pub fn protected() -> FromFnLayer<
+    fn(AuthSession, Request, Next) -> Pin<Box<dyn Future<Output = Response> + Send>>,
+    (),
+    (AuthSession, Request),
+> {
+    from_fn(|session: AuthSession, req: Request, next: Next| {
+        Box::pin(protected_impl(session, req, next))
+            as Pin<Box<dyn Future<Output = Response> + Send>>
+    })
 }
 
 pub async fn new_session_manager_layer(

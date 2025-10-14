@@ -1,17 +1,12 @@
 use crate::{
-    auth::{
-        self,
-        layer::{AuthProtectionLayer, new_session_manager_layer},
-    },
-    error::{AnyJson, Error, ErrorKind, Result},
+    auth::{self, layer::new_session_manager_layer},
+    error::{AnyJson, Error, ErrorKind, Result, anyerror},
     org,
     server::state::Server,
 };
-use anyhow::anyhow;
 use axum::{
     Router,
     http::{Method, StatusCode, header},
-    middleware::from_fn,
     response::IntoResponse,
     routing,
 };
@@ -51,21 +46,17 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
         .layer(
             AuthManagerLayerBuilder::new(server.clone(), new_session_manager_layer(&server).await?)
                 .build(),
-        )
-        .layer(AuthProtectionLayer::new());
+        );
 
     Ok(Router::new()
-        .route(
-            "/api/v1/auth/whoami",
-            routing::get(auth::handlers::whoami).layer(from_fn(auth::unprotected)),
-        )
+        .route("/api/v1/auth/whoami", routing::get(auth::handlers::whoami))
         .route(
             "/api/v1/auth/signin",
-            routing::post(auth::handlers::sign_in).layer(from_fn(auth::unprotected)),
+            routing::post(auth::handlers::sign_in).route_layer(auth::layer::protected()),
         )
         .route(
             "/api/v1/auth/signup",
-            routing::post(auth::handlers::sign_up).layer(from_fn(auth::unprotected)),
+            routing::post(auth::handlers::sign_up),
         )
         .route(
             "/api/v1/auth/signout",
@@ -77,7 +68,7 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
             Error::<AnyJson>::from_status(
                 StatusCode::NOT_FOUND,
                 ErrorKind::Unspecified,
-                anyhow!("Route not found"),
+                anyerror!("Route not found"),
             )
             .into_response()
         }))
