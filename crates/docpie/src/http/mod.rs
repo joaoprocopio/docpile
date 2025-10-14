@@ -1,8 +1,8 @@
-#[path = "state.rs"]
-mod __state;
+#[path = "config.rs"]
+mod _config;
 pub mod graceful;
 pub mod router;
 
-pub mod state {
-    pub use super::__state::{Server, ServerEnv};
+pub mod config {
+    pub use super::_config::{Server, ServerEnv};
 }

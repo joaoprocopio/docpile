@@ -1,6 +1,6 @@
 use crate::{
     error::Result,
-    http::state::Server,
+    http::config::Server,
     org::{models::Org, schemas::OrgStatus},
 };
 

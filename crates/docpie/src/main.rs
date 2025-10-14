@@ -2,7 +2,7 @@ use axum::serve;
 use docpie::{
     error::Result,
     ext,
-    http::{graceful::shutdown_signal, router::new_http_router, state::Server},
+    http::{config::Server, graceful::shutdown_signal, router::new_http_router},
     www::router::new_www_router,
 };
 use futures::FutureExt;

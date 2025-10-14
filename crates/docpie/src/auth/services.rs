@@ -1,4 +1,4 @@
-use crate::{auth::models::User, error::Result, http::state::Server};
+use crate::{auth::models::User, error::Result, http::config::Server};
 use password_auth::generate_hash;
 use time::OffsetDateTime;
 
