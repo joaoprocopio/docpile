@@ -22,14 +22,13 @@ fn main() {
 async fn run(handle: Handle) -> Result<()> {
     let server = Server::new(handle.clone()).await?;
     let signal = shutdown_signal().await?.shared();
+    let svcs = tokio::join!(
+        handle.spawn(serve_www(server.clone(), signal.clone())),
+        handle.spawn(serve_http(server.clone(), signal.clone()))
+    );
 
-    let www = handle.spawn(serve_www(server.clone(), signal.clone()));
-    let http = handle.spawn(serve_http(server.clone(), signal.clone()));
-
-    let (www, http) = tokio::join!(www, http);
-
-    www??;
-    http??;
+    svcs.0??;
+    svcs.1??;
 
     tracing::info!("all services gracefully shutdown");
 
