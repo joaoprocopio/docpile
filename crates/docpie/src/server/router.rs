@@ -15,51 +15,18 @@ use axum::{
     response::IntoResponse,
     routing,
 };
-use axum_login::{AuthManagerLayer, AuthManagerLayerBuilder};
-use tower::{
-    ServiceBuilder,
-    layer::util::{Identity, Stack},
-};
+use axum_login::AuthManagerLayerBuilder;
+use tower::ServiceBuilder;
 use tower_http::{
     CompressionLevel,
-    catch_panic::{CatchPanicLayer, DefaultResponseForPanic},
-    classify::{ServerErrorsAsFailures, SharedClassifier},
+    catch_panic::CatchPanicLayer,
     compression::CompressionLayer,
     cors::{AllowHeaders, AllowMethods, AllowOrigin, CorsLayer},
     timeout::{RequestBodyTimeoutLayer, TimeoutLayer},
     trace::TraceLayer,
 };
-use tower_sessions_sqlx_store::PostgresStore;
 
-pub type Middleware = ServiceBuilder<
-    Stack<
-        AuthProtectionLayer,
-        Stack<
-            AuthManagerLayer<Server, PostgresStore>,
-            Stack<
-                RequestBodyTimeoutLayer,
-                Stack<
-                    CompressionLayer,
-                    Stack<
-                        CorsLayer,
-                        Stack<
-                            TimeoutLayer,
-                            Stack<
-                                CatchPanicLayer<DefaultResponseForPanic>,
-                                Stack<
-                                    TraceLayer<SharedClassifier<ServerErrorsAsFailures>>,
-                                    Identity,
-                                >,
-                            >,
-                        >,
-                    >,
-                >,
-            >,
-        >,
-    >,
->;
-
-pub async fn new_middleware(server: &Server) -> Result<Middleware> {
+pub async fn new_router(server: &Server) -> Result<Router<Server>> {
     let middleware = ServiceBuilder::new()
         .layer(TraceLayer::new_for_http())
         .layer(CatchPanicLayer::new())
@@ -87,11 +54,7 @@ pub async fn new_middleware(server: &Server) -> Result<Middleware> {
         )
         .layer(AuthProtectionLayer::new());
 
-    Ok(middleware)
-}
-
-pub fn new_router(middleware: Middleware) -> Router<Server> {
-    Router::new()
+    Ok(Router::new()
         .route(
             "/api/v1/auth/whoami",
             routing::get(auth::handlers::whoami).layer(from_fn(auth::unprotected)),
@@ -117,5 +80,5 @@ pub fn new_router(middleware: Middleware) -> Router<Server> {
                 anyhow!("Route not found"),
             )
             .into_response()
-        })
+        }))
 }
