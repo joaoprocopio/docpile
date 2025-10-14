@@ -27,9 +27,8 @@ async fn run_server(handle: Handle) -> Result<()> {
 
     tracing::info!("server listening on: http://{}", listener.local_addr()?);
 
-    let router = new_router()
-        .layer(new_middleware(&server).await?)
-        .with_state(server);
+    let middleware = new_middleware(&server).await?;
+    let router = new_router(middleware).with_state(server);
 
     serve_http(listener, router)
         .with_graceful_shutdown(shutdown_signal().await?)

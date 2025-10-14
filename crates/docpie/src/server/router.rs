@@ -90,28 +90,32 @@ pub async fn new_middleware(server: &Server) -> Result<Middleware> {
     Ok(middleware)
 }
 
-pub fn new_router() -> Router<Server> {
-    let auth_router = Router::new()
-        .route("/signout", routing::post(auth::handlers::sign_out))
-        // .route_layer(from_fn(auth::unprotected))
-        .route("/whoami", routing::get(auth::handlers::whoami))
-        .route("/signin", routing::post(auth::handlers::sign_in))
-        .route("/signup", routing::post(auth::handlers::sign_up));
-
-    let orgs_router = Router::new()
-        // .route_layer(from_fn(auth::unprotected))
-        .route("/", routing::get(org::handlers::list_orgs));
-
-    let router = Router::new()
-        .nest("/api/v1/auth", auth_router)
-        .nest("/api/v1/orgs", orgs_router);
-
-    router.fallback(async || {
-        Error::<AnyJson>::from_status(
-            StatusCode::NOT_FOUND,
-            ErrorKind::Unspecified,
-            anyhow!("Route not found"),
+pub fn new_router(middleware: Middleware) -> Router<Server> {
+    Router::new()
+        .route(
+            "/api/v1/auth/whoami",
+            routing::get(auth::handlers::whoami).layer(from_fn(auth::unprotected)),
         )
-        .into_response()
-    })
+        .route(
+            "/api/v1/auth/signin",
+            routing::post(auth::handlers::sign_in).layer(from_fn(auth::unprotected)),
+        )
+        .route(
+            "/api/v1/auth/signup",
+            routing::post(auth::handlers::sign_up).layer(from_fn(auth::unprotected)),
+        )
+        .route(
+            "/api/v1/auth/signout",
+            routing::post(auth::handlers::sign_out),
+        )
+        .route("/api/v1/orgs", routing::get(org::handlers::list_orgs))
+        .layer(middleware)
+        .fallback(async || {
+            Error::<AnyJson>::from_status(
+                StatusCode::NOT_FOUND,
+                ErrorKind::Unspecified,
+                anyhow!("Route not found"),
+            )
+            .into_response()
+        })
 }

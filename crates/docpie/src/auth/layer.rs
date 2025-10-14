@@ -43,11 +43,16 @@ where
     type Future = Pin<Box<dyn Future<Output = Result<Response, Self::Error>> + Send>>;
 
     fn call(&mut self, req: Request<ReqBody>) -> Self::Future {
-        let session = req.extensions().get::<AuthSession>().cloned();
         let unprotected = req.extensions().get::<Unprotected>().cloned();
 
+        if let Some(_) = unprotected {
+            return Box::pin(self.inner.call(req));
+        }
+
+        let session = req.extensions().get::<AuthSession>().cloned();
+
         if let Some(session) = session {
-            if unprotected.is_some() || session.user.is_some() {
+            if session.user.is_some() {
                 return Box::pin(self.inner.call(req));
             }
 
