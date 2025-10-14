@@ -1,6 +1,6 @@
 use crate::error::{Error, ErrorKind, Result};
+use crate::http::state::Server;
 use crate::org::{schemas::Org, services::list_all_orgs};
-use crate::server::state::Server;
 use axum::http::StatusCode;
 use axum::{Json, extract::State};
 

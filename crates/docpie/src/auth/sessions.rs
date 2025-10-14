@@ -5,7 +5,7 @@ use crate::{
         services::{get_user_by_email, get_user_by_id},
     },
     error::AnyError,
-    server::state::Server,
+    http::state::Server,
 };
 use axum_login::{AuthUser, AuthnBackend};
 use password_auth::verify_password;

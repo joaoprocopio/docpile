@@ -12,5 +12,6 @@ pub mod auth;
 pub mod db;
 pub mod error;
 pub mod ext;
+pub mod http;
 pub mod org;
-pub mod server;
+pub mod www;

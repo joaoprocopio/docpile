@@ -1,8 +1,8 @@
 use crate::{
     auth::{self, layer::new_session_manager_layer},
     error::{AnyJson, Error, ErrorKind, Result, anyerror},
+    http::state::Server,
     org,
-    server::state::Server,
 };
 use axum::{
     Router,
@@ -21,7 +21,7 @@ use tower_http::{
     trace::TraceLayer,
 };
 
-pub async fn new_router(server: &Server) -> Result<Router<Server>> {
+pub async fn new_http_router(server: &Server) -> Result<Router<Server>> {
     let middleware = ServiceBuilder::new()
         .layer(TraceLayer::new_for_http())
         .layer(CatchPanicLayer::new())
@@ -60,11 +60,11 @@ pub async fn new_router(server: &Server) -> Result<Router<Server>> {
         )
         .route(
             "/api/v1/auth/signout",
-            routing::post(auth::handlers::sign_out).route_layer(auth::protected!()),
+            routing::post(auth::handlers::sign_out).layer(auth::protected!()),
         )
         .route(
             "/api/v1/orgs",
-            routing::get(org::handlers::list_orgs).route_layer(auth::protected!()),
+            routing::get(org::handlers::list_orgs).layer(auth::protected!()),
         )
         .layer(middleware)
         .fallback(async || {

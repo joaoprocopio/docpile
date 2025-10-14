@@ -1,6 +1,6 @@
 use crate::{
     error::{Result, anyerror},
-    server::state::Server,
+    http::state::Server,
 };
 use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
 use tokio::time::Duration;
@@ -10,25 +10,25 @@ macro_rules! protected {
     () => {{
         use axum::{
             extract::Request,
-            middleware::{Next, from_fn},
-            response::IntoResponse,
+            middleware,
+            response::{IntoResponse, Response},
         };
         use $crate::auth::sessions::AuthSession;
 
-        from_fn(
-            |session: AuthSession, req: Request, next: Next| async move {
-                if session.user.is_some() {
-                    next.run(req).await
-                } else {
-                    Error::<AnyJson>::from_status(
-                        StatusCode::UNAUTHORIZED,
-                        ErrorKind::UnauthorizedRoute,
-                        anyerror!("This is a protected route"),
-                    )
-                    .into_response()
-                }
-            },
-        )
+        async fn protected(session: AuthSession, req: Request, next: middleware::Next) -> Response {
+            if session.user.is_some() {
+                next.run(req).await
+            } else {
+                Error::<AnyJson>::from_status(
+                    StatusCode::UNAUTHORIZED,
+                    ErrorKind::UnauthorizedRoute,
+                    anyerror!("This is a protected route"),
+                )
+                .into_response()
+            }
+        }
+
+        middleware::from_fn(protected)
     }};
 }
 

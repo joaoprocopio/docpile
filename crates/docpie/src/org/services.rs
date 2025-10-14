@@ -1,7 +1,7 @@
 use crate::{
     error::Result,
+    http::state::Server,
     org::{models::Org, schemas::OrgStatus},
-    server::state::Server,
 };
 
 pub async fn list_all_orgs(server: &Server) -> Result<Vec<Org>> {

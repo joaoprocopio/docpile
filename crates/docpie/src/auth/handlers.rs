@@ -6,7 +6,7 @@ use crate::{
     },
     error::{Error, ErrorKind, Result, anyerror},
     ext::validator::Valid,
-    server::state::Server,
+    http::state::Server,
 };
 use axum::{Json, extract::State, http::StatusCode};
 

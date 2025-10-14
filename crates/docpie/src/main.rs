@@ -1,32 +1,70 @@
-use axum::serve as serve_http;
+use axum::serve;
 use docpie::{
     error::Result,
     ext,
-    server::{graceful::shutdown_signal, router::new_router, state::Server},
+    http::{graceful::shutdown_signal, router::new_http_router, state::Server},
+    www::router::new_www_router,
 };
+use futures::FutureExt;
 use tokio::{net::TcpListener, runtime::Handle};
 
 fn main() {
     ext::tracing::init();
     let rt = ext::tokio::new_runtime();
 
-    rt.block_on(async { run_server(rt.handle().clone()).await })
+    rt.block_on(async { run(rt.handle().clone()).await })
         .unwrap_or_else(|err| {
             tracing::error!(?err);
             std::process::exit(1);
         });
 }
 
-async fn run_server(handle: Handle) -> Result<()> {
-    let server = Server::new(handle).await?;
+async fn run(handle: Handle) -> Result<()> {
+    let server = Server::new(handle.clone()).await?;
+    let signal = shutdown_signal().await?.shared();
+
+    let www = handle.spawn(serve_www(server.clone(), signal.clone()));
+    let http = handle.spawn(serve_http(server.clone(), signal.clone()));
+
+    let (www, http) = tokio::join!(www, http);
+
+    www??;
+    http??;
+
+    tracing::info!("all services gracefully shutdown");
+
+    Ok(())
+}
+
+async fn serve_www(
+    server: Server,
+    signal: impl Future<Output = ()> + Send + 'static,
+) -> Result<()> {
+    let listener = TcpListener::bind((&*server.env.host, server.env.www_port)).await?;
+    let router = new_www_router();
+
+    tracing::info!("www listening on: http://{}", listener.local_addr()?);
+
+    serve(listener, router)
+        .with_graceful_shutdown(signal)
+        .await?;
+
+    tracing::info!("successfully shutdown www");
+
+    Ok(())
+}
+
+async fn serve_http(
+    server: Server,
+    signal: impl Future<Output = ()> + Send + 'static,
+) -> Result<()> {
     let listener = TcpListener::bind((&*server.env.host, server.env.port)).await?;
+    let router = new_http_router(&server).await?.with_state(server);
 
     tracing::info!("server listening on: http://{}", listener.local_addr()?);
 
-    let router = new_router(&server).await?.with_state(server);
-
-    serve_http(listener, router)
-        .with_graceful_shutdown(shutdown_signal().await?)
+    serve(listener, router)
+        .with_graceful_shutdown(signal)
         .await?;
 
     tracing::info!("successfully shutdown server");
