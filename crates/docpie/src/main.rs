@@ -22,13 +22,14 @@ fn main() {
 async fn run(handle: Handle) -> Result<()> {
     let server = Server::new(handle.clone()).await?;
     let signal = shutdown_signal().await?.shared();
-    let svcs = tokio::join!(
+
+    let services = tokio::join!(
         handle.spawn(serve_www(server.clone(), signal.clone())),
         handle.spawn(serve_http(server.clone(), signal.clone()))
     );
 
-    svcs.0??;
-    svcs.1??;
+    services.0??;
+    services.1??;
 
     tracing::info!("all services gracefully shutdown");
 
@@ -39,7 +40,7 @@ async fn serve_www(
     server: Server,
     signal: impl Future<Output = ()> + Send + 'static,
 ) -> Result<()> {
-    let listener = TcpListener::bind((&*server.env.host, server.env.www_port)).await?;
+    let listener = TcpListener::bind((server.env.www_host.as_ref(), server.env.www_port)).await?;
     let router = new_www_router();
 
     tracing::info!("www listening on: http://{}", listener.local_addr()?);

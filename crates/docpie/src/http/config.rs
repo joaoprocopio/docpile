@@ -26,6 +26,7 @@ pub struct ServerInner {
 pub struct ServerEnv {
     pub host: String,
     pub port: u16,
+    pub www_host: String,
     pub www_port: u16,
     pub timeout: Duration,
     pub body_timeout: Duration,
@@ -51,6 +52,7 @@ impl ServerEnv {
         Ok(Self {
             host: env_or("DOCPIE_HOST", "0.0.0.0".into()),
             port: env_or("DOCPIE_PORT", 8000),
+            www_host: env_or("DOCPIE_WWW_HOST", "0.0.0.0".into()),
             www_port: env_or("DOCPIE_WWW_PORT", 3000),
             db_url: env_or(
                 "DOCPIE_DB_URL",
