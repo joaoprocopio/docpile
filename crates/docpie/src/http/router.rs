@@ -21,7 +21,7 @@ use tower_http::{
     trace::TraceLayer,
 };
 
-pub async fn new_http_router(server: &Server) -> Result<Router<Server>> {
+pub async fn router(server: &Server) -> Result<Router<Server>> {
     let middleware = ServiceBuilder::new()
         .layer(TraceLayer::new_for_http())
         .layer(CatchPanicLayer::new())
@@ -49,6 +49,7 @@ pub async fn new_http_router(server: &Server) -> Result<Router<Server>> {
         );
 
     Ok(Router::new()
+        // TODO: separar o auth_router
         .route("/api/v1/auth/whoami", routing::get(auth::handlers::whoami))
         .route(
             "/api/v1/auth/signin",
@@ -62,6 +63,7 @@ pub async fn new_http_router(server: &Server) -> Result<Router<Server>> {
             "/api/v1/auth/signout",
             routing::post(auth::handlers::sign_out).layer(auth::protected!()),
         )
+        // TODO: separar o orgs_router
         .route(
             "/api/v1/orgs",
             routing::get(org::handlers::list_orgs).layer(auth::protected!()),

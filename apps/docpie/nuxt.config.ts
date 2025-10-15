@@ -35,6 +35,9 @@ export default defineNuxtConfig({
         },
     },
     srcDir: "src/",
+    devServer: {
+        port: 3333,
+    },
     compatibilityDate: "latest",
     vite: {
         plugins: [tailwindcss()],

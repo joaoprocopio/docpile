@@ -44,6 +44,7 @@ pub enum ErrorKind {
     // Systems
     Database,
     Server,
+    Upstream,
 
     // Validation
     JsonValidation,
