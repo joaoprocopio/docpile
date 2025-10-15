@@ -45,6 +45,7 @@ pub enum ErrorKind {
     Database,
     Server,
     Upstream,
+    Peer,
 
     // Validation
     JsonValidation,

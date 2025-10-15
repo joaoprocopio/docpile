@@ -4,9 +4,9 @@ use docpie::{
     ext,
     graceful::shutdown_signal,
     http::{config::Server as HttpServer, router as new_http_router},
+    prelude::*,
     www::{config::Server as WwwServer, router as new_www_router},
 };
-use futures::FutureExt;
 use tokio::{net::TcpListener, runtime::Handle};
 
 fn main() {
