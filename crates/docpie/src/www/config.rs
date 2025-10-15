@@ -1,4 +1,4 @@
-use reqwest::Client;
+use reqwest::{Client, retry};
 use std::{ops::Deref, sync::Arc};
 
 use crate::{error::Result, ext::env::env_or};
@@ -20,7 +20,7 @@ pub struct ServerEnv {
 
 impl Server {
     pub fn new() -> Result<Self> {
-        let client = Client::builder().build()?;
+        let client = Client::builder().retry(retry::never()).build()?;
         let env = ServerEnv::from_env_or_default()?;
 
         Ok(Self(Arc::new(ServerInner {
