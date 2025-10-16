@@ -1,18 +1,23 @@
 use crate::{
-    error::{Error, ErrorKind},
+    error::{Error, ErrorKind, Result},
     www::config::Server,
 };
 use axum::{
     body::Body,
     extract::{
         FromRequest, Request, State, WebSocketUpgrade as PeerWsUpgrade,
-        ws::{CloseFrame as PeerCloseFrame, Message as PeerMessage},
+        ws::{CloseFrame as PeerCloseFrame, Message as PeerMessage, WebSocket as PeerWebSocket},
     },
     http::{StatusCode, Uri, header},
     response::Response,
 };
-use futures::{SinkExt, StreamExt};
+use futures::{
+    SinkExt, StreamExt,
+    stream::{SplitSink, SplitStream},
+};
+use tokio::net::TcpStream;
 use tokio_tungstenite::{
+    MaybeTlsStream as UpstreamMaybeTlsStream, WebSocketStream as UpstreamWebSocketStream,
     connect_async,
     tungstenite::{
         handshake::client::Request as UpstreamRequest,
@@ -63,92 +68,127 @@ async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
             Err(_) => return,
         };
 
-        let (mut peer_sender, mut peer_receiver) = peer.split();
-        let (mut upstream_sender, mut upstream_receiver) = upstream.split();
+        let (peer_sender, peer_receiver) = peer.split();
+        let (upstream_sender, upstream_receiver) = upstream.split();
 
-        let peer_to_upstream = server.handle.spawn(async move {
-            while let Some(Ok(msg)) = peer_receiver.next().await {
-                match msg {
-                    PeerMessage::Binary(bytes) => {
-                        upstream_sender
-                            .send(UpstreamMessage::Binary(bytes))
-                            .await
-                            .ok();
-                    }
-                    PeerMessage::Ping(bytes) => {
-                        upstream_sender
-                            .send(UpstreamMessage::Ping(bytes.into()))
-                            .await
-                            .ok();
-                    }
-                    PeerMessage::Pong(bytes) => {
-                        upstream_sender
-                            .send(UpstreamMessage::Pong(bytes.into()))
-                            .await
-                            .ok();
-                    }
-                    PeerMessage::Text(utf8_bytes) => {
-                        upstream_sender
-                            .send(UpstreamMessage::Text(utf8_bytes.as_str().into()))
-                            .await
-                            .ok();
-                    }
-                    PeerMessage::Close(frame) => {
-                        upstream_sender
-                            .send(UpstreamMessage::Close(frame.map(|f| UpstreamCloseFrame {
-                                code: f.code.into(),
-                                reason: f.reason.as_str().into(),
-                            })))
-                            .await
-                            .ok();
+        let peer_to_upstream = server
+            .handle
+            .spawn(sender_to_upstream_proxy(peer_receiver, upstream_sender));
 
-                        break;
-                    }
-                };
-            }
-        });
-
-        let upstream_to_peer = server.handle.spawn(async move {
-            while let Some(Ok(msg)) = upstream_receiver.next().await {
-                match msg {
-                    UpstreamMessage::Binary(bytes) => {
-                        peer_sender.send(PeerMessage::Binary(bytes)).await.ok();
-                    }
-                    UpstreamMessage::Ping(bytes) => {
-                        peer_sender.send(PeerMessage::Ping(bytes.into())).await.ok();
-                    }
-                    UpstreamMessage::Pong(bytes) => {
-                        peer_sender.send(PeerMessage::Pong(bytes.into())).await.ok();
-                    }
-                    UpstreamMessage::Text(utf8_bytes) => {
-                        peer_sender
-                            .send(PeerMessage::Text(utf8_bytes.as_str().into()))
-                            .await
-                            .ok();
-                    }
-                    UpstreamMessage::Close(frame) => {
-                        peer_sender
-                            .send(PeerMessage::Close(frame.map(|f| PeerCloseFrame {
-                                code: f.code.into(),
-                                reason: f.reason.as_str().into(),
-                            })))
-                            .await
-                            .ok();
-
-                        break;
-                    }
-                    _ => todo!(),
-                };
-            }
-        });
+        let upstream_to_peer = server
+            .handle
+            .spawn(upstream_to_sender_proxy(upstream_receiver, peer_sender));
 
         tokio::select! {
-            _ = peer_to_upstream => {}
-            _ = upstream_to_peer => {}
+            ptu_result = peer_to_upstream => {
+                if let Ok(Err(ref err)) = ptu_result {
+                    tracing::error!(?err);
+                }
+
+                if let Err(ref err) = ptu_result {
+                    tracing::error!(?err);
+                }
+            }
+
+            utp_result = upstream_to_peer => {
+                if let Ok(Err(ref err)) = utp_result {
+                    tracing::error!(?err);
+                }
+
+                if let Err(ref err) = utp_result {
+                    tracing::error!(?err);
+                }
+            }
         };
     });
 
     Ok(response)
+}
+
+async fn sender_to_upstream_proxy(
+    mut receiver: SplitStream<PeerWebSocket>,
+    mut sender: SplitSink<
+        UpstreamWebSocketStream<UpstreamMaybeTlsStream<TcpStream>>,
+        UpstreamMessage,
+    >,
+) -> Result<()> {
+    loop {
+        let res: Result<()> = match receiver.next().await {
+            Some(Ok(msg)) => match msg {
+                PeerMessage::Binary(bytes) => sender
+                    .send(UpstreamMessage::Binary(bytes))
+                    .await
+                    .map_err(|e| e.into()),
+                PeerMessage::Ping(bytes) => sender
+                    .send(UpstreamMessage::Ping(bytes.into()))
+                    .await
+                    .map_err(|e| e.into()),
+                PeerMessage::Pong(bytes) => sender
+                    .send(UpstreamMessage::Pong(bytes.into()))
+                    .await
+                    .map_err(|e| e.into()),
+                PeerMessage::Text(utf8_bytes) => sender
+                    .send(UpstreamMessage::Text(utf8_bytes.as_str().into()))
+                    .await
+                    .map_err(|e| e.into()),
+                PeerMessage::Close(frame) => {
+                    break sender
+                        .send(UpstreamMessage::Close(frame.map(|f| UpstreamCloseFrame {
+                            code: f.code.into(),
+                            reason: f.reason.as_str().into(),
+                        })))
+                        .await
+                        .map_err(|e| e.into());
+                }
+            },
+            Some(Err(err)) => Err(err.into()),
+            None => Ok(()),
+        };
+
+        let _ = res.inspect_err(|err| tracing::error!(?err));
+    }
+}
+
+async fn upstream_to_sender_proxy(
+    mut receiver: SplitStream<UpstreamWebSocketStream<UpstreamMaybeTlsStream<TcpStream>>>,
+    mut sender: SplitSink<PeerWebSocket, PeerMessage>,
+) -> Result<()> {
+    loop {
+        let res: Result<()> = match receiver.next().await {
+            Some(Ok(msg)) => match msg {
+                UpstreamMessage::Binary(bytes) => sender
+                    .send(PeerMessage::Binary(bytes))
+                    .await
+                    .map_err(|e| e.into()),
+                UpstreamMessage::Ping(bytes) => sender
+                    .send(PeerMessage::Ping(bytes.into()))
+                    .await
+                    .map_err(|e| e.into()),
+                UpstreamMessage::Pong(bytes) => sender
+                    .send(PeerMessage::Pong(bytes.into()))
+                    .await
+                    .map_err(|e| e.into()),
+                UpstreamMessage::Text(utf8_bytes) => sender
+                    .send(PeerMessage::Text(utf8_bytes.as_str().into()))
+                    .await
+                    .map_err(|e| e.into()),
+                UpstreamMessage::Close(frame) => {
+                    break sender
+                        .send(PeerMessage::Close(frame.map(|f| PeerCloseFrame {
+                            code: f.code.into(),
+                            reason: f.reason.as_str().into(),
+                        })))
+                        .await
+                        .map_err(|e| e.into());
+                }
+                _ => panic!(),
+            },
+            Some(Err(err)) => Err(err.into()),
+            None => Ok(()),
+        };
+
+        let _ = res.inspect_err(|err| tracing::error!(?err));
+    }
 }
 
 async fn proxy_http(server: Server, req: Request) -> Result<Response, Error> {
