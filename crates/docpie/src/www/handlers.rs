@@ -7,7 +7,7 @@ use axum::{
     response::Response,
 };
 
-fn is_ws(req: &Request) -> bool {
+fn should_upgrade_to_ws(req: &Request) -> bool {
     req.headers()
         .get(header::UPGRADE)
         .map(|v| v.as_bytes().eq_ignore_ascii_case(b"websocket"))
@@ -15,7 +15,7 @@ fn is_ws(req: &Request) -> bool {
 }
 
 pub async fn proxy(State(server): State<Server>, req: Request) -> Result<Response, Error> {
-    if is_ws(&req) {
+    if should_upgrade_to_ws(&req) {
         return proxy_ws(server, req).await;
     }
 
@@ -23,7 +23,7 @@ pub async fn proxy(State(server): State<Server>, req: Request) -> Result<Respons
 }
 
 async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
-    todo!();
+    dbg!(req);
     // let uri = req.uri().to_owned();
     // let sock_upgrade = WebSocketUpgrade::from_request(req, &server)
     //     .await
@@ -33,7 +33,7 @@ async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
     //     let stream = connect_async(uri).await;
     // });
 
-    // Ok(res)
+    Ok(Response::new(Body::empty()))
 }
 
 async fn proxy_http(server: Server, req: Request) -> Result<Response, Error> {
