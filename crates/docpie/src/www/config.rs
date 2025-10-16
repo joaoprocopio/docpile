@@ -1,4 +1,3 @@
-use reqwest::{Client, retry};
 use std::{ops::Deref, sync::Arc};
 use tokio::runtime;
 
@@ -10,7 +9,6 @@ pub struct Server(Arc<ServerInner>);
 #[derive(Debug)]
 pub struct ServerInner {
     pub handle: runtime::Handle,
-    pub client: Client,
     pub env: ServerEnv,
 }
 
@@ -22,12 +20,10 @@ pub struct ServerEnv {
 
 impl Server {
     pub fn new(handle: runtime::Handle) -> Result<Self> {
-        let client = Client::builder().retry(retry::never()).build()?;
         let env = ServerEnv::from_env_or_default()?;
 
         Ok(Self(Arc::new(ServerInner {
             handle: handle,
-            client: client,
             env: env,
         })))
     }
