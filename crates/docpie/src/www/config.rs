@@ -1,3 +1,8 @@
+use axum::body::Body;
+use hyper_util::{
+    client::legacy::{Client, connect::HttpConnector},
+    rt::TokioExecutor,
+};
 use std::{ops::Deref, sync::Arc};
 use tokio::runtime;
 
@@ -9,6 +14,7 @@ pub struct Server(Arc<ServerInner>);
 #[derive(Debug)]
 pub struct ServerInner {
     pub handle: runtime::Handle,
+    pub client: Client<HttpConnector, Body>,
     pub env: ServerEnv,
 }
 
@@ -22,9 +28,12 @@ pub struct ServerEnv {
 impl Server {
     pub fn new(handle: runtime::Handle) -> Result<Self> {
         let env = ServerEnv::from_env_or_default()?;
+        let client: Client<HttpConnector, Body> = Client::builder(TokioExecutor::new())
+            .build(hyper_util::client::legacy::connect::HttpConnector::new());
 
         Ok(Self(Arc::new(ServerInner {
             handle: handle,
+            client: client,
             env: env,
         })))
     }

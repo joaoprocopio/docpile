@@ -7,7 +7,7 @@ use axum::{
 use hyper::upgrade::Upgraded;
 use hyper_util::{
     client::legacy::{Client, connect::HttpConnector},
-    rt::{TokioExecutor, TokioIo},
+    rt::TokioIo,
 };
 use tokio::io::copy_bidirectional;
 
@@ -25,8 +25,7 @@ const HOP_HEADERS: &[HeaderName] = &[
 
 pub async fn proxy(State(server): State<Server>, mut req: Request) -> Response {
     let proxy_target = &server.env.proxy_target;
-    let client: Client<HttpConnector, Body> = Client::builder(TokioExecutor::new())
-        .build(hyper_util::client::legacy::connect::HttpConnector::new());
+    let client = server.client.clone();
 
     // Check if this is an upgrade request (e.g., WebSocket)
     let is_upgrade = req.headers().get(header::UPGRADE).is_some();
@@ -34,10 +33,11 @@ pub async fn proxy(State(server): State<Server>, mut req: Request) -> Response {
     // Build the target URL for Vite dev server
     let uri = req.uri();
     let target_uri_str = format!(
-        "{}{}{}",
+        "{}{}",
         proxy_target,
-        uri.path(),
-        uri.query().map(|q| format!("?{}", q)).unwrap_or_default()
+        uri.path_and_query()
+            .and_then(|p| Some(p.as_str()))
+            .unwrap_or_else(|| "/")
     );
 
     tracing::debug!("Proxying {} to {}", uri, target_uri_str);
@@ -87,7 +87,10 @@ pub async fn proxy(State(server): State<Server>, mut req: Request) -> Response {
             );
             (
                 StatusCode::BAD_GATEWAY,
-                format!("Proxy error: {}. Make sure dev server is running on {}", e, proxy_target)
+                format!(
+                    "Proxy error: {}. Make sure dev server is running on {}",
+                    e, proxy_target
+                ),
             )
                 .into_response()
         }
