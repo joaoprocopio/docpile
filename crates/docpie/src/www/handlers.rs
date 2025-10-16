@@ -1,5 +1,5 @@
 use crate::{
-    error::{Error, ErrorKind, Result},
+    error::{Error, ErrorKind, Result, anyerror},
     www::config::Server,
 };
 use axum::{
@@ -152,11 +152,13 @@ async fn sender_to_upstream_proxy(
                         .map_err(|e| e.into());
                 }
             },
-            Some(Err(err)) => Err(err.into()),
-            None => Ok(()),
+            Some(Err(err)) => break Err(err.into()),
+            None => break Err(anyerror!("Connection closed")),
         };
 
-        let _ = res.inspect_err(|err| tracing::error!(?err));
+        if let Err(err) = res {
+            tracing::error!(?err);
+        }
     }
 }
 
@@ -194,11 +196,13 @@ async fn upstream_to_sender_proxy(
                 }
                 _ => panic!(),
             },
-            Some(Err(err)) => Err(err.into()),
-            None => Ok(()),
+            Some(Err(err)) => break Err(err.into()),
+            None => break Err(anyerror!("Connection closed")),
         };
 
-        let _ = res.inspect_err(|err| tracing::error!(?err));
+        if let Err(err) = res {
+            tracing::error!(?err);
+        }
     }
 }
 
