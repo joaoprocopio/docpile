@@ -4,14 +4,20 @@ use crate::{
 };
 use axum::{
     body::Body,
-    extract::{FromRequest, Request, State, WebSocketUpgrade as WsUpgrade, ws::Message},
+    extract::{
+        FromRequest, Request, State, WebSocketUpgrade as PeerWsUpgrade,
+        ws::{CloseFrame as PeerCloseFrame, Message as PeerMessage},
+    },
     http::{StatusCode, Uri, header},
     response::Response,
 };
 use futures::{SinkExt, StreamExt};
 use tokio_tungstenite::{
     connect_async,
-    tungstenite::{handshake::client::Request as WsRequest, protocol::Message as WsMessage},
+    tungstenite::{
+        handshake::client::Request as UpstreamRequest,
+        protocol::{CloseFrame as UpstreamCloseFrame, Message as UpstreamMessage},
+    },
 };
 
 const UPSTREAM: &str = "localhost:3333";
@@ -38,72 +44,107 @@ async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
         .and_then(|v| Some(v.as_str()))
         .unwrap_or("/");
 
-    let uri = Uri::try_from(format!("ws://{UPSTREAM}{path_and_query}"))
+    let mut ws_req = UpstreamRequest::new(());
+
+    *ws_req.uri_mut() = Uri::try_from(format!("ws://{UPSTREAM}{path_and_query}"))
         .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
-
-    let mut ws_req = WsRequest::new(());
-
-    *ws_req.uri_mut() = uri;
     *ws_req.version_mut() = req.version();
     *ws_req.method_mut() = req.method().to_owned();
-    *ws_req.headers_mut() = req.headers().to_owned();
     *ws_req.extensions_mut() = req.extensions().to_owned();
+    *ws_req.headers_mut() = req.headers().to_owned();
 
-    let upgrade = WsUpgrade::from_request(req, &server)
+    let upgrade = PeerWsUpgrade::from_request(req, &server)
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
 
-    dbg!(&upgrade);
-
-    let response = upgrade.on_upgrade(|client_ws| async move {
-        let (vite_ws, _) = match connect_async(ws_req).await {
+    let response = upgrade.on_upgrade(|peer| async move {
+        let (upstream, _) = match connect_async(ws_req).await {
             Ok(conn) => conn,
             Err(_) => return,
         };
 
-        let (mut vite_sink, mut vite_stream) = vite_ws.split();
-        let (mut client_sink, mut client_stream) = client_ws.split();
+        let (mut peer_sender, mut peer_receiver) = peer.split();
+        let (mut upstream_sender, mut upstream_receiver) = upstream.split();
 
-        let to_vite = async {
-            while let Some(Ok(msg)) = client_stream.next().await {
+        let peer_to_upstream = server.handle.spawn(async move {
+            while let Some(Ok(msg)) = peer_receiver.next().await {
                 match msg {
-                    Message::Text(text) => vite_sink
-                        .send(WsMessage::Text(text.as_str().into()))
-                        .await
-                        .ok(),
-                    Message::Binary(bin) => vite_sink.send(WsMessage::Binary(bin)).await.ok(),
-                    Message::Ping(p) => vite_sink.send(WsMessage::Ping(p)).await.ok(),
-                    Message::Pong(p) => vite_sink.send(WsMessage::Pong(p)).await.ok(),
-                    Message::Close(_) => {
-                        vite_sink.send(WsMessage::Close(None)).await.ok();
+                    PeerMessage::Binary(bytes) => {
+                        upstream_sender
+                            .send(UpstreamMessage::Binary(bytes))
+                            .await
+                            .ok();
+                    }
+                    PeerMessage::Ping(bytes) => {
+                        upstream_sender
+                            .send(UpstreamMessage::Ping(bytes.into()))
+                            .await
+                            .ok();
+                    }
+                    PeerMessage::Pong(bytes) => {
+                        upstream_sender
+                            .send(UpstreamMessage::Pong(bytes.into()))
+                            .await
+                            .ok();
+                    }
+                    PeerMessage::Text(utf8_bytes) => {
+                        upstream_sender
+                            .send(UpstreamMessage::Text(utf8_bytes.as_str().into()))
+                            .await
+                            .ok();
+                    }
+                    PeerMessage::Close(frame) => {
+                        upstream_sender
+                            .send(UpstreamMessage::Close(frame.map(|f| UpstreamCloseFrame {
+                                code: f.code.into(),
+                                reason: f.reason.as_str().into(),
+                            })))
+                            .await
+                            .ok();
+
                         break;
                     }
                 };
             }
-        };
+        });
 
-        let to_client = async {
-            while let Some(Ok(msg)) = vite_stream.next().await {
+        let upstream_to_peer = server.handle.spawn(async move {
+            while let Some(Ok(msg)) = upstream_receiver.next().await {
                 match msg {
-                    WsMessage::Text(text) => client_sink
-                        .send(Message::Text(text.as_str().into()))
-                        .await
-                        .ok(),
-                    WsMessage::Binary(bin) => client_sink.send(Message::Binary(bin)).await.ok(),
-                    WsMessage::Ping(p) => client_sink.send(Message::Ping(p)).await.ok(),
-                    WsMessage::Pong(p) => client_sink.send(Message::Pong(p)).await.ok(),
-                    WsMessage::Close(_) => {
-                        client_sink.send(Message::Close(None)).await.ok();
+                    UpstreamMessage::Binary(bytes) => {
+                        peer_sender.send(PeerMessage::Binary(bytes)).await.ok();
+                    }
+                    UpstreamMessage::Ping(bytes) => {
+                        peer_sender.send(PeerMessage::Ping(bytes.into())).await.ok();
+                    }
+                    UpstreamMessage::Pong(bytes) => {
+                        peer_sender.send(PeerMessage::Pong(bytes.into())).await.ok();
+                    }
+                    UpstreamMessage::Text(utf8_bytes) => {
+                        peer_sender
+                            .send(PeerMessage::Text(utf8_bytes.as_str().into()))
+                            .await
+                            .ok();
+                    }
+                    UpstreamMessage::Close(frame) => {
+                        peer_sender
+                            .send(PeerMessage::Close(frame.map(|f| PeerCloseFrame {
+                                code: f.code.into(),
+                                reason: f.reason.as_str().into(),
+                            })))
+                            .await
+                            .ok();
+
                         break;
                     }
-                    WsMessage::Frame(_) => return,
+                    _ => todo!(),
                 };
             }
-        };
+        });
 
         tokio::select! {
-            _ = to_vite => (),
-            _ = to_client => (),
+            _ = peer_to_upstream => {}
+            _ = upstream_to_peer => {}
         };
     });
 
