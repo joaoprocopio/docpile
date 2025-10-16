@@ -1,11 +1,10 @@
-use crate::error::{ErrorKind, Result};
-use crate::{error::Error, www::config::Server};
+use crate::{
+    error::{Error, ErrorKind},
+    www::config::Server,
+};
 use axum::{
     body::Body,
-    extract::{
-        FromRequest, Request, State,
-        ws::{Message, WebSocketUpgrade},
-    },
+    extract::{FromRequest, Request, State, WebSocketUpgrade, ws::Message},
     http::{StatusCode, header},
     response::Response,
 };
@@ -29,13 +28,21 @@ fn is_ws(req: &Request) -> bool {
         .unwrap_or(false)
 }
 
-async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
-    let ws = WebSocketUpgrade::from_request(req, &server)
+async fn proxy_ws(_server: Server, req: Request) -> Result<Response, Error> {
+    let path_and_query = req
+        .uri()
+        .path_and_query()
+        .and_then(|v| Some(v.as_str()))
+        .unwrap_or("/");
+
+    let ws_uri = format!("ws://{UPSTREAM}{path_and_query}");
+
+    let ws_upgrade = WebSocketUpgrade::from_request(req, &_server)
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
 
-    let res = ws.on_upgrade(|client_ws| async move {
-        let (vite_ws, _) = match connect_async(UPSTREAM).await {
+    let response = ws_upgrade.on_upgrade(|client_ws| async move {
+        let (vite_ws, _) = match connect_async(ws_uri).await {
             Ok(conn) => conn,
             Err(_) => return,
         };
@@ -75,7 +82,7 @@ async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
                         client_sink.send(Message::Close(None)).await.ok();
                         break;
                     }
-                    WsMessage::Frame(_) => break,
+                    WsMessage::Frame(_) => return,
                 };
             }
         };
@@ -86,7 +93,7 @@ async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
         };
     });
 
-    Ok(res)
+    Ok(response)
 }
 
 async fn proxy_http(server: Server, req: Request) -> Result<Response, Error> {
