@@ -37,17 +37,19 @@ async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
 }
 
 async fn proxy_http(server: Server, req: Request) -> Result<Response, Error> {
-    let scheme = req.uri().scheme_str().unwrap_or("http");
-    let path = req
-        .uri()
+    let uri = req.uri();
+    let scheme = uri.scheme_str().unwrap_or("http");
+    let path = uri
         .path_and_query()
         .and_then(|p| Some(p.as_str()))
         .unwrap_or("/");
 
+    let upstream = reqwest::Url::parse(format!("{}://localhost:3333{}", scheme, path).as_str())
+        .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Upstream, e))?;
+    let upstream = reqwest::Request::new(req.method().to_owned(), upstream);
     let upstream = server
         .client
-        .get(format!("{}://localhost:3333{}", scheme, path))
-        .send()
+        .execute(upstream)
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?;
 
@@ -60,7 +62,7 @@ async fn proxy_http(server: Server, req: Request) -> Result<Response, Error> {
     *peer.body_mut() = upstream
         .bytes()
         .await
-        .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?
+        .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Upstream, e))?
         .into();
 
     Ok(peer)
