@@ -16,6 +16,7 @@ pub struct ServerInner {
 pub struct ServerEnv {
     pub host: String,
     pub port: u16,
+    pub proxy_target: String,
 }
 
 impl Server {
@@ -42,6 +43,7 @@ impl ServerEnv {
         Ok(Self {
             host: env_or("DOCPIE_WWW_HOST", "0.0.0.0".into()),
             port: env_or("DOCPIE_WWW_PORT", 3000),
+            proxy_target: env_or("DOCPIE_WWW_PROXY_TARGET", "http://localhost:5173".into()),
         })
     }
 }

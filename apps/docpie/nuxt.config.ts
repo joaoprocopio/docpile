@@ -36,7 +36,7 @@ export default defineNuxtConfig({
     },
     srcDir: "src/",
     devServer: {
-        port: 3000,
+        port: 5173,
     },
     compatibilityDate: "latest",
     vite: {
