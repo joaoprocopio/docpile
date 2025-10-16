@@ -5,11 +5,14 @@ use crate::{
 use axum::{
     body::Body,
     extract::{FromRequest, Request, State, WebSocketUpgrade, ws::Message},
-    http::{StatusCode, header},
+    http::{StatusCode, Uri, header},
     response::Response,
 };
 use futures::{SinkExt, StreamExt};
-use tokio_tungstenite::{connect_async, tungstenite::protocol::Message as WsMessage};
+use tokio_tungstenite::{
+    connect_async,
+    tungstenite::{ClientRequestBuilder, protocol::Message as WsMessage},
+};
 
 const UPSTREAM: &str = "localhost:3333";
 
@@ -35,14 +38,24 @@ async fn proxy_ws(_server: Server, req: Request) -> Result<Response, Error> {
         .and_then(|v| Some(v.as_str()))
         .unwrap_or("/");
 
-    let ws_uri = format!("ws://{UPSTREAM}{path_and_query}");
+    let ws_uri = Uri::try_from(format!("ws://{UPSTREAM}{path_and_query}"))
+        .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
+    let mut ws_req = ClientRequestBuilder::new(ws_uri);
+
+    for (hname, hvalue) in req.headers() {
+        let name: String = hname.to_string();
+        let value: String = String::from_utf8(hvalue.as_bytes().to_vec())
+            .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
+
+        ws_req = ws_req.with_header(name, value);
+    }
 
     let ws_upgrade = WebSocketUpgrade::from_request(req, &_server)
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
 
     let response = ws_upgrade.on_upgrade(|client_ws| async move {
-        let (vite_ws, _) = match connect_async(ws_uri).await {
+        let (vite_ws, _) = match connect_async(ws_req).await {
             Ok(conn) => conn,
             Err(_) => return,
         };
