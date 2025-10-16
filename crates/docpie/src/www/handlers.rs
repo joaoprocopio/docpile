@@ -2,38 +2,91 @@ use crate::error::{ErrorKind, Result};
 use crate::{error::Error, www::config::Server};
 use axum::{
     body::Body,
-    extract::{Request, State},
+    extract::{
+        FromRequest, Request, State,
+        ws::{Message, WebSocketUpgrade},
+    },
     http::{StatusCode, header},
     response::Response,
 };
+use futures::{SinkExt, StreamExt};
+use tokio_tungstenite::{connect_async, tungstenite::protocol::Message as WsMessage};
 
-fn should_upgrade_to_ws(req: &Request) -> bool {
-    req.headers()
-        .get(header::UPGRADE)
-        .map(|v| v.as_bytes().eq_ignore_ascii_case(b"websocket"))
-        .unwrap_or(false)
-}
+const UPSTREAM: &str = "localhost:3333";
 
 pub async fn proxy(State(server): State<Server>, req: Request) -> Result<Response, Error> {
-    if should_upgrade_to_ws(&req) {
+    if is_ws(&req) {
         return proxy_ws(server, req).await;
     }
 
     proxy_http(server, req).await
 }
 
+fn is_ws(req: &Request) -> bool {
+    req.headers()
+        .get(header::UPGRADE)
+        .map(|v| v.as_bytes().eq_ignore_ascii_case(b"websocket"))
+        .unwrap_or(false)
+}
+
 async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
-    dbg!(req);
-    // let uri = req.uri().to_owned();
-    // let sock_upgrade = WebSocketUpgrade::from_request(req, &server)
-    //     .await
-    //     .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
+    let ws = WebSocketUpgrade::from_request(req, &server)
+        .await
+        .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
 
-    // let res = sock_upgrade.on_upgrade(|ws| async move {
-    //     let stream = connect_async(uri).await;
-    // });
+    let res = ws.on_upgrade(|client_ws| async move {
+        let (vite_ws, _) = match connect_async(UPSTREAM).await {
+            Ok(conn) => conn,
+            Err(_) => return,
+        };
 
-    Ok(Response::new(Body::empty()))
+        let (mut vite_sink, mut vite_stream) = vite_ws.split();
+        let (mut client_sink, mut client_stream) = client_ws.split();
+
+        let to_vite = async {
+            while let Some(Ok(msg)) = client_stream.next().await {
+                match msg {
+                    Message::Text(text) => vite_sink
+                        .send(WsMessage::Text(text.as_str().into()))
+                        .await
+                        .ok(),
+                    Message::Binary(bin) => vite_sink.send(WsMessage::Binary(bin)).await.ok(),
+                    Message::Ping(p) => vite_sink.send(WsMessage::Ping(p)).await.ok(),
+                    Message::Pong(p) => vite_sink.send(WsMessage::Pong(p)).await.ok(),
+                    Message::Close(_) => {
+                        vite_sink.send(WsMessage::Close(None)).await.ok();
+                        break;
+                    }
+                };
+            }
+        };
+
+        let to_client = async {
+            while let Some(Ok(msg)) = vite_stream.next().await {
+                match msg {
+                    WsMessage::Text(text) => client_sink
+                        .send(Message::Text(text.as_str().into()))
+                        .await
+                        .ok(),
+                    WsMessage::Binary(bin) => client_sink.send(Message::Binary(bin)).await.ok(),
+                    WsMessage::Ping(p) => client_sink.send(Message::Ping(p)).await.ok(),
+                    WsMessage::Pong(p) => client_sink.send(Message::Pong(p)).await.ok(),
+                    WsMessage::Close(_) => {
+                        client_sink.send(Message::Close(None)).await.ok();
+                        break;
+                    }
+                    WsMessage::Frame(_) => break,
+                };
+            }
+        };
+
+        tokio::select! {
+            _ = to_vite => (),
+            _ = to_client => (),
+        };
+    });
+
+    Ok(res)
 }
 
 async fn proxy_http(server: Server, req: Request) -> Result<Response, Error> {
@@ -44,7 +97,7 @@ async fn proxy_http(server: Server, req: Request) -> Result<Response, Error> {
         .and_then(|p| Some(p.as_str()))
         .unwrap_or("/");
 
-    let upstream = reqwest::Url::parse(format!("{}://localhost:3333{}", scheme, path).as_str())
+    let upstream = reqwest::Url::parse(format!("{scheme}://{UPSTREAM}{path}").as_str())
         .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Upstream, e))?;
     let upstream = reqwest::Request::new(req.method().to_owned(), upstream);
     let upstream = server
