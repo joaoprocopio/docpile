@@ -8,7 +8,7 @@ use axum::{
         FromRequest, Request, State, WebSocketUpgrade as PeerWsUpgrade,
         ws::{CloseFrame as PeerCloseFrame, Message as PeerMessage, WebSocket as PeerWebSocket},
     },
-    http::{StatusCode, Uri, header},
+    http::{StatusCode, Uri, header, request::Parts},
     response::Response,
 };
 use futures::{
@@ -43,66 +43,77 @@ fn is_ws(req: &Request) -> bool {
 }
 
 async fn proxy_ws(server: Server, req: Request) -> Result<Response, Error> {
-    let path_and_query = req
-        .uri()
-        .path_and_query()
-        .and_then(|v| Some(v.as_str()))
-        .unwrap_or("/");
+    let (head, body) = req.into_parts();
+    let headers = head.clone();
 
-    let mut ws_req = UpstreamRequest::new(());
-
-    *ws_req.uri_mut() = Uri::try_from(format!("ws://{UPSTREAM}{path_and_query}"))
-        .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
-    *ws_req.version_mut() = req.version();
-    *ws_req.method_mut() = req.method().to_owned();
-    *ws_req.extensions_mut() = req.extensions().to_owned();
-    *ws_req.headers_mut() = req.headers().to_owned();
-
-    let upgrade = PeerWsUpgrade::from_request(req, &server)
+    let upgrade = PeerWsUpgrade::from_request(Request::from_parts(head, body), &server)
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Peer, e))?;
 
-    let response = upgrade.on_upgrade(|peer| async move {
-        let (upstream, _) = match connect_async(ws_req).await {
-            Ok(conn) => conn,
-            Err(_) => return,
-        };
-
-        let (peer_sender, peer_receiver) = peer.split();
-        let (upstream_sender, upstream_receiver) = upstream.split();
-
-        let peer_to_upstream = server
-            .handle
-            .spawn(sender_to_upstream_proxy(peer_receiver, upstream_sender));
-
-        let upstream_to_peer = server
-            .handle
-            .spawn(upstream_to_sender_proxy(upstream_receiver, peer_sender));
-
-        tokio::select! {
-            ptu_result = peer_to_upstream => {
-                if let Ok(Err(ref err)) = ptu_result {
-                    tracing::error!(?err);
-                }
-
-                if let Err(ref err) = ptu_result {
-                    tracing::error!(?err);
-                }
-            }
-
-            utp_result = upstream_to_peer => {
-                if let Ok(Err(ref err)) = utp_result {
-                    tracing::error!(?err);
-                }
-
-                if let Err(ref err) = utp_result {
-                    tracing::error!(?err);
-                }
-            }
-        };
-    });
+    let response = upgrade.on_upgrade(move |peer| handle_ws(peer, server, headers));
 
     Ok(response)
+}
+
+async fn handle_ws(peer: PeerWebSocket, server: Server, mut headers: Parts) {
+    headers.uri = match Uri::try_from({
+        let full_path = headers
+            .uri
+            .path_and_query()
+            .and_then(|v| Some(v.as_str()))
+            .unwrap_or("/");
+
+        format!("ws://{UPSTREAM}{full_path}")
+    }) {
+        Ok(uri) => uri,
+        Err(err) => {
+            tracing::error!(?err);
+            return;
+        }
+    };
+
+    let ws_req = UpstreamRequest::from_parts(headers, ());
+
+    let (upstream, _) = match connect_async(ws_req).await {
+        Ok(conn) => conn,
+        Err(err) => {
+            tracing::error!(?err);
+            return;
+        }
+    };
+
+    let (peer_sender, peer_receiver) = peer.split();
+    let (upstream_sender, upstream_receiver) = upstream.split();
+
+    let peer_to_upstream = server
+        .handle
+        .spawn(sender_to_upstream_proxy(peer_receiver, upstream_sender));
+
+    let upstream_to_peer = server
+        .handle
+        .spawn(upstream_to_sender_proxy(upstream_receiver, peer_sender));
+
+    tokio::select! {
+        ptu_result = peer_to_upstream => {
+            if let Ok(Err(ref err)) = ptu_result {
+                tracing::error!(?err);
+            }
+
+            if let Err(ref err) = ptu_result {
+                tracing::error!(?err);
+            }
+        }
+
+        utp_result = upstream_to_peer => {
+            if let Ok(Err(ref err)) = utp_result {
+                tracing::error!(?err);
+            }
+
+            if let Err(ref err) = utp_result {
+                tracing::error!(?err);
+            }
+        }
+    };
 }
 
 async fn sender_to_upstream_proxy(
