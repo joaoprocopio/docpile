@@ -332,7 +332,7 @@
     --destructive: var(--destructive-5);
     --destructive-foreground: var(--destructive-12);
     --input: var(--gray-4);
-    --border: var(--gray-3);
+    --border: var(--gray-a3);
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
 }
@@ -548,7 +548,7 @@
     --foreground: var(--gray-12);
     --card: var(--gray-a2);
     --card-foreground: var(--gray-12);
-    --popover: var(--gray-2);
+    --popover: var(--gray-3);
     --popover-foreground: var(--gray-12);
     --primary: var(--primary-9);
     --primary-foreground: var(--gray-12);
@@ -561,7 +561,7 @@
     --destructive: var(--destructive-4);
     --destructive-foreground: var(--destructive-10);
     --input: var(--gray-4);
-    --border: var(--gray-3);
+    --border: var(--gray-a3);
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
 }

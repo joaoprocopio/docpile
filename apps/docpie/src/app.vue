@@ -2,12 +2,11 @@
     <NuxtLayout>
         <NuxtPage />
     </NuxtLayout>
-
+    <QueryDevtools />
     <Sonner />
-    <VueQueryDevtools />
 </template>
 
 <script setup lang="ts">
-import { VueQueryDevtools } from "~/lib/query/devtools"
+import { QueryDevtools } from "~/lib/query/devtools"
 import { Sonner } from "~/lib/ui/sonner"
 </script>

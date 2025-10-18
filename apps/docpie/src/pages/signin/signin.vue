@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
-import { useToggle } from "@vueuse/core"
+import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
 
 import { useRouter } from "#app"
@@ -30,6 +30,7 @@ const form = useForm({
         mutation.mutate(props.value)
     },
 })
+const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
     ...authMutations.signIn(),
@@ -38,7 +39,7 @@ const mutation = useMutation({
         router.push({ name: HomeRouteName })
     },
     onError: () => {
-        sonner("Email or password may be invalid")
+        sonner.error("Email or password may be invalid")
     },
 })
 
@@ -54,7 +55,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
 
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
-            @submit.prevent.stop="form.handleSubmit">
+            @submit.prevent.stop="submit">
             <FieldGroup class="gap-3">
                 <form.Field
                     v-slot="{ field }"
