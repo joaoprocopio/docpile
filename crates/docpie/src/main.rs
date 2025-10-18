@@ -24,7 +24,7 @@ async fn run(handle: Handle) -> Result<()> {
     let signal = shutdown_signal().await?.shared();
 
     let services = tokio::join!(
-        handle.spawn(serve_www(signal.clone(), handle.clone())),
+        handle.spawn(serve_www(signal.clone())),
         handle.spawn(serve_http(signal.clone(), handle.clone()))
     );
 
@@ -36,11 +36,8 @@ async fn run(handle: Handle) -> Result<()> {
     Ok(())
 }
 
-async fn serve_www(
-    signal: impl Future<Output = ()> + Send + 'static,
-    handle: Handle,
-) -> Result<()> {
-    let server = WwwServer::new(handle)?;
+async fn serve_www(signal: impl Future<Output = ()> + Send + 'static) -> Result<()> {
+    let server = WwwServer::new()?;
     let listener = TcpListener::bind((server.env.host.as_ref(), server.env.port)).await?;
 
     let router = new_www_router().with_state(server);

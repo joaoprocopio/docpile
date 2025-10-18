@@ -1,92 +1,9 @@
-use crate::{
-    error::{Error, ErrorKind, Result},
-    www::config::Server,
-};
-use axum::{
-    body::{Body, to_bytes},
-    extract::{Request, State},
-    http::{
-        HeaderName, StatusCode, header,
-        uri::{PathAndQuery, Scheme},
-    },
-    response::Response,
-};
-use reqwest::{Request as UpstreamRequest, Url as UpstreamUrl};
-use std::sync::LazyLock;
+#[cfg(debug_assertions)]
+#[path = "handlers_dev.rs"]
+mod handlers;
 
-const RFC_2616_HOP_BY_HOP_HEADERS: LazyLock<[HeaderName; 8]> = LazyLock::new(|| {
-    [
-        header::CONNECTION,
-        header::HeaderName::from_static("keep-alive"),
-        header::PROXY_AUTHENTICATE,
-        header::PROXY_AUTHORIZATION,
-        header::TE,
-        header::TRAILER,
-        header::TRANSFER_ENCODING,
-        header::UPGRADE,
-    ]
-});
+#[cfg(not(debug_assertions))]
+#[path = "handlers_prod.rs"]
+mod handlers;
 
-fn remove_hop_by_hop_headers(headers: &mut axum::http::HeaderMap) {
-    for header in &*RFC_2616_HOP_BY_HOP_HEADERS {
-        headers.remove(header);
-    }
-}
-
-pub async fn proxy(State(server): State<Server>, peer_req: Request) -> Result<Response, Error> {
-    let (peer_parts, peer_body) = peer_req.into_parts();
-
-    let upstream_url = UpstreamUrl::parse(
-        format!(
-            "{}://{}:{}{}",
-            &peer_parts
-                .uri
-                .scheme()
-                .cloned()
-                .unwrap_or_else(|| Scheme::HTTP),
-            &server.env.dev_upstream_host,
-            &server.env.dev_upstream_port,
-            &peer_parts
-                .uri
-                .path_and_query()
-                .cloned()
-                .unwrap_or_else(|| PathAndQuery::from_static("/"))
-        )
-        .as_str(),
-    )
-    .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?;
-
-    let mut upstream_req = UpstreamRequest::new(peer_parts.method, upstream_url);
-
-    *upstream_req.headers_mut() = peer_parts.headers;
-    *upstream_req.version_mut() = peer_parts.version;
-    *upstream_req.body_mut() = Some(
-        to_bytes(peer_body, usize::MAX)
-            .await
-            .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?
-            .into(),
-    );
-
-    remove_hop_by_hop_headers(upstream_req.headers_mut());
-
-    let mut upstream_res = server
-        .client
-        .execute(upstream_req)
-        .await
-        .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?;
-
-    remove_hop_by_hop_headers(upstream_res.headers_mut());
-
-    let mut peer_res = Response::new(Body::empty());
-
-    *peer_res.status_mut() = upstream_res.status();
-    *peer_res.headers_mut() = upstream_res.headers().clone();
-    *peer_res.version_mut() = upstream_res.version();
-    *peer_res.body_mut() = upstream_res
-        .bytes()
-        .await
-        .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?
-        .into();
-
-    Ok(peer_res)
-}
+pub use handlers::*;

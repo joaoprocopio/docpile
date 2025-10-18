@@ -1,15 +1,15 @@
 use crate::{error::Result, ext::env::env_or};
+#[cfg(debug_assertions)]
 use reqwest::{Client, retry};
 use std::{ops::Deref, sync::Arc};
-use tokio::runtime;
 
 #[derive(Debug, Clone)]
 pub struct Server(Arc<ServerInner>);
 
 #[derive(Debug)]
 pub struct ServerInner {
+    #[cfg(debug_assertions)]
     pub client: Client,
-    pub handle: runtime::Handle,
     pub env: ServerEnv,
 }
 
@@ -22,12 +22,13 @@ pub struct ServerEnv {
 }
 
 impl Server {
-    pub fn new(handle: runtime::Handle) -> Result<Self> {
+    pub fn new() -> Result<Self> {
+        #[cfg(debug_assertions)]
         let client = Client::builder().retry(retry::never()).build()?;
         let env = ServerEnv::from_env_or_default()?;
 
         Ok(Self(Arc::new(ServerInner {
-            handle: handle,
+            #[cfg(debug_assertions)]
             client: client,
             env: env,
         })))
