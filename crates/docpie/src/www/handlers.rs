@@ -1,8 +1,8 @@
-#[cfg(debug_assertions)]
+#[cfg(feature = "dev")]
 #[path = "handlers_dev.rs"]
 mod handlers;
 
-#[cfg(not(debug_assertions))]
+#[cfg(not(feature = "dev"))]
 #[path = "handlers_prod.rs"]
 mod handlers;
 

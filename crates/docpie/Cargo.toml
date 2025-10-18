@@ -3,6 +3,9 @@ name = "docpie"
 version = "0.1.0"
 edition = "2024"
 
+[features]
+dev = ["dep:reqwest"]
+
 [dependencies]
 anyhow = "1.0.100"
 axum = { version = "0.8.4", features = [
@@ -12,7 +15,7 @@ axum-login = "0.18.0"
 futures = "0.3.31"
 mimalloc = "0.1.47"
 password-auth = "1.0.0"
-reqwest = "0.12.24"
+reqwest = { version = "0.12.24", optional = true }
 serde = { version = "1.0.228", features = [
     "derive"
 ] }
