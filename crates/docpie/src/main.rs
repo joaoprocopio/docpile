@@ -38,7 +38,7 @@ async fn run(handle: Handle) -> Result<()> {
 
 async fn serve_www(signal: impl Future<Output = ()> + Send + 'static) -> Result<()> {
     let server = WwwServer::new()?;
-    let listener = TcpListener::bind((server.env.host.as_ref(), server.env.port)).await?;
+    let listener = TcpListener::bind(server.env.addr.as_str()).await?;
 
     let router = new_www_router(&server).with_state(server);
 
@@ -58,7 +58,7 @@ async fn serve_http(
     handle: Handle,
 ) -> Result<()> {
     let server = HttpServer::new(handle).await?;
-    let listener = TcpListener::bind((server.env.host.as_ref(), server.env.port)).await?;
+    let listener = TcpListener::bind(server.env.addr.as_str()).await?;
 
     let router = new_http_router(&server).await?.with_state(server);
 

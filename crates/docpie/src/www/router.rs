@@ -29,14 +29,13 @@ mod router {
 
         let upstream_url = UpstreamUrl::parse(
             format!(
-                "{}://{}:{}{}",
+                "{}://{}{}",
                 &peer_parts
                     .uri
                     .scheme()
                     .cloned()
                     .unwrap_or_else(|| Scheme::HTTP),
-                &server.env.dev_upstream_host,
-                &server.env.dev_upstream_port,
+                &server.env.addr,
                 &peer_parts
                     .uri
                     .path_and_query()

@@ -17,12 +17,9 @@ pub struct ServerInner {
 
 #[derive(Debug)]
 pub struct ServerEnv {
-    pub host: String,
-    pub port: u16,
+    pub addr: String,
     #[cfg(feature = "dev")]
-    pub dev_upstream_host: String,
-    #[cfg(feature = "dev")]
-    pub dev_upstream_port: u16,
+    pub upstream_addr: String,
 }
 
 impl Server {
@@ -46,12 +43,9 @@ impl Deref for Server {
 impl ServerEnv {
     fn from_env_or_default() -> Result<Self> {
         Ok(Self {
-            host: env_or("DOCPIE_WWW_HOST", "0.0.0.0".into()),
-            port: env_or("DOCPIE_WWW_PORT", 3000),
+            addr: env_or("DOCPIE_WWW_ADDR", "0.0.0.0:3000".into()),
             #[cfg(feature = "dev")]
-            dev_upstream_host: env_or("DOCPIE_WWW_DEV_UPSTREAM_HOST", "localhost".into()),
-            #[cfg(feature = "dev")]
-            dev_upstream_port: env_or("DOCPIE_WWW_DEV_UPSTREAM_PORT", 5173),
+            upstream_addr: env_or("DOCPIE_WWW_UPSTREAM_ADDR", "localhost:5173".into()),
         })
     }
 }
