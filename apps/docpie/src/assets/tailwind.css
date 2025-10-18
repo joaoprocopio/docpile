@@ -319,6 +319,8 @@
     --foreground: var(--gray-12);
     --card: var(--gray-1);
     --card-foreground: var(--gray-12);
+    --popover: var(--gray-1);
+    --popover-foreground: var(--gray-12);
     --primary: var(--primary-9);
     --primary-foreground: var(--gray-1);
     --secondary: var(--gray-4);
@@ -546,6 +548,8 @@
     --foreground: var(--gray-12);
     --card: var(--gray-a2);
     --card-foreground: var(--gray-12);
+    --popover: var(--gray-2);
+    --popover-foreground: var(--gray-12);
     --primary: var(--primary-9);
     --primary-foreground: var(--gray-12);
     --secondary: var(--gray-4);
@@ -803,7 +807,8 @@
     --color-foreground: var(--foreground);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
-
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);

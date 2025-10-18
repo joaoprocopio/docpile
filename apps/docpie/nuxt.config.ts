@@ -1,7 +1,14 @@
 import tailwindcss from "@tailwindcss/vite"
 
 export default defineNuxtConfig({
-    modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image", "@nuxtjs/color-mode"],
+    modules: [
+        "@nuxt/eslint",
+        "@nuxt/fonts",
+        "@nuxt/icon",
+        "@nuxt/image",
+        "@nuxtjs/color-mode",
+        "~/lib/ui/module.ts",
+    ],
     plugins: ["~/lib/query/plugin.ts"],
     ssr: false,
     pages: {

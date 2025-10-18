@@ -8,13 +8,12 @@ import { useRouter } from "#app"
 import { authMutations, authQueries } from "~/lib/auth/query"
 import { SignIn } from "~/lib/auth/schemas"
 import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
-import { Alert, AlertTitle } from "~/lib/ui/alert"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
+import { sonner } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
-import { isEmpty, isString } from "~/utils/is"
 
 const client = useQueryClient()
 const router = useRouter()
@@ -31,7 +30,6 @@ const form = useForm({
         mutation.mutate(props.value)
     },
 })
-const error = form.useStore((state) => state.errorMap.onSubmit)
 
 const mutation = useMutation({
     ...authMutations.signIn(),
@@ -40,7 +38,7 @@ const mutation = useMutation({
         router.push({ name: HomeRouteName })
     },
     onError: () => {
-        form.setErrorMap({ onSubmit: { form: "Email or password may be invalid", fields: {} } })
+        sonner("Email or password may be invalid")
     },
 })
 
@@ -58,18 +56,6 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             class="mt-8 flex w-full flex-col gap-y-5"
             @submit.prevent.stop="form.handleSubmit">
             <FieldGroup class="gap-3">
-                <Alert
-                    v-if="isString(error) && !isEmpty(error)"
-                    variant="destructive"
-                    class="items-center">
-                    <Icon
-                        name="lucide:circle-x"
-                        class="translate-y-0!" />
-                    <AlertTitle class="text-xs">
-                        {{ error }}
-                    </AlertTitle>
-                </Alert>
-
                 <form.Field
                     v-slot="{ field }"
                     name="email">
