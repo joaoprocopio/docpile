@@ -106,13 +106,24 @@ mod router {
 #[cfg(feature = "prod")]
 mod router {
     use crate::www::config::Server;
-    use axum::{Router, body::Body, response::Response, routing};
+    use axum::Router;
+    use std::path::Path;
+    use tower_http::services::fs::ServeFile;
+
+    const ABS_DIR: &'static str =
+        "/home/joaoprocopio/workspace/joaoprocopio/docpie/crates/docpie/src/www/index.html";
 
     pub fn router() -> Router<Server> {
-        Router::new().fallback(routing::any(proxy))
-    }
+        dbg!(Path::new(ABS_DIR));
 
-    async fn proxy() -> Response {
-        Response::new(Body::empty())
+        Router::new()
+            .route_service(
+                "/",
+                ServeFile::new_with_mime(ABS_DIR, &mime::TEXT_HTML_UTF_8),
+            )
+            .route_service(
+                "/{*any}",
+                ServeFile::new_with_mime(ABS_DIR, &mime::TEXT_HTML_UTF_8),
+            )
     }
 }

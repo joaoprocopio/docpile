@@ -5,7 +5,7 @@ edition = "2024"
 
 [features]
 dev = ["dep:reqwest"]
-prod = []
+prod = ["dep:mime"]
 
 [dependencies]
 anyhow = "1.0.100"
@@ -15,6 +15,7 @@ axum = { version = "0.8.4", features = [
 axum-login = "0.18.0"
 futures = "0.3.31"
 mimalloc = "0.1.47"
+mime = { version = "0.3.17", optional = true }
 password-auth = "1.0.0"
 reqwest = { version = "0.12.24", optional = true }
 serde = { version = "1.0.228", features = [
