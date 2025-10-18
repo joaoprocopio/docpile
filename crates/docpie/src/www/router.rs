@@ -35,7 +35,7 @@ mod router {
                     .scheme()
                     .cloned()
                     .unwrap_or_else(|| Scheme::HTTP),
-                &server.env.addr,
+                &server.env.upstream_addr,
                 &peer_parts
                     .uri
                     .path_and_query()
