@@ -25,40 +25,36 @@ const RFC_2616_HOP_BY_HOP_HEADERS: LazyLock<[HeaderName; 8]> = LazyLock::new(|| 
 pub async fn proxy(State(server): State<Server>, request: Request) -> Result<Response, Error> {
     let (mut parts, body) = request.into_parts();
 
-    let upstream = format!(
-        "{}://{}:{}{}",
-        &parts.uri.scheme_str().unwrap_or("http"),
-        &server.env.dev_upstream_host,
-        &server.env.dev_upstream_port,
-        &parts
-            .uri
-            .path_and_query()
-            .and_then(|p| Some(p.as_str()))
-            .unwrap_or("/")
-    );
-
-    parts.uri = Uri::try_from(upstream.as_str())
-        .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?;
+    parts.uri = Uri::try_from(
+        format!(
+            "{}://{}:{}{}",
+            &parts.uri.scheme_str().unwrap_or("http"),
+            &server.env.dev_upstream_host,
+            &server.env.dev_upstream_port,
+            &parts
+                .uri
+                .path_and_query()
+                .and_then(|p| Some(p.as_str()))
+                .unwrap_or("/")
+        )
+        .as_str(),
+    )
+    .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?;
 
     for header in &*RFC_2616_HOP_BY_HOP_HEADERS {
         parts.headers.remove(header);
     }
     parts.headers.remove(header::HOST);
 
-    let request = Request::from_parts(parts, body);
-
     let mut response = server
         .client
-        .request(request)
+        .request(Request::from_parts(parts, body))
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?;
 
-    {
-        let headers = response.headers_mut();
-
-        for header in &*RFC_2616_HOP_BY_HOP_HEADERS {
-            headers.remove(header);
-        }
+    let headers = response.headers_mut();
+    for header in &*RFC_2616_HOP_BY_HOP_HEADERS {
+        headers.remove(header);
     }
 
     Ok(response.into_response())
