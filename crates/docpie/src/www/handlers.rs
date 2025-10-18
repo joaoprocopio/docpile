@@ -4,7 +4,8 @@ use crate::{
 };
 use axum::{
     extract::{Request, State},
-    http::{HeaderName, StatusCode, header},
+    http::{HeaderName, StatusCode, Uri, header},
+    response::{IntoResponse, Response},
 };
 use std::sync::LazyLock;
 
@@ -21,46 +22,44 @@ const RFC_2616_HOP_BY_HOP_HEADERS: LazyLock<[HeaderName; 8]> = LazyLock::new(|| 
     ]
 });
 
-pub async fn proxy(
-    State(server): State<Server>,
-    request: Request,
-) -> Result<reqwest::Response, Error> {
-    let uri = request.uri();
-    let scheme = uri.scheme_str().unwrap_or("http");
-    let path = uri
-        .path_and_query()
-        .and_then(|p| Some(p.as_str()))
-        .unwrap_or("/");
+pub async fn proxy(State(server): State<Server>, request: Request) -> Result<Response, Error> {
+    let (mut parts, body) = request.into_parts();
 
     let upstream = format!(
         "{}://{}:{}{}",
-        scheme, &server.env.dev_upstream_host, &server.env.dev_upstream_port, path
+        &parts.uri.scheme_str().unwrap_or("http"),
+        &server.env.dev_upstream_host,
+        &server.env.dev_upstream_port,
+        &parts
+            .uri
+            .path_and_query()
+            .and_then(|p| Some(p.as_str()))
+            .unwrap_or("/")
     );
-    let upstream = reqwest::Url::parse(upstream.as_str())
+
+    parts.uri = Uri::try_from(upstream.as_str())
         .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?;
 
-    let mut request = reqwest::Request::new(request.method().clone(), upstream);
-
-    {
-        let headers = request.headers_mut();
-        for header in &*RFC_2616_HOP_BY_HOP_HEADERS {
-            headers.remove(header);
-        }
-        headers.remove(header::HOST);
+    for header in &*RFC_2616_HOP_BY_HOP_HEADERS {
+        parts.headers.remove(header);
     }
+    parts.headers.remove(header::HOST);
+
+    let request = Request::from_parts(parts, body);
 
     let mut response = server
         .client
-        .execute(request)
+        .request(request)
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?;
 
     {
         let headers = response.headers_mut();
+
         for header in &*RFC_2616_HOP_BY_HOP_HEADERS {
             headers.remove(header);
         }
     }
 
-    Ok(response)
+    Ok(response.into_response())
 }

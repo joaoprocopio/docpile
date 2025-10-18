@@ -1,4 +1,9 @@
 use crate::{error::Result, ext::env::env_or};
+use axum::body::Body;
+use hyper_util::{
+    client::legacy::{Client, connect::HttpConnector},
+    rt::TokioExecutor,
+};
 use std::{ops::Deref, sync::Arc};
 use tokio::runtime;
 
@@ -7,7 +12,7 @@ pub struct Server(Arc<ServerInner>);
 
 #[derive(Debug)]
 pub struct ServerInner {
-    pub client: reqwest::Client,
+    pub client: Client<HttpConnector, Body>,
     pub handle: runtime::Handle,
     pub env: ServerEnv,
 }
@@ -22,9 +27,7 @@ pub struct ServerEnv {
 
 impl Server {
     pub fn new(handle: runtime::Handle) -> Result<Self> {
-        let client = reqwest::Client::builder()
-            .retry(reqwest::retry::never())
-            .build()?;
+        let client = Client::builder(TokioExecutor::new()).build(HttpConnector::new());
         let env = ServerEnv::from_env_or_default()?;
 
         Ok(Self(Arc::new(ServerInner {
