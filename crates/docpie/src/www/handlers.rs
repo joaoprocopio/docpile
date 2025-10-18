@@ -2,7 +2,7 @@
 #[path = "handlers_dev.rs"]
 mod handlers;
 
-#[cfg(not(feature = "dev"))]
+#[cfg(feature = "prod")]
 #[path = "handlers_prod.rs"]
 mod handlers;
 
