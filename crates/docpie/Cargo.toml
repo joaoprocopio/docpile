@@ -12,10 +12,9 @@ axum-login = "0.18.0"
 clap = "4.5.48"
 futures = "0.3.31"
 http-body-util = "0.1.2"
-hyper = { version = "1.6.0", features = ["client", "http1"] }
-hyper-util = { version = "0.1.10", features = ["client-legacy", "http1", "tokio"] }
 mimalloc = "0.1.47"
 password-auth = "1.0.0"
+reqwest = "0.12.24"
 serde = { version = "1.0.228", features = [
     "derive"
 ] }

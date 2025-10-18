@@ -61,10 +61,8 @@ impl ServerEnv {
             timeout: Duration::from_secs(env_or("DOCPIE_TIMEOUT", 30)),
             body_timeout: Duration::from_secs(env_or("DOCPIE_BODY_TIMEOUT", 5)),
             allowed_origins: {
-                let origins: String = env_or(
-                    "DOCPIE_ALLOWED_ORIGINS",
-                    "http://localhost:3000, http://127.0.0.1:3000".into(),
-                );
+                let origins: String =
+                    env_or("DOCPIE_ALLOWED_ORIGINS", "http://localhost:3000".into());
 
                 origins
                     .split(",")
