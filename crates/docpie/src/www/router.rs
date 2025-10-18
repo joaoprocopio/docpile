@@ -106,19 +106,9 @@ mod router {
 mod router {
     use crate::www::config::Server;
     use axum::Router;
-    use tower_http::services::fs::ServeFile;
+    use tower_http::services::ServeDir;
 
-    const ABS_DIR: &'static str = "./index.html";
-
-    pub fn router(_: &Server) -> Router<Server> {
-        Router::new()
-            .route_service(
-                "/",
-                ServeFile::new_with_mime(ABS_DIR, &mime::TEXT_HTML_UTF_8),
-            )
-            .route_service(
-                "/{*any}",
-                ServeFile::new_with_mime(ABS_DIR, &mime::TEXT_HTML_UTF_8),
-            )
+    pub fn router(server: &Server) -> Router<Server> {
+        Router::new().fallback_service(ServeDir::new(&server.env.upstream_root_dir))
     }
 }
