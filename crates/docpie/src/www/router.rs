@@ -1,6 +1,9 @@
-use crate::www::{config::Server, handlers};
-use axum::{Router, routing};
+#[cfg(feature = "dev")]
+#[path = "router_dev.rs"]
+mod router;
 
-pub fn router() -> Router<Server> {
-    Router::new().fallback(routing::any(handlers::proxy))
-}
+#[cfg(feature = "prod")]
+#[path = "router_prod.rs"]
+mod router;
+
+pub use router::router;
