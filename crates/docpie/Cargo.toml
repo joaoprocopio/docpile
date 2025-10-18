@@ -12,7 +12,7 @@ axum-login = "0.18.0"
 futures = "0.3.31"
 mimalloc = "0.1.47"
 password-auth = "1.0.0"
-reqwest = { version = "0.12.24", default-features = false }
+reqwest = "0.12.24"
 serde = { version = "1.0.228", features = [
     "derive"
 ] }
@@ -22,7 +22,9 @@ sqlx = { version = "0.8.6", features = [
     "runtime-tokio"
 ] }
 thiserror = "2.0.17"
-time = { version = "0.3.44", features = ["serde"] }
+time = { version = "0.3.44", features = [
+    "serde"
+] }
 tokio = { version = "1.45.1", features = [
     "rt",
     "rt-multi-thread",
