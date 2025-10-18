@@ -106,17 +106,17 @@ mod router {
 mod router {
     use crate::www::config::Server;
     use axum::Router;
+    use mime::TEXT_HTML_UTF_8;
     use tower_http::services::{ServeDir, ServeFile};
 
     pub fn router(server: &Server) -> Router<Server> {
-        let root_dir = &server.env.upstream_root_dir;
-        let index_html = format!("{}/index.html", root_dir.to_string_lossy());
+        let dir = &server.env.upstream_root_dir;
+        let html = format!("{}/index.html", dir.to_string_lossy());
+        let spa = ServeDir::new(dir)
+            .append_index_html_on_directories(false)
+            .call_fallback_on_method_not_allowed(false)
+            .fallback(ServeFile::new_with_mime(html, &TEXT_HTML_UTF_8));
 
-        Router::new().fallback_service(
-            ServeDir::new(root_dir)
-                .append_index_html_on_directories(false)
-                .call_fallback_on_method_not_allowed(false)
-                .fallback(ServeFile::new_with_mime(index_html, &mime::TEXT_HTML_UTF_8)),
-        )
+        Router::new().fallback_service(spa)
     }
 }
