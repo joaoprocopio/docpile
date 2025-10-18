@@ -13,7 +13,10 @@ macro_rules! protected {
             middleware,
             response::{IntoResponse, Response},
         };
-        use $crate::auth::sessions::AuthSession;
+        use $crate::{
+            auth::sessions::AuthSession,
+            error::{AnyJson, Error, anyerror},
+        };
 
         async fn protected(session: AuthSession, req: Request, next: middleware::Next) -> Response {
             if session.user.is_some() {

@@ -8,7 +8,6 @@ use axum::{
     Router,
     http::{Method, StatusCode, header},
     response::IntoResponse,
-    routing,
 };
 use axum_login::AuthManagerLayerBuilder;
 use tower::ServiceBuilder;
@@ -49,25 +48,8 @@ pub async fn router(server: &Server) -> Result<Router<Server>> {
         );
 
     Ok(Router::new()
-        // TODO: separar o auth_router
-        .route("/api/v1/auth/whoami", routing::get(auth::handlers::whoami))
-        .route(
-            "/api/v1/auth/signin",
-            routing::post(auth::handlers::sign_in),
-        )
-        .route(
-            "/api/v1/auth/signup",
-            routing::post(auth::handlers::sign_up),
-        )
-        .route(
-            "/api/v1/auth/signout",
-            routing::post(auth::handlers::sign_out).layer(auth::protected!()),
-        )
-        // TODO: separar o orgs_router
-        .route(
-            "/api/v1/orgs",
-            routing::get(org::handlers::list_orgs).layer(auth::protected!()),
-        )
+        .nest("/api/v1/auth", auth::router())
+        .nest("/api/v1/orgs", org::router())
         .layer(middleware)
         .fallback(async || {
             Error::<AnyJson>::from_status(

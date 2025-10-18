@@ -1,5 +1,6 @@
 use crate::{
     auth::{
+        self,
         schemas::{SignIn, SignUp, User},
         services::{check_email_taken, create_user},
         sessions::AuthSession,
@@ -8,9 +9,20 @@ use crate::{
     ext::validator::Valid,
     http::config::Server,
 };
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{Json, Router, extract::State, http::StatusCode, routing};
 
-pub async fn whoami(auth_session: AuthSession) -> Result<Json<Option<User>>, Error> {
+pub fn router() -> Router<Server> {
+    Router::new()
+        .route("/whoami", routing::get(whoami))
+        .route("/signin", routing::post(sign_in))
+        .route("/signup", routing::post(sign_up))
+        .route(
+            "/signout",
+            routing::post(sign_out).layer(auth::protected!()),
+        )
+}
+
+async fn whoami(auth_session: AuthSession) -> Result<Json<Option<User>>, Error> {
     match auth_session.user {
         Some(user) => {
             auth_session.session.cycle_id().await.map_err(|e| {
@@ -23,7 +35,7 @@ pub async fn whoami(auth_session: AuthSession) -> Result<Json<Option<User>>, Err
     }
 }
 
-pub async fn sign_in(
+async fn sign_in(
     mut auth_session: AuthSession,
     Valid(Json(sign_in)): Valid<Json<SignIn>>,
 ) -> Result<Json<User>, Error> {
@@ -46,7 +58,7 @@ pub async fn sign_in(
     Ok(Json(user.into()))
 }
 
-pub async fn sign_out(mut auth_session: AuthSession) -> Result<(), Error> {
+async fn sign_out(mut auth_session: AuthSession) -> Result<(), Error> {
     let _ = auth_session.logout().await.map_err(|e| {
         Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
     })?;
@@ -54,7 +66,7 @@ pub async fn sign_out(mut auth_session: AuthSession) -> Result<(), Error> {
     Ok(())
 }
 
-pub async fn sign_up(
+async fn sign_up(
     mut auth_session: AuthSession,
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
