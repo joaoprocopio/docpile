@@ -20,7 +20,7 @@ mod router {
     use reqwest::{Request as UpstreamRequest, Url as UpstreamUrl};
     use std::sync::LazyLock;
 
-    pub fn router() -> Router<Server> {
+    pub fn router(_: &Server) -> Router<Server> {
         Router::new().fallback(routing::any(proxy))
     }
 
@@ -107,15 +107,11 @@ mod router {
 mod router {
     use crate::www::config::Server;
     use axum::Router;
-    use std::path::Path;
     use tower_http::services::fs::ServeFile;
 
-    const ABS_DIR: &'static str =
-        "/home/joaoprocopio/workspace/joaoprocopio/docpie/crates/docpie/src/www/index.html";
+    const ABS_DIR: &'static str = "./index.html";
 
-    pub fn router() -> Router<Server> {
-        dbg!(Path::new(ABS_DIR));
-
+    pub fn router(_: &Server) -> Router<Server> {
         Router::new()
             .route_service(
                 "/",

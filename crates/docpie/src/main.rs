@@ -40,7 +40,7 @@ async fn serve_www(signal: impl Future<Output = ()> + Send + 'static) -> Result<
     let server = WwwServer::new()?;
     let listener = TcpListener::bind((server.env.host.as_ref(), server.env.port)).await?;
 
-    let router = new_www_router().with_state(server);
+    let router = new_www_router(&server).with_state(server);
 
     tracing::info!("www listening on: http://{}", listener.local_addr()?);
 

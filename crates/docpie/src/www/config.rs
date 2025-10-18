@@ -8,6 +8,8 @@ pub struct Server(Arc<ServerInner>);
 
 #[derive(Debug)]
 pub struct ServerInner {
+    // pub crate_root: &'static Path,
+    // pub wkspc_root: &'static Path,
     pub env: ServerEnv,
     #[cfg(feature = "dev")]
     pub client: Client,
