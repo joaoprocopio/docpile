@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
-import { useToggle } from "@vueuse/core"
+import { useDebounceFn, useToggle } from "@vueuse/core"
 import { FetchError } from "ofetch"
 import { computed } from "vue"
 
@@ -32,6 +32,7 @@ const form = useForm({
         mutation.mutate(props.value)
     },
 })
+const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
     ...authMutations.signUp(),
@@ -60,7 +61,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
 
         <form
             class="mt-8 flex w-full flex-col gap-y-5"
-            @submit.prevent.stop="form.handleSubmit">
+            @submit.prevent.stop="submit">
             <FieldGroup class="gap-3">
                 <form.Field
                     v-slot="{ field }"

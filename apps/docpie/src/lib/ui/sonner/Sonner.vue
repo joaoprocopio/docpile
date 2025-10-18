@@ -15,6 +15,7 @@ const theme = computed(() => colorMode.value as ToasterProps["theme"])
         v-bind="props"
         :toast-options="{
             closeButton: true,
+            duration: 3_000,
             classes: {
                 title: 'text-xs',
                 description: 'text-2xs',
