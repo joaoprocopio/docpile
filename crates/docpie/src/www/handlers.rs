@@ -3,13 +3,15 @@ use crate::{
     www::config::Server,
 };
 use axum::{
+    body::{Body, to_bytes},
     extract::{Request, State},
     http::{
-        HeaderName, StatusCode, Uri, header,
-        uri::{Authority, PathAndQuery, Scheme},
+        HeaderName, StatusCode, header,
+        uri::{PathAndQuery, Scheme},
     },
-    response::{IntoResponse, Response},
+    response::Response,
 };
+use reqwest::{Request as UpstreamRequest, Url as UpstreamUrl};
 use std::sync::LazyLock;
 
 const RFC_2616_HOP_BY_HOP_HEADERS: LazyLock<[HeaderName; 8]> = LazyLock::new(|| {
@@ -31,37 +33,60 @@ fn remove_hop_by_hop_headers(headers: &mut axum::http::HeaderMap) {
     }
 }
 
-pub async fn proxy(State(server): State<Server>, request: Request) -> Result<Response, Error> {
-    let (mut parts, body) = request.into_parts();
+pub async fn proxy(State(server): State<Server>, peer_req: Request) -> Result<Response, Error> {
+    let (peer_parts, peer_body) = peer_req.into_parts();
 
-    parts.uri = Uri::builder()
-        .authority(
-            Authority::try_from(format!(
-                "{}:{}",
-                server.env.dev_upstream_host, server.env.dev_upstream_port
-            ))
-            .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?,
-        )
-        .scheme(parts.uri.scheme().cloned().unwrap_or_else(|| Scheme::HTTP))
-        .path_and_query(
-            parts
+    let upstream_url = UpstreamUrl::parse(
+        format!(
+            "{}://{}:{}{}",
+            &peer_parts
+                .uri
+                .scheme()
+                .cloned()
+                .unwrap_or_else(|| Scheme::HTTP),
+            &server.env.dev_upstream_host,
+            &server.env.dev_upstream_port,
+            &peer_parts
                 .uri
                 .path_and_query()
                 .cloned()
-                .unwrap_or_else(|| PathAndQuery::from_static("/")),
+                .unwrap_or_else(|| PathAndQuery::from_static("/"))
         )
-        .build()
-        .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?;
+        .as_str(),
+    )
+    .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?;
 
-    remove_hop_by_hop_headers(&mut parts.headers);
+    let mut upstream_req = UpstreamRequest::new(peer_parts.method, upstream_url);
 
-    let mut response = server
+    *upstream_req.headers_mut() = peer_parts.headers;
+    *upstream_req.version_mut() = peer_parts.version;
+    *upstream_req.body_mut() = Some(
+        to_bytes(peer_body, usize::MAX)
+            .await
+            .map_err(|e| Error::from_status(StatusCode::BAD_REQUEST, ErrorKind::Server, e))?
+            .into(),
+    );
+
+    remove_hop_by_hop_headers(upstream_req.headers_mut());
+
+    let mut upstream_res = server
         .client
-        .request(Request::from_parts(parts, body))
+        .execute(upstream_req)
         .await
         .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?;
 
-    remove_hop_by_hop_headers(response.headers_mut());
+    remove_hop_by_hop_headers(upstream_res.headers_mut());
 
-    Ok(response.into_response())
+    let mut peer_res = Response::new(Body::empty());
+
+    *peer_res.status_mut() = upstream_res.status();
+    *peer_res.headers_mut() = upstream_res.headers().clone();
+    *peer_res.version_mut() = upstream_res.version();
+    *peer_res.body_mut() = upstream_res
+        .bytes()
+        .await
+        .map_err(|e| Error::from_status(StatusCode::BAD_GATEWAY, ErrorKind::Upstream, e))?
+        .into();
+
+    Ok(peer_res)
 }
