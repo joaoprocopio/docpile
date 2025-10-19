@@ -44,20 +44,6 @@ pub async fn get_user_by_email(server: &Server, email: String) -> Result<Option<
     Ok(user)
 }
 
-pub async fn check_email_taken(server: &Server, email: &String) -> Result<bool> {
-    let is_taken = sqlx::query!(
-        r#"
-        SELECT EXISTS(SELECT 1 FROM users WHERE email = $1) AS "exists!"
-        "#,
-        email
-    )
-    .map(|r| r.exists)
-    .fetch_one(&server.db)
-    .await?;
-
-    Ok(is_taken)
-}
-
 pub async fn create_user(
     server: &Server,
     email: &String,

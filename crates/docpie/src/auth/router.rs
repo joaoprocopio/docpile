@@ -2,7 +2,7 @@ use crate::{
     auth::{
         self,
         schemas::{SignIn, SignUp, User},
-        services::{check_email_taken, create_user},
+        services::create_user,
         sessions::AuthSession,
     },
     error::{Error, ErrorKind, Result, anyerror},
@@ -71,23 +71,6 @@ async fn sign_up_v1(
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
 ) -> Result<(StatusCode, Json<User>), Error> {
-    let is_taken = check_email_taken(&server, &sign_up.email)
-        .await
-        .map_err(|e| {
-            Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
-        })?;
-
-    if is_taken {
-        const TEXT: &str = "This email is already taken";
-
-        return Err(Error::from_status(
-            StatusCode::CONFLICT,
-            ErrorKind::EmailIsAlreadyTaken,
-            anyerror!(TEXT),
-        )
-        .with_details(Some(TEXT)));
-    }
-
     let user = create_user(
         &server,
         &sign_up.email,
@@ -95,7 +78,19 @@ async fn sign_up_v1(
         &sign_up.display_name,
     )
     .await
-    .map_err(|e| Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e))?;
+    .map_err(|err| {
+        let is_unique_violation = err
+            .downcast_ref::<sqlx::Error>()
+            .and_then(|err| err.as_database_error())
+            .and_then(|err| Some(err.is_unique_violation()))
+            .unwrap_or(false);
+
+        if is_unique_violation {
+            return Error::from_status(StatusCode::CONFLICT, ErrorKind::EmailIsAlreadyTaken, err);
+        }
+
+        Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
+    })?;
 
     auth_session.login(&user).await.map_err(|e| {
         Error::from_status(StatusCode::UNAUTHORIZED, ErrorKind::InvalidCredentials, e)
