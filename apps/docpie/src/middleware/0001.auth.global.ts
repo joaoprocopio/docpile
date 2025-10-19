@@ -21,7 +21,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     ])
 
     if (user.status === "rejected") {
-        return abortNavigation()
+        return abortNavigation(user.reason)
     }
 
     const isAuthenticated = !isNil(user.value)
@@ -38,13 +38,14 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return navigateTo({ name: SignInRouteName })
     }
 
-    if (
-        isAuthenticated &&
-        to.name !== OnboardingRouteName &&
-        orgs.status === "fulfilled" &&
-        isEmpty(orgs.value)
-    ) {
-        return navigateTo({ name: OnboardingRouteName })
+    if (isAuthenticated && to.name !== OnboardingRouteName) {
+        if (orgs.status === "rejected") {
+            return abortNavigation(orgs.reason)
+        }
+
+        if (orgs.status === "fulfilled" && isEmpty(orgs.value)) {
+            return navigateTo({ name: OnboardingRouteName })
+        }
     }
 
     if (isAuthenticated && UnauthenticatedRoutes.has(to.name as string)) {
