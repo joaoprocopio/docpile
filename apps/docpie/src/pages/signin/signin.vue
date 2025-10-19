@@ -5,7 +5,7 @@ import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
 
 import { useRouter } from "#app"
-import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
+import { HomeRouteName, OnboardingRouteName, SignUpRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -14,6 +14,8 @@ import { sonner } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { authMutations, authQueries } from "~/state/auth/query"
 import { SignIn } from "~/state/auth/schemas"
+import { orgQueries } from "~/state/org/query"
+import { isEmpty } from "~/utils/is"
 
 const client = useQueryClient()
 const router = useRouter()
@@ -34,9 +36,15 @@ const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
     ...authMutations.signIn(),
-    onSuccess(data) {
+    async onSuccess(data) {
         client.setQueryData(authQueries.whoami().queryKey, data)
-        router.push({ name: HomeRouteName })
+        const orgs = await client.ensureQueryData(orgQueries.orgs())
+
+        if (isEmpty(orgs)) {
+            router.push({ name: OnboardingRouteName })
+        } else {
+            router.push({ name: HomeRouteName })
+        }
     },
     onError: () => {
         sonner.error("Email or password may be invalid")
