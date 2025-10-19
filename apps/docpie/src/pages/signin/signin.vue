@@ -35,7 +35,7 @@ const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
     ...authMutations.signIn(),
-    async onSuccess(data) {
+    onSuccess(data) {
         client.setQueryData(authQueries.whoami().queryKey, data)
         client.prefetchQuery(orgQueries.orgs())
         router.push({ name: HomeRouteName })

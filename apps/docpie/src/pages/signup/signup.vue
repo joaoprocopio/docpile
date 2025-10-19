@@ -9,7 +9,7 @@ import { useRouter } from "#app"
 import { HttpStatus } from "~/lib/http/status"
 import { HomeRouteName, SignInRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
-import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
+import { Field, FieldDescription, FieldError, FieldGroup } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
@@ -92,6 +92,9 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                         <FieldError
                             v-if="isInvalid"
                             :errors="field.state.meta.errors" />
+                        <FieldDescription v-else>
+                            This name will be displayed to other users
+                        </FieldDescription>
                     </Field>
                 </form.Field>
 
