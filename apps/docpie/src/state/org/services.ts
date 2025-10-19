@@ -1,5 +1,5 @@
 import { useHTTP } from "~/lib/http/clients"
-import { Org, type TOrgOut } from "~/state/org/schemas"
+import { Org, type TCreateOrgOut, type TOrgOut } from "~/state/org/schemas"
 
 async function orgs(): Promise<TOrgOut[]> {
     const http = useHTTP()
@@ -8,6 +8,17 @@ async function orgs(): Promise<TOrgOut[]> {
     return Org.array().parse(response)
 }
 
+async function create(payload: TCreateOrgOut): Promise<TOrgOut> {
+    const http = useHTTP()
+    const response = await http("/v1/orgs", {
+        method: "POST",
+        body: payload,
+    })
+
+    return Org.parse(response)
+}
+
 export const OrgServices = {
     orgs,
+    create,
 }

@@ -48,6 +48,16 @@ export default defineNuxtRouteMiddleware(async (to) => {
         }
     }
 
+    if (isAuthenticated && to.name === OnboardingRouteName) {
+        if (orgs.status === "rejected") {
+            return abortNavigation(orgs.reason)
+        }
+
+        if (orgs.status === "fulfilled" && !isEmpty(orgs.value)) {
+            return navigateTo({ name: HomeRouteName })
+        }
+    }
+
     if (isAuthenticated && UnauthenticatedRoutes.has(to.name as string)) {
         return navigateTo({ name: HomeRouteName })
     }

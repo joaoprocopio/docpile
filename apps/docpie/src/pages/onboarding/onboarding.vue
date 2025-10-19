@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
+import { useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 
+import { useRouter } from "#app"
+import { env } from "~/env"
+import { HomeRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/lib/ui/input-group"
+import { orgMutations, orgQueries } from "~/state/org/query"
 import { CreateOrg } from "~/state/org/schemas"
+
+const client = useQueryClient()
+const router = useRouter()
 
 const form = useForm({
     defaultValues: {
@@ -16,8 +24,19 @@ const form = useForm({
     validators: {
         onSubmit: CreateOrg,
     },
+    onSubmit(props) {
+        mutation.mutate(props.value)
+    },
 })
 const submit = useDebounceFn(form.handleSubmit)
+
+const mutation = useMutation({
+    ...orgMutations.create(),
+    onSuccess(data) {
+        client.invalidateQueries({ queryKey: orgQueries.all() })
+        router.push({ name: HomeRouteName })
+    },
+})
 </script>
 
 <template>
@@ -30,7 +49,7 @@ const submit = useDebounceFn(form.handleSubmit)
         </div>
 
         <form
-            class="mt-8 flex flex-col gap-y-12"
+            class="mt-8 flex flex-col"
             @submit.prevent.stop="submit">
             <FieldGroup>
                 <form.Field
@@ -66,25 +85,37 @@ const submit = useDebounceFn(form.handleSubmit)
                         :field="field">
                         <FieldLabel :for="field.name">Organization URL</FieldLabel>
 
-                        <Input
-                            :id="field.name"
-                            :name="field.name"
-                            :aria-invalid="isInvalid"
-                            :model-value="field.state.value"
-                            @blur="field.handleBlur"
-                            @change="
-                                (e: Event) =>
-                                    field.handleChange((e.target as HTMLInputElement).value)
-                            " />
+                        <InputGroup>
+                            <InputGroupInput
+                                :id="field.name"
+                                :name="field.name"
+                                :aria-invalid="isInvalid"
+                                :model-value="field.state.value"
+                                @blur="field.handleBlur"
+                                @change="
+                                    (e: Event) =>
+                                        field.handleChange((e.target as HTMLInputElement).value)
+                                " />
+
+                            <InputGroupAddon>
+                                <InputGroupText>{{ env.HOST + "/" }}</InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
 
                         <FieldError
                             v-if="isInvalid"
                             :errors="field.state.meta.errors" />
                     </Field>
                 </form.Field>
-            </FieldGroup>
 
-            <Button type="submit">Create organization</Button>
+                <Field>
+                    <Button
+                        type="submit"
+                        variant="secondary">
+                        Create organization
+                    </Button>
+                </Field>
+            </FieldGroup>
         </form>
     </div>
 </template>

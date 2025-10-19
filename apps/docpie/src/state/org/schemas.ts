@@ -19,10 +19,13 @@ export const Org = z.object({
     status: z.enum(OrgStatus),
 })
 
+export type TOrgIn = z.input<typeof Org>
+export type TOrgOut = z.output<typeof Org>
+
 export const CreateOrg = Org.pick({
     name: true,
     slug: true,
 })
 
-export type TOrgIn = z.input<typeof Org>
-export type TOrgOut = z.output<typeof Org>
+export type TCreateOrgIn = z.input<typeof CreateOrg>
+export type TCreateOrgOut = z.output<typeof CreateOrg>

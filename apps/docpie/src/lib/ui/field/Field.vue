@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AnyFieldApi } from "@tanstack/vue-form"
 import { useStore } from "@tanstack/vue-form"
-import type { HTMLAttributes } from "vue"
+import { type HTMLAttributes, ref } from "vue"
 
 import { cn } from "~/lib/ui/utils"
 
@@ -9,15 +9,14 @@ import type { FieldVariants } from "."
 import { fieldVariants } from "."
 
 const props = defineProps<{
-    field: AnyFieldApi
+    field?: AnyFieldApi
     class?: HTMLAttributes["class"]
     orientation?: FieldVariants["orientation"]
 }>()
 
-const isInvalid = useStore(
-    props.field.store,
-    (state) => state.meta.isTouched && !state.meta.isValid,
-)
+const isInvalid = props.field
+    ? useStore(props.field.store, (state) => state.meta.isTouched && !state.meta.isValid)
+    : ref(false)
 </script>
 
 <template>
