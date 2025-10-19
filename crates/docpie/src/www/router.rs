@@ -1,3 +1,4 @@
+#[cfg(any(feature = "dev", feature = "prod"))]
 pub use router::router;
 
 #[cfg(feature = "dev")]
