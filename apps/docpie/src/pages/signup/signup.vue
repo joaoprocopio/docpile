@@ -6,8 +6,6 @@ import { FetchError } from "ofetch"
 import { computed } from "vue"
 
 import { useRouter } from "#app"
-import { authMutations, authQueries } from "~/lib/auth/query"
-import { SignUp } from "~/lib/auth/schemas"
 import { HttpStatus } from "~/lib/http/status"
 import { HomeRouteName, SignInRouteName } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
@@ -15,6 +13,8 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
+import { authMutations, authQueries } from "~/state/auth/query"
+import { SignUp } from "~/state/auth/schemas"
 
 const client = useQueryClient()
 const router = useRouter()

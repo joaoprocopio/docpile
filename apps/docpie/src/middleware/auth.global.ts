@@ -1,8 +1,9 @@
 import { useQueryClient } from "@tanstack/vue-query"
 
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
-import { authQueries } from "~/lib/auth/query"
 import { AuthRoutes, HomeRouteName, SignInRouteName } from "~/lib/router/constants"
+import { authQueries } from "~/state/auth/query"
+import { orgQueries } from "~/state/org/query"
 import { isNil } from "~/utils/is"
 
 // TODO: otimizar o middleware pra exibir um estado de loading melhor
@@ -11,7 +12,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
 
     try {
-        const user = await client.ensureQueryData(authQueries.whoami())
+        const [user, orgs] = await Promise.all([
+            client.ensureQueryData(authQueries.whoami()),
+            client.ensureQueryData(orgQueries.orgs()),
+        ])
+
+        console.log(orgs)
+
         const isAuthenticated = !isNil(user)
 
         if (!isAuthenticated && !AuthRoutes.has(to.name as string)) {

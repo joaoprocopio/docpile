@@ -11,7 +11,7 @@ export const Password = z
 
 export const DisplayName = z
     .string()
-    .min(1, "Please enter your name")
+    .nonempty("Please enter your name")
     .max(256, "Exceeds maximum length of 256 characters")
 
 export type TSignInIn = z.input<typeof SignIn>

@@ -1,5 +1,5 @@
-import { AuthServices } from "~/lib/auth/services"
 import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/query/utils"
+import { AuthServices } from "~/state/auth/services"
 
 export const authQueries = defineKeyring({
     all: () => key("auth"),
