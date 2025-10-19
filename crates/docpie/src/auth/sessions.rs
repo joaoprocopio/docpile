@@ -58,6 +58,6 @@ impl AuthnBackend for Server {
         &self,
         user_id: &axum_login::UserId<Self>,
     ) -> Result<Option<Self::User>, Self::Error> {
-        Ok(get_user_by_id(self, *user_id as i32).await?)
+        Ok(get_user_by_id(self, *user_id).await?)
     }
 }

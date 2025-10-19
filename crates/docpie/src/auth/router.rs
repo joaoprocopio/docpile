@@ -13,16 +13,16 @@ use axum::{Json, Router, extract::State, http::StatusCode, routing};
 
 pub fn router() -> Router<Server> {
     Router::new()
-        .route("/whoami", routing::get(whoami))
-        .route("/signin", routing::post(sign_in))
-        .route("/signup", routing::post(sign_up))
+        .route("/whoami", routing::get(whoami_v1))
+        .route("/signin", routing::post(sign_in_v1))
+        .route("/signup", routing::post(sign_up_v1))
         .route(
             "/signout",
-            routing::post(sign_out).layer(auth::protected!()),
+            routing::post(sign_out_v1).layer(auth::protected!()),
         )
 }
 
-async fn whoami(auth_session: AuthSession) -> Result<Json<Option<User>>, Error> {
+async fn whoami_v1(auth_session: AuthSession) -> Result<Json<Option<User>>, Error> {
     match auth_session.user {
         Some(user) => {
             auth_session.session.cycle_id().await.map_err(|e| {
@@ -35,7 +35,7 @@ async fn whoami(auth_session: AuthSession) -> Result<Json<Option<User>>, Error> 
     }
 }
 
-async fn sign_in(
+async fn sign_in_v1(
     mut auth_session: AuthSession,
     Valid(Json(sign_in)): Valid<Json<SignIn>>,
 ) -> Result<Json<User>, Error> {
@@ -58,7 +58,7 @@ async fn sign_in(
     Ok(Json(user.into()))
 }
 
-async fn sign_out(mut auth_session: AuthSession) -> Result<(), Error> {
+async fn sign_out_v1(mut auth_session: AuthSession) -> Result<(), Error> {
     let _ = auth_session.logout().await.map_err(|e| {
         Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
     })?;
@@ -66,7 +66,7 @@ async fn sign_out(mut auth_session: AuthSession) -> Result<(), Error> {
     Ok(())
 }
 
-async fn sign_up(
+async fn sign_up_v1(
     mut auth_session: AuthSession,
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,

@@ -1,24 +1,46 @@
 use crate::{
     auth::{self, sessions::AuthSession},
     error::{Error, ErrorKind, Result},
+    ext::validator::Valid,
     http::config::Server,
-    org::{schemas::Org, services::list_membered_orgs},
+    org::{
+        schemas::{CreateOrg, ReadOrg},
+        services::{create_org, list_membered_orgs},
+    },
 };
 use axum::{Json, extract::State, routing};
 use axum::{Router, http::StatusCode};
 
 pub fn router() -> Router<Server> {
-    Router::new().route("/", routing::get(list_orgs).layer(auth::protected!()))
+    Router::new().route(
+        "/",
+        routing::get(list_orgs_v1)
+            .post(create_org_v1)
+            .layer(auth::protected!()),
+    )
 }
 
-async fn list_orgs(
+async fn list_orgs_v1(
     State(server): State<Server>,
     session: AuthSession,
-) -> Result<Json<Vec<Org>>, Error> {
+) -> Result<Json<Vec<ReadOrg>>, Error> {
     let user = session.user.expect("This route should be protected");
-    let orgs = list_membered_orgs(&server, user.id).await.map_err(|e| {
+    let orgs = list_membered_orgs(&server, user).await.map_err(|e| {
         Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
     })?;
 
     Ok(Json(orgs.into_iter().map(|u| u.into()).collect()))
+}
+
+async fn create_org_v1(
+    State(server): State<Server>,
+    session: AuthSession,
+    Valid(Json(org_schema)): Valid<Json<CreateOrg>>,
+) -> Result<Json<ReadOrg>, Error> {
+    let user = session.user.expect("This route should be protected");
+    let org = create_org(&server, org_schema, user).await.map_err(|e| {
+        Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
+    })?;
+
+    Ok(Json(org.into()))
 }
