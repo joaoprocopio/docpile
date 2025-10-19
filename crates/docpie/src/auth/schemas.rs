@@ -1,4 +1,4 @@
-use crate::auth::models;
+use crate::auth::models::User;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
@@ -22,13 +22,13 @@ pub struct SignIn {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct User {
+pub struct ReadUser {
     pub email: String,
     pub display_name: String,
 }
 
-impl From<models::User> for User {
-    fn from(value: models::User) -> Self {
+impl From<User> for ReadUser {
+    fn from(value: User) -> Self {
         Self {
             email: value.email,
             display_name: value.display_name,

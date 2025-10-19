@@ -1,7 +1,7 @@
 use crate::{
     auth::{
         self,
-        schemas::{SignIn, SignUp, User},
+        schemas::{ReadUser, SignIn, SignUp},
         services::create_user,
         sessions::AuthSession,
     },
@@ -22,7 +22,7 @@ pub fn router_v1() -> Router<Server> {
         )
 }
 
-async fn whoami_v1(auth_session: AuthSession) -> Result<Json<Option<User>>, Error> {
+async fn whoami_v1(auth_session: AuthSession) -> Result<Json<Option<ReadUser>>, Error> {
     match auth_session.user {
         Some(user) => {
             auth_session.session.cycle_id().await.map_err(|e| {
@@ -38,7 +38,7 @@ async fn whoami_v1(auth_session: AuthSession) -> Result<Json<Option<User>>, Erro
 async fn sign_in_v1(
     mut auth_session: AuthSession,
     Valid(Json(sign_in)): Valid<Json<SignIn>>,
-) -> Result<Json<User>, Error> {
+) -> Result<Json<ReadUser>, Error> {
     let user = auth_session
         .authenticate(sign_in)
         .await
@@ -70,7 +70,7 @@ async fn sign_up_v1(
     mut auth_session: AuthSession,
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
-) -> Result<(StatusCode, Json<User>), Error> {
+) -> Result<(StatusCode, Json<ReadUser>), Error> {
     let user = create_user(
         &server,
         &sign_up.email,

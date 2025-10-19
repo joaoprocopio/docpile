@@ -5,8 +5,8 @@ use crate::{
     error::Result,
     http::config::Server,
     org::{
-        models::{Org, OrgMembership},
-        schemas::{CreateOrg, OrgMembershipRole, OrgMembershipStatus, OrgStatus},
+        models::{Org, OrgMembership, OrgMembershipRole, OrgMembershipStatus, OrgStatus},
+        schemas::CreateOrg,
     },
 };
 
