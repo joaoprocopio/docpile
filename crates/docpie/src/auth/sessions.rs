@@ -25,7 +25,7 @@ pub enum AuthnError {
 }
 
 impl AuthUser for User {
-    type Id = i64;
+    type Id = i32;
 
     fn id(&self) -> Self::Id {
         self.id
