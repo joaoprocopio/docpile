@@ -11,7 +11,7 @@ use crate::{
 };
 use axum::{Json, Router, extract::State, http::StatusCode, routing};
 
-pub fn router() -> Router<Server> {
+pub fn router_v1() -> Router<Server> {
     Router::new()
         .route("/whoami", routing::get(whoami_v1))
         .route("/signin", routing::post(sign_in_v1))

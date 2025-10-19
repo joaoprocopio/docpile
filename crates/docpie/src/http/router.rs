@@ -48,8 +48,8 @@ pub async fn router(server: &Server) -> Result<Router<Server>> {
         );
 
     Ok(Router::new()
-        .nest("/api/v1/auth", auth::router())
-        .nest("/api/v1/orgs", org::router())
+        .nest("/api/v1/auth", auth::router_v1())
+        .nest("/api/v1/orgs", org::router_v1())
         .layer(middleware)
         .fallback(async || {
             Error::<AnyJson>::from_status(
