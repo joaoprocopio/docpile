@@ -26,6 +26,14 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
     const isAuthenticated = !isNil(user.value)
 
+    /* This is a message for the future me.
+     * You need to remeber that the order of the assertions matter.
+     *
+     * You need to:
+     * - 1st: Redirect unauthorized users;
+     * - 2nd: Redirect to onboarding users that need onboarding;
+     * - 3rd: Now that you know that the user is authenticated and is onboarded, redirect to home.
+     */
     if (!isAuthenticated && !UnauthenticatedRoutes.has(to.name as string)) {
         return navigateTo({ name: SignInRouteName })
     }
