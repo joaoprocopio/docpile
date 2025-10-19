@@ -15,6 +15,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-gro
 import { Spinner } from "~/lib/ui/spinner"
 import { authMutations, authQueries } from "~/state/auth/query"
 import { SignUp } from "~/state/auth/schemas"
+import { orgQueries } from "~/state/org/query"
 
 const client = useQueryClient()
 const router = useRouter()
@@ -38,6 +39,7 @@ const mutation = useMutation({
     ...authMutations.signUp(),
     onSuccess(data) {
         client.setQueryData(authQueries.whoami().queryKey, data)
+        client.prefetchQuery(orgQueries.orgs())
         router.push({ name: HomeRouteName })
     },
     onError: (err) => {
