@@ -21,8 +21,8 @@ pub fn router() -> Router<Server> {
 }
 
 async fn list_orgs_v1(
-    State(server): State<Server>,
     session: AuthSession,
+    State(server): State<Server>,
 ) -> Result<Json<Vec<ReadOrg>>, Error> {
     let user = session.user.expect("This route should be protected");
     let orgs = list_membered_orgs(&server, user).await.map_err(|e| {
@@ -33,14 +33,16 @@ async fn list_orgs_v1(
 }
 
 async fn create_org_v1(
-    State(server): State<Server>,
     session: AuthSession,
-    Valid(Json(org_schema)): Valid<Json<CreateOrg>>,
+    State(server): State<Server>,
+    Valid(Json(org_to_create)): Valid<Json<CreateOrg>>,
 ) -> Result<Json<ReadOrg>, Error> {
     let user = session.user.expect("This route should be protected");
-    let org = create_org(&server, org_schema, user).await.map_err(|e| {
-        Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
-    })?;
+    let org = create_org(&server, org_to_create, user)
+        .await
+        .map_err(|e| {
+            Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
+        })?;
 
     Ok(Json(org.into()))
 }
