@@ -5,6 +5,7 @@ use time::OffsetDateTime;
 pub struct Org {
     pub id: i32,
     pub name: String,
+    pub slug: String,
     pub status: OrgStatus,
     pub created_at: OffsetDateTime,
 }

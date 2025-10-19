@@ -14,7 +14,7 @@ pub async fn list_membered_orgs(server: &Server, user: User) -> Result<Vec<Org>>
     let orgs = sqlx::query_as!(
         Org,
         r#"
-        SELECT o.id, o.name, o.status AS "status: OrgStatus", o.created_at
+        SELECT o.id, o.name, o.slug, o.status AS "status: OrgStatus", o.created_at
         FROM orgs AS o
         JOIN org_membership AS om
             ON om.org_id = o.id
@@ -34,11 +34,12 @@ pub async fn create_org(server: &Server, org_to_create: CreateOrg, user: User) -
     let org = sqlx::query_as!(
         Org,
         r#"
-        INSERT INTO orgs (name, status, created_at)
-        VALUES ($1, $2, $3)
-        RETURNING id, name, status AS "status: OrgStatus", created_at
+        INSERT INTO orgs (name, slug, status, created_at)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, name, slug, status AS "status: OrgStatus", created_at
         "#,
         org_to_create.name,
+        org_to_create.slug,
         OrgStatus::Active as OrgStatus,
         OffsetDateTime::now_utc()
     )

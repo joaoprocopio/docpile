@@ -1,7 +1,7 @@
+#![forbid(unsafe_code)]
 #![warn(clippy::all)]
 #![warn(clippy::perf)]
 #![warn(clippy::cargo)]
-#![forbid(unsafe_code)]
 
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;

@@ -6,6 +6,7 @@ use validator::Validate;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ReadOrg {
     pub name: String,
+    pub slug: String,
     pub status: OrgStatus,
 }
 
@@ -13,6 +14,9 @@ pub struct ReadOrg {
 pub struct CreateOrg {
     #[validate(length(min = 1, max = 64))]
     pub name: String,
+
+    #[validate(length(min = 1, max = 256))]
+    pub slug: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
@@ -42,6 +46,7 @@ impl From<models::Org> for ReadOrg {
     fn from(value: models::Org) -> Self {
         Self {
             name: value.name,
+            slug: value.slug,
             status: value.status,
         }
     }
