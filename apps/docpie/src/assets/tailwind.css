@@ -280,8 +280,8 @@
     /* Gradients */
     --gradient-auth: linear-gradient(
         in oklch to bottom,
-        var(--color-gray-a3) -24%,
-        transparent 42%
+        var(--color-gray-a3) -124%,
+        transparent 40%
     );
     --gradient-highlight: linear-gradient(
         in oklch to bottom,
@@ -509,8 +509,8 @@
     /* Gradients */
     --gradient-auth: linear-gradient(
         in oklch to bottom,
-        var(--color-gray-a2) -24%,
-        transparent 42%
+        var(--color-gray-a2) -124%,
+        transparent 40%
     );
     --gradient-highlight: linear-gradient(
         in oklch to bottom,

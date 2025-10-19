@@ -11,11 +11,17 @@ export default defineNuxtPlugin((nuxt) => {
             queries: {
                 staleTime: 5000,
                 retry: 0,
-                throwOnError: true,
+                throwOnError(error) {
+                    console.error(error)
+                    return false
+                },
             },
             mutations: {
                 retry: 0,
-                throwOnError: true,
+                throwOnError(error) {
+                    console.error(error)
+                    return false
+                },
             },
         },
     })
