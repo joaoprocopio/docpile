@@ -28,8 +28,18 @@ async function signUp(payload: TSignUpOut): Promise<TUserOut> {
     return User.parse(response)
 }
 
+async function signOut(): Promise<void> {
+    const http = useHTTP()
+    const response = await http("/v1/auth/signout", {
+        method: "POST",
+    })
+
+    return void response
+}
+
 export const AuthServices = {
     whoami,
     signIn,
     signUp,
+    signOut,
 }

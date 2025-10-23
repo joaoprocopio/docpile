@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { AnyFieldApi } from "@tanstack/vue-form"
 import { useStore } from "@tanstack/vue-form"
-import { type HTMLAttributes, ref } from "vue"
+import type { HTMLAttributes } from "vue"
+import { ref } from "vue"
 
 import { cn } from "~/lib/ui/utils"
 

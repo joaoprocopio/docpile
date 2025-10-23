@@ -23,4 +23,9 @@ export const authMutations = defineKeyring({
             mutationKey: key("auth", "sign", "up"),
             mutationFn: AuthServices.signUp,
         }),
+    signOut: () =>
+        mutationOptions({
+            mutationKey: key("auth", "sign", "out"),
+            mutationFn: AuthServices.signOut,
+        }),
 })
