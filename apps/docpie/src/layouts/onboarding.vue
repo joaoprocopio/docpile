@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query"
 
+import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import { authQueries } from "~/state/auth/query"
+import { composeInitials } from "~/utils/avatar"
 
 const user = useQuery(authQueries.whoami())
 </script>
@@ -20,11 +22,22 @@ const user = useQuery(authQueries.whoami())
                     name="lucide:arrow-left" />
             </Button>
 
-            <div v-if="user.isSuccess.value">
-                <p class="text-xs">
-                    {{ user.data.value!.email }}
-                </p>
-            </div>
+            <Button
+                v-if="user.isSuccess.value"
+                variant="ghost"
+                class="w-fit p-1">
+                <Avatar class="size-6 rounded-sm">
+                    <AvatarFallback class="text-sidebar-primary-foreground rounded-none text-3xs">
+                        {{ composeInitials("") }}
+                    </AvatarFallback>
+                </Avatar>
+
+                <span class="truncate text-xs"> {{ user.data.value!.email }} </span>
+
+                <Icon
+                    name="lucide:chevron-down"
+                    class="text-sidebar-muted-foreground ml-auto size-4" />
+            </Button>
         </div>
 
         <div class="mx-auto max-w-md py-10">

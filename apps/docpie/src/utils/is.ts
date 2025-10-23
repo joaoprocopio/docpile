@@ -10,6 +10,10 @@ export function isArray<T>(value: unknown): value is Array<T> {
     return Array.isArray(value)
 }
 
+export function isInteger(value: unknown): value is number {
+    return Number.isFinite(parseInt(value as string))
+}
+
 export function isEmpty(value: unknown): boolean {
     if (isNil(value)) {
         return true
