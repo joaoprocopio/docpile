@@ -4,8 +4,9 @@ import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
 import {
     HomeRouteName,
     OnboardingRouteName,
+    OnboardingRoutes,
     SignInRouteName,
-    UnauthenticatedRoutes,
+    UnauthorizedRoutes,
 } from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
 import { orgQueries } from "~/state/org/query"
@@ -15,6 +16,7 @@ import { isEmpty, isNil } from "~/utils/is"
 // TODO: exibir um belo estado de erro para os diferentes casos
 export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
+
     const [user, orgs] = await Promise.allSettled([
         client.ensureQueryData(authQueries.whoami()),
         client.ensureQueryData(orgQueries.orgs()),
@@ -34,11 +36,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
      * - 2nd: Redirect to onboarding users that need onboarding;
      * - 3rd: Now that you know that the user is authenticated and is onboarded, redirect to home.
      */
-    if (!isAuthenticated && !UnauthenticatedRoutes.has(to.name as string)) {
+    if (!isAuthenticated && !UnauthorizedRoutes.has(to.name as string)) {
         return navigateTo({ name: SignInRouteName })
     }
 
-    if (isAuthenticated && to.name !== OnboardingRouteName) {
+    if (isAuthenticated && !OnboardingRoutes.has(to.name as string)) {
         if (orgs.status === "rejected") {
             return abortNavigation(orgs.reason)
         }
@@ -48,7 +50,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
         }
     }
 
-    if (isAuthenticated && to.name === OnboardingRouteName) {
+    if (isAuthenticated && OnboardingRoutes.has(to.name as string)) {
         if (orgs.status === "rejected") {
             return abortNavigation(orgs.reason)
         }
@@ -58,7 +60,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
         }
     }
 
-    if (isAuthenticated && UnauthenticatedRoutes.has(to.name as string)) {
+    if (isAuthenticated && UnauthorizedRoutes.has(to.name as string)) {
         return navigateTo({ name: HomeRouteName })
     }
 })
