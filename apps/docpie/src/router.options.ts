@@ -26,7 +26,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         children: [
             {
                 name: OnboardingOrgRouteName,
-                path: "/org",
+                path: "org",
                 component: () => import("~/pages/onboarding-org"),
             },
         ],

@@ -30,7 +30,7 @@ const signout = useMutation({
 
 <template>
     <div class="h-full bg-gradient-auth">
-        <div class="flex items-center justify-end px-6 py-4">
+        <div class="flex justify-center px-6 py-4 sm:justify-end">
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button
@@ -66,8 +66,8 @@ const signout = useMutation({
             </DropdownMenu>
         </div>
 
-        <div class="mx-auto max-w-md py-10">
-            <div class="mt-6 px-6">
+        <div class="mx-auto max-w-md py-6 sm:py-10">
+            <div class="px-6">
                 <NuxtPage />
             </div>
         </div>
