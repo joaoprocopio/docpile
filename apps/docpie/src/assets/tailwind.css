@@ -556,7 +556,7 @@
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
     --muted-foreground: var(--gray-11);
-    --accent: var(--gray-3);
+    --accent: var(--gray-5);
     --accent-foreground: var(--gray-12);
     --destructive: var(--destructive-4);
     --destructive-foreground: var(--destructive-10);
