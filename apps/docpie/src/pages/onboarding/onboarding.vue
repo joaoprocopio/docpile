@@ -1,145 +1,75 @@
 <script setup lang="ts">
-import { useForm } from "@tanstack/vue-form"
-import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
-import { useDebounceFn } from "@vueuse/core"
-import { FetchError } from "ofetch"
-import { computed } from "vue"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
+import { useRouter } from "vue-router"
 
-import { useRouter } from "#app"
-import { env } from "~/env"
-import { HttpStatus } from "~/lib/http/status"
-import { HomeRouteName } from "~/lib/router/constants"
+import { SignInRouteName } from "~/lib/router/constants"
+import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
-import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
-import { Input } from "~/lib/ui/input"
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/lib/ui/input-group"
-import { Spinner } from "~/lib/ui/spinner"
-import { orgMutations, orgQueries } from "~/state/org/query"
-import { CreateOrg } from "~/state/org/schemas"
-import { isNil } from "~/utils/is"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "~/lib/ui/dropdown-menu"
+import { authMutations, authQueries } from "~/state/auth/query"
+import { composeInitials } from "~/utils/avatar"
 
-const client = useQueryClient()
 const router = useRouter()
+const client = useQueryClient()
 
-const form = useForm({
-    defaultValues: {
-        name: "",
-        slug: "",
-    },
-    validators: {
-        onSubmit: CreateOrg,
-    },
-    onSubmit(props) {
-        mutation.mutate(props.value)
+const user = useQuery(authQueries.whoami())
+const signout = useMutation({
+    ...authMutations.signOut(),
+    onSuccess: () => {
+        client.removeQueries({ queryKey: authQueries.all() })
+        router.push({ name: SignInRouteName })
     },
 })
-const submit = useDebounceFn(form.handleSubmit)
-
-const mutation = useMutation({
-    ...orgMutations.create(),
-    onSuccess(data) {
-        client.setQueryData(orgQueries.orgs().queryKey, (prevData) => {
-            if (!isNil(prevData)) {
-                prevData.push(data)
-            }
-
-            return prevData
-        })
-        client.invalidateQueries({ queryKey: orgQueries.all() })
-        router.push({ name: HomeRouteName })
-    },
-    onError(err) {
-        if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
-            form.setErrorMap({
-                onSubmit: { fields: { slug: { message: "This URL is already taken" } } },
-            })
-        }
-    },
-})
-
-const isMutating = useIsMutating({ mutationKey: orgMutations.create().mutationKey })
-const isLoading = computed(() => Boolean(isMutating.value))
 </script>
 
 <template>
-    <div>
-        <div class="text-center">
-            <h1 class="text-2xl font-semibold">Create an organization</h1>
-            <h2 class="mt-1 text-sm text-muted-foreground">
-                Organizations holds teams and documentations
-            </h2>
+    <div class="h-full bg-gradient-auth">
+        <div class="flex items-center justify-end px-6 py-4">
+            <DropdownMenu>
+                <DropdownMenuTrigger as-child>
+                    <Button
+                        v-if="user.isSuccess.value"
+                        variant="ghost"
+                        class="w-fit p-1">
+                        <Avatar class="size-6 rounded-sm">
+                            <AvatarFallback class="rounded-none text-3xs">
+                                {{ composeInitials(user.data.value!.display_name) }}
+                            </AvatarFallback>
+                        </Avatar>
+
+                        <p class="truncate text-xs">{{ user.data.value!.email }}</p>
+
+                        <Icon
+                            name="lucide:chevron-down"
+                            class="text-sidebar-muted-foreground ml-auto size-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                    class="w-(--reka-dropdown-menu-trigger-width) min-w-48"
+                    align="start">
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem @click="() => signout.mutate()">
+                            <Icon
+                                name="lucide:log-out"
+                                class="text-muted-foreground" />
+                            <span>Sign out</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
 
-        <form
-            class="mt-8 flex flex-col"
-            @submit.prevent.stop="submit">
-            <FieldGroup>
-                <form.Field
-                    v-slot="{ field }"
-                    name="name">
-                    <Field
-                        v-slot="{ isInvalid }"
-                        :field="field">
-                        <FieldLabel :for="field.name">Organization name</FieldLabel>
-
-                        <Input
-                            :id="field.name"
-                            :name="field.name"
-                            :aria-invalid="isInvalid"
-                            :model-value="field.state.value"
-                            @blur="field.handleBlur"
-                            @change="
-                                (e: Event) =>
-                                    field.handleChange((e.target as HTMLInputElement).value)
-                            " />
-
-                        <FieldError
-                            v-if="isInvalid"
-                            :errors="field.state.meta.errors" />
-                    </Field>
-                </form.Field>
-
-                <form.Field
-                    v-slot="{ field }"
-                    name="slug">
-                    <Field
-                        v-slot="{ isInvalid }"
-                        :field="field">
-                        <FieldLabel :for="field.name">Organization URL</FieldLabel>
-
-                        <InputGroup>
-                            <InputGroupInput
-                                :id="field.name"
-                                :name="field.name"
-                                :aria-invalid="isInvalid"
-                                :model-value="field.state.value"
-                                @blur="field.handleBlur"
-                                @change="
-                                    (e: Event) =>
-                                        field.handleChange((e.target as HTMLInputElement).value)
-                                " />
-
-                            <InputGroupAddon>
-                                <InputGroupText>{{ env.HOST + "/" }}</InputGroupText>
-                            </InputGroupAddon>
-                        </InputGroup>
-
-                        <FieldError
-                            v-if="isInvalid"
-                            :errors="field.state.meta.errors" />
-                    </Field>
-                </form.Field>
-
-                <Field>
-                    <Button
-                        :disabled="isLoading"
-                        type="submit"
-                        variant="secondary">
-                        <Spinner v-if="isLoading" />
-                        Create organization
-                    </Button>
-                </Field>
-            </FieldGroup>
-        </form>
+        <div class="mx-auto max-w-md py-10">
+            <div class="mt-6 px-6">
+                <slot />
+            </div>
+        </div>
     </div>
 </template>
