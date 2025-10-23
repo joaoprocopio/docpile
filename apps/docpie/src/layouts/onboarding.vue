@@ -30,17 +30,7 @@ const signout = useMutation({
 
 <template>
     <div class="h-full bg-gradient-auth">
-        <div class="flex items-center justify-between px-6 py-4">
-            <Button
-                disabled
-                class="rounded-full"
-                size="icon"
-                variant="secondary">
-                <Icon
-                    class="size-5"
-                    name="lucide:arrow-left" />
-            </Button>
-
+        <div class="flex items-center justify-end px-6 py-4">
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button
