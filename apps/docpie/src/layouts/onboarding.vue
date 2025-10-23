@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
+import { useRouter } from "vue-router"
 
+import { SignInRouteName } from "~/lib/router/constants"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import {
@@ -10,10 +12,20 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "~/lib/ui/dropdown-menu"
-import { authQueries } from "~/state/auth/query"
+import { authMutations, authQueries } from "~/state/auth/query"
 import { composeInitials } from "~/utils/avatar"
 
+const router = useRouter()
+const client = useQueryClient()
+
 const user = useQuery(authQueries.whoami())
+const signout = useMutation({
+    ...authMutations.signOut(),
+    onSuccess: () => {
+        client.removeQueries({ queryKey: authQueries.all() })
+        router.push({ name: SignInRouteName })
+    },
+})
 </script>
 
 <template>
@@ -53,7 +65,7 @@ const user = useQuery(authQueries.whoami())
                     class="w-(--reka-dropdown-menu-trigger-width) min-w-48"
                     align="start">
                     <DropdownMenuGroup>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem @click="() => signout.mutate()">
                             <Icon
                                 name="lucide:log-out"
                                 class="text-muted-foreground" />
