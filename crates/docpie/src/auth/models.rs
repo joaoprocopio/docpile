@@ -7,4 +7,5 @@ pub struct User {
     pub created_at: OffsetDateTime,
     pub email: String,
     pub display_name: String,
+    pub is_onboarded: bool,
 }

@@ -14,6 +14,8 @@ export const DisplayName = z
     .nonempty("Please enter your name")
     .max(256, "Exceeds maximum length of 256 characters")
 
+export const IsOnboarded = z.boolean()
+
 export type TSignInIn = z.input<typeof SignIn>
 export type TSignInOut = z.output<typeof SignIn>
 
@@ -38,5 +40,6 @@ export const User = z
     .object({
         email: Email,
         display_name: DisplayName,
+        is_onboarded: IsOnboarded,
     })
     .nullable()

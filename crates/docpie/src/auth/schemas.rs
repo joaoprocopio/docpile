@@ -25,6 +25,7 @@ pub struct SignIn {
 pub struct ReadUser {
     pub email: String,
     pub display_name: String,
+    pub is_onboarded: bool,
 }
 
 impl From<User> for ReadUser {
@@ -32,6 +33,7 @@ impl From<User> for ReadUser {
         Self {
             email: value.email,
             display_name: value.display_name,
+            is_onboarded: value.is_onboarded,
         }
     }
 }

@@ -11,7 +11,8 @@ pub async fn get_user_by_id(server: &Server, user_id: i32) -> Result<Option<User
             email,
             password,
             display_name,
-            created_at
+            created_at,
+            is_onboarded
         FROM users
         WHERE id = $1
         "#,
@@ -32,7 +33,8 @@ pub async fn get_user_by_email(server: &Server, email: String) -> Result<Option<
             email,
             password,
             display_name,
-            created_at
+            created_at,
+            is_onboarded
         FROM users
         WHERE email = $1
         "#,
@@ -61,7 +63,7 @@ pub async fn create_user(
         r#"
         INSERT INTO users (email, password, display_name, created_at)
         VALUES ($1, $2, $3, $4)
-        RETURNING id, email, password, display_name, created_at
+        RETURNING id, email, password, display_name, created_at, is_onboarded
         "#,
         email,
         password,

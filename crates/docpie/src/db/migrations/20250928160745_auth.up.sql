@@ -5,6 +5,7 @@ CREATE TABLE users (
     "password" TEXT NOT NULL,
     "display_name" VARCHAR(256) NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
+    "is_onboarded" BOOLEAN NOT NULL DEFAULT FALSE,
 
     PRIMARY KEY(id)
 );
