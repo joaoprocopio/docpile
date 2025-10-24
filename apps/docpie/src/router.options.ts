@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from "vue-router"
 
 import {
     HomeRouteName,
+    OnboardingIntroRouteName,
     OnboardingOrgRouteName,
     OnboardingRouteName,
     OnboardingTeamRouteName,
@@ -20,15 +21,19 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     {
         name: OnboardingRouteName,
         path: "/onboarding",
-        component: () => import("~/pages/onboarding"),
         meta: {
-            layout: false,
             middleware: "onboarding",
+            layout: "onboarding",
         },
         children: [
             {
-                name: OnboardingOrgRouteName,
+                name: OnboardingIntroRouteName,
                 path: "",
+                component: () => import("~/pages/onboarding-intro"),
+            },
+            {
+                name: OnboardingOrgRouteName,
+                path: "org",
                 component: () => import("~/pages/onboarding-org"),
             },
             {

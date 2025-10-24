@@ -12,7 +12,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "~/lib/ui/dropdown-menu"
-import { Progress } from "~/lib/ui/progress"
 import { authMutations, authQueries } from "~/state/auth/query"
 import { composeInitials } from "~/utils/avatar"
 
@@ -32,8 +31,6 @@ const signout = useMutation({
 <template>
     <div class="h-full bg-gradient-auth">
         <div class="flex items-center justify-center gap-4 px-6 py-4 sm:justify-end">
-            <Progress :model-value="50" />
-
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button
@@ -71,7 +68,7 @@ const signout = useMutation({
 
         <div class="mx-auto max-w-md py-6 sm:py-10">
             <div class="px-6">
-                <NuxtPage />
+                <slot />
             </div>
         </div>
     </div>

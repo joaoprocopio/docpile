@@ -63,11 +63,9 @@ const isLoading = computed(() => Boolean(isMutating.value))
 
 <template>
     <div>
-        <div class="text-center">
+        <div class="space-y-1.5 text-center">
             <h1 class="text-2xl font-semibold">Create an organization</h1>
-            <h2 class="mt-1 text-sm text-muted-foreground">
-                Organizations holds teams and documentations
-            </h2>
+            <h2 class="text-muted-foreground">Organizations holds teams and documentations</h2>
         </div>
 
         <form
