@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { OnboardingThemeRouteName } from "~/lib/router/constants"
-import { buttonVariants } from "~/lib/ui/button"
+import { Button } from "~/lib/ui/button"
+
+defineEmits(["next"])
 </script>
 
 <template>
@@ -17,15 +18,11 @@ import { buttonVariants } from "~/lib/ui/button"
             </div>
         </div>
 
-        <RouterLink
-            :class="
-                buttonVariants({
-                    class: 'mt-12 min-w-56',
-                    variant: 'secondary',
-                })
-            "
-            :to="{ name: OnboardingThemeRouteName }">
+        <Button
+            class="mt-12 min-w-56"
+            variant="secondary"
+            @click="$emit('next')">
             Get started
-        </RouterLink>
+        </Button>
     </div>
 </template>

@@ -5,7 +5,7 @@ import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
 
 import { useRouter } from "#app"
-import { HomeRouteName, SignUpRouteName } from "~/lib/router/constants"
+import { HomeRouteName, SignUpRoute } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -151,7 +151,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             class="mt-8 flex flex-col items-center gap-x-1 text-2xs text-muted-foreground xs:flex-row">
             <span> Don't have an account? </span>
             <NuxtLink
-                :to="{ name: SignUpRouteName }"
+                :to="{ name: SignUpRoute }"
                 class="font-semibold text-foreground">
                 Sign up
             </NuxtLink>

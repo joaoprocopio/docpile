@@ -1,7 +1,7 @@
-export const SignInRouteName = "signin"
-export const SignUpRouteName = "signup"
+export const SignInRoute = "signin"
+export const SignUpRoute = "signup"
 
-export const UnauthorizedRoutes = new Set([SignInRouteName, SignUpRouteName])
+export const UnauthorizedRoutes = new Set([SignInRoute, SignUpRoute])
 
 export const OnboardingIntroRouteName = "onboarding-intro"
 export const OnboardingThemeRouteName = "onboarding-theme"

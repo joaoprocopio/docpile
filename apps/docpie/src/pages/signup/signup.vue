@@ -7,7 +7,7 @@ import { computed } from "vue"
 
 import { useRouter } from "#app"
 import { HttpStatus } from "~/lib/http/status"
-import { HomeRouteName, SignInRouteName } from "~/lib/router/constants"
+import { HomeRouteName, SignInRoute } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -189,7 +189,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             class="mt-8 flex flex-col items-center gap-x-1 text-center text-2xs text-muted-foreground xs:flex-row">
             <span> Already have an account? </span>
             <NuxtLink
-                :to="{ name: SignInRouteName }"
+                :to="{ name: SignInRoute }"
                 class="font-semibold text-foreground">
                 Sign in
             </NuxtLink>

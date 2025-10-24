@@ -7,8 +7,8 @@ import {
     OnboardingOrgRouteName,
     OnboardingTeamRouteName,
     OnboardingThemeRouteName,
-    SignInRouteName,
-    SignUpRouteName,
+    SignInRoute,
+    SignUpRoute,
 } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
@@ -48,7 +48,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         ],
     },
     {
-        name: SignInRouteName,
+        name: SignInRoute,
         path: "/signin",
         component: () => import("~/pages/signin"),
         meta: {
@@ -56,7 +56,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         },
     },
     {
-        name: SignUpRouteName,
+        name: SignUpRoute,
         path: "/signup",
         component: () => import("~/pages/signup"),
         meta: {
