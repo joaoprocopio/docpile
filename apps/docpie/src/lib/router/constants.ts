@@ -3,18 +3,15 @@ export const AuthRoutes = {
     SignUp: "signup",
 }
 
-export const UnauthorizedRoutes = new Set(Object.values(AuthRoutes))
+export const AuthRoutesSet = new Set(Object.values(AuthRoutes))
 
-export const OnboardingIntroRouteName = "onboarding-intro"
-export const OnboardingThemeRouteName = "onboarding-theme"
-export const OnboardingOrgRouteName = "onboarding-org"
-export const OnboardingTeamRouteName = "onboarding-team"
+export const OnboardingRoutes = {
+    Intro: "onboarding-intro",
+    Theme: "onboarding-theme",
+    Org: "onboarding-org",
+    Team: "onboarding-team",
+}
 
-export const OnboardingRoutes = new Set([
-    OnboardingIntroRouteName,
-    OnboardingThemeRouteName,
-    OnboardingOrgRouteName,
-    OnboardingTeamRouteName,
-])
+export const OnboardingRoutesSet = new Set(Object.values(OnboardingRoutes))
 
-export const HomeRouteName = "home"
+export const HomeRoute = "home"

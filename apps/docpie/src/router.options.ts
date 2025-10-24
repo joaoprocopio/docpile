@@ -1,18 +1,11 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import {
-    AuthRoutes,
-    HomeRouteName,
-    OnboardingIntroRouteName,
-    OnboardingOrgRouteName,
-    OnboardingTeamRouteName,
-    OnboardingThemeRouteName,
-} from "~/lib/router/constants"
+import { AuthRoutes, HomeRoute, OnboardingRoutes } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
-        name: HomeRouteName,
+        name: HomeRoute,
         path: "/",
         component: () => import("~/pages/home"),
     },
@@ -25,22 +18,22 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         },
         children: [
             {
-                name: OnboardingIntroRouteName,
+                name: OnboardingRoutes.Intro,
                 path: "",
                 component: () => import("~/pages/onboarding-intro"),
             },
             {
-                name: OnboardingThemeRouteName,
+                name: OnboardingRoutes.Theme,
                 path: "theme",
                 component: () => import("~/pages/onboarding-theme"),
             },
             {
-                name: OnboardingOrgRouteName,
+                name: OnboardingRoutes.Org,
                 path: "org",
                 component: () => import("~/pages/onboarding-org"),
             },
             {
-                name: OnboardingTeamRouteName,
+                name: OnboardingRoutes.Team,
                 path: "team",
                 component: () => import("~/pages/onboarding-team"),
             },

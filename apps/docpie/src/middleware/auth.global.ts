@@ -3,10 +3,10 @@ import { useQueryClient } from "@tanstack/vue-query"
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
 import {
     AuthRoutes,
-    HomeRouteName,
-    OnboardingIntroRouteName,
+    AuthRoutesSet,
+    HomeRoute,
     OnboardingRoutes,
-    UnauthorizedRoutes,
+    OnboardingRoutesSet,
 } from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
 import { isNil } from "~/utils/is"
@@ -32,19 +32,23 @@ export default defineNuxtRouteMiddleware(async (to) => {
      * - 2nd: Redirect to onboarding users that need onboarding;
      * - 3rd: Now that you know that the user is authenticated and onboarded, redirect to home.
      */
-    if (!isAuthenticated && !UnauthorizedRoutes.has(to.name as string)) {
+    if (!isAuthenticated && !AuthRoutesSet.has(to.name as string)) {
         return navigateTo({ name: AuthRoutes.SignIn })
-    }
-
-    if (isAuthenticated && !OnboardingRoutes.has(to.name as string) && !user.value!.is_onboarded) {
-        return navigateTo({ name: OnboardingIntroRouteName })
     }
 
     if (
         isAuthenticated &&
-        (UnauthorizedRoutes.has(to.name as string) || OnboardingRoutes.has(to.name as string)) &&
+        !OnboardingRoutesSet.has(to.name as string) &&
+        !user.value!.is_onboarded
+    ) {
+        return navigateTo({ name: OnboardingRoutes.Intro })
+    }
+
+    if (
+        isAuthenticated &&
+        (AuthRoutesSet.has(to.name as string) || OnboardingRoutesSet.has(to.name as string)) &&
         user.value!.is_onboarded
     ) {
-        return navigateTo({ name: HomeRouteName })
+        return navigateTo({ name: HomeRoute })
     }
 })

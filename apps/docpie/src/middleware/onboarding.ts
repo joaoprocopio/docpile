@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/vue-query"
 
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
-import { OnboardingIntroRouteName, OnboardingRoutes } from "~/lib/router/constants"
+import { OnboardingRoutes, OnboardingRoutesSet } from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
 import { isEmpty } from "~/utils/is"
 
@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return abortNavigation(user.reason)
     }
 
-    if (!isEmpty(user.value) && !OnboardingRoutes.has(to.name as string)) {
-        return navigateTo({ name: OnboardingIntroRouteName })
+    if (!isEmpty(user.value) && !OnboardingRoutesSet.has(to.name as string)) {
+        return navigateTo({ name: OnboardingRoutes.Intro })
     }
 })
