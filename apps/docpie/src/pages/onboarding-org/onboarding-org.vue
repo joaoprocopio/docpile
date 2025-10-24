@@ -65,7 +65,9 @@ const isLoading = computed(() => Boolean(isMutating.value))
     <div>
         <div class="space-y-1.5 text-center">
             <h1 class="text-2xl font-semibold">Create an organization</h1>
-            <h2 class="text-muted-foreground">Organizations holds teams and documentations</h2>
+            <h2 class="text-sm text-muted-foreground">
+                Organizations holds teams and documentations
+            </h2>
         </div>
 
         <form

@@ -30,6 +30,11 @@ const routes = <Readonly<RouteRecordRaw[]>>[
                 component: () => import("~/pages/onboarding-intro"),
             },
             {
+                name: OnboardingThemeRouteName,
+                path: "theme",
+                component: () => import("~/pages/onboarding-theme"),
+            },
+            {
                 name: OnboardingOrgRouteName,
                 path: "org",
                 component: () => import("~/pages/onboarding-org"),
@@ -38,11 +43,6 @@ const routes = <Readonly<RouteRecordRaw[]>>[
                 name: OnboardingTeamRouteName,
                 path: "team",
                 component: () => import("~/pages/onboarding-team"),
-            },
-            {
-                name: OnboardingThemeRouteName,
-                path: "theme",
-                component: () => import("~/pages/onboarding-theme"),
             },
         ],
     },
