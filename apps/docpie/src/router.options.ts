@@ -19,9 +19,10 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         path: "/onboarding",
+        component: () => import("~/pages/onboarding"),
         meta: {
+            layout: false,
             middleware: "onboarding",
-            layout: "onboarding",
         },
         children: [
             {

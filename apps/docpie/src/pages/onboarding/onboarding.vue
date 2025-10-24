@@ -68,7 +68,7 @@ const signout = useMutation({
 
         <div class="mx-auto max-w-md py-6 sm:py-10">
             <div class="px-6">
-                <slot />
+                <NuxtPage />
             </div>
         </div>
     </div>
