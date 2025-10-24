@@ -8,9 +8,9 @@ export const AuthRoutesSet = new Set(AuthRoutesArray)
 
 export const OnboardingRoutes = {
     Intro: "onboarding-intro",
-    Theme: "onboarding-theme",
     Org: "onboarding-org",
     Team: "onboarding-team",
+    Theme: "onboarding-theme",
 }
 
 export const OnboardingRoutesArray = Object.values(OnboardingRoutes)
