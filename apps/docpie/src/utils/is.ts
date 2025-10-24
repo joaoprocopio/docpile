@@ -10,6 +10,10 @@ export function isArray<T>(value: unknown): value is Array<T> {
     return Array.isArray(value)
 }
 
+export function isIndexBounded<T>(array: T[], index: number): boolean {
+    return index >= 0 && index < array.length
+}
+
 export function isInteger(value: unknown): value is number {
     return Number.isFinite(parseInt(value as string))
 }

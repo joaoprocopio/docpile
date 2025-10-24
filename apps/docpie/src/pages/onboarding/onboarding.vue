@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
-import { watch } from "vue"
 
 import { useRouter } from "#app"
 import { AuthRoutes } from "~/lib/router/constants"
@@ -27,17 +26,14 @@ const signout = useMutation({
         router.push({ name: AuthRoutes.SignIn })
     },
 })
-
-watch(router.currentRoute, (c) => console.log(c), { immediate: true })
 </script>
 
 <template>
     <div class="h-full bg-gradient-auth">
         <div class="flex items-center justify-center gap-4 px-6 py-4 sm:justify-end">
-            <DropdownMenu>
+            <DropdownMenu v-if="user.isSuccess.value">
                 <DropdownMenuTrigger as-child>
                     <Button
-                        v-if="user.isSuccess.value"
                         variant="ghost"
                         class="w-fit p-1">
                         <Avatar class="size-6 rounded-sm">
@@ -71,7 +67,7 @@ watch(router.currentRoute, (c) => console.log(c), { immediate: true })
 
         <div class="mx-auto max-w-md py-6 sm:py-10">
             <div class="px-6">
-                <NuxtPage @next="() => console.log('next')" />
+                <NuxtPage />
             </div>
         </div>
     </div>
