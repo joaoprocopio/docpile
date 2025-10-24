@@ -22,10 +22,10 @@ pub fn router_v1() -> Router<Server> {
         )
 }
 
-async fn whoami_v1(auth_session: AuthSession) -> Result<Json<Option<ReadUser>>, Error> {
-    match auth_session.user {
+async fn whoami_v1(auth: AuthSession) -> Result<Json<Option<ReadUser>>, Error> {
+    match auth.user {
         Some(user) => {
-            auth_session.session.cycle_id().await.map_err(|e| {
+            auth.session.cycle_id().await.map_err(|e| {
                 Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
             })?;
 
@@ -36,10 +36,10 @@ async fn whoami_v1(auth_session: AuthSession) -> Result<Json<Option<ReadUser>>, 
 }
 
 async fn sign_in_v1(
-    mut auth_session: AuthSession,
+    mut auth: AuthSession,
     Valid(Json(sign_in)): Valid<Json<SignIn>>,
 ) -> Result<Json<ReadUser>, Error> {
-    let user = auth_session
+    let user = auth
         .authenticate(sign_in)
         .await
         .map_err(|e| Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e))?
@@ -51,15 +51,15 @@ async fn sign_in_v1(
             )
         })?;
 
-    auth_session.login(&user).await.map_err(|e| {
+    auth.login(&user).await.map_err(|e| {
         Error::from_status(StatusCode::UNAUTHORIZED, ErrorKind::InvalidCredentials, e)
     })?;
 
     Ok(Json(user.into()))
 }
 
-async fn sign_out_v1(mut auth_session: AuthSession) -> Result<(), Error> {
-    let _ = auth_session.logout().await.map_err(|e| {
+async fn sign_out_v1(mut auth: AuthSession) -> Result<(), Error> {
+    let _ = auth.logout().await.map_err(|e| {
         Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, e)
     })?;
 
@@ -67,7 +67,7 @@ async fn sign_out_v1(mut auth_session: AuthSession) -> Result<(), Error> {
 }
 
 async fn sign_up_v1(
-    mut auth_session: AuthSession,
+    mut auth: AuthSession,
     State(server): State<Server>,
     Valid(Json(sign_up)): Valid<Json<SignUp>>,
 ) -> Result<(StatusCode, Json<ReadUser>), Error> {
@@ -92,7 +92,7 @@ async fn sign_up_v1(
         Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
     })?;
 
-    auth_session.login(&user).await.map_err(|e| {
+    auth.login(&user).await.map_err(|e| {
         Error::from_status(StatusCode::UNAUTHORIZED, ErrorKind::InvalidCredentials, e)
     })?;
 

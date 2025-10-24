@@ -7,6 +7,7 @@ export const authQueries = defineKeyring({
         queryOptions({
             queryKey: key("auth", "whoami"),
             queryFn: AuthServices.whoami,
+            // Will be valid as long as the user is logged in.
             staleTime: Infinity,
         }),
 })

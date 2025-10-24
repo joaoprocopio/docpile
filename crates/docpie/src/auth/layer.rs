@@ -2,8 +2,11 @@ use crate::{
     error::{Result, anyerror},
     http::config::Server,
 };
-use axum_login::tower_sessions::{SessionManagerLayer, session_store::ExpiredDeletion};
-use tokio::time::Duration;
+use axum_login::tower_sessions::{
+    Expiry, SessionManagerLayer, cookie::SameSite, session_store::ExpiredDeletion,
+};
+use time::Duration as TimeDuration;
+use tokio::time::Duration as TokioDuration;
 use tower_sessions_sqlx_store::PostgresStore;
 
 macro_rules! protected {
@@ -51,8 +54,13 @@ pub async fn new_session_manager_layer(
     server.handle.spawn(
         store
             .clone()
-            .continuously_delete_expired(Duration::from_secs(60)),
+            .continuously_delete_expired(TokioDuration::from_secs(60)),
     );
 
-    Ok(SessionManagerLayer::new(store).with_name("sessionid"))
+    Ok(SessionManagerLayer::new(store)
+        .with_name("sessionid")
+        .with_secure(true)
+        .with_http_only(true)
+        .with_same_site(SameSite::Strict)
+        .with_expiry(Expiry::OnInactivity(TimeDuration::days(7))))
 }
