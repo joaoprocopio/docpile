@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/vue-query"
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
 import {
     HomeRouteName,
-    OnboardingRouteName,
+    OnboardingIntroRouteName,
     OnboardingRoutes,
     SignInRouteName,
     UnauthorizedRoutes,
@@ -37,7 +37,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
 
     if (isAuthenticated && !OnboardingRoutes.has(to.name as string) && !user.value!.is_onboarded) {
-        return navigateTo({ name: OnboardingRouteName })
+        return navigateTo({ name: OnboardingIntroRouteName })
     }
 
     if (

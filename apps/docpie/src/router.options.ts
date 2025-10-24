@@ -5,7 +5,6 @@ import {
     HomeRouteName,
     OnboardingIntroRouteName,
     OnboardingOrgRouteName,
-    OnboardingRouteName,
     OnboardingTeamRouteName,
     OnboardingThemeRouteName,
     SignInRouteName,
@@ -19,7 +18,6 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/home"),
     },
     {
-        name: OnboardingRouteName,
         path: "/onboarding",
         meta: {
             middleware: "onboarding",
