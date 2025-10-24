@@ -1,11 +1,11 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { AuthRoutes, HomeRoute, OnboardingRoutes } from "~/lib/router/constants"
+import { AppRoutes, AuthRoutes, OnboardingRoutes } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
-        name: HomeRoute,
+        name: AppRoutes.Home,
         path: "/",
         component: () => import("~/pages/home"),
     },

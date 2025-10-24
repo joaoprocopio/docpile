@@ -3,7 +3,8 @@ export const AuthRoutes = {
     SignUp: "signup",
 }
 
-export const AuthRoutesSet = new Set(Object.values(AuthRoutes))
+export const AuthRoutesArray = Object.values(AuthRoutes)
+export const AuthRoutesSet = new Set(AuthRoutesArray)
 
 export const OnboardingRoutes = {
     Intro: "onboarding-intro",
@@ -12,6 +13,9 @@ export const OnboardingRoutes = {
     Team: "onboarding-team",
 }
 
+export const OnboardingRoutesArray = Object.values(OnboardingRoutes)
 export const OnboardingRoutesSet = new Set(Object.values(OnboardingRoutes))
 
-export const HomeRoute = "home"
+export const AppRoutes = {
+    Home: "home",
+}

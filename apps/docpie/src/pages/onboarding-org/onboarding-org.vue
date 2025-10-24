@@ -8,7 +8,7 @@ import { computed } from "vue"
 import { useRouter } from "#app"
 import { env } from "~/env"
 import { HttpStatus } from "~/lib/http/status"
-import { HomeRoute } from "~/lib/router/constants"
+import { AppRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -46,7 +46,7 @@ const mutation = useMutation({
             return prevData
         })
         client.invalidateQueries({ queryKey: orgQueries.all() })
-        router.push({ name: HomeRoute })
+        router.push({ name: AppRoutes.Home })
     },
     onError(err) {
         if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
