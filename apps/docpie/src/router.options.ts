@@ -5,6 +5,8 @@ import {
     HomeRouteName,
     OnboardingOrgRouteName,
     OnboardingRouteName,
+    OnboardingTeamRouteName,
+    OnboardingThemeRouteName,
     SignInRouteName,
     SignUpRouteName,
 } from "~/lib/router/constants"
@@ -26,8 +28,18 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         children: [
             {
                 name: OnboardingOrgRouteName,
-                path: "org",
+                path: "",
                 component: () => import("~/pages/onboarding-org"),
+            },
+            {
+                name: OnboardingTeamRouteName,
+                path: "team",
+                component: () => import("~/pages/onboarding-team"),
+            },
+            {
+                name: OnboardingThemeRouteName,
+                path: "theme",
+                component: () => import("~/pages/onboarding-theme"),
             },
         ],
     },

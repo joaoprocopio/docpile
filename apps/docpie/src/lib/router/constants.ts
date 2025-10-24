@@ -5,7 +5,14 @@ export const UnauthorizedRoutes = new Set([SignInRouteName, SignUpRouteName])
 
 export const OnboardingRouteName = "onboarding"
 export const OnboardingOrgRouteName = "onboarding-org"
+export const OnboardingTeamRouteName = "onboarding-team"
+export const OnboardingThemeRouteName = "onboarding-theme"
 
-export const OnboardingRoutes = new Set([OnboardingRouteName, OnboardingOrgRouteName])
+export const OnboardingRoutes = new Set([
+    OnboardingRouteName,
+    OnboardingOrgRouteName,
+    OnboardingTeamRouteName,
+    OnboardingThemeRouteName,
+])
 
 export const HomeRouteName = "home"

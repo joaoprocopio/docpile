@@ -30,7 +30,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
      * You need to:
      * - 1st: Redirect unauthorized users;
      * - 2nd: Redirect to onboarding users that need onboarding;
-     * - 3rd: Now that you know that the user is authenticated and is onboarded, redirect to home.
+     * - 3rd: Now that you know that the user is authenticated and onboarded, redirect to home.
      */
     if (!isAuthenticated && !UnauthorizedRoutes.has(to.name as string)) {
         return navigateTo({ name: SignInRouteName })

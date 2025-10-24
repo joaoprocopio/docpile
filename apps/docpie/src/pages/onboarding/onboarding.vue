@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
-import { useRouter } from "vue-router"
 
+import { useRouter } from "#app"
 import { SignInRouteName } from "~/lib/router/constants"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
@@ -12,6 +12,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "~/lib/ui/dropdown-menu"
+import { Progress } from "~/lib/ui/progress"
 import { authMutations, authQueries } from "~/state/auth/query"
 import { composeInitials } from "~/utils/avatar"
 
@@ -30,7 +31,9 @@ const signout = useMutation({
 
 <template>
     <div class="h-full bg-gradient-auth">
-        <div class="flex justify-center px-6 py-4 sm:justify-end">
+        <div class="flex items-center justify-center gap-4 px-6 py-4 sm:justify-end">
+            <Progress :model-value="50" />
+
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button
