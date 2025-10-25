@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Editor } from "~/lib/prosemirror/editor"
+import { Editor } from "~/ext/prosemirror/editor"
 </script>
 
 <template>
