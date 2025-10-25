@@ -30,15 +30,20 @@ function update(cm: AcceptableValue | AcceptableValue[]) {
             </h2>
         </div>
 
-        <div>
+        <div class="mt-8">
             <ToggleGroup
                 type="single"
+                variant="outline"
+                class="w-full"
                 :model-value="colorMode.preference"
                 :default-value="colorMode.preference"
                 @update:model-value="update">
-                <ToggleGroupItem :value="ColorMode.System">System</ToggleGroupItem>
-                <ToggleGroupItem :value="ColorMode.Dark">Dark</ToggleGroupItem>
-                <ToggleGroupItem :value="ColorMode.Light">Light</ToggleGroupItem>
+                <ToggleGroupItem
+                    v-for="(cmVal, cmKey) in ColorMode"
+                    :key="cmKey"
+                    :value="cmVal">
+                    {{ cmKey }}
+                </ToggleGroupItem>
             </ToggleGroup>
         </div>
     </div>

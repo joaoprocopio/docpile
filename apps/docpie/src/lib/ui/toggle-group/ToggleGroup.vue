@@ -38,7 +38,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         v-bind="forwarded"
         :class="
             cn(
-                'group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-xs',
+                'group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-sm',
                 props.class,
             )
         ">
