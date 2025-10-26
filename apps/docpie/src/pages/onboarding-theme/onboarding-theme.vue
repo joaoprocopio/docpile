@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { useMediaQuery } from "@vueuse/core"
 import type { AcceptableValue } from "reka-ui"
 
 import { useColorMode } from "#imports"
-import { ColorMode } from "~/ext/color-mode/constants"
+import { ColorMode, type TColorMode } from "~/ext/color-mode/constants"
 import { ToggleGroup, ToggleGroupItem } from "~/lib/ui/toggle-group"
 import { isString } from "~/utils/is"
 
-import OnboardingThemeRender from "./onboarding-theme-render.vue"
-
 const colorMode = useColorMode()
-const prefersDark = useMediaQuery("(prefers-color-scheme: dark)")
 
-function update(cm: AcceptableValue | AcceptableValue[]) {
+function update(cm: AcceptableValue) {
     if (!isString(cm)) {
         return void undefined
     }
@@ -22,6 +18,17 @@ function update(cm: AcceptableValue | AcceptableValue[]) {
     }
 
     colorMode.preference = cm
+}
+
+function resolveIcon(cm: TColorMode) {
+    switch (cm) {
+        case ColorMode.Light:
+            return "lucide:sun"
+        case ColorMode.Dark:
+            return "lucide:moon"
+        case ColorMode.System:
+            return "lucide:monitor-speaker"
+    }
 }
 </script>
 
@@ -46,10 +53,10 @@ function update(cm: AcceptableValue | AcceptableValue[]) {
                     v-for="(cmVal, cmKey) in ColorMode"
                     :key="cmKey"
                     :value="cmVal"
-                    size="lg"
-                    class="h-fit flex-col py-2">
-                    <OnboardingThemeRender
-                        :class="cmVal === 'system' ? (prefersDark ? 'dark' : 'light') : cmVal" />
+                    class="h-fit gap-2.5 py-3">
+                    <Icon
+                        class="size-5 text-muted-foreground"
+                        :name="resolveIcon(cmVal)" />
 
                     <p>{{ cmKey }}</p>
                 </ToggleGroupItem>
