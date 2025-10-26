@@ -8,7 +8,7 @@ import { computed } from "vue"
 import { useRouter } from "#app"
 import { env } from "~/env"
 import { HttpStatus } from "~/lib/http/status"
-import { AppRoutes } from "~/lib/router/constants"
+import { OnboardingRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -46,7 +46,7 @@ const mutation = useMutation({
             return prevData
         })
         client.invalidateQueries({ queryKey: orgQueries.all() })
-        router.push({ name: AppRoutes.Home })
+        router.push({ name: OnboardingRoutes.Team, params: { orgSlug: data.slug } })
     },
     onError(err) {
         if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
@@ -71,7 +71,7 @@ const isLoading = computed(() => Boolean(isMutating.value))
         </div>
 
         <form
-            class="mt-8 flex flex-col"
+            class="mt-8"
             @submit.prevent.stop="submit">
             <FieldGroup>
                 <form.Field

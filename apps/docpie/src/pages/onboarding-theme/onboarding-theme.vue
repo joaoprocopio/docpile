@@ -65,11 +65,11 @@ function resolveIcon(cm: TColorMode) {
             </ToggleGroup>
         </div>
 
-        <div class="mx-auto max-w-48">
+        <div class="mt-12 flex flex-col items-center">
             <RouterLink
                 :class="
                     buttonVariants({
-                        class: 'mt-12 w-full',
+                        class: 'min-w-40',
                         variant: 'secondary',
                     })
                 "
