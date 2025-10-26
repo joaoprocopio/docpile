@@ -53,7 +53,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
 
 <template>
     <div class="flex flex-col items-center">
-        <h1 class="text-lg font-semibold">Sign in to Docpie</h1>
+        <h1 class="text-xl font-semibold">Sign in to Docpie</h1>
 
         <form
             class="mt-8 flex w-full flex-col gap-y-5"

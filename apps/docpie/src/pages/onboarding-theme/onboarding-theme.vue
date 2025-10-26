@@ -3,6 +3,8 @@ import type { AcceptableValue } from "reka-ui"
 
 import { useColorMode } from "#imports"
 import { ColorMode, type TColorMode } from "~/ext/color-mode/constants"
+import { OnboardingRoutes } from "~/lib/router/constants"
+import { buttonVariants } from "~/lib/ui/button"
 import { ToggleGroup, ToggleGroupItem } from "~/lib/ui/toggle-group"
 import { isString } from "~/utils/is"
 
@@ -61,6 +63,19 @@ function resolveIcon(cm: TColorMode) {
                     <p>{{ cmKey }}</p>
                 </ToggleGroupItem>
             </ToggleGroup>
+        </div>
+
+        <div class="mx-auto max-w-48">
+            <RouterLink
+                :class="
+                    buttonVariants({
+                        class: 'mt-12 w-full',
+                        variant: 'secondary',
+                    })
+                "
+                :to="{ name: OnboardingRoutes.Org }">
+                Continue
+            </RouterLink>
         </div>
     </div>
 </template>
