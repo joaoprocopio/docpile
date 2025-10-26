@@ -1,12 +1,35 @@
 <script setup lang="ts">
+import { useForm } from "@tanstack/vue-form"
+import { useDebounceFn } from "@vueuse/core"
+import { z } from "zod/v4"
+
 import { AppRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
+import { Field, FieldError, FieldLabel } from "~/lib/ui/field"
 import {
     InputGroup,
     InputGroupAddon,
     InputGroupButton,
     InputGroupInput,
 } from "~/lib/ui/input-group"
+import { Email } from "~/state/auth/schemas"
+
+const AddEmail = z.object({
+    email: Email,
+})
+
+const form = useForm({
+    defaultValues: {
+        email: "",
+    },
+    validators: {
+        onSubmit: AddEmail,
+    },
+    onSubmit(props) {
+        console.log("Invite email:", props.value)
+    },
+})
+const submit = useDebounceFn(form.handleSubmit)
 </script>
 
 <template>
@@ -18,20 +41,52 @@ import {
             </h2>
         </div>
 
-        <div class="mt-8">
-            <InputGroup>
-                <InputGroupInput placeholder="example@domain.com" />
+        <form
+            class="mt-8"
+            @submit.prevent.stop="submit">
+            <form.Field
+                v-slot="{ field }"
+                name="email">
+                <Field
+                    v-slot="{ isInvalid }"
+                    :field="field">
+                    <FieldLabel
+                        :for="field.name"
+                        class="sr-only">
+                        Email
+                    </FieldLabel>
 
-                <InputGroupAddon align="inline-end">
-                    <InputGroupButton variant="secondary">
-                        <span>Add</span>
-                        <Icon
-                            name="lucide:plus"
-                            class="size-3.5" />
-                    </InputGroupButton>
-                </InputGroupAddon>
-            </InputGroup>
-        </div>
+                    <InputGroup>
+                        <InputGroupInput
+                            :id="field.name"
+                            :name="field.name"
+                            :aria-invalid="isInvalid"
+                            :model-value="field.state.value"
+                            placeholder="example@domain.com"
+                            @blur="field.handleBlur"
+                            @change="
+                                (e: Event) =>
+                                    field.handleChange((e.target as HTMLInputElement).value)
+                            " />
+
+                        <InputGroupAddon align="inline-end">
+                            <InputGroupButton
+                                type="submit"
+                                variant="secondary">
+                                <span>Add</span>
+                                <Icon
+                                    name="lucide:plus"
+                                    class="size-3.5" />
+                            </InputGroupButton>
+                        </InputGroupAddon>
+                    </InputGroup>
+
+                    <FieldError
+                        v-if="isInvalid"
+                        :errors="field.state.meta.errors" />
+                </Field>
+            </form.Field>
+        </form>
 
         <div class="mt-12 flex flex-col items-center gap-y-3">
             <Button
