@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMediaQuery } from "@vueuse/core"
 import type { AcceptableValue } from "reka-ui"
 
 import { useColorMode } from "#imports"
@@ -6,7 +7,10 @@ import { ColorMode } from "~/ext/color-mode/constants"
 import { ToggleGroup, ToggleGroupItem } from "~/lib/ui/toggle-group"
 import { isString } from "~/utils/is"
 
+import OnboardingThemeRender from "./onboarding-theme-render.vue"
+
 const colorMode = useColorMode()
+const prefersDark = useMediaQuery("(prefers-color-scheme: dark)")
 
 function update(cm: AcceptableValue | AcceptableValue[]) {
     if (!isString(cm)) {
@@ -41,8 +45,13 @@ function update(cm: AcceptableValue | AcceptableValue[]) {
                 <ToggleGroupItem
                     v-for="(cmVal, cmKey) in ColorMode"
                     :key="cmKey"
-                    :value="cmVal">
-                    {{ cmKey }}
+                    :value="cmVal"
+                    size="lg"
+                    class="h-fit flex-col py-2">
+                    <OnboardingThemeRender
+                        :class="cmVal === 'system' ? (prefersDark ? 'dark' : 'light') : cmVal" />
+
+                    <p>{{ cmKey }}</p>
                 </ToggleGroupItem>
             </ToggleGroup>
         </div>
