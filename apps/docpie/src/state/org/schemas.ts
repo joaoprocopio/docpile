@@ -1,5 +1,11 @@
 import { z } from "zod/v4"
 
+import { Email } from "~/state/auth/schemas"
+
+export const SendEmail = z.object({
+    email: Email,
+})
+
 export const OrgName = z
     .string()
     .nonempty("Please enter organization name")

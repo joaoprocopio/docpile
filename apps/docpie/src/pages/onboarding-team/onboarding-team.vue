@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
-import { useDebounceFn } from "@vueuse/core"
-import { z } from "zod/v4"
+import { useDebounceFn, useStorage } from "@vueuse/core"
 
 import { AppRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
@@ -12,21 +11,26 @@ import {
     InputGroupButton,
     InputGroupInput,
 } from "~/lib/ui/input-group"
-import { Email } from "~/state/auth/schemas"
+import type { TEmailOut } from "~/state/auth/schemas"
+import { SendEmail } from "~/state/org/schemas"
 
-const AddEmail = z.object({
-    email: Email,
-})
+const emails = useStorage<TEmailOut[]>("onboarding-team-emails", [])
 
 const form = useForm({
     defaultValues: {
         email: "",
     },
     validators: {
-        onSubmit: AddEmail,
+        onSubmit: SendEmail,
     },
     onSubmit(props) {
-        console.log("Invite email:", props.value)
+        const nextEmail = props.value.email
+
+        if (!emails.value.includes(nextEmail)) {
+            emails.value.push(nextEmail)
+        }
+
+        form.setFieldValue("email", "")
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
@@ -87,6 +91,8 @@ const submit = useDebounceFn(form.handleSubmit)
                 </Field>
             </form.Field>
         </form>
+
+        <pre>{{ emails }}</pre>
 
         <div class="mt-12 flex flex-col items-center gap-y-3">
             <Button

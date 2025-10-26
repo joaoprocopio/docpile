@@ -4,6 +4,8 @@ export const Email = z
     .email("Please enter an valid email address")
     .max(320, "Exceeds maximum length of 320 characters")
 
+export type TEmailOut = z.output<typeof Email>
+
 export const Password = z
     .string()
     .min(8, "Your password must be at least 8 characters long")
