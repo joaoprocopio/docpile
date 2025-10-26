@@ -2,9 +2,12 @@ import { z } from "zod/v4"
 
 import { Email } from "~/state/auth/schemas"
 
-export const SendEmail = z.object({
-    email: Email,
-})
+export type TRole = (typeof Role)[keyof typeof Role]
+
+export const Role = {
+    Owner: "owner",
+    Member: "member",
+} as const
 
 export const OrgName = z
     .string()
@@ -35,3 +38,11 @@ export const CreateOrg = Org.pick({
 
 export type TCreateOrgIn = z.input<typeof CreateOrg>
 export type TCreateOrgOut = z.output<typeof CreateOrg>
+
+export const CreateInvite = z.object({
+    email: Email,
+    role: z.enum(Role),
+})
+
+export type TCreateInviteIn = z.input<typeof CreateInvite>
+export type TCreateInviteOut = z.output<typeof CreateInvite>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useStorage } from "@vueuse/core"
+import { watch } from "vue"
 
 import { AppRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
@@ -11,23 +12,34 @@ import {
     InputGroupButton,
     InputGroupInput,
 } from "~/lib/ui/input-group"
-import type { TEmailOut } from "~/state/auth/schemas"
-import { SendEmail } from "~/state/org/schemas"
+import { CreateInvite, Role, type TCreateInviteOut, type TRole } from "~/state/org/schemas"
+import { isEmpty } from "~/utils/is"
 
-const emails = useStorage<TEmailOut[]>("onboarding-team-emails", [])
+const invites = useStorage<TCreateInviteOut[]>("onboarding-team-emails", [])
+
+watch(
+    invites,
+    ($invites) => {
+        const { success } = CreateInvite.array().safeParse($invites)
+
+        if (!success) invites.value = undefined
+    },
+    { once: true, immediate: true },
+)
 
 const form = useForm({
     defaultValues: {
         email: "",
+        role: Role.Member as TRole,
     },
     validators: {
-        onSubmit: SendEmail,
+        onSubmit: CreateInvite,
     },
     onSubmit(props) {
-        const nextEmail = props.value.email
+        const nextInvite = props.value
 
-        if (!emails.value.includes(nextEmail)) {
-            emails.value.push(nextEmail)
+        if (-1 === invites.value.findIndex((invite) => invite.email === nextInvite.email)) {
+            invites.value.push(nextInvite)
         }
 
         form.setFieldValue("email", "")
@@ -92,12 +104,21 @@ const submit = useDebounceFn(form.handleSubmit)
             </form.Field>
         </form>
 
-        <pre>{{ emails }}</pre>
+        <div
+            v-if="!isEmpty(invites)"
+            class="mt-6 px-4">
+            <div
+                v-for="invite in invites"
+                :key="invite.email">
+                {{ invite }}
+            </div>
+        </div>
 
         <div class="mt-12 flex flex-col items-center gap-y-3">
             <Button
                 class="min-w-48"
-                variant="secondary">
+                variant="secondary"
+                :disabled="isEmpty(invites)">
                 Send invites
             </Button>
 
