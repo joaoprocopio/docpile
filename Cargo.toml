@@ -16,7 +16,7 @@ rpath = false
 
 [profile.dev]
 opt-level = 0
-debug = true
+debug = false
 strip = "none"
 debug-assertions = true
 overflow-checks = true
