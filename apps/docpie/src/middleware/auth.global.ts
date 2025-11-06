@@ -9,20 +9,25 @@ import {
     OnboardingRoutesSet,
 } from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
-import { isNil } from "~/utils/is"
+import { orgQueries } from "~/state/org/query"
+import { isEmpty, isNil } from "~/utils/is"
 
 // TODO: otimizar o middleware pra exibir um estado de loading melhor
 // TODO: exibir um belo estado de erro para os diferentes casos
 export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
 
-    const [user] = await Promise.allSettled([client.ensureQueryData(authQueries.whoami())])
+    const [user, orgs] = await Promise.allSettled([
+        client.ensureQueryData(authQueries.whoami()),
+        client.ensureQueryData(orgQueries.orgs()),
+    ])
 
     if (user.status === "rejected") {
         return abortNavigation(user.reason)
     }
 
     const isAuthenticated = !isNil(user.value)
+    const isOnboarded = isAuthenticated && user.value!.is_onboarded
 
     /* This is a message for the future me.
      * You need to remeber that the order of the assertions matter.

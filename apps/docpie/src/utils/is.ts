@@ -6,6 +6,13 @@ export function isString(value: unknown): value is string {
     return typeof value === "string" || value instanceof String
 }
 
+export function isPlainObject<K extends PropertyKey, V>(value: unknown): value is Record<K, V> {
+    return (
+        Object.prototype.toString.call(value) === "[object Object]" &&
+        Object.getPrototypeOf(value) === Object.prototype
+    )
+}
+
 export function isArray<T>(value: unknown): value is Array<T> {
     return Array.isArray(value)
 }

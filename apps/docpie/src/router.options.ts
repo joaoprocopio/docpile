@@ -1,7 +1,7 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { AppRoutes, AuthRoutes, OnboardingRoutes } from "~/lib/router/constants"
+import { AppRoutes, AuthRoutes, OnboardingRoutes, OrgRoutes } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
@@ -10,35 +10,40 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/home"),
     },
     {
-        path: "/:slug",
+        path: "/org",
         children: [
             {
-                path: "onboarding",
-                component: () => import("~/pages/onboarding"),
-                meta: {
-                    layout: false,
-                    middleware: "onboarding",
-                },
+                name: OrgRoutes.Create,
+                path: "",
+                component: () => import("~/pages/org-create"),
+            },
+            {
+                path: ":slug",
                 children: [
                     {
-                        name: OnboardingRoutes.Intro,
-                        path: "",
-                        component: () => import("~/pages/onboarding-intro"),
-                    },
-                    {
-                        name: OnboardingRoutes.Theme,
-                        path: "theme",
-                        component: () => import("~/pages/onboarding-theme"),
-                    },
-                    {
-                        name: OnboardingRoutes.Org,
-                        path: "org",
-                        component: () => import("~/pages/onboarding-org"),
-                    },
-                    {
-                        name: OnboardingRoutes.Team,
-                        path: "team",
-                        component: () => import("~/pages/onboarding-team"),
+                        path: "onboarding",
+                        component: () => import("~/pages/org-onboarding"),
+                        meta: {
+                            layout: false,
+                        },
+                        children: [
+                            {
+                                name: OrgRoutes.Onboarding.Intro,
+                                path: "",
+                                component: () => import("~/pages/org-onboarding-intro"),
+                            },
+                            {
+                                name: OrgRoutes.Onboarding.Theme,
+                                path: "theme",
+                                component: () => import("~/pages/org-onboarding-theme"),
+                            },
+
+                            {
+                                name: OrgRoutes.Onboarding.Team,
+                                path: "team",
+                                component: () => import("~/pages/org-onboarding-team"),
+                            },
+                        ],
                     },
                 ],
             },
