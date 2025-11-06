@@ -315,8 +315,8 @@
         0 16px 36px -20px var(--gray-a7);
 
     /* With semantic-meaning */
-    --background: var(--gray-1);
-    --foreground: var(--gray-12);
+    --background: var(--white-a12);
+    --foreground: var(--black-a12);
     --card: var(--gray-1);
     --card-foreground: var(--gray-12);
     --popover: var(--gray-1);
@@ -544,8 +544,8 @@
         0 16px 36px -20px var(--black-a11);
 
     /* With semantic-meaning */
-    --background: var(--gray-1);
-    --foreground: var(--gray-12);
+    --background: var(--black-a12);
+    --foreground: var(--white-a12);
     --card: var(--gray-a2);
     --card-foreground: var(--gray-12);
     --popover: var(--gray-3);
