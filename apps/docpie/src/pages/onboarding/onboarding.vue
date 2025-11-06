@@ -65,10 +65,8 @@ const signout = useMutation({
             </DropdownMenu>
         </div>
 
-        <div class="mx-auto max-w-md py-6 sm:py-10">
-            <div class="px-6">
-                <NuxtPage />
-            </div>
+        <div class="mx-auto max-w-md px-6 py-6 sm:py-10">
+            <NuxtPage />
         </div>
     </div>
 </template>
