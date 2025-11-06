@@ -6,7 +6,7 @@ import { buttonVariants } from "~/lib/ui/button"
 <template>
     <div class="flex flex-col items-center">
         <Icon
-            name="lucide:library-big"
+            name="lucide-lab:pie"
             class="mx-auto size-12" />
 
         <div class="mt-8 space-y-2 text-center">
