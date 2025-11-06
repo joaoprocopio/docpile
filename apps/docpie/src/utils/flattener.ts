@@ -1,16 +1,26 @@
-import { isPlainObject } from "~/utils/is"
+// @ts-nocheck
+import { isArray, isPlainObject } from "~/utils/is"
 
-export function flatNestedObject<K extends PropertyKey, V, R extends Record<PropertyKey, unknown>>(
-    obj: Record<K, V>,
-): R {
-    const newObj = {}
+export function flattenObject(obj) {
+    const flatObj = {}
 
     for (const key in obj) {
-        const nextVal = obj[key]
+        const val = obj[key]
 
-        if (isPlainObject(nextVal)) {
+        if (isArray(val)) {
+            for (const innerVal of val) {
+                console.log(innerVal)
+            }
+
+            continue
         }
+
+        if (isPlainObject(val)) {
+            continue
+        }
+
+        flatObj[key] = val
     }
 
-    return newObj
+    return flatObj
 }

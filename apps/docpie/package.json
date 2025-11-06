@@ -55,7 +55,6 @@
         "@nuxtjs/color-mode": "^3.5.2",
         "@tailwindcss/vite": "^4.1.14",
         "@vue/devtools-api": "^8.0.3",
-        "@vue/test-utils": "^2.4.6",
         "eslint": "catalog:",
         "eslint-config-prettier": "catalog:",
         "eslint-plugin-prettier": "catalog:",

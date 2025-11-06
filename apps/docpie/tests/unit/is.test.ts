@@ -1,6 +1,6 @@
 import { expect, it } from "vitest"
 
-import { isPlainObject } from "./is"
+import { isPlainObject } from "~/utils/is"
 
 it("isPlainObject", () => {
     // ✅ Plain objects
