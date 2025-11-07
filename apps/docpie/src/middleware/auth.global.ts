@@ -50,6 +50,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return navigateTo({ name: OrgRoutes.Create })
     }
 
-    if (isAuthenticated && !isOnboarded) {
-    }
+    // if (isAuthenticated && !isOnboarded) {
+    // }
 })

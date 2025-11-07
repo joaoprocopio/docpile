@@ -9,13 +9,13 @@ export const AuthRoutesArray = Object.values(AuthRoutes)
 export const AuthRoutesSet = new Set(AuthRoutesArray)
 
 export const OrgRoutes = {
+    Home: "org-home",
     Create: "org-create",
     Onboarding: {
         Intro: "org-onboarding-intro",
         Team: "org-onboarding-team",
         Theme: "org-onboarding-theme",
     },
-    Home: "home",
 }
 
 export const OrgRoutesArray = Object.values(flattenObject(OrgRoutes))
