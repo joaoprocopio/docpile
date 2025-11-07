@@ -4,9 +4,7 @@ export const AuthRoutes = {
     SignIn: "signin",
     SignUp: "signup",
 }
-
-export const AuthRoutesArray = Object.values(AuthRoutes)
-export const AuthRoutesSet = new Set(AuthRoutesArray)
+export const AuthRoutesSet = new Set<string>(Object.values(AuthRoutes))
 
 export const OrgRoutes = {
     Home: "org-home",
@@ -18,8 +16,9 @@ export const OrgRoutes = {
     },
 }
 
-export const OrgRoutesArray = Object.values(flattenObject(OrgRoutes))
-export const OrgRoutesSet = new Set(OrgRoutesArray)
+export const OrgRoutesSet = new Set<string>(Object.values(flattenObject(OrgRoutes)))
+export const OrgOnboardingRoutesSet = new Set<string>(
+    Object.values(flattenObject(OrgRoutes.Onboarding)),
+)
 
-export const OrgOnboardingRoutesArray = Object.values(OrgRoutes.Onboarding)
-export const OrgOnboardingRoutesSet = new Set(OrgOnboardingRoutesArray)
+export const OrgSlugParam = "slug"

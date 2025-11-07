@@ -4,10 +4,9 @@ import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
-import { useRouter } from "#app"
 import { env } from "~/env"
+import { rerunMiddleware } from "~/ext/vue-router/utils"
 import { HttpStatus } from "~/lib/http/status"
-import { OrgRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -18,7 +17,6 @@ import { CreateOrg } from "~/state/org/schemas"
 import { isNetworkError, isNil } from "~/utils/is"
 
 const client = useQueryClient()
-const router = useRouter()
 
 const form = useForm({
     defaultValues: {
@@ -45,7 +43,7 @@ const mutation = useMutation({
             return prevData
         })
         client.invalidateQueries({ queryKey: orgQueries.all() })
-        router.push({ name: OrgRoutes.Onboarding.Team, params: { orgSlug: data.slug } })
+        rerunMiddleware()
     },
     onError(err) {
         if (isNetworkError(err) && err.status === HttpStatus.Conflict) {

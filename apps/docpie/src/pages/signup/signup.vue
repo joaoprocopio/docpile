@@ -5,7 +5,7 @@ import { useDebounceFn, useToggle } from "@vueuse/core"
 import { FetchError } from "ofetch"
 import { computed } from "vue"
 
-import { useRouter } from "#app"
+import { rerunMiddleware } from "~/ext/vue-router/utils"
 import { HttpStatus } from "~/lib/http/status"
 import { AuthRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
@@ -18,7 +18,6 @@ import { SignUp } from "~/state/auth/schemas"
 import { orgQueries } from "~/state/org/query"
 
 const client = useQueryClient()
-const router = useRouter()
 
 const form = useForm({
     defaultValues: {
@@ -40,7 +39,7 @@ const mutation = useMutation({
     onSuccess(data) {
         client.setQueryData(authQueries.whoami().queryKey, data)
         client.prefetchQuery(orgQueries.orgs())
-        router.go(0)
+        rerunMiddleware()
     },
     onError: (err) => {
         if (err instanceof FetchError && err.status === HttpStatus.Conflict) {

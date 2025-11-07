@@ -7,9 +7,9 @@ import {
     AuthRoutesSet,
     OrgOnboardingRoutesSet,
     OrgRoutes,
+    OrgSlugParam,
 } from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
-import { IsOnboarded } from "~/state/auth/schemas"
 import { orgQueries } from "~/state/org/query"
 import { isEmpty, isNetworkError, isNil } from "~/utils/is"
 
@@ -63,6 +63,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
     ) {
         const org = orgs.value[0]!
 
-        return navigateTo({ name: OrgRoutes.Onboarding.Intro, params: { slug: org.slug } })
+        return navigateTo({
+            name: OrgRoutes.Onboarding.Intro,
+            params: { [OrgSlugParam]: org.slug },
+        })
     }
+
+    // if (isAuthenticated && hasOrgMembership && isOnboarded) {
+    // }
 })

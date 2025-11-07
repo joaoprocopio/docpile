@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 
-import { useRouter } from "#app"
+import { rerunMiddleware } from "~/ext/vue-router/utils"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import {
@@ -14,7 +14,6 @@ import {
 import { authMutations, authQueries } from "~/state/auth/query"
 import { composeInitials } from "~/utils/avatar"
 
-const router = useRouter()
 const client = useQueryClient()
 
 const user = useQuery(authQueries.whoami())
@@ -22,7 +21,7 @@ const signout = useMutation({
     ...authMutations.signOut(),
     onSuccess: () => {
         client.removeQueries({ queryKey: authQueries.all() })
-        router.go(0)
+        rerunMiddleware()
     },
 })
 </script>

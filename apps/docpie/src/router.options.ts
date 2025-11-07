@@ -1,7 +1,7 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { AuthRoutes, OrgRoutes } from "~/lib/router/constants"
+import { AuthRoutes, OrgRoutes, OrgSlugParam } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
@@ -30,7 +30,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         name: OrgRoutes.Home,
-        path: "/org/:slug",
+        path: `/org/:${OrgSlugParam}`,
         meta: {
             layout: "app",
         },
@@ -38,7 +38,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         name: OrgRoutes.Onboarding.Intro,
-        path: "/org/:slug/onboarding",
+        path: `/org/:${OrgSlugParam}/onboarding`,
         meta: {
             layout: "onboarding",
         },
@@ -46,7 +46,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         name: OrgRoutes.Onboarding.Theme,
-        path: "/org/:slug/onboarding/theme",
+        path: `/org/:${OrgSlugParam}/onboarding/theme`,
         meta: {
             layout: "onboarding",
         },
@@ -55,7 +55,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
 
     {
         name: OrgRoutes.Onboarding.Team,
-        path: "/org/:slug/onboarding/team",
+        path: `/org/:${OrgSlugParam}/onboarding/team`,
         meta: {
             layout: "onboarding",
         },

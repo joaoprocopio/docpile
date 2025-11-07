@@ -22,7 +22,6 @@ watch(
     invites,
     ($invites) => {
         const { success } = CreateInvite.array().safeParse($invites)
-
         if (!success) invites.value = undefined
     },
     { once: true, immediate: true },
