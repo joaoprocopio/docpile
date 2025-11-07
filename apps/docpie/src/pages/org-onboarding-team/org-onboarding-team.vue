@@ -30,7 +30,7 @@ watch(
 const form = useForm({
     defaultValues: {
         email: "",
-        role: Role.Member as TRole,
+        role: Role.Member satisfies TRole as TRole,
     },
     validators: {
         onSubmit: CreateInvite,
@@ -61,43 +61,6 @@ const submit = useDebounceFn(form.handleSubmit)
             class="mt-8"
             @submit.prevent.stop="submit">
             <div class="flex w-full justify-between gap-x-4">
-                <form.Field
-                    v-slot="{ field }"
-                    name="role">
-                    <Field
-                        v-slot="{ isInvalid }"
-                        class="w-fit"
-                        :field="field">
-                        <FieldLabel
-                            :for="field.name"
-                            class="sr-only">
-                            Role
-                        </FieldLabel>
-
-                        <Select
-                            :id="field.name"
-                            :model-value="field.state.value"
-                            :name="field.name"
-                            :aria-invalid="isInvalid"
-                            @update:model-value="(role) => field.handleChange(role as TRole)">
-                            <SelectTrigger
-                                :aria-invalid="isInvalid"
-                                class="max-w-32">
-                                <SelectValue placeholder="Select a role..." />
-                            </SelectTrigger>
-
-                            <SelectContent>
-                                <SelectItem
-                                    v-for="(role, roleKey) in Role"
-                                    :key="role"
-                                    :value="role">
-                                    {{ roleKey }}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                </form.Field>
-
                 <form.Field
                     v-slot="{ field }"
                     name="email">
@@ -138,6 +101,43 @@ const submit = useDebounceFn(form.handleSubmit)
                         <FieldError
                             v-if="isInvalid"
                             :errors="field.state.meta.errors" />
+                    </Field>
+                </form.Field>
+
+                <form.Field
+                    v-slot="{ field }"
+                    name="role">
+                    <Field
+                        v-slot="{ isInvalid }"
+                        class="w-fit"
+                        :field="field">
+                        <FieldLabel
+                            :for="field.name"
+                            class="sr-only">
+                            Role
+                        </FieldLabel>
+
+                        <Select
+                            :id="field.name"
+                            :model-value="field.state.value"
+                            :name="field.name"
+                            :aria-invalid="isInvalid"
+                            @update:model-value="(role) => field.handleChange(role as TRole)">
+                            <SelectTrigger
+                                :aria-invalid="isInvalid"
+                                class="max-w-32">
+                                <SelectValue placeholder="Select a role..." />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectItem
+                                    v-for="(role, roleKey) in Role"
+                                    :key="role"
+                                    :value="role">
+                                    {{ roleKey }}
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
                     </Field>
                 </form.Field>
             </div>
