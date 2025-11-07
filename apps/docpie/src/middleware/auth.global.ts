@@ -2,7 +2,12 @@ import { useQueryClient } from "@tanstack/vue-query"
 
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
 import { isClientErrorStatus } from "~/lib/http/status"
-import { AuthRoutes, AuthRoutesSet, OrgRoutes } from "~/lib/router/constants"
+import {
+    AuthRoutes,
+    AuthRoutesSet,
+    OrgOnboardingRoutesSet,
+    OrgRoutes,
+} from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
 import { IsOnboarded } from "~/state/auth/schemas"
 import { orgQueries } from "~/state/org/query"
@@ -50,6 +55,14 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return navigateTo({ name: OrgRoutes.Create })
     }
 
-    // if (isAuthenticated && !isOnboarded) {
-    // }
+    if (
+        isAuthenticated &&
+        hasOrgMembership &&
+        !isOnboarded &&
+        !OrgOnboardingRoutesSet.has(to.name as string)
+    ) {
+        const org = orgs.value[0]!
+
+        return navigateTo({ name: OrgRoutes.Onboarding.Intro, params: { slug: org.slug } })
+    }
 })

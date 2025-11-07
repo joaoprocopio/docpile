@@ -21,5 +21,5 @@ export const OrgRoutes = {
 export const OrgRoutesArray = Object.values(flattenObject(OrgRoutes))
 export const OrgRoutesSet = new Set(OrgRoutesArray)
 
-export const OrgOnboardingRoutesArray = Object.values(flattenObject(OrgRoutes.Onboarding))
-export const OrgOnboardingRoutesSet = new Set(OrgRoutesArray)
+export const OrgOnboardingRoutesArray = Object.values(OrgRoutes.Onboarding)
+export const OrgOnboardingRoutesSet = new Set(OrgOnboardingRoutesArray)
