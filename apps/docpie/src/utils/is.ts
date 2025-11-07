@@ -1,3 +1,9 @@
+import { FetchError } from "ofetch"
+
+export function isNetworkError<T>(err: unknown): err is FetchError<T> {
+    return err instanceof FetchError
+}
+
 export function isNil(value: unknown): value is null | undefined {
     return value == null
 }

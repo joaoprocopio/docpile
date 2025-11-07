@@ -1,3 +1,25 @@
+import { inInclusiveRange } from "~/utils/num"
+
+export function isInformationalStatus(status: number): boolean {
+    return inInclusiveRange(status, 100, 199)
+}
+
+export function isSuccessStatus(status: number): boolean {
+    return inInclusiveRange(status, 200, 299)
+}
+
+export function isRedirectionStatus(status: number): boolean {
+    return inInclusiveRange(status, 300, 399)
+}
+
+export function isClientErrorStatus(status: number): boolean {
+    return inInclusiveRange(status, 400, 499)
+}
+
+export function isServerErrorStatus(status: number): boolean {
+    return inInclusiveRange(status, 500, 599)
+}
+
 export const HttpStatus = {
     /**
      * Informational Responses (100 - 199)

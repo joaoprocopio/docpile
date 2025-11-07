@@ -1,3 +1,5 @@
+import { flattenObject } from "~/utils/flattener"
+
 export const AuthRoutes = {
     SignIn: "signin",
     SignUp: "signup",
@@ -13,11 +15,11 @@ export const OrgRoutes = {
         Team: "org-onboarding-team",
         Theme: "org-onboarding-theme",
     },
-}
-
-export const OrgRoutesArray = Object.values(OrgRoutes)
-export const OrgRoutesSet = new Set(Object.values(OrgRoutes))
-
-export const AppRoutes = {
     Home: "home",
 }
+
+export const OrgRoutesArray = Object.values(flattenObject(OrgRoutes))
+export const OrgRoutesSet = new Set(OrgRoutesArray)
+
+export const OrgOnboardingRoutesArray = Object.values(flattenObject(OrgRoutes.Onboarding))
+export const OrgOnboardingRoutesSet = new Set(OrgRoutesArray)

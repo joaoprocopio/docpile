@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OnboardingRoutes } from "~/lib/router/constants"
+import { OrgRoutes } from "~/lib/router/constants"
 import { buttonVariants } from "~/lib/ui/button"
 </script>
 
@@ -24,7 +24,7 @@ import { buttonVariants } from "~/lib/ui/button"
                     variant: 'secondary',
                 })
             "
-            :to="{ name: OnboardingRoutes.Theme }">
+            :to="{ name: OrgRoutes.Onboarding.Theme }">
             Get started
         </RouterLink>
     </div>

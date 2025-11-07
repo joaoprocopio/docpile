@@ -19,8 +19,10 @@ pub async fn list_membered_orgs(server: &Server, user: User) -> Result<Vec<Org>>
         JOIN org_membership AS om
             ON om.org_id = o.id
         WHERE om.user_id = $1
+        AND om.status = $2
         "#,
-        user.id
+        user.id,
+        OrgMembershipStatus::Accepted as OrgMembershipStatus
     )
     .fetch_all(&server.db)
     .await?;

@@ -5,7 +5,7 @@ import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
 
 import { useRouter } from "#app"
-import { AppRoutes, AuthRoutes } from "~/lib/router/constants"
+import { AuthRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -38,7 +38,7 @@ const mutation = useMutation({
     onSuccess(data) {
         client.setQueryData(authQueries.whoami().queryKey, data)
         client.prefetchQuery(orgQueries.orgs())
-        router.push({ name: AppRoutes.Home })
+        router.go(0)
     },
     onError: () => {
         sonner.error("Email or password may be invalid")

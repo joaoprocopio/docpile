@@ -3,9 +3,9 @@ import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useStorage } from "@vueuse/core"
 import { watch } from "vue"
 
-import { AppRoutes } from "~/lib/router/constants"
+import { OrgRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
-import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
+import { Field, FieldError, FieldLabel } from "~/lib/ui/field"
 import {
     InputGroup,
     InputGroupAddon,
@@ -169,7 +169,7 @@ const submit = useDebounceFn(form.handleSubmit)
                         variant: 'ghost',
                     })
                 "
-                :to="{ name: AppRoutes.Home }">
+                :to="{ name: OrgRoutes.Home }">
                 I'll do it later
             </RouterLink>
         </div>

@@ -2,13 +2,12 @@
 import { useForm } from "@tanstack/vue-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
-import { FetchError } from "ofetch"
 import { computed } from "vue"
 
 import { useRouter } from "#app"
 import { env } from "~/env"
 import { HttpStatus } from "~/lib/http/status"
-import { OnboardingRoutes } from "~/lib/router/constants"
+import { OrgRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -16,7 +15,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/
 import { Spinner } from "~/lib/ui/spinner"
 import { orgMutations, orgQueries } from "~/state/org/query"
 import { CreateOrg } from "~/state/org/schemas"
-import { isNil } from "~/utils/is"
+import { isNetworkError, isNil } from "~/utils/is"
 
 const client = useQueryClient()
 const router = useRouter()
@@ -46,10 +45,10 @@ const mutation = useMutation({
             return prevData
         })
         client.invalidateQueries({ queryKey: orgQueries.all() })
-        router.push({ name: OnboardingRoutes.Team, params: { orgSlug: data.slug } })
+        router.push({ name: OrgRoutes.Onboarding.Team, params: { orgSlug: data.slug } })
     },
     onError(err) {
-        if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
+        if (isNetworkError(err) && err.status === HttpStatus.Conflict) {
             form.setErrorMap({
                 onSubmit: { fields: { slug: { message: "This URL is already taken" } } },
             })

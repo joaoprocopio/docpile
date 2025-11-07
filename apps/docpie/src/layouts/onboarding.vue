@@ -2,7 +2,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 
 import { useRouter } from "#app"
-import { AuthRoutes } from "~/lib/router/constants"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import {
@@ -23,7 +22,7 @@ const signout = useMutation({
     ...authMutations.signOut(),
     onSuccess: () => {
         client.removeQueries({ queryKey: authQueries.all() })
-        router.push({ name: AuthRoutes.SignIn })
+        router.go(0)
     },
 })
 </script>
@@ -66,7 +65,7 @@ const signout = useMutation({
         </div>
 
         <div class="mx-auto max-w-md px-6 py-6 sm:py-10">
-            <NuxtPage />
+            <slot />
         </div>
     </div>
 </template>

@@ -1,30 +1,32 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { AppRoutes, AuthRoutes, OrgRoutes } from "~/lib/router/constants"
+import { AuthRoutes, OrgRoutes } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
-    {
-        name: AppRoutes.Home,
-        path: "/",
-        component: () => import("~/pages/home"),
-    },
     {
         path: "/org",
         children: [
             {
                 name: OrgRoutes.Create,
                 path: "",
+                meta: {
+                    layout: "onboarding",
+                },
                 component: () => import("~/pages/org-create"),
             },
             {
                 path: ":slug",
                 children: [
                     {
+                        name: OrgRoutes.Home,
+                        path: "",
+                        component: () => import("~/pages/home"),
+                    },
+                    {
                         path: "onboarding",
-                        component: () => import("~/pages/org-onboarding"),
                         meta: {
-                            layout: false,
+                            layout: "onboarding",
                         },
                         children: [
                             {

@@ -3,7 +3,7 @@ import type { AcceptableValue } from "reka-ui"
 
 import { useColorMode } from "#imports"
 import { ColorMode, type TColorMode } from "~/ext/color-mode/constants"
-import { OnboardingRoutes } from "~/lib/router/constants"
+import { OrgRoutes } from "~/lib/router/constants"
 import { buttonVariants } from "~/lib/ui/button"
 import { ToggleGroup, ToggleGroupItem } from "~/lib/ui/toggle-group"
 import { isString } from "~/utils/is"
@@ -73,7 +73,7 @@ function resolveIcon(cm: TColorMode) {
                         variant: 'secondary',
                     })
                 "
-                :to="{ name: OnboardingRoutes.Org }">
+                :to="{ name: OrgRoutes.Onboarding.Team }">
                 Continue
             </RouterLink>
         </div>

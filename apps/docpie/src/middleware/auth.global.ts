@@ -1,16 +1,12 @@
 import { useQueryClient } from "@tanstack/vue-query"
 
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
-import {
-    AppRoutes,
-    AuthRoutes,
-    AuthRoutesSet,
-    OnboardingRoutes,
-    OnboardingRoutesSet,
-} from "~/lib/router/constants"
+import { isClientErrorStatus } from "~/lib/http/status"
+import { AuthRoutes, AuthRoutesSet, OrgRoutes } from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
+import { IsOnboarded } from "~/state/auth/schemas"
 import { orgQueries } from "~/state/org/query"
-import { isEmpty, isNil } from "~/utils/is"
+import { isEmpty, isNetworkError, isNil } from "~/utils/is"
 
 // TODO: otimizar o middleware pra exibir um estado de loading melhor
 // TODO: exibir um belo estado de erro para os diferentes casos
@@ -26,8 +22,17 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return abortNavigation(user.reason)
     }
 
+    if (
+        orgs.status === "rejected" &&
+        isNetworkError(orgs.reason) &&
+        !isClientErrorStatus(orgs.reason.status!)
+    ) {
+        return abortNavigation(orgs.reason)
+    }
+
     const isAuthenticated = !isNil(user.value)
     const isOnboarded = isAuthenticated && user.value!.is_onboarded
+    const hasOrgMembership = orgs.status === "fulfilled" && !isEmpty(orgs.value)
 
     /* This is a message for the future me.
      * You need to remeber that the order of the assertions matter.
@@ -41,19 +46,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return navigateTo({ name: AuthRoutes.SignIn })
     }
 
-    if (
-        isAuthenticated &&
-        !OnboardingRoutesSet.has(to.name as string) &&
-        !user.value!.is_onboarded
-    ) {
-        return navigateTo({ name: OnboardingRoutes.Intro })
+    if (isAuthenticated && !hasOrgMembership && to.name !== OrgRoutes.Create) {
+        return navigateTo({ name: OrgRoutes.Create })
     }
 
-    if (
-        isAuthenticated &&
-        (AuthRoutesSet.has(to.name as string) || OnboardingRoutesSet.has(to.name as string)) &&
-        user.value!.is_onboarded
-    ) {
-        return navigateTo({ name: AppRoutes.Home })
+    if (isAuthenticated && !isOnboarded) {
     }
 })
