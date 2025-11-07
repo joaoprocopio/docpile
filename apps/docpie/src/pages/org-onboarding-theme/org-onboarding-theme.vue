@@ -37,7 +37,7 @@ function resolveIcon(cm: TColorMode) {
 <template>
     <div>
         <div class="space-y-1.5 text-center">
-            <h1 class="text-2xl font-semibold">Choose your style</h1>
+            <h1 class="text-2xl font-semibold">Choose your theme</h1>
             <h2 class="text-xs text-muted-foreground">
                 Change your theme at any time via settings.
             </h2>
@@ -47,21 +47,24 @@ function resolveIcon(cm: TColorMode) {
             <ToggleGroup
                 type="single"
                 variant="outline"
-                class="w-full"
-                :model-value="colorMode.preference"
-                :default-value="colorMode.preference"
+                class="min-w-full"
+                :model-value="colorMode.value"
+                :default-value="colorMode.value"
                 @update:model-value="update">
-                <ToggleGroupItem
+                <template
                     v-for="(cmVal, cmKey) in ColorMode"
-                    :key="cmKey"
-                    :value="cmVal"
-                    class="h-fit gap-2.5 py-3">
-                    <Icon
-                        class="size-5 text-muted-foreground"
-                        :name="resolveIcon(cmVal)" />
+                    :key="cmKey">
+                    <ToggleGroupItem
+                        v-if="cmVal !== 'system'"
+                        :value="cmVal"
+                        class="h-fit gap-2.5 py-3">
+                        <Icon
+                            class="size-5 text-muted-foreground"
+                            :name="resolveIcon(cmVal)" />
 
-                    <p>{{ cmKey }}</p>
-                </ToggleGroupItem>
+                        <p>{{ cmKey }}</p>
+                    </ToggleGroupItem>
+                </template>
             </ToggleGroup>
         </div>
 

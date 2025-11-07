@@ -5,10 +5,10 @@ import { isClientErrorStatus } from "~/lib/http/status"
 import {
     AuthRoutes,
     AuthRoutesSet,
-    OrgOnboardingRoutesSet,
+    OnboardingRoutesSet,
     OrgRoutes,
     OrgRoutesSet,
-    OrgSlugParam,
+    SlugParam,
 } from "~/lib/router/constants"
 import { authQueries } from "~/state/auth/query"
 import { orgQueries } from "~/state/org/query"
@@ -60,14 +60,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
         isAuthenticated &&
         hasOrgMembership &&
         !isOnboarded &&
-        !OrgOnboardingRoutesSet.has(to.name as string)
+        !OnboardingRoutesSet.has(to.name as string)
     ) {
         const org = orgs.value[0]!
 
-        return navigateTo({
-            name: OrgRoutes.Onboarding.Intro,
-            params: { [OrgSlugParam]: org.slug },
-        })
+        return navigateTo({ name: OrgRoutes.Onboarding.Intro, params: { [SlugParam]: org.slug } })
     }
 
     if (
@@ -78,9 +75,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
     ) {
         const org = orgs.value[0]!
 
-        return navigateTo({
-            name: OrgRoutes.Home,
-            params: { [OrgSlugParam]: org.slug },
-        })
+        return navigateTo({ name: OrgRoutes.Home, params: { [SlugParam]: org.slug } })
     }
 })

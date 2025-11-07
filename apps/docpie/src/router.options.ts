@@ -1,7 +1,7 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { AuthRoutes, OrgRoutes, OrgSlugParam } from "~/lib/router/constants"
+import { AuthRoutes, OrgRoutes, SlugParam } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
@@ -29,16 +29,8 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-create"),
     },
     {
-        name: OrgRoutes.Home,
-        path: `/org/:${OrgSlugParam}`,
-        meta: {
-            layout: "app",
-        },
-        component: () => import("~/pages/home"),
-    },
-    {
         name: OrgRoutes.Onboarding.Intro,
-        path: `/org/:${OrgSlugParam}/onboarding`,
+        path: `/org/:${SlugParam}/onboarding`,
         meta: {
             layout: "onboarding",
         },
@@ -46,20 +38,27 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         name: OrgRoutes.Onboarding.Theme,
-        path: `/org/:${OrgSlugParam}/onboarding/theme`,
+        path: `/org/:${SlugParam}/onboarding/theme`,
         meta: {
             layout: "onboarding",
         },
         component: () => import("~/pages/org-onboarding-theme"),
     },
-
     {
         name: OrgRoutes.Onboarding.Team,
-        path: `/org/:${OrgSlugParam}/onboarding/team`,
+        path: `/org/:${SlugParam}/onboarding/team`,
         meta: {
             layout: "onboarding",
         },
         component: () => import("~/pages/org-onboarding-team"),
+    },
+    {
+        name: OrgRoutes.Home,
+        path: `/org/:${SlugParam}`,
+        meta: {
+            layout: "app",
+        },
+        component: () => import("~/pages/home"),
     },
 ]
 
