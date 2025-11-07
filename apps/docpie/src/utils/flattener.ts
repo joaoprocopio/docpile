@@ -1,26 +1,25 @@
-// @ts-nocheck
-import { isArray, isPlainObject } from "~/utils/is"
+import { isPlainObject } from "~/utils/is"
 
-export function flattenObject(obj) {
-    const flatObj = {}
-
+export function flattenObject<O extends object, R extends object = Record<string, unknown>>(
+    obj: O,
+    separator: string = ".",
+    prefix: string = "",
+    result: Record<PropertyKey, unknown> = {},
+): R {
     for (const key in obj) {
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+            continue
+        }
+
+        const nextPrefix = prefix ? `${prefix}${separator}${key}` : key
         const val = obj[key]
 
-        if (isArray(val)) {
-            for (const innerVal of val) {
-                console.log(innerVal)
-            }
-
-            continue
-        }
-
         if (isPlainObject(val)) {
-            continue
+            flattenObject(val, separator, nextPrefix, result)
+        } else {
+            result[nextPrefix] = val
         }
-
-        flatObj[key] = val
     }
 
-    return flatObj
+    return result as R
 }
