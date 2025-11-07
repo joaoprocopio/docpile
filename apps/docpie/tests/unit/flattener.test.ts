@@ -1,16 +1,12 @@
-import { it } from "vitest"
+import { expect, it } from "vitest"
 
 import { flattenObject } from "~/utils/flattener"
 
 it("flattenObject", () => {
-    const res = flattenObject({
-        name: "John",
-        age: 30,
+    const obj = {
         address: {
             street: "123 Main St",
-            city: "New York",
             coordinates: {
-                lat: 40.7128,
                 lng: -74.006,
             },
         },
@@ -18,10 +14,17 @@ it("flattenObject", () => {
         metadata: {
             created: new Date("2024-01-01"),
             tags: {
-                primary: "user",
                 secondary: "active",
             },
         },
+    }
+    const flat = flattenObject(obj)
+
+    expect(flat).toStrictEqual({
+        "address.street": obj.address.street,
+        "address.coordinates.lng": obj.address.coordinates.lng,
+        hobbies: obj.hobbies,
+        "metadata.created": obj.metadata.created,
+        "metadata.tags.secondary": obj.metadata.tags.secondary,
     })
-    console.log(res)
 })
