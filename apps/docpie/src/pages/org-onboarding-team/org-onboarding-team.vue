@@ -5,13 +5,9 @@ import { watch } from "vue"
 
 import { OrgRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
+import { ButtonGroup } from "~/lib/ui/button-group"
 import { Field, FieldError, FieldLabel } from "~/lib/ui/field"
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupButton,
-    InputGroupInput,
-} from "~/lib/ui/input-group"
+import { Input } from "~/lib/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { CreateInvite, Role, type TCreateInviteOut, type TRole } from "~/state/org/schemas"
 import { isEmpty } from "~/utils/is"
@@ -60,21 +56,56 @@ const submit = useDebounceFn(form.handleSubmit)
         <form
             class="mt-8"
             @submit.prevent.stop="submit">
-            <div class="flex w-full justify-between gap-x-4">
-                <form.Field
-                    v-slot="{ field }"
-                    name="email">
-                    <Field
-                        v-slot="{ isInvalid }"
-                        :field="field">
-                        <FieldLabel
-                            :for="field.name"
-                            class="sr-only">
-                            Email
-                        </FieldLabel>
+            <ButtonGroup>
+                <ButtonGroup>
+                    <form.Field
+                        v-slot="{ field }"
+                        name="role">
+                        <Field
+                            v-slot="{ isInvalid }"
+                            class="w-fit"
+                            :field="field">
+                            <FieldLabel
+                                :for="field.name"
+                                class="sr-only">
+                                Role
+                            </FieldLabel>
 
-                        <InputGroup>
-                            <InputGroupInput
+                            <Select
+                                :id="field.name"
+                                :model-value="field.state.value"
+                                :name="field.name"
+                                :aria-invalid="isInvalid"
+                                @update:model-value="(role) => field.handleChange(role as TRole)">
+                                <SelectTrigger :aria-invalid="isInvalid">
+                                    <SelectValue placeholder="Select a role..." />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    <SelectItem
+                                        v-for="(role, roleKey) in Role"
+                                        :key="role"
+                                        :value="role">
+                                        {{ roleKey }}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </Field>
+                    </form.Field>
+
+                    <form.Field
+                        v-slot="{ field }"
+                        name="email">
+                        <Field
+                            v-slot="{ isInvalid }"
+                            :field="field">
+                            <FieldLabel
+                                :for="field.name"
+                                class="sr-only">
+                                Email
+                            </FieldLabel>
+
+                            <Input
                                 :id="field.name"
                                 :name="field.name"
                                 :aria-invalid="isInvalid"
@@ -85,62 +116,23 @@ const submit = useDebounceFn(form.handleSubmit)
                                     (e: Event) =>
                                         field.handleChange((e.target as HTMLInputElement).value)
                                 " />
+                            <FieldError
+                                v-if="isInvalid"
+                                :errors="field.state.meta.errors" />
+                        </Field>
+                    </form.Field>
+                </ButtonGroup>
 
-                            <InputGroupAddon align="inline-end">
-                                <InputGroupButton
-                                    type="submit"
-                                    variant="secondary">
-                                    <span>Add</span>
-                                    <Icon
-                                        name="lucide:plus"
-                                        class="size-3.5" />
-                                </InputGroupButton>
-                            </InputGroupAddon>
-                        </InputGroup>
-
-                        <FieldError
-                            v-if="isInvalid"
-                            :errors="field.state.meta.errors" />
-                    </Field>
-                </form.Field>
-
-                <form.Field
-                    v-slot="{ field }"
-                    name="role">
-                    <Field
-                        v-slot="{ isInvalid }"
-                        class="w-fit"
-                        :field="field">
-                        <FieldLabel
-                            :for="field.name"
-                            class="sr-only">
-                            Role
-                        </FieldLabel>
-
-                        <Select
-                            :id="field.name"
-                            :model-value="field.state.value"
-                            :name="field.name"
-                            :aria-invalid="isInvalid"
-                            @update:model-value="(role) => field.handleChange(role as TRole)">
-                            <SelectTrigger
-                                :aria-invalid="isInvalid"
-                                class="max-w-32">
-                                <SelectValue placeholder="Select a role..." />
-                            </SelectTrigger>
-
-                            <SelectContent>
-                                <SelectItem
-                                    v-for="(role, roleKey) in Role"
-                                    :key="role"
-                                    :value="role">
-                                    {{ roleKey }}
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </Field>
-                </form.Field>
-            </div>
+                <ButtonGroup>
+                    <Button
+                        type="submit"
+                        aria-label="Send"
+                        size="icon"
+                        variant="outline">
+                        <Icon name="lucide:plus" />
+                    </Button>
+                </ButtonGroup>
+            </ButtonGroup>
         </form>
 
         <div
