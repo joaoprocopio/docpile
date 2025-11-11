@@ -20,7 +20,7 @@ export const OrgRoutes = {
 export const OrgRoutesArray = Object.values<string>(flattenObject(OrgRoutes))
 export const OrgRoutesSet = new Set<string>(OrgRoutesArray)
 
-export const OnboardingRoutesArray = Object.values<string>(flattenObject(OrgRoutes.Onboarding))
+export const OnboardingRoutesArray = Object.values<string>(OrgRoutes.Onboarding)
 export const OnboardingRoutesSet = new Set<string>(OnboardingRoutesArray)
 
 export const SlugParam = "slug"
