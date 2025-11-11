@@ -47,7 +47,7 @@ function resolveIcon(cm: TColorMode) {
             <ToggleGroup
                 type="single"
                 variant="outline"
-                class="min-w-full"
+                class="w-full"
                 :model-value="colorMode.value"
                 :default-value="colorMode.value"
                 @update:model-value="update">

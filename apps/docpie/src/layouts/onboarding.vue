@@ -8,7 +8,7 @@ import { UserMenu } from "~/components/user-menu"
             <UserMenu />
         </div>
 
-        <div class="mx-auto max-w-md px-6 py-10">
+        <div class="mx-auto w-full max-w-md px-6 py-10">
             <slot />
         </div>
     </div>

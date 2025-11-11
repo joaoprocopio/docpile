@@ -23,4 +23,4 @@ export const OrgRoutesSet = new Set<string>(OrgRoutesArray)
 export const OnboardingRoutesArray = Object.values<string>(OrgRoutes.Onboarding)
 export const OnboardingRoutesSet = new Set<string>(OnboardingRoutesArray)
 
-export const SlugParam = "slug"
+export const OrgSlugParam = "orgslug"
