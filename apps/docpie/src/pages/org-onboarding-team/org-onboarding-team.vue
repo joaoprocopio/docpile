@@ -63,14 +63,8 @@ const submit = useDebounceFn(form.handleSubmit)
                         name="role">
                         <Field
                             v-slot="{ isInvalid }"
-                            class="w-fit"
-                            :field="field">
-                            <FieldLabel
-                                :for="field.name"
-                                class="sr-only">
-                                Role
-                            </FieldLabel>
-
+                            :field="field"
+                            as-child>
                             <Select
                                 :id="field.name"
                                 :model-value="field.state.value"
@@ -98,13 +92,8 @@ const submit = useDebounceFn(form.handleSubmit)
                         name="email">
                         <Field
                             v-slot="{ isInvalid }"
-                            :field="field">
-                            <FieldLabel
-                                :for="field.name"
-                                class="sr-only">
-                                Email
-                            </FieldLabel>
-
+                            :field="field"
+                            as-child>
                             <Input
                                 :id="field.name"
                                 :name="field.name"
@@ -116,6 +105,7 @@ const submit = useDebounceFn(form.handleSubmit)
                                     (e: Event) =>
                                         field.handleChange((e.target as HTMLInputElement).value)
                                 " />
+
                             <FieldError
                                 v-if="isInvalid"
                                 :errors="field.state.meta.errors" />
