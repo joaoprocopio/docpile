@@ -45,7 +45,7 @@ const form = useForm({
             })
         }
 
-        form.reset()
+        form.resetField("email")
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
