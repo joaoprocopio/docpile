@@ -33,9 +33,16 @@ const form = useForm({
     },
     onSubmit(props) {
         const nextInvite = props.value
+        const nextInviteIndex = invites.value.findIndex(
+            (invite) => invite.email === nextInvite.email,
+        )
 
-        if (-1 === invites.value.findIndex((invite) => invite.email === nextInvite.email)) {
+        if (nextInviteIndex === -1) {
             invites.value.push(nextInvite)
+        } else {
+            form.setErrorMap({
+                onSubmit: { fields: { email: { message: "This URL is already taken" } } },
+            })
         }
 
         form.reset()
