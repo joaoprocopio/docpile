@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from "@tanstack/vue-form"
+import { type StandardSchemaV1Issue, useForm } from "@tanstack/vue-form"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
@@ -17,16 +17,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { Separator } from "~/lib/ui/separator"
 import { useInvites } from "~/pages/org-onboarding-team/composables/use-invites"
 import {
+    CreateInvite,
     CreateInviteMultiline,
     Role,
-    type TCreateInviteMultilineIn,
+    type TCreateInviteIn,
     type TRole,
 } from "~/state/org/schemas"
-import { isArray, isEmpty, isInteger } from "~/utils/is"
+import { isArray, isEmpty, isInteger, isNil } from "~/utils/is"
+import { hasOwnProperty } from "~/utils/obj"
 
 const invites = useInvites()
 
-const defaultValues: TCreateInviteMultilineIn = {
+const defaultValues: TCreateInviteIn = {
     email: "",
     role: Role.Member,
 }
@@ -34,7 +36,7 @@ const defaultValues: TCreateInviteMultilineIn = {
 const form = useForm({
     defaultValues: defaultValues,
     validators: {
-        onSubmit: CreateInviteMultiline,
+        onSubmit: CreateInvite,
     },
     onSubmit(props) {
         const seenEmails = Object.fromEntries(
@@ -56,25 +58,30 @@ const form = useForm({
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
-const fields = {
-    email: form.useStore((state) => state.fieldMeta.email),
-    role: form.useStore((state) => state.fieldMeta.role),
-}
+
+const formErrors = form.useStore((state) => state.errors)
 const errors = computed(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let errors: any[] = []
+    let temp: StandardSchemaV1Issue[] = []
 
-    if (isArray(fields.email.value?.errors)) {
-        errors = errors.concat(fields.email.value.errors)
+    for (const errorMap of formErrors.value) {
+        for (const key in errorMap) {
+            if (!hasOwnProperty(errorMap, key)) {
+                continue
+            }
+
+            const errors = errorMap[key]
+
+            if (isNil(errors)) {
+                continue
+            }
+
+            temp = temp.concat(errors)
+        }
     }
 
-    if (isArray(fields.role.value?.errors)) {
-        errors = errors.concat(fields.role.value.errors)
-    }
-
-    return errors
+    return temp
 })
-const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
+const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value))
 </script>
 
 <template>
@@ -90,7 +97,7 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
             class="mt-8"
             @submit.prevent.stop="submit">
             <Field>
-                <InputGroup :aria-invalid="hasError">
+                <InputGroup :aria-invalid="hasErrors">
                     <form.Field
                         v-slot="{ field }"
                         name="email">
@@ -98,9 +105,9 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                             :id="field.name"
                             :name="field.name"
                             :model-value="field.state.value"
-                            :aria-invalid="hasError"
+                            :aria-invalid="hasErrors"
                             autocomplete="email"
-                            placeholder="example@domain.com"
+                            placeholder="john@example.com&#10;sara@example.com&#10;nate@example.com"
                             @blur="field.handleBlur"
                             @change="
                                 (e: Event) =>
@@ -159,7 +166,7 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                     </InputGroupAddon>
                 </InputGroup>
 
-                <FieldDescription v-if="!hasError">
+                <FieldDescription v-if="!hasErrors">
                     Enter one email per line to invite multiple people with this role
                 </FieldDescription>
 

@@ -8,6 +8,9 @@ export const Role = {
     Owner: "owner",
     Member: "member",
 } as const
+export const RoleZodEnum = z.enum(Role, {
+    error: (issue) => `Role must ${issue.values.join(" or ")}, found ${issue.input}`,
+})
 
 export const OrgName = z
     .string()
@@ -41,7 +44,7 @@ export type TCreateOrgOut = z.output<typeof CreateOrg>
 
 export const CreateInvite = z.object({
     email: Email,
-    role: z.enum(Role),
+    role: RoleZodEnum,
 })
 
 export type TCreateInviteIn = z.input<typeof CreateInvite>

@@ -1,5 +1,7 @@
 import { FetchError } from "ofetch"
 
+import { hasOwnProperty } from "~/utils/obj"
+
 export function isNetworkError<T>(err: unknown): err is FetchError<T> {
     return err instanceof FetchError
 }
@@ -45,7 +47,7 @@ export function isEmpty(value: unknown): boolean {
     }
 
     for (const key in value as object) {
-        if (Object.prototype.hasOwnProperty.call(value, key)) {
+        if (hasOwnProperty(value, key)) {
             return false
         }
     }
