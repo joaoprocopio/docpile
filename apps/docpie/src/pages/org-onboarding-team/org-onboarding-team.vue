@@ -5,10 +5,16 @@ import { computed, watch } from "vue"
 
 import { OrgRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
-import { ButtonGroup } from "~/lib/ui/button-group"
 import { Field, FieldError } from "~/lib/ui/field"
-import { Input } from "~/lib/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupButton,
+    InputGroupText,
+    InputGroupTextarea,
+} from "~/lib/ui/input-group"
+import { Select, SelectContent, SelectItem, SelectTrigger } from "~/lib/ui/select"
+import { Separator } from "~/lib/ui/separator"
 import { CreateInvite, Role, type TCreateInviteOut, type TRole } from "~/state/org/schemas"
 import { isArray, isEmpty } from "~/utils/is"
 
@@ -84,8 +90,24 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
             class="mt-8"
             @submit.prevent.stop="submit">
             <Field>
-                <ButtonGroup>
-                    <ButtonGroup>
+                <InputGroup :aria-invalid="hasError">
+                    <form.Field
+                        v-slot="{ field }"
+                        name="email">
+                        <InputGroupTextarea
+                            :id="field.name"
+                            :name="field.name"
+                            :model-value="field.state.value"
+                            :aria-invalid="hasError"
+                            placeholder="example@domain.com"
+                            @blur="field.handleBlur"
+                            @change="
+                                (e: Event) =>
+                                    field.handleChange((e.target as HTMLInputElement).value)
+                            " />
+                    </form.Field>
+
+                    <InputGroupAddon align="block-end">
                         <form.Field
                             v-slot="{ field }"
                             name="role">
@@ -94,8 +116,8 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                                 :model-value="field.state.value"
                                 :name="field.name"
                                 @update:model-value="(role) => field.handleChange(role as TRole)">
-                                <SelectTrigger :aria-invalid="hasError">
-                                    <SelectValue placeholder="Select a role..." />
+                                <SelectTrigger>
+                                    <InputGroupButton placeholder="Select a role..." />
                                 </SelectTrigger>
 
                                 <SelectContent>
@@ -109,36 +131,24 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                             </Select>
                         </form.Field>
 
-                        <form.Field
-                            v-slot="{ field }"
-                            name="email">
-                            <Input
-                                :id="field.name"
-                                :name="field.name"
-                                :model-value="field.state.value"
-                                :aria-invalid="hasError"
-                                placeholder="example@domain.com"
-                                @blur="field.handleBlur"
-                                @change="
-                                    (e: Event) =>
-                                        field.handleChange((e.target as HTMLInputElement).value)
-                                " />
-                        </form.Field>
-                    </ButtonGroup>
+                        <InputGroupText class="ml-auto">
+                            {{ invites.length }} invites
+                        </InputGroupText>
 
-                    <ButtonGroup>
-                        <Button
+                        <Separator
+                            class="!h-4"
+                            orientation="vertical" />
+
+                        <InputGroupButton
                             type="submit"
-                            aria-label="Send"
-                            class="size-9"
-                            size="icon"
-                            variant="outline">
-                            <Icon
-                                name="lucide:plus"
-                                class="size-4" />
-                        </Button>
-                    </ButtonGroup>
-                </ButtonGroup>
+                            variant="secondary"
+                            class="rounded-full border"
+                            size="icon-sm">
+                            <Icon name="lucide:plus" />
+                            <span className="sr-only">Add</span>
+                        </InputGroupButton>
+                    </InputGroupAddon>
+                </InputGroup>
 
                 <FieldError
                     v-if="hasError"
