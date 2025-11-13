@@ -4,6 +4,7 @@ import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
 import { OrgRoutes } from "~/lib/router/constants"
+import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button, buttonVariants } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError } from "~/lib/ui/field"
 import {
@@ -13,6 +14,16 @@ import {
     InputGroupText,
     InputGroupTextarea,
 } from "~/lib/ui/input-group"
+import {
+    Item,
+    ItemActions,
+    ItemContent,
+    ItemDescription,
+    ItemGroup,
+    ItemMedia,
+    ItemSeparator,
+    ItemTitle,
+} from "~/lib/ui/item"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
 import { useInvites } from "~/pages/org-onboarding-team/composables/use-invites"
@@ -101,7 +112,7 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
                             :model-value="field.state.value"
                             :aria-invalid="hasErrors"
                             autocomplete="email"
-                            placeholder="john@example.com&#10;sara@example.com&#10;nate@example.com"
+                            placeholder="example@domain.com"
                             @blur="field.handleBlur"
                             @change="
                                 (e: Event) =>
@@ -170,15 +181,44 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
             </Field>
         </form>
 
-        <div
+        <ItemGroup
             v-if="!isEmpty(invites)"
-            class="mt-6 px-4">
-            <div
-                v-for="invite in invites"
+            class="mt-6">
+            <template
+                v-for="(invite, inviteIndex) in invites"
                 :key="invite.email">
-                {{ invite }}
-            </div>
-        </div>
+                <Item class="px-0">
+                    <ItemMedia>
+                        <Avatar>
+                            <AvatarFallback>
+                                <Icon name="lucide:user" />
+                            </AvatarFallback>
+                        </Avatar>
+                    </ItemMedia>
+
+                    <ItemContent>
+                        <ItemTitle>
+                            {{ invite.email }}
+                        </ItemTitle>
+                        <ItemDescription>
+                            {{ invite.role }}
+                        </ItemDescription>
+                    </ItemContent>
+
+                    <ItemActions>
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            class="rounded-full"
+                            @click="() => invites.splice(inviteIndex, 1)">
+                            <Icon name="lucide:x" />
+                        </Button>
+                    </ItemActions>
+                </Item>
+
+                <ItemSeparator v-if="inviteIndex !== invites.length - 1" />
+            </template>
+        </ItemGroup>
 
         <div class="mt-12 flex flex-col items-center gap-y-3">
             <Button
