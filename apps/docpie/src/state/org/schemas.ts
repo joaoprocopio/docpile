@@ -47,17 +47,18 @@ export const CreateInvite = z.object({
 export type TCreateInviteIn = z.input<typeof CreateInvite>
 export type TCreateInviteOut = z.output<typeof CreateInvite>
 
-export const CreateInviteMultiline = CreateInvite.omit({ email: true }).extend({
-    emails: z
-        .string()
-        .transform((value) =>
-            value
-                .split("\n")
-                .map((s) => s.trim())
-                .filter(Boolean),
-        )
-        .pipe(z.array(Email)),
-})
+export const CreateInviteMultiline = CreateInvite.extend({ email: z.string() })
+    .transform((value) =>
+        value.email
+            .split("\n")
+            .map((s) => s.trim())
+            .filter(Boolean)
+            .map((email) => ({
+                email: email,
+                role: value.role,
+            })),
+    )
+    .pipe(CreateInvite.array())
 
 export type TCreateInviteMultilineIn = z.input<typeof CreateInviteMultiline>
 export type TCreateInviteMultilineOut = z.output<typeof CreateInviteMultiline>

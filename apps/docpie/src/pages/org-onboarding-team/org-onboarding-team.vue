@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
-import { useDebounceFn, useStorage } from "@vueuse/core"
-import { computed, watch } from "vue"
+import { useDebounceFn } from "@vueuse/core"
+import { computed } from "vue"
 
 import { OrgRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
@@ -15,20 +15,19 @@ import {
 } from "~/lib/ui/input-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
+import { useInvites } from "~/pages/org-onboarding-team/composables/use-invites"
 import {
-    CreateInvite,
     CreateInviteMultiline,
     Role,
-    type TCreateInviteIn,
     type TCreateInviteMultilineIn,
     type TRole,
 } from "~/state/org/schemas"
-import { isArray, isEmpty } from "~/utils/is"
+import { isArray, isEmpty, isInteger } from "~/utils/is"
 
-const invites = useStorage<TCreateInviteIn[]>("onboarding-team-emails", [])
+const invites = useInvites()
 
 const defaultValues: TCreateInviteMultilineIn = {
-    emails: "",
+    email: "",
     role: Role.Member,
 }
 
@@ -38,40 +37,35 @@ const form = useForm({
         onSubmit: CreateInviteMultiline,
     },
     onSubmit(props) {
-        const prevMails = new Set(invites.value.map((invite) => invite.email))
+        const seenEmails = Object.fromEntries(
+            invites.value.map((invite, index) => [invite.email, index]),
+        )
         const nextInvites = CreateInviteMultiline.parse(props.value)
-        const tempInvites: TCreateInviteIn[] = []
 
-        for (const email of nextInvites.emails) {
+        for (const invite of nextInvites) {
+            const emailIndex = seenEmails[invite.email]
+
+            if (isInteger(emailIndex)) {
+                invites.value[emailIndex] = invite
+            } else {
+                invites.value.push(invite)
+            }
         }
 
-        // for (const email of invites.email) {
-        // }
-        // const nextInvite = props.value
-        // const nextInviteIndex = invites.value.findIndex(
-        //     (invite) => invite.email === nextInvite.email,
-        // )
-        // if (nextInviteIndex === -1) {
-        //     invites.value.push(nextInvite)
-        // } else {
-        //     form.setErrorMap({
-        //         onSubmit: { fields: { email: { message: "This URL is already taken" } } },
-        //     })
-        // }
-        // form.resetField("email")
+        form.resetField("email")
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
 const fields = {
-    emails: form.useStore((state) => state.fieldMeta.emails),
+    email: form.useStore((state) => state.fieldMeta.email),
     role: form.useStore((state) => state.fieldMeta.role),
 }
 const errors = computed(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let errors: any[] = []
 
-    if (isArray(fields.emails.value?.errors)) {
-        errors = errors.concat(fields.emails.value.errors)
+    if (isArray(fields.email.value?.errors)) {
+        errors = errors.concat(fields.email.value.errors)
     }
 
     if (isArray(fields.role.value?.errors)) {
@@ -81,15 +75,6 @@ const errors = computed(() => {
     return errors
 })
 const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
-
-watch(
-    invites,
-    ($invites) => {
-        const { success } = CreateInvite.array().safeParse($invites)
-        if (!success) invites.value = undefined
-    },
-    { once: true, immediate: true },
-)
 </script>
 
 <template>
@@ -108,7 +93,7 @@ watch(
                 <InputGroup :aria-invalid="hasError">
                     <form.Field
                         v-slot="{ field }"
-                        name="emails">
+                        name="email">
                         <InputGroupTextarea
                             :id="field.name"
                             :name="field.name"
@@ -153,24 +138,24 @@ watch(
                             </Select>
                         </form.Field>
 
-                        <div class="ml-auto">
-                            <InputGroupText v-show="invites.length > 1">
+                        <InputGroupText class="ml-auto">
+                            <template v-if="invites.length > 1">
                                 <span> {{ invites.length }} invites </span>
 
                                 <Separator
                                     class="h-5!"
                                     orientation="vertical" />
-                            </InputGroupText>
+                            </template>
+                        </InputGroupText>
 
-                            <InputGroupButton
-                                type="submit"
-                                variant="outline"
-                                class="rounded-full"
-                                size="icon-sm">
-                                <Icon name="lucide:plus" />
-                                <span className="sr-only">Add</span>
-                            </InputGroupButton>
-                        </div>
+                        <InputGroupButton
+                            type="submit"
+                            variant="outline"
+                            class="rounded-full"
+                            size="icon-sm">
+                            <Icon name="lucide:plus" />
+                            <span className="sr-only">Add</span>
+                        </InputGroupButton>
                     </InputGroupAddon>
                 </InputGroup>
 
