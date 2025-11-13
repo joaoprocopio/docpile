@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isArray, isPlainObject } from "~/utils/is"
 
-export function flattenObject<
-    O extends Record<string, any>,
-    R extends Record<string, unknown> = Record<string, unknown>,
->(
+export function flattenObject<O extends object, R extends object>(
     obj: O,
     separator: string = ".",
     prefix: string = "",
