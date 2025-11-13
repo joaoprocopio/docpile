@@ -151,8 +151,13 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
                         </form.Field>
 
                         <InputGroupText class="ml-auto">
-                            <template v-if="invites.length > 1">
-                                <span> {{ invites.length }} invites </span>
+                            <template v-if="!isEmpty(invites)">
+                                <span v-if="invites.length === 1">
+                                    {{ invites.length }} invite
+                                </span>
+                                <span v-else-if="invites.length > 1">
+                                    {{ invites.length }} invites
+                                </span>
 
                                 <Separator
                                     class="h-5!"
