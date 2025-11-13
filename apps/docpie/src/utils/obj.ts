@@ -35,5 +35,5 @@ export function flattenObject<O extends object, R extends object = Record<string
 }
 
 export function hasOwnProperty<T extends object, K extends PropertyKey>(obj: T, key: K): boolean {
-    return Object.prototype.hasOwnProperty.call(obj, key)
+    return Object.hasOwn(obj, key)
 }
