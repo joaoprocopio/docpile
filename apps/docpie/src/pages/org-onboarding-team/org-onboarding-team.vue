@@ -17,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { Separator } from "~/lib/ui/separator"
 import { useInvites } from "~/pages/org-onboarding-team/composables/use-invites"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
-import { isArray, isEmpty, isInteger, isNil } from "~/utils/is"
+import { isArray, isEmpty, isNil } from "~/utils/is"
 import { hasOwnProperty } from "~/utils/obj"
 
 const invites = useInvites()
@@ -41,10 +41,10 @@ const form = useForm({
         for (const invite of nextInvites) {
             const emailIndex = seenEmails[invite.email]
 
-            if (isInteger(emailIndex)) {
-                invites.value[emailIndex] = invite
-            } else {
+            if (isNil(emailIndex)) {
                 invites.value.push(invite)
+            } else {
+                invites.value[emailIndex] = invite
             }
         }
 
