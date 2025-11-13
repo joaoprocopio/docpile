@@ -49,16 +49,21 @@ const form = useForm({
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
-const errors = form.useStore((state) => {
+const fields = {
+    email: form.useStore((state) => state.fieldMeta.email),
+    role: form.useStore((state) => state.fieldMeta.role),
+}
+const errors = computed(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let errors: any[] = []
 
-    if (isArray(state.fieldMeta?.email?.errors)) {
-        errors = errors.concat(state.fieldMeta.email.errors)
+    console.log("vai", fields.role)
+    if (isArray(fields.email.value?.errors)) {
+        errors = errors.concat(fields.email.value.errors)
     }
 
-    if (isArray(state.fieldMeta?.role?.errors)) {
-        errors = errors.concat(state.fieldMeta.role.errors)
+    if (isArray(fields.role.value?.errors)) {
+        errors = errors.concat(fields.role.value.errors)
     }
 
     return errors
