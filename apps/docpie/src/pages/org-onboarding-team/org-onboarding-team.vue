@@ -15,56 +15,63 @@ import {
 } from "~/lib/ui/input-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
-import { CreateInvite, Role, type TCreateInviteOut, type TRole } from "~/state/org/schemas"
+import {
+    CreateInvite,
+    CreateInviteMultiline,
+    Role,
+    type TCreateInviteIn,
+    type TCreateInviteMultilineIn,
+    type TRole,
+} from "~/state/org/schemas"
 import { isArray, isEmpty } from "~/utils/is"
 
-const invites = useStorage<TCreateInviteOut[]>("onboarding-team-emails", [])
+const invites = useStorage<TCreateInviteIn[]>("onboarding-team-emails", [])
 
-watch(
-    invites,
-    ($invites) => {
-        const { success } = CreateInvite.array().safeParse($invites)
-        if (!success) invites.value = undefined
-    },
-    { once: true, immediate: true },
-)
+const defaultValues: TCreateInviteMultilineIn = {
+    emails: "",
+    role: Role.Member,
+}
 
 const form = useForm({
-    defaultValues: {
-        email: "",
-        role: Role.Member satisfies TRole as TRole,
-    },
+    defaultValues: defaultValues,
     validators: {
-        onSubmit: CreateInvite,
+        onSubmit: CreateInviteMultiline,
     },
     onSubmit(props) {
-        const nextInvite = props.value
-        const nextInviteIndex = invites.value.findIndex(
-            (invite) => invite.email === nextInvite.email,
-        )
+        const prevMails = new Set(invites.value.map((invite) => invite.email))
+        const nextInvites = CreateInviteMultiline.parse(props.value)
+        const tempInvites: TCreateInviteIn[] = []
 
-        if (nextInviteIndex === -1) {
-            invites.value.push(nextInvite)
-        } else {
-            form.setErrorMap({
-                onSubmit: { fields: { email: { message: "This URL is already taken" } } },
-            })
+        for (const email of nextInvites.emails) {
         }
 
-        form.resetField("email")
+        // for (const email of invites.email) {
+        // }
+        // const nextInvite = props.value
+        // const nextInviteIndex = invites.value.findIndex(
+        //     (invite) => invite.email === nextInvite.email,
+        // )
+        // if (nextInviteIndex === -1) {
+        //     invites.value.push(nextInvite)
+        // } else {
+        //     form.setErrorMap({
+        //         onSubmit: { fields: { email: { message: "This URL is already taken" } } },
+        //     })
+        // }
+        // form.resetField("email")
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
 const fields = {
-    email: form.useStore((state) => state.fieldMeta.email),
+    emails: form.useStore((state) => state.fieldMeta.emails),
     role: form.useStore((state) => state.fieldMeta.role),
 }
 const errors = computed(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let errors: any[] = []
 
-    if (isArray(fields.email.value?.errors)) {
-        errors = errors.concat(fields.email.value.errors)
+    if (isArray(fields.emails.value?.errors)) {
+        errors = errors.concat(fields.emails.value.errors)
     }
 
     if (isArray(fields.role.value?.errors)) {
@@ -74,6 +81,15 @@ const errors = computed(() => {
     return errors
 })
 const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
+
+watch(
+    invites,
+    ($invites) => {
+        const { success } = CreateInvite.array().safeParse($invites)
+        if (!success) invites.value = undefined
+    },
+    { once: true, immediate: true },
+)
 </script>
 
 <template>
@@ -92,7 +108,7 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                 <InputGroup :aria-invalid="hasError">
                     <form.Field
                         v-slot="{ field }"
-                        name="email">
+                        name="emails">
                         <InputGroupTextarea
                             :id="field.name"
                             :name="field.name"
@@ -100,12 +116,13 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                             :aria-invalid="hasError"
                             autocomplete="email"
                             placeholder="example@domain.com"
-                            rows="5"
                             @blur="field.handleBlur"
                             @change="
                                 (e: Event) =>
                                     field.handleChange((e.target as HTMLInputElement).value)
-                            " />
+                            "
+                            @keydown.ctrl.enter.prevent="submit"
+                            @keydown.meta.enter.prevent="submit" />
                     </form.Field>
 
                     <InputGroupAddon align="block-end">
