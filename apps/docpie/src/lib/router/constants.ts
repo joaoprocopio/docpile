@@ -1,13 +1,14 @@
+import { asConst } from "~/lib/enum"
 import { flattenObject } from "~/utils/obj"
 
-export const AuthRoutes = {
+export const AuthRoutes = asConst({
     SignIn: "signin",
     SignUp: "signup",
-}
+})
 export const AuthRoutesArray = Object.values(AuthRoutes)
 export const AuthRoutesSet = new Set<string>(AuthRoutesArray)
 
-export const OrgRoutes = {
+export const OrgRoutes = asConst({
     Home: "org-home",
     Create: "org-create",
     Onboarding: {
@@ -15,7 +16,7 @@ export const OrgRoutes = {
         Team: "org-onboarding-team",
         Theme: "org-onboarding-theme",
     },
-}
+})
 
 export const OrgRoutesArray = Object.values<string>(flattenObject(OrgRoutes))
 export const OrgRoutesSet = new Set<string>(OrgRoutesArray)
@@ -23,4 +24,4 @@ export const OrgRoutesSet = new Set<string>(OrgRoutesArray)
 export const OnboardingRoutesArray = Object.values<string>(OrgRoutes.Onboarding)
 export const OnboardingRoutesSet = new Set<string>(OnboardingRoutesArray)
 
-export const OrgSlugParam = "orgslug"
+export const OrgSlugParam = asConst("orgslug")

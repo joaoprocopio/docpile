@@ -1,11 +1,11 @@
 import { z } from "zod/v4"
 
-import { constEnum } from "~/lib/enum"
+import { asConst } from "~/lib/enum"
 import { Email } from "~/state/auth/schemas"
 
 export type TRole = "owner" | "member"
 
-export const Role = constEnum<TRole, { title: string }>({
+export const Role = asConst<TRole, { title: string }>({
     owner: {
         value: "owner",
         title: "Owner",
@@ -32,7 +32,7 @@ export const OrgSlug = z
 
 export type TOrgStatus = "active"
 
-export const OrgStatus = constEnum<TOrgStatus>({
+export const OrgStatus = asConst<TOrgStatus>({
     active: {
         value: "active",
     },

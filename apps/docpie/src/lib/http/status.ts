@@ -1,4 +1,4 @@
-import { constEnum } from "~/lib/enum"
+import { asConst } from "~/lib/enum"
 import { inInclusiveRange } from "~/utils/num"
 
 export function isInformationalStatus(status: number): boolean {
@@ -21,7 +21,7 @@ export function isServerErrorStatus(status: number): boolean {
     return inInclusiveRange(status, 500, 599)
 }
 
-export const HttpStatus = constEnum({
+export const HttpStatus = asConst({
     /**
      * Informational Responses (100 - 199)
      */

@@ -1,8 +1,8 @@
-import { constEnum } from "~/lib/enum"
+import { asConst } from "~/lib/enum"
 
 export type TColorMode = (typeof ColorMode)[keyof typeof ColorMode]
 
-export const ColorMode = constEnum({
+export const ColorMode = asConst({
     System: "system",
     Light: "light",
     Dark: "dark",

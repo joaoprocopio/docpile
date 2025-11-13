@@ -9,7 +9,7 @@ export type TConstEnum<
     [GMappedKey in GKey]: { value: GMappedKey } & GExtraData
 }
 
-export function constEnum<
+export function asConst<
     GKey extends TConstEnumKey,
     GExtraData extends TConstEnumExtraData = TConstEnumExtraData,
     const GEnum = TConstEnum<GKey, GExtraData>,
