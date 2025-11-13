@@ -3,9 +3,8 @@ import { type StandardSchemaV1Issue, useForm } from "@tanstack/vue-form"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
-import { OrgRoutes } from "~/lib/router/constants"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
-import { Button, buttonVariants } from "~/lib/ui/button"
+import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError } from "~/lib/ui/field"
 import {
     InputGroup,
@@ -28,6 +27,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { Separator } from "~/lib/ui/separator"
 import { useInvites } from "~/pages/org-onboarding-team/composables/use-invites"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
+import { composeInitials } from "~/utils/avatar"
 import { isArray, isEmpty, isNil } from "~/utils/is"
 import { hasOwnProperty } from "~/utils/obj"
 
@@ -196,7 +196,7 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
                     <ItemMedia>
                         <Avatar>
                             <AvatarFallback>
-                                <Icon name="lucide:user" />
+                                {{ composeInitials(invite.email) }}
                             </AvatarFallback>
                         </Avatar>
                     </ItemMedia>
@@ -229,20 +229,17 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
             <Button
                 class="min-w-48"
                 variant="secondary"
-                :disabled="isEmpty(invites)">
+                :disabled="isEmpty(invites)"
+                @click="send">
                 Send invites
             </Button>
 
-            <RouterLink
-                :class="
-                    buttonVariants({
-                        class: 'text-muted-foreground',
-                        variant: 'ghost',
-                    })
-                "
-                :to="{ name: OrgRoutes.Home }">
+            <Button
+                class="text-muted-foreground"
+                variant="ghost"
+                @click="finish">
                 I'll do it later
-            </RouterLink>
+            </Button>
         </div>
     </div>
 </template>
