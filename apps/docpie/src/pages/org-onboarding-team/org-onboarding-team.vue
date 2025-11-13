@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useStorage } from "@vueuse/core"
-import { watch } from "vue"
+import { computed, watch } from "vue"
 
 import { OrgRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
 import { ButtonGroup } from "~/lib/ui/button-group"
-import { Field, FieldError, FieldLabel } from "~/lib/ui/field"
+import { Field, FieldError } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { CreateInvite, Role, type TCreateInviteOut, type TRole } from "~/state/org/schemas"
-import { isEmpty } from "~/utils/is"
+import { isArray, isEmpty } from "~/utils/is"
 
 const invites = useStorage<TCreateInviteOut[]>("onboarding-team-emails", [])
 
@@ -42,6 +42,21 @@ const form = useForm({
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
+const errors = form.useStore((state) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let errors: any[] = []
+
+    if (isArray(state.fieldMeta?.email?.errors)) {
+        errors = errors.concat(state.fieldMeta.email.errors)
+    }
+
+    if (isArray(state.fieldMeta?.role?.errors)) {
+        errors = errors.concat(state.fieldMeta.role.errors)
+    }
+
+    return errors
+})
+const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
 </script>
 
 <template>
@@ -56,22 +71,18 @@ const submit = useDebounceFn(form.handleSubmit)
         <form
             class="mt-8"
             @submit.prevent.stop="submit">
-            <ButtonGroup>
+            <Field>
                 <ButtonGroup>
-                    <form.Field
-                        v-slot="{ field }"
-                        name="role">
-                        <Field
-                            v-slot="{ isInvalid }"
-                            :field="field"
-                            as-child>
+                    <ButtonGroup>
+                        <form.Field
+                            v-slot="{ field }"
+                            name="role">
                             <Select
                                 :id="field.name"
                                 :model-value="field.state.value"
                                 :name="field.name"
-                                :aria-invalid="isInvalid"
                                 @update:model-value="(role) => field.handleChange(role as TRole)">
-                                <SelectTrigger :aria-invalid="isInvalid">
+                                <SelectTrigger :aria-invalid="hasError">
                                     <SelectValue placeholder="Select a role..." />
                                 </SelectTrigger>
 
@@ -84,45 +95,43 @@ const submit = useDebounceFn(form.handleSubmit)
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
-                        </Field>
-                    </form.Field>
+                        </form.Field>
 
-                    <form.Field
-                        v-slot="{ field }"
-                        name="email">
-                        <Field
-                            v-slot="{ isInvalid }"
-                            :field="field"
-                            as-child>
+                        <form.Field
+                            v-slot="{ field }"
+                            name="email">
                             <Input
                                 :id="field.name"
                                 :name="field.name"
-                                :aria-invalid="isInvalid"
                                 :model-value="field.state.value"
+                                :aria-invalid="hasError"
                                 placeholder="example@domain.com"
                                 @blur="field.handleBlur"
                                 @change="
                                     (e: Event) =>
                                         field.handleChange((e.target as HTMLInputElement).value)
                                 " />
+                        </form.Field>
+                    </ButtonGroup>
 
-                            <FieldError
-                                v-if="isInvalid"
-                                :errors="field.state.meta.errors" />
-                        </Field>
-                    </form.Field>
+                    <ButtonGroup>
+                        <Button
+                            type="submit"
+                            aria-label="Send"
+                            class="size-9"
+                            size="icon"
+                            variant="outline">
+                            <Icon
+                                name="lucide:plus"
+                                class="size-4" />
+                        </Button>
+                    </ButtonGroup>
                 </ButtonGroup>
 
-                <ButtonGroup>
-                    <Button
-                        type="submit"
-                        aria-label="Send"
-                        size="icon"
-                        variant="outline">
-                        <Icon name="lucide:plus" />
-                    </Button>
-                </ButtonGroup>
-            </ButtonGroup>
+                <FieldError
+                    v-if="hasError"
+                    :errors="errors" />
+            </Field>
         </form>
 
         <div
