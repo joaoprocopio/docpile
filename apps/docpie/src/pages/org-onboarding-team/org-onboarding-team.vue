@@ -16,13 +16,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
 import { useInvites } from "~/pages/org-onboarding-team/composables/use-invites"
-import {
-    CreateInvite,
-    CreateInviteMultiline,
-    Role,
-    type TCreateInviteIn,
-    type TRole,
-} from "~/state/org/schemas"
+import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
 import { isArray, isEmpty, isInteger, isNil } from "~/utils/is"
 import { hasOwnProperty } from "~/utils/obj"
 
@@ -36,7 +30,7 @@ const defaultValues: TCreateInviteIn = {
 const form = useForm({
     defaultValues: defaultValues,
     validators: {
-        onSubmit: CreateInvite,
+        onSubmit: CreateInviteMultiline,
     },
     onSubmit(props) {
         const seenEmails = Object.fromEntries(
@@ -61,7 +55,7 @@ const submit = useDebounceFn(form.handleSubmit)
 
 const formErrors = form.useStore((state) => state.errors)
 const errors = computed(() => {
-    let temp: StandardSchemaV1Issue[] = []
+    let $errors: StandardSchemaV1Issue[] = []
 
     for (const errorMap of formErrors.value) {
         for (const key in errorMap) {
@@ -75,11 +69,11 @@ const errors = computed(() => {
                 continue
             }
 
-            temp = temp.concat(errors)
+            $errors = $errors.concat(errors)
         }
     }
 
-    return temp
+    return $errors
 })
 const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value))
 </script>

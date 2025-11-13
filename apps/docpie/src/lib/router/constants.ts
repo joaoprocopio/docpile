@@ -1,4 +1,4 @@
-import { flattenObject } from "~/utils/flattener"
+import { flattenObject } from "~/utils/obj"
 
 export const AuthRoutes = {
     SignIn: "signin",

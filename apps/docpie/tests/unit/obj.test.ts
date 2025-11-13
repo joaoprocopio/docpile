@@ -1,6 +1,6 @@
 import { expect, it } from "vitest"
 
-import { flattenObject } from "~/utils/flattener"
+import { flattenObject } from "~/utils/obj"
 
 it("flattenObject", () => {
     const obj = {
