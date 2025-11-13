@@ -23,7 +23,8 @@ it("flattenObject", () => {
     expect(flat).toStrictEqual({
         "address.street": obj.address.street,
         "address.coordinates.lng": obj.address.coordinates.lng,
-        hobbies: obj.hobbies,
+        "hobbies.0": obj.hobbies[0],
+        "hobbies.1": obj.hobbies[1],
         "metadata.created": obj.metadata.created,
         "metadata.tags.secondary": obj.metadata.tags.secondary,
     })

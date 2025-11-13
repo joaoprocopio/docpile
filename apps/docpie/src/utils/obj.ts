@@ -1,4 +1,4 @@
-import { isPlainObject } from "~/utils/is"
+import { isArray, isPlainObject } from "~/utils/is"
 
 export function flattenObject<O extends object, R extends object = Record<string, unknown>>(
     obj: O,
@@ -16,6 +16,16 @@ export function flattenObject<O extends object, R extends object = Record<string
 
         if (isPlainObject(val)) {
             flattenObject(val, separator, nextPrefix, result)
+        } else if (isArray(val)) {
+            val.forEach((item, index) => {
+                const arrayKey = `${nextPrefix}${separator}${index}`
+
+                if (isPlainObject(item)) {
+                    flattenObject(item, separator, arrayKey, result)
+                } else {
+                    result[arrayKey] = item
+                }
+            })
         } else {
             result[nextPrefix] = val
         }
