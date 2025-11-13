@@ -1,16 +1,25 @@
 import { z } from "zod/v4"
 
+import { constEnum } from "~/lib/enum"
 import { Email } from "~/state/auth/schemas"
 
-export type TRole = (typeof Role)[keyof typeof Role]
+export type TRole = "owner" | "member"
 
-export const Role = {
-    Owner: "owner",
-    Member: "member",
-} as const
-export const RoleZodEnum = z.enum(Role, {
-    error: (issue) => `Role must ${issue.values.join(" or ")}, found ${issue.input}`,
+export const Role = constEnum<TRole, { title: string }>({
+    owner: {
+        value: "owner",
+        title: "Owner",
+    },
+    member: {
+        value: "member",
+        title: "Member",
+    },
 })
+
+export const RoleUnion = z.union(
+    Object.values(Role).map((role) => z.literal(role.value)),
+    { error: (issue) => `Role must ${issue.values.join(" or ")}, found ${issue.input}` },
+)
 
 export const OrgName = z
     .string()
@@ -21,14 +30,22 @@ export const OrgSlug = z
     .min(3, "Must be at least 3 characters long")
     .max(256, "Exceeds maximum length of 256 characters")
 
-export const OrgStatus = {
-    Active: "active",
-} as const
+export type TOrgStatus = "active"
+
+export const OrgStatus = constEnum<TOrgStatus>({
+    active: {
+        value: "active",
+    },
+})
+
+export const OrgStatusUnion = z.union(
+    Object.values(OrgStatus).map((status) => z.literal(status.value)),
+)
 
 export const Org = z.object({
     name: OrgName,
     slug: OrgSlug,
-    status: z.enum(OrgStatus),
+    status: OrgStatusUnion,
 })
 
 export type TOrgIn = z.input<typeof Org>
@@ -44,7 +61,7 @@ export type TCreateOrgOut = z.output<typeof CreateOrg>
 
 export const CreateInvite = z.object({
     email: Email,
-    role: RoleZodEnum,
+    role: RoleUnion,
 })
 
 export type TCreateInviteIn = z.input<typeof CreateInvite>

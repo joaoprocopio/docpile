@@ -35,7 +35,7 @@ const invites = useInvites()
 
 const defaultValues: TCreateInviteIn = {
     email: "",
-    role: Role.Member,
+    role: Role.member.value,
 }
 
 const form = useForm({
@@ -141,10 +141,10 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
 
                                 <SelectContent>
                                     <SelectItem
-                                        v-for="(role, roleKey) in Role"
-                                        :key="role"
-                                        :value="role">
-                                        {{ roleKey }}
+                                        v-for="role in Role"
+                                        :key="role.value"
+                                        :value="role.value">
+                                        {{ role.title }}
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -201,7 +201,7 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
                             {{ invite.email }}
                         </ItemTitle>
                         <ItemDescription>
-                            {{ invite.role }}
+                            {{ Role[invite.role].title }}
                         </ItemDescription>
                     </ItemContent>
 

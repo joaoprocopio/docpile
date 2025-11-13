@@ -1,10 +1,11 @@
+import { constEnum } from "~/lib/enum"
 import { isString } from "~/utils/is"
 
 // 65 = 'A'
 // 90 = 'Z'
 // 97 = 'a'
 // 122 = 'z'
-export const ALPHABET_CHAR_CODES = [65, 90, 97, 122] as const
+export const ALPHABET_CHAR_CODES = constEnum([65, 90, 97, 122])
 
 export function isAlpha(char: string): boolean {
     if (!isString(char)) {
