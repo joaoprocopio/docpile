@@ -5,7 +5,7 @@ import { computed, watch } from "vue"
 
 import { OrgRoutes } from "~/lib/router/constants"
 import { Button, buttonVariants } from "~/lib/ui/button"
-import { Field, FieldError } from "~/lib/ui/field"
+import { Field, FieldDescription, FieldError } from "~/lib/ui/field"
 import {
     InputGroup,
     InputGroupAddon,
@@ -13,7 +13,7 @@ import {
     InputGroupText,
     InputGroupTextarea,
 } from "~/lib/ui/input-group"
-import { Select, SelectContent, SelectItem, SelectTrigger } from "~/lib/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
 import { CreateInvite, Role, type TCreateInviteOut, type TRole } from "~/state/org/schemas"
 import { isArray, isEmpty } from "~/utils/is"
@@ -63,7 +63,6 @@ const errors = computed(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let errors: any[] = []
 
-    console.log("vai", fields.role)
     if (isArray(fields.email.value?.errors)) {
         errors = errors.concat(fields.email.value.errors)
     }
@@ -99,7 +98,9 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                             :name="field.name"
                             :model-value="field.state.value"
                             :aria-invalid="hasError"
+                            autocomplete="email"
                             placeholder="example@domain.com"
+                            rows="5"
                             @blur="field.handleBlur"
                             @change="
                                 (e: Event) =>
@@ -116,8 +117,12 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                                 :model-value="field.state.value"
                                 :name="field.name"
                                 @update:model-value="(role) => field.handleChange(role as TRole)">
-                                <SelectTrigger>
-                                    <InputGroupButton placeholder="Select a role..." />
+                                <SelectTrigger
+                                    class="shadow-none"
+                                    size="sm">
+                                    <SelectValue
+                                        class="text-xs"
+                                        placeholder="Select a role..." />
                                 </SelectTrigger>
 
                                 <SelectContent>
@@ -131,27 +136,33 @@ const hasError = computed(() => isArray(errors.value) && !isEmpty(errors.value))
                             </Select>
                         </form.Field>
 
-                        <InputGroupText class="ml-auto">
-                            {{ invites.length }} invites
-                        </InputGroupText>
+                        <div class="ml-auto">
+                            <InputGroupText v-show="invites.length > 1">
+                                <span> {{ invites.length }} invites </span>
 
-                        <Separator
-                            class="!h-4"
-                            orientation="vertical" />
+                                <Separator
+                                    class="h-5!"
+                                    orientation="vertical" />
+                            </InputGroupText>
 
-                        <InputGroupButton
-                            type="submit"
-                            variant="secondary"
-                            class="rounded-full border"
-                            size="icon-sm">
-                            <Icon name="lucide:plus" />
-                            <span className="sr-only">Add</span>
-                        </InputGroupButton>
+                            <InputGroupButton
+                                type="submit"
+                                variant="outline"
+                                class="rounded-full"
+                                size="icon-sm">
+                                <Icon name="lucide:plus" />
+                                <span className="sr-only">Add</span>
+                            </InputGroupButton>
+                        </div>
                     </InputGroupAddon>
                 </InputGroup>
 
+                <FieldDescription v-if="!hasError">
+                    Enter one email per line to invite multiple people with this role
+                </FieldDescription>
+
                 <FieldError
-                    v-if="hasError"
+                    v-else
                     :errors="errors" />
             </Field>
         </form>
