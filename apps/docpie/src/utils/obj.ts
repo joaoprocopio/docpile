@@ -1,29 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isArray, isPlainObject } from "~/utils/is"
 
-export function flattenObject<O extends object, R extends object = Record<string, unknown>>(
+export function flattenObject<
+    O extends Record<string, any>,
+    R extends Record<string, unknown> = Record<string, unknown>,
+>(
     obj: O,
     separator: string = ".",
     prefix: string = "",
     result: Record<PropertyKey, unknown> = {},
+    seen: WeakSet<object> = new WeakSet(),
 ): R {
-    for (const key in obj) {
+    if (seen.has(obj)) {
+        // Prevent circular references
+        return result as R
+    }
+
+    seen.add(obj)
+
+    for (const [key, val] of Object.entries(obj)) {
         if (!hasOwnProperty(obj, key)) {
             continue
         }
 
         const nextPrefix = prefix ? `${prefix}${separator}${key}` : key
-        const val = obj[key]
 
         if (isPlainObject(val)) {
-            flattenObject(val, separator, nextPrefix, result)
+            flattenObject(val, separator, nextPrefix, result, seen)
         } else if (isArray(val)) {
             val.forEach((item, index) => {
-                const arrayKey = `${nextPrefix}${separator}${index}`
+                const nextArrayPrefix = `${nextPrefix}${separator}${index}`
 
                 if (isPlainObject(item)) {
-                    flattenObject(item, separator, arrayKey, result)
+                    flattenObject(item, separator, nextArrayPrefix, result, seen)
                 } else {
-                    result[arrayKey] = item
+                    result[nextArrayPrefix] = item
                 }
             })
         } else {

@@ -10,7 +10,7 @@ it("flattenObject", () => {
                 lng: -74.006,
             },
         },
-        hobbies: ["reading", "gaming"],
+        hobbies: ["reading", "gaming", { type: "music", level: 5 }],
         metadata: {
             created: new Date("2024-01-01"),
             tags: {
@@ -25,6 +25,8 @@ it("flattenObject", () => {
         "address.coordinates.lng": obj.address.coordinates.lng,
         "hobbies.0": obj.hobbies[0],
         "hobbies.1": obj.hobbies[1],
+        "hobbies.2.level": obj.hobbies[2].level,
+        "hobbies.2.type": obj.hobbies[2].type,
         "metadata.created": obj.metadata.created,
         "metadata.tags.secondary": obj.metadata.tags.secondary,
     })
