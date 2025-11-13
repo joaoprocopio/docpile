@@ -25,7 +25,7 @@ import {
 } from "~/lib/ui/item"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
-import { useInvites } from "~/pages/org-onboarding-team/composables/use-invites"
+import { useInvites } from "~/state/onboarding/composables"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
 import { composeInitials } from "~/utils/avatar"
 import { isArray, isEmpty, isNil } from "~/utils/is"
@@ -229,15 +229,13 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
             <Button
                 class="min-w-48"
                 variant="secondary"
-                :disabled="isEmpty(invites)"
-                @click="send">
+                :disabled="isEmpty(invites)">
                 Send invites
             </Button>
 
             <Button
                 class="text-muted-foreground"
-                variant="ghost"
-                @click="finish">
+                variant="ghost">
                 I'll do it later
             </Button>
         </div>
