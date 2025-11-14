@@ -1,3 +1,4 @@
+// All B items are merge into A
 type DeepMerge<A, B> = {
     [K in keyof A | keyof B]: K extends keyof B ? B[K] : K extends keyof A ? A[K] : never
 }
