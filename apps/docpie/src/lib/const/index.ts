@@ -6,8 +6,14 @@ export type Enum<K extends EnumKey, E extends EnumExtra = EnumExtra> = {
     [MK in K]: { value: MK } & E
 }
 
-export function asConst<K extends EnumKey, E extends EnumExtra = EnumExtra, const T = Enum<K, E>>(
-    e: T,
-): T {
+export function constEnum<
+    const K extends EnumKey,
+    const E extends EnumExtra = EnumExtra,
+    const T extends Enum<K, E> = Enum<K, E>,
+>(e: T): T {
     return e
+}
+
+export function asConst<const T>(v: T): T {
+    return v
 }
