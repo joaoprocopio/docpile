@@ -1,9 +1,13 @@
+type DeepMerge<A, B> = {
+    [K in keyof A | keyof B]: K extends keyof B ? B[K] : K extends keyof A ? A[K] : never
+}
+
 export type EnumExtra = object
 
 export type EnumKey = PropertyKey
 
 export type Enum<K extends EnumKey, E extends EnumExtra = EnumExtra> = {
-    [MK in K]: { value: MK } & E
+    [MK in K]: DeepMerge<{ value: MK }, E>
 }
 
 export function constEnum<
