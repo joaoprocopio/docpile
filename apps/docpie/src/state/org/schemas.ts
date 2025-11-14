@@ -1,6 +1,6 @@
 import { z } from "zod/v4"
 
-import { asConst } from "~/lib/enum"
+import { asConst } from "~/lib/const"
 import { Email } from "~/state/auth/schemas"
 
 export type TRole = "owner" | "member"

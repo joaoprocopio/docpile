@@ -1,9 +1,18 @@
-import { asConst } from "~/lib/enum"
+import { asConst } from "~/lib/const"
 
-export type TColorMode = (typeof ColorMode)[keyof typeof ColorMode]
+export type TColorMode = "system" | "light" | "dark"
 
-export const ColorMode = asConst({
-    System: "system",
-    Light: "light",
-    Dark: "dark",
+export const ColorMode = asConst<TColorMode, { title: string }>({
+    system: {
+        value: "system",
+        title: "System",
+    },
+    light: {
+        value: "light",
+        title: "Light",
+    },
+    dark: {
+        value: "dark",
+        title: "Dark",
+    },
 })

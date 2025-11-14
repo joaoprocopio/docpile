@@ -1,4 +1,4 @@
-import { asConst } from "~/lib/enum"
+import { asConst } from "~/lib/const"
 import { flattenObject } from "~/utils/obj"
 
 export const AuthRoutes = asConst({

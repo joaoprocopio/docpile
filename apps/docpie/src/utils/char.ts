@@ -1,4 +1,4 @@
-import { asConst } from "~/lib/enum"
+import { asConst } from "~/lib/const"
 import { isString } from "~/utils/is"
 
 // 65 = 'A'

@@ -1,4 +1,4 @@
-import { asConst } from "~/lib/enum"
+import { asConst } from "~/lib/const"
 import { inInclusiveRange } from "~/utils/num"
 
 export function isInformationalStatus(status: number): boolean {

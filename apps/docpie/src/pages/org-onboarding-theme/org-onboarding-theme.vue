@@ -12,11 +12,11 @@ const colorMode = useColorMode()
 
 function update(cm: AcceptableValue) {
     if (!isString(cm)) {
-        return void undefined
+        return undefined
     }
 
     if (cm === colorMode.preference) {
-        return void undefined
+        return undefined
     }
 
     colorMode.preference = cm
@@ -24,11 +24,11 @@ function update(cm: AcceptableValue) {
 
 function resolveIcon(cm: TColorMode) {
     switch (cm) {
-        case ColorMode.Light:
+        case ColorMode.light.value:
             return "lucide:sun"
-        case ColorMode.Dark:
+        case ColorMode.dark.value:
             return "lucide:moon"
-        case ColorMode.System:
+        case ColorMode.system.value:
             return "lucide:monitor-speaker"
     }
 }
@@ -52,17 +52,17 @@ function resolveIcon(cm: TColorMode) {
                 :default-value="colorMode.value"
                 @update:model-value="update">
                 <template
-                    v-for="(cmVal, cmKey) in ColorMode"
-                    :key="cmKey">
+                    v-for="cm in ColorMode"
+                    :key="cm.value">
                     <ToggleGroupItem
-                        v-if="cmVal !== 'system'"
-                        :value="cmVal"
+                        v-if="cm.value !== 'system'"
+                        :value="cm.value"
                         class="h-fit gap-2.5 py-3">
                         <Icon
                             class="size-5 text-muted-foreground"
-                            :name="resolveIcon(cmVal)" />
+                            :name="resolveIcon(cm.value)" />
 
-                        <p>{{ cmKey }}</p>
+                        <p>{{ cm.title }}</p>
                     </ToggleGroupItem>
                 </template>
             </ToggleGroup>
