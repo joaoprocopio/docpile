@@ -1,18 +1,13 @@
-export type TConstEnumExtraData = object
+export type EnumExtra = object
 
-export type TConstEnumKey = PropertyKey
+export type EnumKey = PropertyKey
 
-export type TConstEnum<
-    GKey extends TConstEnumKey,
-    GExtraData extends TConstEnumExtraData = TConstEnumExtraData,
-> = {
-    [GMappedKey in GKey]: { value: GMappedKey } & GExtraData
+export type Enum<K extends EnumKey, E extends EnumExtra = EnumExtra> = {
+    [MK in K]: { value: MK } & E
 }
 
-export function asConst<
-    GKey extends TConstEnumKey,
-    GExtraData extends TConstEnumExtraData = TConstEnumExtraData,
-    const GEnum = TConstEnum<GKey, GExtraData>,
->(e: GEnum): GEnum {
+export function asConst<K extends EnumKey, E extends EnumExtra = EnumExtra, const T = Enum<K, E>>(
+    e: T,
+): T {
     return e
 }
