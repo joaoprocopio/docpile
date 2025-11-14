@@ -1,6 +1,6 @@
 {
     "private": true,
-    "packageManager": "pnpm@10.15.0",
+    "packageManager": "pnpm@10.22.0",
     "scripts": {
         "clean:all": "pnpm -r clean",
         "clean": "git clean -xdf node_modules",

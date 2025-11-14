@@ -1,4 +1,4 @@
-import { z } from "zod/v4"
+import { z } from "zod"
 
 import { asConst } from "~/lib/const"
 import { Email } from "~/state/auth/schemas"
@@ -18,7 +18,7 @@ export const Role = asConst<TRole, { title: string }>({
 
 export const RoleUnion = z.union(
     Object.values(Role).map((role) => z.literal(role.value)),
-    { error: (issue) => `Role must ${issue.values.join(" or ")}, found ${issue.input}` },
+    { error: (issue) => `"${issue.input}" is not a valid role` },
 )
 
 export const OrgName = z
