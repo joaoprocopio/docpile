@@ -258,8 +258,11 @@ describe("isEmpty", () => {
         expect(isEmpty(child)).toBe(true)
     })
 
+    it("return true for zero", () => {
+        expect(isEmpty(0)).toBe(true)
+    })
+
     it("returns false for primitives that are not nil", () => {
-        expect(isEmpty(0)).toBe(false)
         expect(isEmpty(false)).toBe(false)
         expect(isEmpty(42)).toBe(false)
         expect(isEmpty(true)).toBe(false)

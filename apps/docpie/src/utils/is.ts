@@ -29,8 +29,20 @@ export function isIndexBounded<T>(array: T[], index: number): boolean {
     return index >= 0 && index < array.length
 }
 
+export function isBoolean(value: unknown): value is boolean {
+    return typeof value === "boolean"
+}
+
+export function isNumber(value: unknown): value is number {
+    return typeof value === "number"
+}
+
+export function isFinite(value: unknown): value is number {
+    return Number.isFinite(value)
+}
+
 export function isInteger(value: unknown): value is number {
-    return Number.isFinite(parseInt(value as string))
+    return isFinite(parseInt(value as string))
 }
 
 export function isEmpty(value: unknown): boolean {
@@ -40,6 +52,14 @@ export function isEmpty(value: unknown): boolean {
 
     if (isArray(value) || isString(value)) {
         return !value.length
+    }
+
+    if (isNumber(value)) {
+        return !value && isFinite(value)
+    }
+
+    if (isBoolean(value)) {
+        return false
     }
 
     if (value instanceof Map || value instanceof Set) {
