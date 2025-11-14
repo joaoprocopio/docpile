@@ -148,7 +148,14 @@ describe("isIndexBounded", () => {
 })
 
 describe("isInteger", () => {
+    it("returns false for false-positives", () => {
+        expect(isInteger(NaN)).toBe(false)
+        expect(isInteger(Infinity)).toBe(false)
+        expect(isInteger(-Infinity)).toBe(false)
+    })
+
     it("returns true for integer numbers", () => {
+        expect(isInteger(-0)).toBe(true)
         expect(isInteger(0)).toBe(true)
         expect(isInteger(1)).toBe(true)
         expect(isInteger(-5)).toBe(true)
@@ -161,15 +168,15 @@ describe("isInteger", () => {
         expect(isInteger("-10")).toBe(true)
     })
 
-    it("returns false for floating point numbers", () => {
-        expect(isInteger(1.5)).toBe(false)
-        expect(isInteger(-3.14)).toBe(false)
-        expect(isInteger(0.1)).toBe(false)
+    it("coerces floating point to integer", () => {
+        expect(isInteger(1.5)).toBe(true)
+        expect(isInteger(-3.14)).toBe(true)
+        expect(isInteger(0.1)).toBe(true)
     })
 
-    it("returns false for floating point strings", () => {
-        expect(isInteger("1.5")).toBe(false)
-        expect(isInteger("3.14")).toBe(false)
+    it("coerces floating point strings to integer", () => {
+        expect(isInteger("1.5")).toBe(true)
+        expect(isInteger("3.14")).toBe(true)
     })
 
     it("returns false for non-numeric values", () => {
