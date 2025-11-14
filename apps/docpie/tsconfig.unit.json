@@ -1,0 +1,9 @@
+{
+    "extends": "./.nuxt/tsconfig.app.json",
+    "include": ["tests/unit/**/*"],
+    "exclude": [],
+    "compilerOptions": {
+        "lib": [],
+        "types": ["node", "jsdom"]
+    }
+}
