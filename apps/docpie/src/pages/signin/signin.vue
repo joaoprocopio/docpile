@@ -124,7 +124,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                                     variant="ghost"
                                     @click="() => toggleShowPassword()">
                                     <Icon
-                                        class="size-[1.125rem]"
+                                        class="size-4.5"
                                         :name="showPassword ? 'lucide:eye' : 'lucide:eye-off'" />
                                 </Button>
                             </InputGroupAddon>
@@ -142,7 +142,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                 type="submit"
                 variant="secondary">
                 <Spinner v-if="isLoading" />
-                Continue with email
+                <template v-else> Continue with email </template>
             </Button>
         </form>
 

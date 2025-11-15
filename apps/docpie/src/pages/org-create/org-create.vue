@@ -133,7 +133,7 @@ const isLoading = computed(() => Boolean(isMutating.value))
                         type="submit"
                         variant="secondary">
                         <Spinner v-if="isLoading" />
-                        Create organization
+                        <template v-else> Create organization </template>
                     </Button>
                 </Field>
             </FieldGroup>

@@ -50,7 +50,7 @@ const mutation = useMutation({
     },
 })
 
-const isMutating = useIsMutating({ mutationKey: authMutations.signIn().mutationKey })
+const isMutating = useIsMutating({ mutationKey: authMutations.signUp().mutationKey })
 const isLoading = computed(() => Boolean(isMutating.value))
 
 const [showPassword, toggleShowPassword] = useToggle(false)
@@ -180,7 +180,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                 type="submit"
                 variant="secondary">
                 <Spinner v-if="isLoading" />
-                Continue with email
+                <template v-else> Continue with email </template>
             </Button>
         </form>
 
