@@ -25,7 +25,7 @@ import {
 } from "~/lib/ui/item"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
-import { useInvites } from "~/state/onboarding/composables"
+import { useInvites } from "~/state/org/composables"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
 import { composeInitials } from "~/utils/avatar"
 import { isArray, isEmpty, isNil } from "~/utils/is"

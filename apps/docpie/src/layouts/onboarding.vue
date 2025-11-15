@@ -1,5 +1,23 @@
 <script setup lang="ts">
+import { computed } from "vue"
+import { useRoute, useRouter } from "vue-router"
+
 import { UserMenu } from "~/components/user-menu"
+import { asConst } from "~/lib/const"
+import { OrgRoutes } from "~/lib/router/constants"
+
+const router = useRouter()
+const route = useRoute()
+
+const ONBOARDING_ROUTES = asConst([
+    OrgRoutes.Onboarding.Intro,
+    OrgRoutes.Onboarding.Theme,
+    OrgRoutes.Onboarding.Team,
+])
+
+const onboardingRouteIndex = computed(() =>
+    ONBOARDING_ROUTES.findIndex((onboardingRoute) => onboardingRoute === route.name),
+)
 </script>
 
 <template>
