@@ -162,7 +162,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
                                     variant="ghost"
                                     @click="() => toggleShowPassword()">
                                     <Icon
-                                        class="size-[1.125rem]"
+                                        class="size-4.5"
                                         :name="showPassword ? 'lucide:eye' : 'lucide:eye-off'" />
                                 </Button>
                             </InputGroupAddon>
