@@ -7,3 +7,4 @@
     1. Clickjacking
 1. implementar um reset de senha
 1. criar um componente de PageControl e por no onboarding pro cara poder ir e voltar as páginas
+1. substituir embla-carousel por um carrossel com só CSS, scroll snap type e tudo mais
