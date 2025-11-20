@@ -8,21 +8,21 @@ async function whoami(): Promise<TUserOut> {
     return User.parse(response)
 }
 
-async function signIn(payload: TSignInOut): Promise<TUserOut> {
+async function signIn(variables: { payload: TSignInOut }): Promise<TUserOut> {
     const http = useHTTP()
     const response = await http("/v1/auth/signin", {
         method: "POST",
-        body: payload,
+        body: variables.payload,
     })
 
     return User.parse(response)
 }
 
-async function signUp(payload: TSignUpOut): Promise<TUserOut> {
+async function signUp(variables: { payload: TSignUpOut }): Promise<TUserOut> {
     const http = useHTTP()
     const response = await http("/v1/auth/signup", {
         method: "POST",
-        body: payload,
+        body: variables.payload,
     })
 
     return User.parse(response)

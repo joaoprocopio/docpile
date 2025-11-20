@@ -29,7 +29,7 @@ const form = useForm({
         onSubmit: SignUp,
     },
     onSubmit(props) {
-        mutation.mutate(props.value)
+        mutation.mutate({ payload: props.value })
     },
 })
 const submit = useDebounceFn(form.handleSubmit)
