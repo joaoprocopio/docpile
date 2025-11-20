@@ -41,7 +41,7 @@ const currentOnboardingRouteIndex = computed(() =>
                     :key="onboardingRouteIndex">
                     <PageControlTrigger
                         v-if="onboardingRouteIndex <= currentOnboardingRouteIndex"
-                        :as-child="true"
+                        as-child
                         :value="onboardingRoute">
                         <NuxtLink :to="{ name: onboardingRoute }">
                             <PageControlItem />
