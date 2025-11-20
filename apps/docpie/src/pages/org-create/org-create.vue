@@ -27,7 +27,7 @@ const form = useForm({
         onSubmit: CreateOrg,
     },
     onSubmit(props) {
-        mutation.mutate(props.value)
+        mutation.mutate({ payload: props.value })
     },
 })
 const submit = useDebounceFn(form.handleSubmit)

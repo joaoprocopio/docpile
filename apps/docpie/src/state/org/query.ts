@@ -5,8 +5,8 @@ export const orgQueries = defineKeyring({
     all: () => key("org"),
     orgs: () =>
         queryOptions({
-            queryKey: key("org", "orgs"),
-            queryFn: OrgServices.orgs,
+            queryKey: key("org", "list"),
+            queryFn: OrgServices.list,
         }),
 })
 
@@ -16,5 +16,10 @@ export const orgMutations = defineKeyring({
         mutationOptions({
             mutationKey: key("org", "create"),
             mutationFn: OrgServices.create,
+        }),
+    inviteMembers: () =>
+        mutationOptions({
+            mutationKey: key("org", "invite"),
+            mutationFn: OrgServices.inviteMembers,
         }),
 })
