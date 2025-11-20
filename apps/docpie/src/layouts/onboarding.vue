@@ -32,9 +32,9 @@ const currentOnboardingRouteIndex = computed(() =>
 
         <div
             v-if="currentOnboardingRouteIndex !== -1"
-            class="mx-auto w-full max-w-md px-6 pb-10">
+            class="mx-auto max-w-md px-6 py-10">
             <PageControl
-                class="mt-5 justify-center"
+                class="justify-center"
                 :model-value="(() => route.name as string)()">
                 <template
                     v-for="(onboardingRoute, onboardingRouteIndex) in ONBOARDING_STEPS"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { type StandardSchemaV1Issue, useForm } from "@tanstack/vue-form"
+import { useMutation } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
@@ -26,12 +27,14 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
 import { useInvites } from "~/state/org/composables"
+import { orgMutations } from "~/state/org/query"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
 import { composeInitials } from "~/utils/avatar"
 import { isArray, isEmpty, isNil } from "~/utils/is"
 import { hasOwnProperty } from "~/utils/obj"
 
 const invites = useInvites()
+const _inviteMembers = useMutation(orgMutations.inviteMembers())
 
 const defaultValues: TCreateInviteIn = {
     email: "",
@@ -87,6 +90,8 @@ const errors = computed(() => {
     return $errors
 })
 const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value))
+
+function sendInvites() {}
 </script>
 
 <template>
@@ -229,7 +234,8 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
             <Button
                 class="min-w-48"
                 variant="secondary"
-                :disabled="isEmpty(invites)">
+                :disabled="isEmpty(invites)"
+                @click="sendInvites">
                 Send invites
             </Button>
 
