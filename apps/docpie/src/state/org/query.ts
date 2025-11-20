@@ -19,7 +19,7 @@ export const orgMutations = defineKeyring({
         }),
     inviteMembers: () =>
         mutationOptions({
-            mutationKey: key("org", "invite"),
+            mutationKey: key("org", "members", "invite"),
             mutationFn: OrgServices.inviteMembers,
         }),
 })
