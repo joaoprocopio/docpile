@@ -114,7 +114,7 @@ const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value)
                             autocomplete="email"
                             placeholder="example@domain.com"
                             @blur="field.handleBlur"
-                            @change="
+                            @input="
                                 (e: Event) =>
                                     field.handleChange((e.target as HTMLInputElement).value)
                             "
