@@ -144,7 +144,7 @@ function handleKeydown(event: KeyboardEvent) {
         :tabindex="isDisabled ? -1 : 0"
         :class="
             cn(
-                'group inline-flex items-center justify-center rounded-full p-2 transition outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none disabled:opacity-50',
+                'group inline-flex items-center justify-center rounded-full px-2.5 py-2 transition outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none disabled:opacity-50',
                 props.class,
             )
         "

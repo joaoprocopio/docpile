@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { syncRef } from "@vueuse/core"
 import type { HTMLAttributes } from "vue"
-import { provide, ref, toRef, useTemplateRef, watch } from "vue"
+import { provide, ref, toRef, useTemplateRef } from "vue"
 
 import { cn } from "~/lib/ui/utils"
 
@@ -22,9 +22,10 @@ const props = withDefaults(
     },
 )
 
-const _modelValue = defineModel<PageControlValue>("model-value")
-const modelValue = ref(_modelValue.value ?? props.defaultValue)
-syncRef(_modelValue, modelValue)
+const __modelValue = defineModel<PageControlValue>("model-value")
+const modelValue = ref(__modelValue.value ?? props.defaultValue)
+
+syncRef(__modelValue, modelValue)
 
 const rootRef = useTemplateRef<HTMLElement>("rootRef")
 

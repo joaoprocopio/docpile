@@ -13,7 +13,7 @@ const props = defineProps<{
         data-slot="page-control-item"
         :class="
             cn(
-                'block size-3 rounded-full transition-all duration-200 group-data-[state=active]:bg-accent',
+                'block size-3 rounded-full transition-all duration-200 group-data-disabled:bg-gray-a2! group-data-[state=active]:bg-gray-a6 group-data-[state=inactive]:bg-gray-a4',
                 props.class,
             )
         ">

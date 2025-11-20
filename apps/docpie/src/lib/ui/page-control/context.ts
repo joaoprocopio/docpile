@@ -11,12 +11,10 @@ export interface PageControlContext {
     select(value: PageControlValue): void
 }
 
-export const pageControlInjectionKey = Symbol(
-    "PageControlContext",
-) as InjectionKey<PageControlContext>
+export const pageControlInjectionKey = Symbol() as InjectionKey<PageControlContext>
 
 export function usePageControlContext() {
-    const context = inject(pageControlInjectionKey, null)
+    const context = inject(pageControlInjectionKey)
 
     if (!context) {
         throw new Error("Must be used within <PageControl />")
