@@ -4,7 +4,7 @@ use crate::{
     ext::validator::Valid,
     http::config::Server,
     org::{
-        schemas::{CreateOrg, ReadOrg},
+        schemas::{CreateOrg, InviteMember, ReadOrg},
         services::{create_org, list_membered_orgs},
     },
 };
@@ -63,6 +63,11 @@ async fn create_org_v1(
     Ok(Json(org.into()))
 }
 
-async fn invite_members_v1(Path(slug): Path<String>) -> Result<String, Error> {
-    Ok(slug)
+async fn invite_members_v1(
+    session: AuthSession,
+    State(server): State<Server>,
+    Path(slug): Path<String>,
+    Valid(Json(invites_to_create)): Valid<Json<Vec<InviteMember>>>,
+) -> Json<Vec<InviteMember>> {
+    Json(invites_to_create)
 }
