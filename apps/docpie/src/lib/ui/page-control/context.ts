@@ -3,6 +3,8 @@ import { inject } from "vue"
 
 export type PageControlValue = string | number
 
+export type PageControlTriggerState = "active" | "reachable" | "disabled"
+
 export interface PageControlContext {
     rootRef: Ref<HTMLElement | null>
     value: Ref<PageControlValue | undefined>

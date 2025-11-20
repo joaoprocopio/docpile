@@ -4,7 +4,11 @@ import { computed, ref } from "vue"
 
 import { cn } from "~/lib/ui/utils"
 
-import { type PageControlValue, usePageControlContext } from "./context"
+import {
+    type PageControlTriggerState,
+    type PageControlValue,
+    usePageControlContext,
+} from "./context"
 
 const props = defineProps<{
     value: PageControlValue
@@ -12,14 +16,14 @@ const props = defineProps<{
     class?: HTMLAttributes["class"]
 }>()
 
-const emits = defineEmits<{
-    (e: "select", value: PageControlValue): void
-}>()
-
 const context = usePageControlContext()
 const triggerRef = ref<HTMLButtonElement | null>(null)
 
-const isSelected = computed(() => context.value.value === props.value)
+const state = computed<PageControlTriggerState>(() => {
+    if (isDisabled.value) return "disabled"
+
+    return context.value.value === props.value ? "active" : "reachable"
+})
 const isDisabled = computed(() => context.disabled.value || props.disabled)
 
 function handleSelect(event: Event) {
@@ -29,7 +33,6 @@ function handleSelect(event: Event) {
     }
 
     context.select(props.value)
-    emits("select", props.value)
 }
 
 function getTriggers() {
@@ -137,9 +140,9 @@ function handleKeydown(event: KeyboardEvent) {
         type="button"
         role="tab"
         data-slot="page-control-trigger"
-        :data-state="isSelected ? 'active' : 'inactive'"
+        :data-state="state"
         :data-disabled="isDisabled ? '' : undefined"
-        :aria-selected="isSelected"
+        :aria-selected="state === 'active'"
         :aria-disabled="isDisabled || undefined"
         :tabindex="isDisabled ? -1 : 0"
         :class="
