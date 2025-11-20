@@ -4,6 +4,12 @@
 
 ## commands
 
+### set default .env
+
+```sh
+cp .env.example .env
+```
+
 ### run docker
 
 ```sh
