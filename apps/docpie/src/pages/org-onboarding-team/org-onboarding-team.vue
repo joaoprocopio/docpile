@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
+import { useRoute } from "#app"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError } from "~/lib/ui/field"
@@ -30,11 +31,13 @@ import { useInvites } from "~/state/org/composables"
 import { orgMutations } from "~/state/org/query"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
 import { composeInitials } from "~/utils/avatar"
-import { isArray, isEmpty, isNil } from "~/utils/is"
+import { isArray, isEmpty, isNil, isString } from "~/utils/is"
 import { hasOwnProperty } from "~/utils/obj"
 
+const route = useRoute()
+
 const invites = useInvites()
-const _inviteMembers = useMutation(orgMutations.inviteMembers())
+const inviteMembers = useMutation(orgMutations.inviteMembers())
 
 const defaultValues: TCreateInviteIn = {
     email: "",
@@ -91,7 +94,15 @@ const errors = computed(() => {
 })
 const hasErrors = computed(() => isArray(errors.value) && !isEmpty(errors.value))
 
-function sendInvites() {}
+function sendInvites() {
+    if (!isString(route.params.slug) || isEmpty(route.params.slug))
+        throw new Error("Organization slug is missing in route params")
+
+    inviteMembers.mutate({
+        slug: route.params.slug,
+        payload: invites.value,
+    })
+}
 </script>
 
 <template>

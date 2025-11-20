@@ -50,8 +50,12 @@ export function isEmpty(value: unknown): boolean {
         return true
     }
 
-    if (isArray(value) || isString(value)) {
+    if (isArray(value)) {
         return !value.length
+    }
+
+    if (isString(value)) {
+        return !value.trim().length
     }
 
     if (isNumber(value)) {
