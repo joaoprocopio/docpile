@@ -51,7 +51,7 @@ function navigateTo(routeName?: string | number) {
                     v-for="(onboardingRoute, onboardingRouteIndex) in ONBOARDING_STEPS"
                     :key="onboardingRouteIndex"
                     :value="onboardingRoute"
-                    :disabled="onboardingRouteIndex > onboardingRouteIndex">
+                    :disabled="onboardingRouteIndex > currentOnboardingRouteIndex">
                     <PageControlItem />
                 </PageControlTrigger>
             </PageControl>

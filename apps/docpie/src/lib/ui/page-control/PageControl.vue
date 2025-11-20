@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { syncRef } from "@vueuse/core"
 import type { HTMLAttributes } from "vue"
-import { provide, ref, toRef } from "vue"
+import { provide, ref, toRef, useTemplateRef, watch } from "vue"
 
 import { cn } from "~/lib/ui/utils"
 
@@ -15,34 +15,24 @@ const props = withDefaults(
         orientation?: "horizontal" | "vertical"
     }>(),
     {
+        class: undefined,
+        defaultValue: undefined,
         disabled: false,
         orientation: "horizontal",
     },
 )
 
-const emits = defineEmits<{
-    (e: "change", payload?: PageControlValue): void
-}>()
-
 const _modelValue = defineModel<PageControlValue>("model-value")
 const modelValue = ref(_modelValue.value ?? props.defaultValue)
-
 syncRef(_modelValue, modelValue)
 
-const rootRef = ref<HTMLElement | null>(null)
+const rootRef = useTemplateRef<HTMLElement>("rootRef")
 
 function select(value: PageControlValue) {
-    if (props.disabled) {
-        return
-    }
-
-    if (modelValue.value === value) {
-        emits("change", value)
-        return
-    }
+    if (props.disabled) return
+    if (modelValue.value === value) return
 
     modelValue.value = value
-    emits("change", value)
 }
 
 provide(pageControlInjectionKey, {
@@ -50,7 +40,7 @@ provide(pageControlInjectionKey, {
     value: modelValue,
     disabled: toRef(props, "disabled"),
     orientation: toRef(props, "orientation"),
-    select,
+    select: select,
 })
 </script>
 
