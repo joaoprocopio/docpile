@@ -7,7 +7,6 @@ export interface PageControlContext {
     rootRef: Ref<HTMLElement | null>
     value: Ref<PageControlValue | undefined>
     disabled: Ref<boolean>
-    loop: Ref<boolean>
     orientation: Ref<"horizontal" | "vertical">
     select(value: PageControlValue): void
 }

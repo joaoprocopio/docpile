@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVModel } from "@vueuse/core"
+import { syncRef } from "@vueuse/core"
 import type { HTMLAttributes } from "vue"
-import { computed, provide, ref, toRef } from "vue"
+import { provide, ref, toRef } from "vue"
 
 import { cn } from "~/lib/ui/utils"
 
@@ -11,27 +11,23 @@ const props = withDefaults(
     defineProps<{
         class?: HTMLAttributes["class"]
         defaultValue?: PageControlValue
-        modelValue?: PageControlValue
         disabled?: boolean
-        loop?: boolean
         orientation?: "horizontal" | "vertical"
     }>(),
     {
         disabled: false,
-        loop: false,
         orientation: "horizontal",
     },
 )
 
 const emits = defineEmits<{
-    (e: "update:modelValue", payload?: PageControlValue): void
     (e: "change", payload?: PageControlValue): void
 }>()
 
-const modelValue = useVModel(props, "modelValue", emits, {
-    passive: true,
-    defaultValue: props.defaultValue,
-})
+const _modelValue = defineModel<PageControlValue>("model-value")
+const modelValue = ref(_modelValue.value ?? props.defaultValue)
+
+syncRef(_modelValue, modelValue)
 
 const rootRef = ref<HTMLElement | null>(null)
 
@@ -53,14 +49,9 @@ provide(pageControlInjectionKey, {
     rootRef,
     value: modelValue,
     disabled: toRef(props, "disabled"),
-    loop: toRef(props, "loop"),
     orientation: toRef(props, "orientation"),
     select,
 })
-
-const ariaOrientation = computed(() =>
-    props.orientation === "vertical" ? "vertical" : "horizontal",
-)
 </script>
 
 <template>
@@ -72,7 +63,7 @@ const ariaOrientation = computed(() =>
         :data-disabled="props.disabled ? '' : undefined"
         :data-orientation="props.orientation"
         :aria-disabled="props.disabled || undefined"
-        :aria-orientation="ariaOrientation"
+        :aria-orientation="props.orientation"
         :class="cn('flex items-center', props.class)">
         <slot />
     </div>

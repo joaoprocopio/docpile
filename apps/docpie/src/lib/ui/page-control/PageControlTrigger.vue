@@ -61,12 +61,6 @@ function focusBy(step: 1 | -1) {
     for (let attempt = 0; attempt < triggers.length; attempt++) {
         index += step
 
-        if (context.loop.value) {
-            index = (index + triggers.length) % triggers.length
-        } else if (index < 0 || index >= triggers.length) {
-            return
-        }
-
         const next = triggers[index]
 
         if (!next || next.dataset.disabled === "true" || next.hasAttribute("data-disabled")) {
