@@ -16,17 +16,17 @@ export const authMutations = defineKeyring({
     all: () => key("auth"),
     signIn: () =>
         mutationOptions({
-            mutationKey: key("auth", "sign", "in"),
+            mutationKey: key("auth", "signin"),
             mutationFn: AuthServices.signIn,
         }),
     signUp: () =>
         mutationOptions({
-            mutationKey: key("auth", "sign", "up"),
+            mutationKey: key("auth", "signup"),
             mutationFn: AuthServices.signUp,
         }),
     signOut: () =>
         mutationOptions({
-            mutationKey: key("auth", "sign", "out"),
+            mutationKey: key("auth", "signout"),
             mutationFn: AuthServices.signOut,
         }),
 })
