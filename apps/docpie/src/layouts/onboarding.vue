@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { useRoute, useRouter } from "vue-router"
+import { useRoute } from "vue-router"
 
 import { UserMenu } from "~/components/user-menu"
 import { asConst } from "~/lib/const"
 import { OrgRoutes } from "~/lib/router/constants"
 import { PageControl, PageControlItem, PageControlTrigger } from "~/lib/ui/page-control"
 
-const router = useRouter()
 const route = useRoute()
 
 const ONBOARDING_STEPS = asConst([
@@ -19,14 +18,6 @@ const ONBOARDING_STEPS = asConst([
 const currentOnboardingRouteIndex = computed(() =>
     ONBOARDING_STEPS.findIndex((onboardingRoute) => onboardingRoute === route.name),
 )
-
-function navigateTo(routeName?: string | number) {
-    if (!routeName || typeof routeName !== "string") {
-        return
-    }
-
-    router.push({ name: routeName })
-}
 </script>
 
 <template>
@@ -44,16 +35,25 @@ function navigateTo(routeName?: string | number) {
             class="mx-auto w-full max-w-md px-6 pb-10">
             <PageControl
                 class="mt-5 justify-center"
-                orientation="horizontal"
-                :model-value="route.name as string"
-                @update:model-value="navigateTo">
-                <PageControlTrigger
+                :model-value="(() => route.name as string)()">
+                <template
                     v-for="(onboardingRoute, onboardingRouteIndex) in ONBOARDING_STEPS"
-                    :key="onboardingRouteIndex"
-                    :value="onboardingRoute"
-                    :disabled="onboardingRouteIndex > currentOnboardingRouteIndex">
-                    <PageControlItem />
-                </PageControlTrigger>
+                    :key="onboardingRouteIndex">
+                    <PageControlTrigger
+                        v-if="onboardingRouteIndex <= currentOnboardingRouteIndex"
+                        :as-child="true"
+                        :value="onboardingRoute">
+                        <NuxtLink :to="{ name: onboardingRoute }">
+                            <PageControlItem />
+                        </NuxtLink>
+                    </PageControlTrigger>
+                    <PageControlTrigger
+                        v-else
+                        :value="onboardingRoute"
+                        :disabled="true">
+                        <PageControlItem />
+                    </PageControlTrigger>
+                </template>
             </PageControl>
         </div>
     </div>

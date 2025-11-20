@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Primitive, type PrimitiveProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { computed, ref } from "vue"
 
@@ -10,11 +11,19 @@ import {
     usePageControlContext,
 } from "./context"
 
-const props = defineProps<{
-    value: PageControlValue
-    disabled?: boolean
-    class?: HTMLAttributes["class"]
-}>()
+const props = withDefaults(
+    defineProps<
+        {
+            value: PageControlValue
+            disabled?: boolean
+            class?: HTMLAttributes["class"]
+        } & PrimitiveProps
+    >(),
+    {
+        class: undefined,
+        as: "button",
+    },
+)
 
 const context = usePageControlContext()
 const triggerRef = ref<HTMLButtonElement | null>(null)
@@ -135,11 +144,13 @@ function handleKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-    <button
+    <Primitive
         ref="triggerRef"
         type="button"
         role="tab"
         data-slot="page-control-trigger"
+        :as="props.as"
+        :as-child="props.asChild"
         :data-state="state"
         :data-disabled="isDisabled ? '' : undefined"
         :aria-selected="state === 'active'"
@@ -154,5 +165,5 @@ function handleKeydown(event: KeyboardEvent) {
         @click="handleSelect"
         @keydown="handleKeydown">
         <slot />
-    </button>
+    </Primitive>
 </template>
