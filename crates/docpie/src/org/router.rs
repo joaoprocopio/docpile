@@ -17,13 +17,9 @@ use axum::{Router, http::StatusCode};
 
 pub fn router_v1() -> Router<Server> {
     Router::new()
-        .route(
-            "/",
-            routing::get(list_orgs_v1)
-                .post(create_org_v1)
-                .layer(auth::protected!()),
-        )
+        .route("/", routing::get(list_orgs_v1).post(create_org_v1))
         .route("/{slug}/members", routing::post(invite_members_v1))
+        .layer(auth::protected!())
 }
 
 async fn list_orgs_v1(
@@ -68,6 +64,10 @@ async fn invite_members_v1(
     State(server): State<Server>,
     Path(slug): Path<String>,
     Valid(Json(invites_to_create)): Valid<Json<Vec<InviteMember>>>,
-) -> Json<Vec<InviteMember>> {
-    Json(invites_to_create)
+) -> (StatusCode, Json<Vec<InviteMember>>) {
+    if invites_to_create.is_empty() {
+        return (StatusCode::NO_CONTENT, Json(Vec::new()));
+    }
+
+    (StatusCode::CREATED, Json(invites_to_create))
 }
