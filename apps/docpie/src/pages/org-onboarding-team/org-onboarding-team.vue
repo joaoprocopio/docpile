@@ -110,7 +110,8 @@ function sendInvites() {
         <div class="space-y-1.5 text-center">
             <h1 class="text-2xl font-semibold">Invite people to your team</h1>
             <h2 class="text-xs text-muted-foreground">
-                Docpie is designed around collaborative work. You can invite people now or any time.
+                Docpie is designed around collaborative work. You can invite people now or at any
+                time.
             </h2>
         </div>
 
@@ -193,7 +194,7 @@ function sendInvites() {
                 </InputGroup>
 
                 <FieldDescription v-if="!hasErrors">
-                    Enter one email per line to invite multiple people with this role
+                    Enter one email per line to invite multiple people with the selected role
                 </FieldDescription>
 
                 <FieldError

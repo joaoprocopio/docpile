@@ -6,7 +6,7 @@ use crate::{
     http::config::Server,
     org::{
         models::{Org, OrgMembership, OrgMembershipRole, OrgMembershipStatus, OrgStatus},
-        schemas::CreateOrg,
+        schemas::{CreateOrg, InviteMember},
     },
 };
 
@@ -67,4 +67,29 @@ pub async fn create_org(server: &Server, org_to_create: CreateOrg, user: User) -
     tx.commit().await?;
 
     Ok(org)
+}
+
+pub async fn create_invites(
+    server: &Server,
+    org_slug: String,
+    invites_to_create: Vec<InviteMember>,
+) {
+    let res = sqlx::query!(
+        r#"
+        WITH org_to_insert AS (
+            SELECT o.id
+            FROM orgs AS o
+            WHERE o.slug = $1
+            LIMIT 1
+        )
+
+        select * from org_to_insert
+        "#,
+        org_slug,
+    )
+    .fetch_one(&server.db)
+    .await
+    .unwrap();
+
+    dbg!(res);
 }

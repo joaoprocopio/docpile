@@ -5,7 +5,7 @@ use crate::{
     http::config::Server,
     org::{
         schemas::{CreateOrg, InviteMember, ReadOrg},
-        services::{create_org, list_membered_orgs},
+        services::{create_invites, create_org, list_membered_orgs},
     },
 };
 use axum::{
@@ -60,7 +60,6 @@ async fn create_org_v1(
 }
 
 async fn invite_members_v1(
-    session: AuthSession,
     State(server): State<Server>,
     Path(slug): Path<String>,
     Valid(Json(invites_to_create)): Valid<Json<Vec<InviteMember>>>,
@@ -69,5 +68,7 @@ async fn invite_members_v1(
         return (StatusCode::NO_CONTENT, Json(Vec::new()));
     }
 
-    (StatusCode::CREATED, Json(invites_to_create))
+    create_invites(&server, slug, invites_to_create).await;
+
+    (StatusCode::CREATED, Json(Vec::new()))
 }
