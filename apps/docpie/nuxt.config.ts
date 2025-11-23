@@ -1,3 +1,6 @@
+const HOST = "localhost"
+const PORT = 5173
+
 export default defineNuxtConfig({
     modules: [
         "@nuxt/test-utils/module",
@@ -6,7 +9,6 @@ export default defineNuxtConfig({
         "@nuxt/icon",
         "@nuxt/image",
         "@nuxtjs/color-mode",
-        "~/lib/devproxy/module.ts",
         "~/lib/tailwind/module.ts",
         "~/lib/query/module.ts",
         "~/lib/ui/module.ts",
@@ -42,7 +44,21 @@ export default defineNuxtConfig({
         },
     },
     srcDir: "src/",
+    devServer: {
+        host: HOST,
+        port: PORT,
+    },
     compatibilityDate: "latest",
+    vite: {
+        server: {
+            hmr: {
+                host: HOST,
+                port: PORT,
+                clientPort: PORT,
+                overlay: true,
+            },
+        },
+    },
     telemetry: false,
     eslint: {
         config: {
