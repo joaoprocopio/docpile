@@ -15,5 +15,5 @@ export default {
     vueIndentScriptAndStyle: false,
     plugins: ["prettier-plugin-tailwindcss"],
     tailwindFunctions: ["cva", "cn", "cx", "clsx"],
-    tailwindStylesheet: "./src/assets/tailwind.css",
+    tailwindStylesheet: "./src/lib/tailwind/tailwind.css",
 }

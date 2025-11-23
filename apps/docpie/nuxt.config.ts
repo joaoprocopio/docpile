@@ -1,5 +1,3 @@
-import tailwindcss from "@tailwindcss/vite"
-
 export default defineNuxtConfig({
     modules: [
         "@nuxt/test-utils/module",
@@ -8,9 +6,11 @@ export default defineNuxtConfig({
         "@nuxt/icon",
         "@nuxt/image",
         "@nuxtjs/color-mode",
+        "~/lib/devproxy/module.ts",
+        "~/lib/tailwind/module.ts",
+        "~/lib/query/module.ts",
         "~/lib/ui/module.ts",
     ],
-    plugins: ["~/lib/query/plugin.ts"],
     ssr: false,
     pages: {
         enabled: true,
@@ -32,7 +32,6 @@ export default defineNuxtConfig({
             title: "Docpie",
         },
     },
-    css: ["~/assets/tailwind.css"],
     colorMode: {
         classSuffix: "",
         storage: "cookie",
@@ -43,22 +42,7 @@ export default defineNuxtConfig({
         },
     },
     srcDir: "src/",
-    devServer: {
-        host: "localhost",
-        port: 5173,
-    },
     compatibilityDate: "latest",
-    vite: {
-        plugins: [tailwindcss()],
-        server: {
-            hmr: {
-                host: "localhost",
-                port: 5173,
-                clientPort: 5173,
-                overlay: true,
-            },
-        },
-    },
     telemetry: false,
     eslint: {
         config: {
