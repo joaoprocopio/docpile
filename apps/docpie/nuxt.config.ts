@@ -1,5 +1,7 @@
-const HOST = "localhost"
-const PORT = 5173
+const DEV_PROXY_CONFIG = {
+    HOST: "localhost",
+    PORT: 5173,
+} as const
 
 export default defineNuxtConfig({
     modules: [
@@ -45,16 +47,16 @@ export default defineNuxtConfig({
     },
     srcDir: "src/",
     devServer: {
-        host: HOST,
-        port: PORT,
+        host: DEV_PROXY_CONFIG.HOST,
+        port: DEV_PROXY_CONFIG.PORT,
     },
     compatibilityDate: "latest",
     vite: {
         server: {
             hmr: {
-                host: HOST,
-                port: PORT,
-                clientPort: PORT,
+                host: DEV_PROXY_CONFIG.HOST,
+                port: DEV_PROXY_CONFIG.PORT,
+                clientPort: DEV_PROXY_CONFIG.PORT,
                 overlay: true,
             },
         },
