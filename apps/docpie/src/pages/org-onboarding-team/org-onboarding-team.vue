@@ -22,9 +22,9 @@ import {
     ItemDescription,
     ItemGroup,
     ItemMedia,
-    ItemSeparator,
     ItemTitle,
 } from "~/lib/ui/item"
+import { Kbd } from "~/lib/ui/kbd"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
 import { useInvites } from "~/state/org/composables"
@@ -194,7 +194,10 @@ function sendInvites() {
                 </InputGroup>
 
                 <FieldDescription v-if="!hasErrors">
-                    Enter one email per line to invite multiple people with the selected role
+                    <span class="after:content-[' ']">
+                        Separate each email address with a new line
+                    </span>
+                    <Kbd class="text-2xs">⏎</Kbd>
                 </FieldDescription>
 
                 <FieldError
@@ -205,13 +208,15 @@ function sendInvites() {
 
         <ItemGroup
             v-if="!isEmpty(invites)"
-            class="mt-6">
+            class="mt-6 gap-y-4">
             <template
                 v-for="(invite, inviteIndex) in invites"
                 :key="invite.email">
-                <Item class="px-0">
+                <Item
+                    variant="outline"
+                    class="dark:bg-muted/30">
                     <ItemMedia>
-                        <Avatar>
+                        <Avatar class="size-9">
                             <AvatarFallback>
                                 {{ composeInitials(invite.email) }}
                             </AvatarFallback>
@@ -237,8 +242,6 @@ function sendInvites() {
                         </Button>
                     </ItemActions>
                 </Item>
-
-                <ItemSeparator v-if="inviteIndex !== invites.length - 1" />
             </template>
         </ItemGroup>
 
