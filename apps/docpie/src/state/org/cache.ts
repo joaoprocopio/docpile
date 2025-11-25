@@ -1,25 +1,38 @@
-import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
+import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { OrgServices } from "~/state/org/services"
 
-export const orgQueries = defineKeyring({
-    all: () => key("org"),
-    orgs: () =>
-        queryOptions({
-            queryKey: key("org", "list"),
-            queryFn: OrgServices.list,
-        }),
+export const orgCache = defineCache("org")({
+    keys: {
+        queries: {
+            all: () => key("org"),
+            list: () => key("org", "list"),
+        },
+        mutations: {
+            create: () => key("org", "create"),
+            inviteMembers: () => key("org", "members", "create"),
+        },
+    },
+    queries: {
+        list: () =>
+            queryOptions({
+                queryKey: orgCache.keys.queries.list(),
+                queryFn: OrgServices.list,
+            }),
+    },
+    mutations: {
+        create: () =>
+            mutationOptions({
+                mutationKey: orgCache.keys.mutations.create(),
+                mutationFn: OrgServices.create,
+            }),
+        inviteMembers: () =>
+            mutationOptions({
+                mutationKey: orgCache.keys.mutations.inviteMembers(),
+                mutationFn: OrgServices.inviteMembers,
+            }),
+    },
 })
 
-export const orgMutations = defineKeyring({
-    all: () => key("org"),
-    create: () =>
-        mutationOptions({
-            mutationKey: key("org", "create"),
-            mutationFn: OrgServices.create,
-        }),
-    inviteMembers: () =>
-        mutationOptions({
-            mutationKey: key("org", "members", "invite"),
-            mutationFn: OrgServices.inviteMembers,
-        }),
-})
+export const orgQueries = {}
+
+export const orgMutations = {}

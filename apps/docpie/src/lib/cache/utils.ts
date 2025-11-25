@@ -44,7 +44,7 @@ export type KeyringDefinition<
     mutations?: MutationsDefinition<TNamespace, TMutationsDefinition>
 }
 
-export function defineKeyring<const TNamespace extends Namespace>(_: TNamespace) {
+export function defineCache<const TNamespace extends Namespace>(_: TNamespace) {
     return function <
         const TQueryKeysDefinition extends Definition,
         const TMutationKeysDefinition extends Definition,
