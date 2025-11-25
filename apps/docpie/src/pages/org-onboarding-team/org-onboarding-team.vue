@@ -55,7 +55,7 @@ async function handleCopy() {
                     </InputGroup>
 
                     <FieldDescription>
-                        Share this link with people you want to join your organization.
+                        Share this link with people you want to join your organization
                     </FieldDescription>
                 </Field>
             </div>
