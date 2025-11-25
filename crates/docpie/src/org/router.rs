@@ -4,21 +4,16 @@ use crate::{
     ext::validator::Valid,
     http::config::Server,
     org::{
-        schemas::{CreateOrg, InviteMember, ReadOrg},
-        services::{create_invites, create_org, list_membered_orgs},
+        schemas::{CreateOrg, ReadOrg},
+        services::{create_org, list_membered_orgs},
     },
 };
-use axum::{
-    Json,
-    extract::{Path, State},
-    routing,
-};
+use axum::{Json, extract::State, routing};
 use axum::{Router, http::StatusCode};
 
 pub fn router_v1() -> Router<Server> {
     Router::new()
         .route("/", routing::get(list_orgs_v1).post(create_org_v1))
-        .route("/{slug}/members", routing::post(invite_members_v1))
         .layer(auth::protected!())
 }
 
@@ -57,18 +52,4 @@ async fn create_org_v1(
         })?;
 
     Ok(Json(org.into()))
-}
-
-async fn invite_members_v1(
-    State(server): State<Server>,
-    Path(slug): Path<String>,
-    Valid(Json(invites_to_create)): Valid<Json<Vec<InviteMember>>>,
-) -> (StatusCode, Json<Vec<InviteMember>>) {
-    if invites_to_create.is_empty() {
-        return (StatusCode::NO_CONTENT, Json(Vec::new()));
-    }
-
-    create_invites(&server, slug, invites_to_create).await;
-
-    (StatusCode::CREATED, Json(Vec::new()))
 }

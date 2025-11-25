@@ -1,4 +1,4 @@
-use crate::org::models::{Org, OrgMembershipRole, OrgStatus};
+use crate::org::models::{Org, OrgStatus};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
@@ -16,13 +16,6 @@ pub struct CreateOrg {
 
     #[validate(length(min = 3, max = 256))]
     pub slug: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct InviteMember {
-    #[validate(email, length(max = 320))]
-    pub email: String,
-    pub role: OrgMembershipRole,
 }
 
 impl From<Org> for ReadOrg {

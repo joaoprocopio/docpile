@@ -9,7 +9,6 @@ export const orgCache = defineCache("org")({
         },
         mutations: {
             create: () => key("org", "create"),
-            inviteMembers: () => key("org", "members", "create"),
         },
     },
     queries: {
@@ -24,11 +23,6 @@ export const orgCache = defineCache("org")({
             mutationOptions({
                 mutationKey: orgCache.keys.mutations.create(),
                 mutationFn: OrgServices.create,
-            }),
-        inviteMembers: () =>
-            mutationOptions({
-                mutationKey: orgCache.keys.mutations.inviteMembers(),
-                mutationFn: OrgServices.inviteMembers,
             }),
     },
 })
