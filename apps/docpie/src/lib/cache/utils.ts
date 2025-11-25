@@ -29,7 +29,7 @@ export type MutationsDefinition<TNamespace extends Namespace, TDefinition extend
         : never
 }
 
-export type KeyringDefinition<
+export type CacheDefinition<
     TNamespace extends Namespace,
     TQueryKeysDefinition extends Definition,
     TMutationKeysDefinition extends Definition,
@@ -44,28 +44,27 @@ export type KeyringDefinition<
     mutations?: MutationsDefinition<TNamespace, TMutationsDefinition>
 }
 
-export function defineCache<const TNamespace extends Namespace>(_: TNamespace) {
-    return function <
-        const TQueryKeysDefinition extends Definition,
-        const TMutationKeysDefinition extends Definition,
-        const TQueriesDefinition extends Definition,
-        const TMutationsDefinition extends Definition,
-        const TKeyringDefinition extends KeyringDefinition<
-            TNamespace,
-            TQueryKeysDefinition,
-            TMutationKeysDefinition,
-            TQueriesDefinition,
-            TMutationsDefinition
-        > = KeyringDefinition<
-            TNamespace,
-            TQueryKeysDefinition,
-            TMutationKeysDefinition,
-            TQueriesDefinition,
-            TMutationsDefinition
-        >,
-    >(keyring: TKeyringDefinition) {
-        return keyring
-    }
+export function defineCache<
+    const TNamespace extends Namespace,
+    const TQueryKeysDefinition extends Definition,
+    const TMutationKeysDefinition extends Definition,
+    const TQueriesDefinition extends Definition,
+    const TMutationsDefinition extends Definition,
+    const TCacheDefinition extends CacheDefinition<
+        TNamespace,
+        TQueryKeysDefinition,
+        TMutationKeysDefinition,
+        TQueriesDefinition,
+        TMutationsDefinition
+    > = CacheDefinition<
+        TNamespace,
+        TQueryKeysDefinition,
+        TMutationKeysDefinition,
+        TQueriesDefinition,
+        TMutationsDefinition
+    >,
+>(_: TNamespace, cache: TCacheDefinition) {
+    return cache
 }
 
 export function key<const TKeys extends readonly unknown[]>(...args: TKeys) {
