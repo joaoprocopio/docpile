@@ -41,7 +41,7 @@ const isStepping = computed<boolean>(() => currentOnboardingRouteIndex.value !==
 
         <div
             v-if="isStepping"
-            class="fixed inset-x-0 bottom-0 z-10 flex h-(--bottombar-height) flex-col items-center justify-center">
+            class="fixed right-1/2 bottom-0 z-10 flex h-(--bottombar-height) translate-x-1/2 flex-col items-center justify-center">
             <PageControl
                 class="rounded-full bg-background/40 px-2 py-1 backdrop-blur"
                 :model-value="(() => route.name as string)()">
