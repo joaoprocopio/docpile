@@ -96,7 +96,7 @@
     --black-a9: oklch(0% 0 none / 0.7);
     --black-a10: oklch(0% 0 none / 0.8);
     --black-a11: oklch(0% 0 none / 0.9);
-    --black-a12: oklch(0% 0 none / 0.95);
+    --black-a12: oklch(0% 0 none);
 
     /* White */
     --white-a1: oklch(100% 0 none / 0.05);
@@ -110,7 +110,7 @@
     --white-a9: oklch(100% 0 none / 0.7);
     --white-a10: oklch(100% 0 none / 0.8);
     --white-a11: oklch(100% 0 none / 0.9);
-    --white-a12: oklch(100% 0 none / 0.95);
+    --white-a12: oklch(100% 0 none);
 
     /* Primary */
     --primary-1: oklch(99.433% 0.00132 286.38);
