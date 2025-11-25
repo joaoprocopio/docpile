@@ -27,7 +27,7 @@ import {
 import { Kbd } from "~/lib/ui/kbd"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
-import { orgMutations } from "~/state/org/cache"
+import { orgCache } from "~/state/org/cache"
 import { useInvites } from "~/state/org/composables"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
 import { composeInitials } from "~/utils/avatar"
@@ -37,7 +37,7 @@ import { hasOwnProperty } from "~/utils/obj"
 const route = useRoute()
 
 const invites = useInvites()
-const inviteMembers = useMutation(orgMutations.inviteMembers())
+const inviteMembers = useMutation(orgCache.mutations.inviteMembers())
 
 const defaultValues: TCreateInviteIn = {
     email: "",

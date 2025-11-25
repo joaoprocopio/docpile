@@ -12,7 +12,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
-import { orgMutations, orgQueries } from "~/state/org/cache"
+import { orgCache } from "~/state/org/cache"
 import { CreateOrg } from "~/state/org/schemas"
 import { isNetworkError, isNil } from "~/utils/is"
 
@@ -33,16 +33,16 @@ const form = useForm({
 const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
-    ...orgMutations.create(),
+    ...orgCache.mutations.create(),
     onSuccess(data) {
-        client.setQueryData(orgQueries.orgs().queryKey, (prevData) => {
+        client.setQueryData(orgCache.queries.list().queryKey, (prevData) => {
             if (!isNil(prevData)) {
                 prevData.push(data)
             }
 
             return prevData
         })
-        client.invalidateQueries({ queryKey: orgQueries.all() })
+        client.invalidateQueries({ queryKey: orgCache.keys.queries.all() })
         rerunMiddleware()
     },
     onError(err) {
@@ -54,7 +54,7 @@ const mutation = useMutation({
     },
 })
 
-const isMutating = useIsMutating({ mutationKey: orgMutations.create().mutationKey })
+const isMutating = useIsMutating({ mutationKey: orgCache.keys.mutations.create() })
 const isLoading = computed(() => Boolean(isMutating.value))
 </script>
 

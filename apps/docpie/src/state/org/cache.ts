@@ -32,7 +32,3 @@ export const orgCache = defineCache("org")({
             }),
     },
 })
-
-export const orgQueries = {}
-
-export const orgMutations = {}
