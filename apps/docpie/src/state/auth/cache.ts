@@ -1,7 +1,7 @@
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { AuthServices } from "~/state/auth/services"
 
-export const authCache = defineCache("auth", {
+export const authCache = defineCache("auth")({
     keys: {
         queries: {
             all: () => key("auth"),

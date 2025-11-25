@@ -1,7 +1,7 @@
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { OrgServices } from "~/state/org/services"
 
-export const orgCache = defineCache("org", {
+export const orgCache = defineCache("org")({
     keys: {
         queries: {
             all: () => key("org"),

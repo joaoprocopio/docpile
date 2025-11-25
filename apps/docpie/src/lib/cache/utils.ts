@@ -44,27 +44,28 @@ export type CacheDefinition<
     mutations?: MutationsDefinition<TNamespace, TMutationsDefinition>
 }
 
-export function defineCache<
-    const TNamespace extends Namespace,
-    const TQueryKeysDefinition extends Definition,
-    const TMutationKeysDefinition extends Definition,
-    const TQueriesDefinition extends Definition,
-    const TMutationsDefinition extends Definition,
-    const TCacheDefinition extends CacheDefinition<
-        TNamespace,
-        TQueryKeysDefinition,
-        TMutationKeysDefinition,
-        TQueriesDefinition,
-        TMutationsDefinition
-    > = CacheDefinition<
-        TNamespace,
-        TQueryKeysDefinition,
-        TMutationKeysDefinition,
-        TQueriesDefinition,
-        TMutationsDefinition
-    >,
->(_: TNamespace, cache: TCacheDefinition) {
-    return cache
+export function defineCache<const TNamespace extends Namespace>(_: TNamespace) {
+    return function <
+        const TQueryKeysDefinition extends Definition,
+        const TMutationKeysDefinition extends Definition,
+        const TQueriesDefinition extends Definition,
+        const TMutationsDefinition extends Definition,
+        const TCacheDefinition extends CacheDefinition<
+            TNamespace,
+            TQueryKeysDefinition,
+            TMutationKeysDefinition,
+            TQueriesDefinition,
+            TMutationsDefinition
+        > = CacheDefinition<
+            TNamespace,
+            TQueryKeysDefinition,
+            TMutationKeysDefinition,
+            TQueriesDefinition,
+            TMutationsDefinition
+        >,
+    >(cache: TCacheDefinition) {
+        return cache
+    }
 }
 
 export function key<const TKeys extends readonly unknown[]>(...args: TKeys) {
