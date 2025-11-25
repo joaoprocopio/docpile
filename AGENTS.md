@@ -19,7 +19,7 @@ Reference sheet for anyone (human or AI) contributing to `docpie`.
 ## Frontend architecture (`apps/docpie/src`)
 
 -   Entry points: `app.vue` wires up color-mode + layout shells, while `layouts/*.vue` host app frames (`app`, `auth`, `onboarding`). Route-level UX lives in `pages/**` following Nuxt conventions (e.g., `org-onboarding-*`, `signin`, `signup`, `home`). Navigation behavior is governed by `router.options.ts` and guards in `middleware/auth.global.ts`.
--   Shared building blocks: `components/**` contains leaf or feature components (e.g., `user-menu`). Cross-cutting helpers live in `utils/**` (formatters, cloning helpers) and `ext/**` (integration glue for color-mode, ProseMirror, router utilities).
+-   Shared building blocks: `components/**` contains leaf or feature components (e.g., `user-menu`). Cross-cutting helpers live in `utils/**` (formatters, cloning helpers).
 -   Styling & theming: Tailwind 4 is configured via `lib/tailwind/tailwind.css`, which defines the full design token palette (OKLCH colors, gradients, radii, typography) and base layer resets. The Tailwind module (`lib/tailwind/module.ts`) registers the CSS and Vite plugin. Auto-imports are disabled in `nuxt.config.ts`; imports must be explicit using the `~/` alias.
 -   Supporting libraries under `lib/**`:
     -   `lib/http/clients.ts` exposes `useHTTP()` which wraps `$fetch` with `env.API_URL` and `credentials: "include"`. `lib/http/index.ts` re-exports `ofetch` for direct use.
