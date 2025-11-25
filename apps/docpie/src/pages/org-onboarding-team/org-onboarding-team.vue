@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { type StandardSchemaV1Issue, useForm } from "@tanstack/vue-form"
-import { useMutation } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
 import { useRoute } from "#app"
+import { useMutation } from "~/lib/cache"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError } from "~/lib/ui/field"

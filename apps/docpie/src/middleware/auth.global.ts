@@ -1,6 +1,5 @@
-import { useQueryClient } from "@tanstack/vue-query"
-
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
+import { useQueryClient } from "~/lib/cache"
 import { isClientErrorStatus } from "~/lib/http/status"
 import {
     AuthRoutes,

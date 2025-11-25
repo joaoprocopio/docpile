@@ -1,7 +1,6 @@
-import type { VueQueryPluginOptions } from "@tanstack/vue-query"
-import { VueQueryPlugin } from "@tanstack/vue-query"
-
 import { defineNuxtPlugin } from "#app"
+import type { VueQueryPluginOptions } from "~/lib/cache"
+import { VueQueryPlugin } from "~/lib/cache"
 
 export default defineNuxtPlugin((nuxt) => {
     const options: VueQueryPluginOptions = {

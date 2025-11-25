@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
-
 import { rerunMiddleware } from "~/ext/vue-router/utils"
+import { useMutation, useQuery, useQueryClient } from "~/lib/cache"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useForm } from "@tanstack/vue-form"
-import { useIsMutating, useMutation, useQueryClient } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
 import { env } from "~/env"
 import { rerunMiddleware } from "~/ext/vue-router/utils"
+import { useIsMutating, useMutation, useQueryClient } from "~/lib/cache"
 import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"

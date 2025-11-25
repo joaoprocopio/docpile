@@ -2,11 +2,11 @@
     <NuxtLayout>
         <NuxtPage />
     </NuxtLayout>
-    <QueryDevtools />
+    <CacheDevtools />
     <Sonner />
 </template>
 
 <script setup lang="ts">
-import { QueryDevtools } from "~/lib/cache/runtime/components/devtools"
+import { CacheDevtools } from "~/lib/cache/runtime/components/devtools"
 import { Sonner } from "~/lib/ui/sonner"
 </script>

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DefaultError, MutationKey, UseMutationOptions } from "@tanstack/vue-query"
+import type { DefaultError, MutationKey, UseMutationOptions } from "~/lib/cache"
 
 export function key<const TKey extends readonly unknown[]>(...args: TKey) {
     return args

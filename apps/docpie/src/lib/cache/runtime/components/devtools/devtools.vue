@@ -1,11 +1,11 @@
 <template>
     <Teleport to="body">
-        <VueQueryDevtools v-bind="$attrs" />
+        <Devtools v-bind="$attrs" />
     </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { VueQueryDevtools } from "@tanstack/vue-query-devtools"
+import { VueQueryDevtools as Devtools } from "@tanstack/vue-query-devtools"
 
 defineOptions({
     inheritAttrs: true,

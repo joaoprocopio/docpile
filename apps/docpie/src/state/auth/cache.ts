@@ -1,14 +1,14 @@
 import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { AuthServices } from "~/state/auth/services"
 
-export const authCache = defineCache("auth", {
-    keys: {
-        mutations: null,
-        queries: null,
-    },
-    queries: null,
-    mutations: null,
-})
+// export const authCache = defineCache("auth", {
+//     keys: {
+//         mutations: null,
+//         queries: null,
+//     },
+//     queries: null,
+//     mutations: null,
+// })
 
 // query keys
 // authCache.keys.queries.all()
