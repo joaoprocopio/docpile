@@ -40,6 +40,9 @@
     --container-6xl: 72rem;
     --container-7xl: 80rem;
 
+    /* Blur */
+    --blur-md: 1.5rem;
+
     /* Radii */
     --radius: 0.5rem;
     --radius-sm: calc(var(--radius) - 4px);

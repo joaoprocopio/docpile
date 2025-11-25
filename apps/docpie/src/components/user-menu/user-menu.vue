@@ -26,36 +26,38 @@ const signout = useMutation({
 </script>
 
 <template>
-    <DropdownMenu v-if="user.isSuccess.value">
-        <DropdownMenuTrigger as-child>
-            <Button
-                variant="ghost"
-                class="w-fit p-1">
-                <Avatar class="size-6 rounded-sm">
-                    <AvatarFallback class="rounded-none text-3xs">
-                        {{ composeInitials(user.data.value!.display_name) }}
-                    </AvatarFallback>
-                </Avatar>
+    <div>
+        <DropdownMenu v-if="user.isSuccess.value">
+            <DropdownMenuTrigger as-child>
+                <Button
+                    variant="ghost"
+                    class="w-fit p-1">
+                    <Avatar class="size-6 rounded-sm">
+                        <AvatarFallback class="rounded-none text-3xs">
+                            {{ composeInitials(user.data.value!.display_name) }}
+                        </AvatarFallback>
+                    </Avatar>
 
-                <p class="truncate text-xs">{{ user.data.value!.email }}</p>
+                    <p class="truncate text-xs">{{ user.data.value!.email }}</p>
 
-                <Icon
-                    name="lucide:chevron-down"
-                    class="text-sidebar-muted-foreground ml-auto size-4" />
-            </Button>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent
-            class="w-(--reka-dropdown-menu-trigger-width) min-w-48"
-            align="start">
-            <DropdownMenuGroup>
-                <DropdownMenuItem @click="() => signout.mutate()">
                     <Icon
-                        name="lucide:log-out"
-                        class="text-muted-foreground" />
-                    <span>Sign out</span>
-                </DropdownMenuItem>
-            </DropdownMenuGroup>
-        </DropdownMenuContent>
-    </DropdownMenu>
+                        name="lucide:chevron-down"
+                        class="text-sidebar-muted-foreground ml-auto size-4" />
+                </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent
+                class="w-(--reka-dropdown-menu-trigger-width) min-w-48"
+                align="start">
+                <DropdownMenuGroup>
+                    <DropdownMenuItem @click="() => signout.mutate()">
+                        <Icon
+                            name="lucide:log-out"
+                            class="text-muted-foreground" />
+                        <span>Sign out</span>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    </div>
 </template>
