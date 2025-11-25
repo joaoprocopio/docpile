@@ -13,9 +13,9 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/l
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
-import { authMutations, authQueries } from "~/state/auth/query"
+import { authMutations, authQueries } from "~/state/auth/cache"
 import { SignUp } from "~/state/auth/schemas"
-import { orgQueries } from "~/state/org/query"
+import { orgQueries } from "~/state/org/cache"
 
 const client = useQueryClient()
 

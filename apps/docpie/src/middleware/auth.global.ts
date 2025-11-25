@@ -9,8 +9,8 @@ import {
     OrgRoutes,
     OrgRoutesSet,
 } from "~/lib/router/constants"
-import { authQueries } from "~/state/auth/query"
-import { orgQueries } from "~/state/org/query"
+import { authQueries } from "~/state/auth/cache"
+import { orgQueries } from "~/state/org/cache"
 import { isEmpty, isNetworkError, isNil } from "~/utils/is"
 
 // TODO: otimizar o middleware pra exibir um estado de loading melhor

@@ -12,7 +12,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
-import { orgMutations, orgQueries } from "~/state/org/query"
+import { orgMutations, orgQueries } from "~/state/org/cache"
 import { CreateOrg } from "~/state/org/schemas"
 import { isNetworkError, isNil } from "~/utils/is"
 

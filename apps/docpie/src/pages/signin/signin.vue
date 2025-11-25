@@ -12,9 +12,9 @@ import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
-import { authMutations, authQueries } from "~/state/auth/query"
+import { authMutations, authQueries } from "~/state/auth/cache"
 import { SignIn } from "~/state/auth/schemas"
-import { orgQueries } from "~/state/org/query"
+import { orgQueries } from "~/state/org/cache"
 
 const client = useQueryClient()
 

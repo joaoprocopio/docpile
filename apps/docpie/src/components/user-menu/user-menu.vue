@@ -11,7 +11,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "~/lib/ui/dropdown-menu"
-import { authMutations, authQueries } from "~/state/auth/query"
+import { authMutations, authQueries } from "~/state/auth/cache"
 import { composeInitials } from "~/utils/avatar"
 
 const client = useQueryClient()
