@@ -1,26 +1,63 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { DefaultError, MutationKey, UseMutationOptions } from "~/lib/cache"
 
+export type AnyFn = (...args: any[]) => any
+export type Definition = Record<string, AnyFn>
+
+export type DefineKeys<TKey, TDefine> = {
+    [TDef in keyof TDefine]: TDefine[TDef] extends (...args: infer TArgs) => infer TReturn
+        ? TReturn extends [...infer QK]
+            ? (...args: TArgs) => readonly [TKey, ...QK]
+            : never
+        : never
+}
+
+export type DefineKeyring<
+    TKey extends string,
+    TDefineQueryKeys extends Definition,
+    TDefineMutationKeys extends Definition,
+    // TDefineQueries extends Define,
+    // TDefineMutations extends Define,
+> = {
+    keys: {
+        queries: DefineKeys<TKey, TDefineQueryKeys>
+        mutations: DefineKeys<TKey, TDefineMutationKeys>
+    }
+    // queries: null
+    // mutations: null
+}
+
+export function defineKeyring<const TKey extends string>(_: TKey) {
+    return function <
+        const TDefineQueryKeys extends Definition,
+        const TDefineMutationKeys extends Definition,
+        const TKeyring extends DefineKeyring<
+            TKey,
+            TDefineQueryKeys,
+            TDefineMutationKeys
+        > = DefineKeyring<TKey, TDefineQueryKeys, TDefineMutationKeys>,
+    >(keyring: TKeyring) {
+        return keyring
+    }
+}
+
 export function key<const TKey extends readonly unknown[]>(...args: TKey) {
     return args
 }
 
-export function defineKeyring<
-    const TRootKey extends string,
-    const TDefs extends Record<string, (...args: any[]) => any>,
->(
-    defs: { all: () => readonly [TRootKey] } & {
-        [TDef in keyof TDefs]: TDefs[TDef] extends (...args: infer TArgs) => infer TReturn
-            ? TReturn extends { queryKey: readonly [...infer QK] }
-                ? (...args: TArgs) => TReturn & { queryKey: readonly [TRootKey, ...QK] }
-                : TReturn extends { mutationKey: readonly [...infer MK] }
-                  ? (...args: TArgs) => TReturn & { mutationKey: readonly [TRootKey, ...MK] }
-                  : TDefs[TDef]
-            : TDefs[TDef]
+const cache = defineKeyring("auth")({
+    keys: {
+        queries: {
+            all: () => key("auth", { abc: 123 }),
+        },
+        mutations: {
+            all: () => key("auth", 123),
+        },
     },
-) {
-    return defs
-}
+})
+
+cache.keys.queries.all()
+cache.keys.mutations.all()
 
 export function mutationOptions<
     TData = unknown,
