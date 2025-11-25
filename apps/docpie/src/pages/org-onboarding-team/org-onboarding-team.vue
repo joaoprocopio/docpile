@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { Button } from "~/lib/ui/button"
+import { useOnboarding } from "~/state/org/composables"
+
+const onboarding = useOnboarding()
 </script>
 
 <template>
@@ -17,7 +20,8 @@ import { Button } from "~/lib/ui/button"
         <div class="mt-12 flex flex-col items-center gap-y-3">
             <Button
                 class="min-w-48"
-                variant="secondary">
+                variant="secondary"
+                @click="() => onboarding.next()">
                 Continue
             </Button>
         </div>

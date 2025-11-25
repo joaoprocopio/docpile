@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { DefaultError, MutationKey, UseMutationOptions } from "~/lib/cache"
 
 export type Namespace = string
-export type AnyFn = (...args: any[]) => any
 export type Definition = Record<Namespace, AnyFn>
 
 export type KeysDefinition<TNamespace extends Namespace, TDefinition extends Definition> = {
@@ -68,7 +66,7 @@ export function defineCache<const TNamespace extends Namespace>(_: TNamespace) {
     }
 }
 
-export function key<const TKeys extends readonly unknown[]>(...args: TKeys) {
+export function key<const TKeys extends AnyArray>(...args: TKeys) {
     return args
 }
 

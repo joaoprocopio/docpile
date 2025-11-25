@@ -3,11 +3,12 @@ import type { AcceptableValue } from "reka-ui"
 
 import { useColorMode } from "#imports"
 import { ColorMode, type TColorMode } from "~/lib/color-mode/constants"
-import { OrgRoutes } from "~/lib/router/constants"
-import { buttonVariants } from "~/lib/ui/button"
+import { Button } from "~/lib/ui/button"
 import { ToggleGroup, ToggleGroupItem } from "~/lib/ui/toggle-group"
+import { useOnboarding } from "~/state/org/composables"
 import { isString } from "~/utils/is"
 
+const onboarding = useOnboarding()
 const colorMode = useColorMode()
 
 function update(cm: AcceptableValue) {
@@ -69,16 +70,12 @@ function resolveIcon(cm: TColorMode) {
         </div>
 
         <div class="mt-12 flex flex-col items-center">
-            <NuxtLink
-                :class="
-                    buttonVariants({
-                        class: 'min-w-40',
-                        variant: 'secondary',
-                    })
-                "
-                :to="{ name: OrgRoutes.Onboarding.Team }">
+            <Button
+                class="min-w-40"
+                variant="secondary"
+                @click="() => onboarding.next()">
                 Continue
-            </NuxtLink>
+            </Button>
         </div>
     </div>
 </template>

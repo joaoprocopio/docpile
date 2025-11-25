@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useRouter } from "#app"
-import { OrgRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
+import { useOnboarding } from "~/state/org/composables"
 
-const router = useRouter()
+const onboarding = useOnboarding()
 </script>
 
 <template>
@@ -23,7 +22,7 @@ const router = useRouter()
         <Button
             class="mt-12 min-w-56"
             variant="secondary"
-            :to="{ name: OrgRoutes.Onboarding.Theme }">
+            @click="() => onboarding.next()">
             Get started
         </Button>
     </div>
