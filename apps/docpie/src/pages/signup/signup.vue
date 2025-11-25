@@ -13,9 +13,9 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/l
 import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
-import { authMutations, authQueries } from "~/state/auth/cache"
+import { authCache } from "~/state/auth/cache"
 import { SignUp } from "~/state/auth/schemas"
-import { orgQueries } from "~/state/org/cache"
+import { orgCache } from "~/state/org/cache"
 
 const client = useQueryClient()
 
@@ -35,10 +35,10 @@ const form = useForm({
 const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
-    ...authMutations.signUp(),
+    ...authCache.mutations.signup(),
     onSuccess(data) {
-        client.setQueryData(authQueries.whoami().queryKey, data)
-        client.prefetchQuery(orgQueries.orgs())
+        client.setQueryData(authCache.keys.queries.whoami(), data)
+        client.prefetchQuery(orgCache.queries.list())
         rerunMiddleware()
     },
     onError: (err) => {
@@ -50,7 +50,7 @@ const mutation = useMutation({
     },
 })
 
-const isMutating = useIsMutating({ mutationKey: authMutations.signUp().mutationKey })
+const isMutating = useIsMutating({ mutationKey: authCache.keys.mutations.signup() })
 const isLoading = computed(() => Boolean(isMutating.value))
 
 const [showPassword, toggleShowPassword] = useToggle(false)

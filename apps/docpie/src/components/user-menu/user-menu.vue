@@ -10,16 +10,16 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "~/lib/ui/dropdown-menu"
-import { authMutations, authQueries } from "~/state/auth/cache"
+import { authCache } from "~/state/auth/cache"
 import { composeInitials } from "~/utils/avatar"
 
 const client = useQueryClient()
 
-const user = useQuery(authQueries.whoami())
+const user = useQuery(authCache.queries.whoami())
 const signout = useMutation({
-    ...authMutations.signOut(),
+    ...authCache.mutations.signout(),
     onSuccess: () => {
-        client.removeQueries({ queryKey: authQueries.all() })
+        client.removeQueries({ queryKey: authCache.keys.queries.all() })
         rerunMiddleware()
     },
 })

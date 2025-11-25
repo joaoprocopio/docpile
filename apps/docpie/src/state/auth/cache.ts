@@ -40,7 +40,3 @@ export const authCache = defineCache("auth")({
             }),
     },
 })
-
-export const authQueries = {}
-
-export const authMutations = {}

@@ -8,8 +8,8 @@ import {
     OrgRoutes,
     OrgRoutesSet,
 } from "~/lib/router/constants"
-import { authQueries } from "~/state/auth/cache"
-import { orgQueries } from "~/state/org/cache"
+import { authCache } from "~/state/auth/cache"
+import { orgCache } from "~/state/org/cache"
 import { isEmpty, isNetworkError, isNil } from "~/utils/is"
 
 // TODO: otimizar o middleware pra exibir um estado de loading melhor
@@ -18,8 +18,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
 
     const [user, orgs] = await Promise.allSettled([
-        client.ensureQueryData(authQueries.whoami()),
-        client.ensureQueryData(orgQueries.orgs()),
+        client.ensureQueryData(authCache.queries.whoami()),
+        client.ensureQueryData(orgCache.queries.list()),
     ])
 
     if (user.status === "rejected") {

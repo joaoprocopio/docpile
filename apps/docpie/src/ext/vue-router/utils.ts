@@ -1,8 +1,6 @@
 import { useRouter } from "#app"
 
-export async function rerunMiddleware(router = useRouter()) {
-    const route = router.currentRoute.value
-
+export async function rerunMiddleware(router = useRouter(), route = router.currentRoute.value) {
     await router.push({
         name: route.name,
         hash: route.hash,

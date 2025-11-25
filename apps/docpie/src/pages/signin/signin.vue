@@ -12,9 +12,9 @@ import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
-import { authMutations, authQueries } from "~/state/auth/cache"
+import { authCache } from "~/state/auth/cache"
 import { SignIn } from "~/state/auth/schemas"
-import { orgQueries } from "~/state/org/cache"
+import { orgCache } from "~/state/org/cache"
 
 const client = useQueryClient()
 
@@ -33,10 +33,10 @@ const form = useForm({
 const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
-    ...authMutations.signIn(),
+    ...authCache.mutations.signin(),
     onSuccess(data) {
-        client.setQueryData(authQueries.whoami().queryKey, data)
-        client.prefetchQuery(orgQueries.orgs())
+        client.setQueryData(authCache.keys.queries.whoami(), data)
+        client.prefetchQuery(orgCache.queries.list())
         rerunMiddleware()
     },
     onError: () => {
@@ -44,7 +44,7 @@ const mutation = useMutation({
     },
 })
 
-const isMutating = useIsMutating({ mutationKey: authMutations.signIn().mutationKey })
+const isMutating = useIsMutating({ mutationKey: authCache.keys.mutations.signin() })
 const isLoading = computed(() => Boolean(isMutating.value))
 
 const [showPassword, toggleShowPassword] = useToggle(false)
