@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { DefaultError, MutationKey, UseMutationOptions } from "~/lib/cache"
 
+export type Namespace = string
 export type AnyFn = (...args: any[]) => any
-export type Definition = Record<string, AnyFn>
+export type Definition = Record<Namespace, AnyFn>
 
-export type KeysDefinition<TNamespace, TDefinition> = {
+export type KeysDefinition<TNamespace extends Namespace, TDefinition extends Definition> = {
     [TDef in keyof TDefinition]: TDefinition[TDef] extends (...args: infer TArgs) => infer TReturn
         ? TReturn extends [...infer QK]
             ? (...args: TArgs) => readonly [TNamespace, ...QK]
@@ -12,30 +13,56 @@ export type KeysDefinition<TNamespace, TDefinition> = {
         : never
 }
 
+export type QueriesDefinition<TNamespace extends Namespace, TDefinition extends Definition> = {
+    [TDef in keyof TDefinition]: TDefinition[TDef] extends (...args: infer TArgs) => infer TReturn
+        ? TReturn extends { queryKey: readonly [...infer QK] }
+            ? (...args: TArgs) => TReturn & { queryKey: readonly [TNamespace, ...QK] }
+            : never
+        : never
+}
+
+export type MutationsDefinition<TNamespace extends Namespace, TDefinition extends Definition> = {
+    [TDef in keyof TDefinition]: TDefinition[TDef] extends (...args: infer TArgs) => infer TReturn
+        ? TReturn extends { mutationKey: readonly [...infer QK] }
+            ? (...args: TArgs) => TReturn & { mutationKey: readonly [TNamespace, ...QK] }
+            : never
+        : never
+}
+
 export type KeyringDefinition<
-    TNamespace extends string,
+    TNamespace extends Namespace,
     TQueryKeysDefinition extends Definition,
     TMutationKeysDefinition extends Definition,
-    // TQueriesDefinition extends Definition,
-    // TMutationsDefinition extends Definition,
+    TQueriesDefinition extends Definition,
+    TMutationsDefinition extends Definition,
 > = {
-    keys: {
+    keys?: {
         queries: KeysDefinition<TNamespace, TQueryKeysDefinition>
         mutations: KeysDefinition<TNamespace, TMutationKeysDefinition>
     }
-    // queries: null
-    // mutations: null
+    queries?: QueriesDefinition<TNamespace, TQueriesDefinition>
+    mutations?: MutationsDefinition<TNamespace, TMutationsDefinition>
 }
 
-export function defineKeyring<const TNamespace extends string>(_: TNamespace) {
+export function defineKeyring<const TNamespace extends Namespace>(_: TNamespace) {
     return function <
         const TQueryKeysDefinition extends Definition,
         const TMutationKeysDefinition extends Definition,
+        const TQueriesDefinition extends Definition,
+        const TMutationsDefinition extends Definition,
         const TKeyringDefinition extends KeyringDefinition<
             TNamespace,
             TQueryKeysDefinition,
-            TMutationKeysDefinition
-        > = KeyringDefinition<TNamespace, TQueryKeysDefinition, TMutationKeysDefinition>,
+            TMutationKeysDefinition,
+            TQueriesDefinition,
+            TMutationsDefinition
+        > = KeyringDefinition<
+            TNamespace,
+            TQueryKeysDefinition,
+            TMutationKeysDefinition,
+            TQueriesDefinition,
+            TMutationsDefinition
+        >,
     >(keyring: TKeyringDefinition) {
         return keyring
     }
@@ -55,9 +82,8 @@ const cache = defineKeyring("auth")({
         },
     },
 })
-
-cache.keys.queries.all()
 cache.keys.mutations.all()
+cache.keys.queries.all()
 
 export function mutationOptions<
     TData = unknown,
