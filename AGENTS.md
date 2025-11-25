@@ -20,16 +20,16 @@ Reference sheet for anyone (human or AI) contributing to `docpie`.
 
 -   Entry points: `app.vue` wires up color-mode + layout shells, while `layouts/*.vue` host app frames (`app`, `auth`, `onboarding`). Route-level UX lives in `pages/**` following Nuxt conventions (e.g., `org-onboarding-*`, `signin`, `signup`, `home`). Navigation behavior is governed by `router.options.ts` and guards in `middleware/auth.global.ts`.
 -   Shared building blocks: `components/**` contains leaf or feature components (e.g., `user-menu`). Cross-cutting helpers live in `utils/**` (formatters, cloning helpers) and `ext/**` (integration glue for color-mode, ProseMirror, router utilities).
--   Styling & theming: Tailwind 4 is configured via `assets/tailwind.css`, which defines the full design token palette (OKLCH colors, gradients, radii, typography) and base layer resets. Auto-imports are disabled in `nuxt.config.ts`; imports must be explicit using the `~/` alias.
+-   Styling & theming: Tailwind 4 is configured via `lib/tailwind/tailwind.css`, which defines the full design token palette (OKLCH colors, gradients, radii, typography) and base layer resets. The Tailwind module (`lib/tailwind/module.ts`) registers the CSS and Vite plugin. Auto-imports are disabled in `nuxt.config.ts`; imports must be explicit using the `~/` alias.
 -   Supporting libraries under `lib/**`:
-    -   `lib/http/clients.ts` exposes `useHTTP()` which wraps `$fetch` with `env.API_URL` and `credentials: "include"`.
-    -   `lib/query/**` configures @tanstack/vue-query via a Nuxt plugin (`plugin.ts`), hydration helpers, devtools lazy loading, and the strongly-typed `defineKeyring`/`mutationOptions` utilities used across `state/**`.
+    -   `lib/http/clients.ts` exposes `useHTTP()` which wraps `$fetch` with `env.API_URL` and `credentials: "include"`. `lib/http/index.ts` re-exports `ofetch` for direct use.
+    -   `lib/cache/**` configures @tanstack/vue-query via a Nuxt module (`module.ts`) with runtime plugins (`runtime/plugins/client.ts`), devtools components, and the strongly-typed `defineCache`/`mutationOptions` utilities used across `state/**`. The cache system replaces the previous query system terminology.
     -   `lib/router`, `lib/const`, and other folders centralize constants and routing metadata so features can reference a single source of truth.
 
 ### Design system: `lib/ui` (shadcn-vue kit)
 
--   `apps/docpie/src/lib/ui` is a locally vendored shadcn-vue derived library. Each component resides in its own folder (`button`, `accordion`, `dialog`, etc.) with a P.cursorascalCase `.vue` file plus an `index.ts` that exports the component and variant helpers.
--   Components wrap [Reka UI](https://reka-ui.com/) primitives (`Primitive`, accordions, dialogs, drawers) and share Tailwind class presets powered by `class-variance-authority` + a custom `cn()` utility (`lib/ui/utils.ts`) that stitches `clsx` with a tailored `tailwind-merge` config. This keeps variants/densities consistent with the design tokens defined in `assets/tailwind.css`.
+-   `apps/docpie/src/lib/ui` is a locally vendored shadcn-vue derived library. Each component resides in its own folder (`button`, `accordion`, `dialog`, etc.) with a PascalCase `.vue` file plus an `index.ts` that exports the component and variant helpers.
+-   Components wrap [Reka UI](https://reka-ui.com/) primitives (`Primitive`, accordions, dialogs, drawers) and share Tailwind class presets powered by `class-variance-authority` + a custom `cn()` utility (`lib/ui/utils.ts`) that stitches `clsx` with a tailored `tailwind-merge` config. This keeps variants/densities consistent with the design tokens defined in `lib/tailwind/tailwind.css`.
 -   `module.ts` registers any global CSS required by third-party widgets (currently `vue-sonner`). Import this module from `nuxt.config.ts` via `~/lib/ui/module.ts` so additional vendor styles live with the UI kit.
 -   When adding or updating UI primitives:
     1. Generate/port the shadcn-vue component into a new directory, keeping PascalCase filenames.
@@ -42,10 +42,10 @@ Reference sheet for anyone (human or AI) contributing to `docpie`.
 -   The `apps/docpie/src/state` tree groups everything related to client state, schema validation, and async data fetching. Each domain (currently `auth` and `org`) follows the same pattern:
     -   `schemas.ts`: authoritative Zod schemas + TypeScript types (e.g., `state/auth/schemas.ts` defines `SignIn`, `SignUp`, `User`). All HTTP responses must be parsed through these schemas before leaving the state layer.
     -   `services.ts`: thin wrappers around `useHTTP()` that call the backend REST endpoints and immediately `parse` responses (see `state/auth/services.ts`, `state/org/services.ts`).
-    -   `query.ts`: declarative @tanstack/vue-query definitions built with `defineKeyring`, `queryOptions`, and `mutationOptions`, ensuring keys stay namespaced per domain. This folder is the only place that should talk to `vue-query` directly.
+    -   `cache.ts`: declarative @tanstack/vue-query definitions built with `defineCache`, `queryOptions`, and `mutationOptions`, ensuring keys stay namespaced per domain. Each domain exports a cache definition (e.g., `authCache`, `orgCache`) with typed keys, queries, and mutations. This folder is the only place that should talk to `vue-query` directly.
     -   Optional `composables.ts`: domain-specific helpers for local persistence or derived state (e.g., `state/org/composables.ts` keeps onboarding invites in storage while validating them with Zod).
--   The Vue Query plugin (`lib/query/plugin.ts`) instantiates a `QueryClient` with sane defaults (5s stale time, non-throwing errors) and handles de/rehydration via Nuxt hooks. `lib/query/devtools` exposes a lazy devtools panel `QueryDevtools` that auto-loads only in dev mode.
--   Consumers (pages/layouts/components) use the exported query/mutation factories, so they never have to know about endpoints or validation—instead they call `const whoamiQuery = authQueries.whoami()` before passing it into `useQuery(whoamiQuery)`.
+-   The Vue Query plugin (`lib/cache/runtime/plugins/client.ts`) instantiates a `QueryClient` with sane defaults (5s stale time, non-throwing errors) and is registered via the cache module. `lib/cache/runtime/components/devtools` exposes a devtools component that wraps `@tanstack/vue-query-devtools`.
+-   Consumers (pages/layouts/components) use the exported cache definitions, so they never have to know about endpoints or validation—instead they call `const whoamiQuery = authCache.queries.whoami()` before passing it into `useQuery(whoamiQuery)`.
 -   Global state that is not query-driven (e.g., onboarding multi-step buffers, cached invite lists) should either live in `state/<domain>/composables.ts` or leverage `@vueuse/core` helpers alongside Zod refinements to keep stored values valid.
 
 ## Prerequisites
