@@ -69,7 +69,7 @@ function resolveIcon(cm: TColorMode) {
         </div>
 
         <div class="mt-12 flex flex-col items-center">
-            <RouterLink
+            <NuxtLink
                 :class="
                     buttonVariants({
                         class: 'min-w-40',
@@ -78,7 +78,7 @@ function resolveIcon(cm: TColorMode) {
                 "
                 :to="{ name: OrgRoutes.Onboarding.Team }">
                 Continue
-            </RouterLink>
+            </NuxtLink>
         </div>
     </div>
 </template>

@@ -20,7 +20,6 @@ import {
     ItemActions,
     ItemContent,
     ItemDescription,
-    ItemFooter,
     ItemGroup,
     ItemMedia,
     ItemTitle,
@@ -230,6 +229,31 @@ function sendInvites() {
                         <ItemDescription>
                             {{ Role[invite.role].title }}
                         </ItemDescription>
+                        <ItemDescription class="flex items-center gap-2">
+                            <Tooltip>
+                                <TooltipTrigger as-child>
+                                    <Button
+                                        disabled
+                                        size="icon"
+                                        class="size-6"
+                                        variant="secondary">
+                                        <Icon
+                                            class="size-3.5"
+                                            name="lucide:copy" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Copy to clipboard</p>
+                                </TooltipContent>
+                            </Tooltip>
+
+                            <Button
+                                class="h-fit p-0"
+                                variant="link"
+                                as-child>
+                                <NuxtLink>https://localhost:3000/123</NuxtLink>
+                            </Button>
+                        </ItemDescription>
                     </ItemContent>
 
                     <ItemActions>
@@ -241,21 +265,6 @@ function sendInvites() {
                             <Icon name="lucide:x" />
                         </Button>
                     </ItemActions>
-
-                    <ItemFooter>
-                        <Tooltip>
-                            <TooltipTrigger as-child>
-                                <Button
-                                    size="icon"
-                                    variant="secondary">
-                                    <Icon name="lucide:copy" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Copy to clipboard</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </ItemFooter>
                 </Item>
             </template>
         </ItemGroup>

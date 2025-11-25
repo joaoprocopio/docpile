@@ -17,7 +17,7 @@ import { buttonVariants } from "~/lib/ui/button"
             </div>
         </div>
 
-        <RouterLink
+        <NuxtLink
             :class="
                 buttonVariants({
                     class: 'mt-12 min-w-56',
@@ -26,6 +26,6 @@ import { buttonVariants } from "~/lib/ui/button"
             "
             :to="{ name: OrgRoutes.Onboarding.Theme }">
             Get started
-        </RouterLink>
+        </NuxtLink>
     </div>
 </template>
