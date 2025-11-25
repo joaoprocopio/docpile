@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
-import { useRoute } from "vue-router"
 
+import { useRoute } from "#app"
 import { UserMenu } from "~/components/user-menu"
 import { asConst } from "~/lib/const"
 import { OrgRoutes } from "~/lib/router/constants"

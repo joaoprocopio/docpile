@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useRouter } from "#app"
 import { OrgRoutes } from "~/lib/router/constants"
-import { buttonVariants } from "~/lib/ui/button"
+import { Button } from "~/lib/ui/button"
+
+const router = useRouter()
 </script>
 
 <template>
@@ -17,15 +20,11 @@ import { buttonVariants } from "~/lib/ui/button"
             </div>
         </div>
 
-        <NuxtLink
-            :class="
-                buttonVariants({
-                    class: 'mt-12 min-w-56',
-                    variant: 'secondary',
-                })
-            "
+        <Button
+            class="mt-12 min-w-56"
+            variant="secondary"
             :to="{ name: OrgRoutes.Onboarding.Theme }">
             Get started
-        </NuxtLink>
+        </Button>
     </div>
 </template>
