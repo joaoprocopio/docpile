@@ -83,11 +83,9 @@ provideOnboarding({
                     :key="onboardingRouteIndex">
                     <PageControlTrigger
                         v-if="onboardingRouteIndex <= index"
-                        as-child
-                        :value="onboardingRoute">
-                        <NuxtLink :to="{ name: onboardingRoute }">
-                            <PageControlItem />
-                        </NuxtLink>
+                        :value="onboardingRoute"
+                        @click="() => go(onboardingRouteIndex)">
+                        <PageControlItem />
                     </PageControlTrigger>
                     <PageControlTrigger
                         v-else
