@@ -2,27 +2,8 @@ import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/cache/u
 import { AuthServices } from "~/state/auth/services"
 
 export const authCache = defineKeyring("auth")({
-    keys: {
-        mutations: null,
-        queries: null,
-    },
-    queries: null,
-    mutations: null,
+    keys: {},
 })
-
-// query keys
-// authCache.keys.queries.all()
-
-// mutation keys
-// authCache.keys.mutations.all()
-
-// queries
-// authCache.queries.whoami()
-
-// mutations
-// authCache.queries.signIn()
-// authCache.queries.signUp()
-// authCache.queries.signOut()
 
 export const authQueries = defineKeyring({
     all: () => key("auth"),

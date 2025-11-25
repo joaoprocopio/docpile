@@ -37,8 +37,8 @@ export type KeyringDefinition<
     TMutationsDefinition extends Definition,
 > = {
     keys?: {
-        queries: KeysDefinition<TNamespace, TQueryKeysDefinition>
-        mutations: KeysDefinition<TNamespace, TMutationKeysDefinition>
+        queries?: KeysDefinition<TNamespace, TQueryKeysDefinition>
+        mutations?: KeysDefinition<TNamespace, TMutationKeysDefinition>
     }
     queries?: QueriesDefinition<TNamespace, TQueriesDefinition>
     mutations?: MutationsDefinition<TNamespace, TMutationsDefinition>
@@ -71,19 +71,6 @@ export function defineKeyring<const TNamespace extends Namespace>(_: TNamespace)
 export function key<const TKeys extends readonly unknown[]>(...args: TKeys) {
     return args
 }
-
-const cache = defineKeyring("auth")({
-    keys: {
-        queries: {
-            all: () => key("auth", { abc: 123 }),
-        },
-        mutations: {
-            all: () => key("auth", 123),
-        },
-    },
-})
-cache.keys.mutations.all()
-cache.keys.queries.all()
 
 export function mutationOptions<
     TData = unknown,
