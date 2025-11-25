@@ -208,7 +208,7 @@ function sendInvites() {
 
         <ItemGroup
             v-if="!isEmpty(invites)"
-            class="mt-6 gap-y-4">
+            class="mt-10 gap-y-4">
             <template
                 v-for="(invite, inviteIndex) in invites"
                 :key="invite.email">
