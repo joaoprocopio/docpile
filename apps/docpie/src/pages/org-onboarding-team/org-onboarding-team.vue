@@ -247,6 +247,7 @@ function sendInvites() {
                                 </TooltipContent>
                             </Tooltip>
 
+                            <!-- Aqui vai dar o link -->
                             <Button
                                 class="h-fit p-0"
                                 variant="link"
