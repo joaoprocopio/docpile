@@ -1,5 +1,4 @@
-import { FetchError } from "ofetch"
-
+import { FetchError } from "~/lib/http"
 import { hasOwnProperty } from "~/utils/obj"
 
 export function isNetworkError<T>(err: unknown): err is FetchError<T> {
