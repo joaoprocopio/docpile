@@ -1,4 +1,4 @@
-import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/query/utils"
+import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { OrgServices } from "~/state/org/services"
 
 export const orgQueries = defineKeyring({

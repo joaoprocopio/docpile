@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         "@nuxt/image",
         "@nuxtjs/color-mode",
         "~/lib/tailwind/module.ts",
-        "~/lib/query/module.ts",
+        "~/lib/cache/module.ts",
         "~/lib/ui/module.ts",
     ],
     ssr: false,

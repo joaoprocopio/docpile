@@ -7,6 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import { QueryDevtools } from "~/lib/query/devtools"
+import { QueryDevtools } from "~/lib/cache/runtime/components/devtools"
 import { Sonner } from "~/lib/ui/sonner"
 </script>

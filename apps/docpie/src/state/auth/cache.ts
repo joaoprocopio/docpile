@@ -1,4 +1,4 @@
-import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/query/utils"
+import { defineKeyring, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { AuthServices } from "~/state/auth/services"
 
 export const authCache = defineCache("auth", {
