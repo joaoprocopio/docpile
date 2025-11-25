@@ -15,7 +15,7 @@ export const orgCache = defineCache("org", {
     queries: {
         list: () =>
             queryOptions({
-                queryKey: ["or"] as const,
+                queryKey: orgCache.keys.queries.list(),
                 queryFn: OrgServices.list,
             }),
     },
