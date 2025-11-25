@@ -196,9 +196,7 @@ function sendInvites() {
                 </InputGroup>
 
                 <FieldDescription v-if="!hasErrors">
-                    <span class="after:content-[' ']">
-                        Separate each email address with a new line
-                    </span>
+                    <span> Separate each email address with a new line </span>
                     <Kbd class="text-2xs">⏎</Kbd>
                 </FieldDescription>
 
@@ -249,7 +247,7 @@ function sendInvites() {
                             <TooltipTrigger as-child>
                                 <Button
                                     size="icon"
-                                    variant="outline">
+                                    variant="secondary">
                                     <Icon name="lucide:copy" />
                                 </Button>
                             </TooltipTrigger>
