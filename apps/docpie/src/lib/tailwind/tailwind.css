@@ -335,6 +335,8 @@
     --destructive: var(--destructive-5);
     --destructive-foreground: var(--destructive-12);
     --input: var(--gray-4);
+    --tooltip: var(--gray-11);
+    --tooltip-foreground: var(--white-a12);
     --border: var(--gray-a3);
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
@@ -564,6 +566,8 @@
     --destructive: var(--destructive-4);
     --destructive-foreground: var(--destructive-10);
     --input: var(--gray-4);
+    --tooltip: var(--gray-6);
+    --tooltip-foreground: var(--white-a12);
     --border: var(--gray-a3);
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
@@ -823,6 +827,8 @@
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
     --color-input: var(--input);
+    --color-tooltip: var(--tooltip);
+    --color-tooltip-foreground: var(--tooltip-foreground);
     --color-border: var(--border);
     --color-ring: var(--ring);
     --color-outline: var(--outline);

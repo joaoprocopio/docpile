@@ -20,6 +20,7 @@ import {
     ItemActions,
     ItemContent,
     ItemDescription,
+    ItemFooter,
     ItemGroup,
     ItemMedia,
     ItemTitle,
@@ -27,6 +28,7 @@ import {
 import { Kbd } from "~/lib/ui/kbd"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
 import { Separator } from "~/lib/ui/separator"
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/lib/ui/tooltip"
 import { orgCache } from "~/state/org/cache"
 import { useInvites } from "~/state/org/composables"
 import { CreateInviteMultiline, Role, type TCreateInviteIn, type TRole } from "~/state/org/schemas"
@@ -241,6 +243,21 @@ function sendInvites() {
                             <Icon name="lucide:x" />
                         </Button>
                     </ItemActions>
+
+                    <ItemFooter>
+                        <Tooltip>
+                            <TooltipTrigger as-child>
+                                <Button
+                                    size="icon"
+                                    variant="outline">
+                                    <Icon name="lucide:copy" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Copy to clipboard</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </ItemFooter>
                 </Item>
             </template>
         </ItemGroup>

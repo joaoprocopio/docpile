@@ -13,6 +13,7 @@ defineOptions({
 const props = withDefaults(
     defineProps<TooltipContentProps & { class?: HTMLAttributes["class"] }>(),
     {
+        class: undefined,
         sideOffset: 4,
     },
 )
@@ -30,14 +31,14 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
             v-bind="{ ...forwarded, ...$attrs }"
             :class="
                 cn(
-                    'z-50 w-fit animate-in rounded-md bg-primary px-3 py-1.5 text-xs text-balance text-primary-foreground fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
+                    'z-50 w-fit animate-in rounded-md bg-tooltip px-2.5 py-1 text-2xs text-balance text-tooltip-foreground fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
                     props.class,
                 )
             ">
             <slot />
 
             <TooltipArrow
-                class="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-primary fill-primary" />
+                class="z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px] bg-tooltip fill-tooltip" />
         </TooltipContent>
     </TooltipPortal>
 </template>
