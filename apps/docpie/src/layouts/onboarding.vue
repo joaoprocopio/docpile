@@ -27,8 +27,10 @@ const isStepping = computed<boolean>(() => currentOnboardingRouteIndex.value !==
         class="grid h-full grid-cols-1 grid-rows-[auto_1fr_auto]"
         style="--topbar-height: 4rem; --bottombar-height: 3rem">
         <div
-            class="fixed inset-x-0 top-0 z-10 flex h-(--topbar-height) w-full items-center justify-center backdrop-blur-md sm:justify-end">
-            <UserMenu class="px-6" />
+            class="fixed inset-x-0 top-0 z-10 flex h-(--topbar-height) w-full items-center justify-center sm:justify-end">
+            <div class="overflow-hidden rounded-full bg-background/60 backdrop-blur">
+                <UserMenu />
+            </div>
         </div>
 
         <div
@@ -41,9 +43,9 @@ const isStepping = computed<boolean>(() => currentOnboardingRouteIndex.value !==
 
         <div
             v-if="isStepping"
-            class="fixed inset-x-0 bottom-0 z-10 flex h-(--bottombar-height) justify-center backdrop-blur-md">
+            class="fixed inset-x-0 bottom-0 z-10 flex h-(--bottombar-height) items-center justify-center">
             <PageControl
-                class="justify-center px-6"
+                class="rounded-full bg-background/60 px-2 py-1 backdrop-blur"
                 :model-value="(() => route.name as string)()">
                 <template
                     v-for="(onboardingRoute, onboardingRouteIndex) in ONBOARDING_STEPS"
