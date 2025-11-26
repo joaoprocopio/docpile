@@ -29,6 +29,7 @@ import {
 import { sonner } from "~/lib/ui/sonner"
 import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
+import { isEmpty } from "~/utils/is"
 
 const onboarding = useOnboarding()
 const clipboard = useClipboard()
@@ -39,8 +40,14 @@ const slug = computed(() => route.params.slug as string)
 
 const inviteToken = useQuery(orgCache.queries.inviteToken({ orgSlug: slug.value }))
 const rotateInviteToken = useMutation(orgCache.mutations.rotateInviteToken())
+const hasToken = computed<boolean>(() => !isEmpty(inviteToken.data.value))
 
 const inviteLink = computed(() => {
+    if (!hasToken.value) {
+        rotateInviteToken.mutate({ orgSlug: slug.value })
+        return undefined
+    }
+
     const resolved = router.resolve({
         name: InviteRoute,
         params: { token: inviteToken.data.value },
@@ -50,7 +57,11 @@ const inviteLink = computed(() => {
 })
 
 async function handleCopy() {
-    await clipboard.copy(inviteLink.value)
+    if (!hasToken.value) {
+        throw new Error("Invite token is null, so it can't be copied. Generate a new one.")
+    }
+
+    await clipboard.copy(inviteLink.value!)
     sonner.success("Invite link copied to clipboard!")
 }
 </script>
@@ -116,6 +127,7 @@ async function handleCopy() {
                         <InputGroupButton
                             variant="secondary"
                             class="shrink-0"
+                            :disabled="!hasToken"
                             @click="handleCopy">
                             <Icon
                                 class="size-3.5"

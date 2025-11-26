@@ -11,6 +11,7 @@ export default defineNuxtConfig({
         "@nuxt/icon",
         "@nuxt/image",
         "@nuxtjs/color-mode",
+        "~/lib/error-handling/module.ts",
         "~/lib/tailwind/module.ts",
         "~/lib/cache/module.ts",
         "~/lib/ui/module.ts",
