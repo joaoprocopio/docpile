@@ -20,8 +20,14 @@ import {
 } from "~/lib/ui/alert-dialog"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldContent, FieldDescription, FieldLabel } from "~/lib/ui/field"
-import { InputGroup, InputGroupButton, InputGroupInput } from "~/lib/ui/input-group"
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupButton,
+    InputGroupInput,
+} from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/lib/ui/tooltip"
 import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
 
@@ -53,7 +59,7 @@ async function handleCopy() {
 <template>
     <div>
         <div class="space-y-1.5 text-center">
-            <h1 class="text-2xl font-semibold">Invite people to your organization</h1>
+            <h1 class="text-2xl font-semibold">Invite your team</h1>
             <h2 class="text-xs text-muted-foreground">
                 Docpie is designed around collaborative work. You can invite people now or at any
                 time.
@@ -80,7 +86,7 @@ async function handleCopy() {
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        This action can’t be undone. Your invite link will be
+                                        This action can't be undone. Your invite link will be
                                         invalidated and can no longer be used.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
@@ -102,17 +108,27 @@ async function handleCopy() {
                     <InputGroupInput
                         :model-value="inviteLink"
                         readonly
-                        class="text-xs" />
-                    <InputGroupButton
-                        size="sm"
-                        variant="ghost"
-                        class="shrink-0"
-                        @click="handleCopy">
-                        <Icon
-                            :name="clipboard.copied.value ? 'lucide:check' : 'lucide:copy'"
-                            class="size-4" />
-                        <span class="sr-only">Copy invite link</span>
-                    </InputGroupButton>
+                        class="text-xs text-muted-foreground" />
+
+                    <InputGroupAddon align="inline-end">
+                        <Tooltip>
+                            <TooltipTrigger as-child>
+                                <InputGroupButton
+                                    size="icon-xs"
+                                    variant="ghost"
+                                    class="shrink-0"
+                                    @click="handleCopy">
+                                    <Icon
+                                        :name="
+                                            clipboard.copied.value ? 'lucide:check' : 'lucide:copy'
+                                        " />
+                                </InputGroupButton>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Copy to clipboard</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </InputGroupAddon>
                 </InputGroup>
             </Field>
         </div>
