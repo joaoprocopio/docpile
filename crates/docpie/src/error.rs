@@ -42,7 +42,7 @@ pub enum ErrorKind {
     UnauthorizedRoute,
 
     // Org
-    NoMembership,
+    NotAMember,
 
     // Systems
     Database,

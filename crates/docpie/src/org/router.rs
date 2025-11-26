@@ -74,8 +74,8 @@ async fn invite_token_v1(
             );
 
             if is_row_not_found {
-                return Error::from_status(StatusCode::NOT_FOUND, ErrorKind::NoMembership, err)
-                    .with_title("You are not a member in any organization".into());
+                return Error::from_status(StatusCode::NOT_FOUND, ErrorKind::NotAMember, err)
+                    .with_title("You are not a member in this organization".into());
             }
 
             Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
