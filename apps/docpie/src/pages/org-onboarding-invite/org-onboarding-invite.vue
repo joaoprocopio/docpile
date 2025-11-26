@@ -5,7 +5,7 @@ import { computed } from "vue"
 
 import { useRoute } from "#app"
 import { Button } from "~/lib/ui/button"
-import { Field, FieldDescription } from "~/lib/ui/field"
+import { Field, FieldContent, FieldDescription, FieldLabel } from "~/lib/ui/field"
 import { InputGroup, InputGroupButton, InputGroupInput } from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
 import { orgCache } from "~/state/org/cache"
@@ -40,30 +40,33 @@ async function handleCopy() {
         </div>
 
         <div class="mt-8">
-            <div class="space-y-4">
-                <Field>
-                    <InputGroup class="h-auto">
-                        <InputGroupInput
-                            :model-value="inviteLink"
-                            readonly
-                            class="text-xs" />
-                        <InputGroupButton
-                            size="sm"
-                            variant="ghost"
-                            class="shrink-0"
-                            @click="handleCopy">
-                            <Icon
-                                :name="copied ? 'lucide:check' : 'lucide:copy'"
-                                class="size-4" />
-                            <span class="sr-only">Copy invite link</span>
-                        </InputGroupButton>
-                    </InputGroup>
+            <Field orientation="vertical">
+                <FieldContent>
+                    <FieldLabel>Invite link</FieldLabel>
 
                     <FieldDescription>
                         Share this link with people you want to join your organization
                     </FieldDescription>
-                </Field>
-            </div>
+                </FieldContent>
+                {{ inviteToken }}
+
+                <InputGroup class="h-auto">
+                    <InputGroupInput
+                        :model-value="inviteLink"
+                        readonly
+                        class="text-xs" />
+                    <InputGroupButton
+                        size="sm"
+                        variant="ghost"
+                        class="shrink-0"
+                        @click="handleCopy">
+                        <Icon
+                            :name="copied ? 'lucide:check' : 'lucide:copy'"
+                            class="size-4" />
+                        <span class="sr-only">Copy invite link</span>
+                    </InputGroupButton>
+                </InputGroup>
+            </Field>
         </div>
 
         <div class="mt-12 flex flex-col items-center gap-y-3">
