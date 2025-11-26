@@ -72,7 +72,9 @@ async function handleCopy() {
                     <FieldLabel>Invite link</FieldLabel>
 
                     <FieldDescription>
-                        Share this link with people you want to join your organization. You can
+                        <span>
+                            Share this link with people you want to join your organization. You can
+                        </span>
                         <AlertDialog>
                             <AlertDialogTrigger as-child>
                                 <Button
@@ -94,13 +96,13 @@ async function handleCopy() {
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                                     <AlertDialogAction
-                                        @click="() => rotateInviteToken.mutate({ orgSlug: slug })"
-                                        >Generate new link</AlertDialogAction
-                                    >
+                                        @click="() => rotateInviteToken.mutate({ orgSlug: slug })">
+                                        Generate new link
+                                    </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>
-                        too.
+                        <span> too.</span>
                     </FieldDescription>
                 </FieldContent>
 
