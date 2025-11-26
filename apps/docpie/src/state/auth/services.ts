@@ -10,7 +10,7 @@ async function whoami(): Promise<TUserOut> {
 
 export type TSignInVariables = { payload: TSignInOut }
 
-async function signIn(variables: TSignInVariables): Promise<TUserOut> {
+async function signin(variables: TSignInVariables): Promise<TUserOut> {
     const http = useHTTP()
     const response = await http("/v1/auth/signin", {
         method: "POST",
@@ -22,7 +22,7 @@ async function signIn(variables: TSignInVariables): Promise<TUserOut> {
 
 export type TSignUpVariables = { payload: TSignUpOut }
 
-async function signUp(variables: TSignUpVariables): Promise<TUserOut> {
+async function signup(variables: TSignUpVariables): Promise<TUserOut> {
     const http = useHTTP()
     const response = await http("/v1/auth/signup", {
         method: "POST",
@@ -32,7 +32,7 @@ async function signUp(variables: TSignUpVariables): Promise<TUserOut> {
     return User.parse(response)
 }
 
-async function signOut(): Promise<void> {
+async function signout(): Promise<void> {
     const http = useHTTP()
     const response = await http("/v1/auth/signout", {
         method: "POST",
@@ -41,9 +41,19 @@ async function signOut(): Promise<void> {
     return void response
 }
 
+async function onboard(): Promise<TUserOut> {
+    const http = useHTTP()
+    const response = await http("/v1/auth/onboard", {
+        method: "POST",
+    })
+
+    return User.parse(response)
+}
+
 export const AuthServices = {
     whoami,
-    signIn,
-    signUp,
-    signOut,
+    signin,
+    signup,
+    signout,
+    onboard,
 }

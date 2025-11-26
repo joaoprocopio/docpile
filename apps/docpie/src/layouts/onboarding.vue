@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMutation } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
@@ -7,11 +8,13 @@ import { UserMenu } from "~/components/user-menu"
 import { asConst } from "~/lib/const"
 import { OrgRoutes } from "~/lib/router/constants"
 import { PageControl, PageControlItem, PageControlTrigger } from "~/lib/ui/page-control"
+import { authCache } from "~/state/auth/cache"
 import { provideOnboarding } from "~/state/org/composables"
 import { isNil } from "~/utils/is"
 
 const router = useRouter()
 const route = useRoute()
+const onboard = useMutation(authCache.mutations.onboard())
 
 const steps = asConst([
     OrgRoutes.Onboarding.Intro,
@@ -56,7 +59,7 @@ const next = () => {
 }
 
 const finish = useDebounceFn(() => {
-    console.log("finish")
+    onboard.mutate()
 })
 
 provideOnboarding({

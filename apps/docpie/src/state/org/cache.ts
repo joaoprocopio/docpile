@@ -1,4 +1,5 @@
-import { type QueryClient, useQueryClient } from "@tanstack/vue-query"
+import type { QueryClient } from "@tanstack/vue-query"
+import { useQueryClient } from "@tanstack/vue-query"
 
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { OrgServices, type TInviteTokenVariables } from "~/state/org/services"
