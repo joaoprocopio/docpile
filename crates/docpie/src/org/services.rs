@@ -4,7 +4,6 @@ use uuid::Uuid;
 use crate::{
     auth::models::User,
     error::Result,
-    ext::uuid::new_uuid_v7,
     http::config::Server,
     org::{
         models::{Org, OrgMembership, OrgMembershipRole, OrgStatus},
@@ -59,7 +58,7 @@ pub async fn create_org(server: &Server, org_to_create: CreateOrg, user: User) -
         org.id,
         OrgMembershipRole::Owner as OrgMembershipRole,
         OffsetDateTime::now_utc(),
-        new_uuid_v7()
+        Uuid::now_v7()
     )
     .fetch_one(&mut *tx)
     .await?;
@@ -105,7 +104,7 @@ pub async fn rotate_invite_token(server: &Server, user: User, org_slug: String) 
         "#,
         org_slug,
         user.id,
-        new_uuid_v7()
+        Uuid::now_v7()
     )
     .map(|r| r.invite_token)
     .fetch_one(&server.db)
