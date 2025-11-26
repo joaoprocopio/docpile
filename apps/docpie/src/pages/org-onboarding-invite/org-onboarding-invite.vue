@@ -116,9 +116,10 @@ async function handleCopy() {
                                 <InputGroupButton
                                     size="icon-xs"
                                     variant="ghost"
-                                    class="shrink-0"
+                                    class="shrink-0 rounded-full"
                                     @click="handleCopy">
                                     <Icon
+                                        class="size-3.5"
                                         :name="
                                             clipboard.copied.value ? 'lucide:check' : 'lucide:copy'
                                         " />
