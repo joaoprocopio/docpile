@@ -19,6 +19,12 @@ export const orgCache = defineCache("org")({
                 queryKey: orgCache.keys.queries.list(),
                 queryFn: OrgServices.list,
             }),
+
+        inviteToken: (args: TInviteTokenArgs) =>
+            queryOptions({
+                queryKey: orgCache.keys.queries.inviteToken(args),
+                queryFn: () => OrgServices.inviteToken(),
+            }),
     },
     mutations: {
         create: () =>

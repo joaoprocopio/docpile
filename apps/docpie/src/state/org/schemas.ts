@@ -34,6 +34,10 @@ export const Org = z.object({
     slug: OrgSlug,
 })
 
+export const InviteToken = z.uuid().nullable()
+export type TInviteTokenIn = z.input<typeof InviteToken>
+export type TInviteTokenOut = z.output<typeof InviteToken>
+
 export type TOrgIn = z.input<typeof Org>
 export type TOrgOut = z.output<typeof Org>
 

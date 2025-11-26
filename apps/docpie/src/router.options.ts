@@ -32,7 +32,8 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         name: InviteRoute,
         path: "/invite/:token",
         meta: {
-            layout: "onboarding",
+            layout: false,
+            middleware: "invite",
         },
         component: () => import("~/pages/invite"),
     },
