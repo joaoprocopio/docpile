@@ -27,6 +27,7 @@ import {
     InputGroupInput,
 } from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
+import { Spinner } from "~/lib/ui/spinner"
 import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
 import { isEmpty } from "~/utils/is"
@@ -144,8 +145,10 @@ async function handleCopy() {
             <Button
                 class="min-w-48"
                 variant="secondary"
+                :disabled="onboarding.finishing.value"
                 @click="() => onboarding.next()">
-                Continue
+                <Spinner v-if="onboarding.finishing.value" />
+                <span v-else>Continue</span>
             </Button>
         </div>
     </div>

@@ -5,6 +5,7 @@ import { isNil } from "~/utils/is"
 export type TOnboarding = {
     steps: AnyArray<string>
     index: ComputedRef<number>
+    finishing: ComputedRef<boolean>
     go: (index: number) => void
     next: () => void
     prev: () => void

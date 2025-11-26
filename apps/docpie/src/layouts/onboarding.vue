@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMutation } from "@tanstack/vue-query"
+import { useIsMutating, useMutation } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
@@ -15,6 +15,8 @@ import { isNil } from "~/utils/is"
 const router = useRouter()
 const route = useRoute()
 const onboard = useMutation(authCache.mutations.onboard())
+const mutating = useIsMutating({ mutationKey: authCache.keys.mutations.onboard() })
+const finishing = computed(() => Boolean(mutating.value))
 
 const steps = asConst([
     OrgRoutes.Onboarding.Intro,
@@ -64,6 +66,7 @@ const finish = useDebounceFn(() => {
 provideOnboarding({
     steps: steps,
     index: index,
+    finishing: finishing,
     go: go,
     prev: prev,
     next: next,
