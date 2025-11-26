@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { useQuery } from "@tanstack/vue-query"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
 
+import { useRoute } from "#app"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription } from "~/lib/ui/field"
 import { InputGroup, InputGroupButton, InputGroupInput } from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
+import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
 
 const onboarding = useOnboarding()
+const route = useRoute()
+const inviteToken = useQuery(orgCache.queries.inviteToken({ orgSlug: route.params.slug as string }))
 
 // TODO: Replace with actual invite link from backend
 const inviteLink = computed(() => {
