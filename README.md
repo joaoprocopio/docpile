@@ -1,6 +1,6 @@
 # docpie
 
-`docpie` is an open-source self-hostable documentation management solution that suits many cases.
+`docpie` is an self-hostable documentation management solution that suits many cases.
 
 ## commands
 
@@ -22,6 +22,9 @@ docker compose up -d
 cargo install sqlx-cli
 sqlx migrate run --source './crates/docpie/src/db/migrations'
 ```
+
+> if you want to reset all migrations
+> `sqlx migrate revert --source './crates/docpie/src/db/migrations' --target-version 0`
 
 ### run the server
 

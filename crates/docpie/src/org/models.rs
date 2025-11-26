@@ -21,17 +21,8 @@ pub struct OrgMembership {
     pub id: i32,
     pub user_id: i32,
     pub org_id: i32,
-    pub status: OrgMembershipStatus,
     pub role: OrgMembershipRole,
     pub created_at: OffsetDateTime,
-}
-
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, sqlx::Type)]
-#[sqlx(type_name = "org_membership_status", rename_all = "snake_case")]
-#[serde(rename_all = "snake_case")]
-pub enum OrgMembershipStatus {
-    Pending,
-    Accepted,
 }
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, sqlx::Type)]
