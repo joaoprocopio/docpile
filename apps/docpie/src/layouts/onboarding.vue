@@ -7,6 +7,7 @@ import { useRoute, useRouter } from "#app"
 import { UserMenu } from "~/components/user-menu"
 import { asConst } from "~/lib/const"
 import { OrgRoutes } from "~/lib/router/constants"
+import { buttonVariants } from "~/lib/ui/button"
 import { PageControl, PageControlItem, PageControlTrigger } from "~/lib/ui/page-control"
 import { authCache } from "~/state/auth/cache"
 import { provideOnboarding } from "~/state/org/composables"
@@ -73,10 +74,10 @@ provideOnboarding({
 <template>
     <div
         class="grid h-full grid-cols-1 grid-rows-[auto_1fr_auto]"
-        style="--topbar-height: 3.5rem; --bottombar-height: 3rem">
+        style="--topbar-height: 3.5rem; --bottombar-height: 3.5rem">
         <div
-            class="fixed top-0 right-1/2 z-10 flex h-(--topbar-height) translate-x-1/2 flex-col justify-center px-4 sm:right-0 sm:translate-x-0">
-            <UserMenu class="overflow-hidden rounded-full bg-background/40 backdrop-blur" />
+            class="fixed top-0 right-1/2 z-10 flex h-(--topbar-height) translate-x-1/2 flex-col justify-center sm:right-0 sm:translate-x-0">
+            <UserMenu class="bg-background/40 backdrop-blur" />
         </div>
 
         <div
@@ -91,7 +92,7 @@ provideOnboarding({
             v-if="stepping"
             class="fixed right-1/2 bottom-0 z-10 flex h-(--bottombar-height) translate-x-1/2 flex-col items-center justify-center">
             <PageControl
-                class="rounded-full bg-background/40 px-2 py-1 backdrop-blur"
+                class="rounded-lg bg-background/40 px-2 py-1 backdrop-blur"
                 :model-value="(() => route.name as string)()">
                 <template
                     v-for="(onboardingRoute, onboardingRouteIndex) in steps"

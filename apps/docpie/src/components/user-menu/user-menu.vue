@@ -25,6 +25,7 @@ const signout = useMutation(authCache.mutations.signout())
     <DropdownMenu v-if="user.isSuccess.value">
         <DropdownMenuTrigger as-child>
             <Button
+                v-bind="$attrs"
                 variant="ghost"
                 :class="cn('h-fit w-fit px-5! py-2', props.class)">
                 <Avatar class="size-6 rounded-sm">
