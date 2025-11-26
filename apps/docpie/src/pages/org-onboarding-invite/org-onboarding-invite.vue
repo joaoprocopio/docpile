@@ -48,7 +48,6 @@ async function handleCopy() {
                         Share this link with people you want to join your organization
                     </FieldDescription>
                 </FieldContent>
-                {{ inviteToken }}
 
                 <InputGroup class="h-auto">
                     <InputGroupInput

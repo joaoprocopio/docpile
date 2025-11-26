@@ -21,14 +21,6 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/signup"),
     },
     {
-        name: OrgRoutes.Create,
-        path: "/org",
-        meta: {
-            layout: "onboarding",
-        },
-        component: () => import("~/pages/org-create"),
-    },
-    {
         name: InviteRoute,
         path: "/invite/:token",
         meta: {
@@ -38,10 +30,19 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/invite"),
     },
     {
+        name: OrgRoutes.Create,
+        path: "/org",
+        meta: {
+            layout: "onboarding",
+        },
+        component: () => import("~/pages/org-create"),
+    },
+    {
         name: OrgRoutes.Onboarding.Intro,
         path: "/org/:slug/onboarding",
         meta: {
             layout: "onboarding",
+            middleware: "onboarding",
         },
         component: () => import("~/pages/org-onboarding-intro"),
     },
@@ -50,6 +51,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         path: "/org/:slug/onboarding/theme",
         meta: {
             layout: "onboarding",
+            middleware: "onboarding",
         },
         component: () => import("~/pages/org-onboarding-theme"),
     },
@@ -58,6 +60,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         path: "/org/:slug/onboarding/invite",
         meta: {
             layout: "onboarding",
+            middleware: "onboarding",
         },
         component: () => import("~/pages/org-onboarding-invite"),
     },
