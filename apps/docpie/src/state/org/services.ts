@@ -14,7 +14,9 @@ async function list(): Promise<TOrgOut[]> {
     return Org.array().parse(response)
 }
 
-async function create(variables: { payload: TCreateOrgOut }): Promise<TOrgOut> {
+export type TCreateOrgVariables = { payload: TCreateOrgOut }
+
+async function create(variables: TCreateOrgVariables): Promise<TOrgOut> {
     const http = useHTTP()
     const response = await http("/v1/orgs", {
         method: "POST",
@@ -24,9 +26,13 @@ async function create(variables: { payload: TCreateOrgOut }): Promise<TOrgOut> {
     return Org.parse(response)
 }
 
-async function inviteToken(slug = "TODO"): Promise<TInviteTokenOut> {
+export type TInviteTokenVariables = {
+    orgSlug: TOrgOut["slug"]
+}
+
+async function inviteToken(variables: TInviteTokenVariables): Promise<TInviteTokenOut> {
     const http = useHTTP()
-    const response = await http(`/v1/orgs/${slug}/invite_token`)
+    const response = await http(`/v1/orgs/${variables.orgSlug}/invite_token`)
 
     return InviteToken.parse(response)
 }
