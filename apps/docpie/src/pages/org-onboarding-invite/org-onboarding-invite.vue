@@ -7,6 +7,17 @@ import { useRouter } from "vue-router"
 import { useRoute } from "#app"
 import { env } from "~/env"
 import { InviteRoute } from "~/lib/router/constants"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "~/lib/ui/alert-dialog"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldContent, FieldDescription, FieldLabel } from "~/lib/ui/field"
 import { InputGroup, InputGroupButton, InputGroupInput } from "~/lib/ui/input-group"
@@ -56,12 +67,33 @@ async function handleCopy() {
 
                     <FieldDescription>
                         Share this link with people you want to join your organization. You can
-                        <Button
-                            variant="link"
-                            class="h-fit p-0 text-2xs"
-                            @click="() => rotateInviteToken.mutate({ orgSlug: slug })"
-                            >generate a new link</Button
-                        >
+                        <AlertDialog>
+                            <AlertDialogTrigger as-child>
+                                <Button
+                                    variant="link"
+                                    class="h-fit p-0 text-2xs"
+                                    >generate a new link</Button
+                                >
+                            </AlertDialogTrigger>
+
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action can’t be undone. Your invite link will be
+                                        invalidated and can no longer be used.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        @click="() => rotateInviteToken.mutate({ orgSlug: slug })"
+                                        >Generate new link</AlertDialogAction
+                                    >
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                         too.
                     </FieldDescription>
                 </FieldContent>

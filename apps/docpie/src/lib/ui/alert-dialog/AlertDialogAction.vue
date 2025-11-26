@@ -4,18 +4,28 @@ import type { AlertDialogActionProps } from "reka-ui"
 import { AlertDialogAction } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 
-import { buttonVariants } from "~/lib/ui/button"
+import { type ButtonVariants, buttonVariants } from "~/lib/ui/button"
 import { cn } from "~/lib/ui/utils"
 
-const props = defineProps<AlertDialogActionProps & { class?: HTMLAttributes["class"] }>()
+interface Props extends AlertDialogActionProps {
+    class?: HTMLAttributes["class"]
+    variant?: ButtonVariants["variant"]
+    size?: ButtonVariants["size"]
+}
 
-const delegatedProps = reactiveOmit(props, "class")
+const props = withDefaults(defineProps<Props>(), {
+    variant: "secondary",
+    class: undefined,
+    size: undefined,
+})
+
+const delegatedProps = reactiveOmit(props, ["class", "variant", "size"])
 </script>
 
 <template>
     <AlertDialogAction
         v-bind="delegatedProps"
-        :class="cn(buttonVariants(), props.class)">
+        :class="cn(buttonVariants({ size: props.size, variant: props.variant }), props.class)">
         <slot />
     </AlertDialogAction>
 </template>
