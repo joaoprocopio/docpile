@@ -45,7 +45,6 @@ const hasToken = computed<boolean>(() => !isEmpty(inviteToken.data.value))
 
 const inviteLink = computed(() => {
     if (!hasToken.value) {
-        rotateInviteToken.mutate({ orgSlug: slug.value })
         return undefined
     }
 
@@ -121,14 +120,17 @@ async function handleCopy() {
                 <InputGroup>
                     <InputGroupInput
                         :model-value="inviteLink"
+                        :disabled="!hasToken"
+                        placeholder="Please generate a new link..."
                         readonly
                         class="text-xs text-muted-foreground" />
 
-                    <InputGroupAddon align="inline-end">
+                    <InputGroupAddon
+                        v-if="hasToken"
+                        align="inline-end">
                         <InputGroupButton
                             variant="secondary"
                             class="shrink-0"
-                            :disabled="!hasToken"
                             @click="handleCopy">
                             <Icon
                                 class="size-3.5"
