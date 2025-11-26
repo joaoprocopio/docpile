@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
 import { useRouter } from "vue-router"
@@ -15,9 +15,14 @@ import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
 
 const onboarding = useOnboarding()
+const clipboard = useClipboard()
 const router = useRouter()
 const route = useRoute()
-const inviteToken = useQuery(orgCache.queries.inviteToken({ orgSlug: route.params.slug as string }))
+
+const slug = computed(() => route.params.slug as string)
+
+const inviteToken = useQuery(orgCache.queries.inviteToken({ orgSlug: slug.value }))
+const rotateInviteToken = useMutation(orgCache.mutations.rotateInviteToken())
 
 const inviteLink = computed(() => {
     const resolved = router.resolve({
@@ -27,8 +32,6 @@ const inviteLink = computed(() => {
 
     return env.BASE_URL.origin + resolved.path
 })
-
-const clipboard = useClipboard()
 
 async function handleCopy() {
     await clipboard.copy(inviteLink.value)
@@ -52,7 +55,14 @@ async function handleCopy() {
                     <FieldLabel>Invite link</FieldLabel>
 
                     <FieldDescription>
-                        Share this link with people you want to join your organization
+                        Share this link with people you want to join your organization. You can
+                        <Button
+                            variant="link"
+                            class="h-fit p-0 text-2xs"
+                            @click="() => rotateInviteToken.mutate({ orgSlug: slug })"
+                            >generate a new link</Button
+                        >
+                        too.
                     </FieldDescription>
                 </FieldContent>
 
@@ -67,7 +77,7 @@ async function handleCopy() {
                         class="shrink-0"
                         @click="handleCopy">
                         <Icon
-                            :name="clipboard.copied ? 'lucide:check' : 'lucide:copy'"
+                            :name="clipboard.copied.value ? 'lucide:check' : 'lucide:copy'"
                             class="size-4" />
                         <span class="sr-only">Copy invite link</span>
                     </InputGroupButton>
