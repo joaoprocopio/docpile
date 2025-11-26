@@ -43,6 +43,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const isAuthenticated = !isNil(user.value)
     const isOnboarded = isAuthenticated && user.value!.is_onboarded
     const hasOrgMembership = orgs.status === "fulfilled" && !isEmpty(orgs.value)
+    const toSlug = to.params.slug
 
     /* This is a message for the future me.
      * You need to remeber that the order of the assertions matter.
@@ -60,18 +61,25 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return navigateTo({ name: OrgRoutes.Create })
     }
 
-    if (isAuthenticated && hasOrgMembership && OnboardingRoutesSet.has(to.name as string)) {
-        const slug = to.params.slug
+    if (
+        isAuthenticated &&
+        hasOrgMembership &&
+        OnboardingRoutesSet.has(to.name as string) &&
+        !isString(toSlug)
+    ) {
+        return abortNavigation("Slug param should be provided")
+    }
 
-        if (!isString(slug)) {
-            return abortNavigation("Slug param should be provided")
-        }
+    if (
+        isAuthenticated &&
+        hasOrgMembership &&
+        OnboardingRoutesSet.has(to.name as string) &&
+        !isEmpty(orgs.value) &&
+        orgs.value.findIndex((org) => org.slug === toSlug) === -1
+    ) {
+        const org = orgs.value[0]!
 
-        if (!isEmpty(orgs.value) && orgs.value.findIndex((org) => org.slug === slug) === -1) {
-            const org = orgs.value[0]!
-
-            return navigateTo({ name: OrgRoutes.Onboarding.Intro, params: { slug: org.slug } })
-        }
+        return navigateTo({ name: OrgRoutes.Onboarding.Intro, params: { slug: org.slug } })
     }
 
     if (
