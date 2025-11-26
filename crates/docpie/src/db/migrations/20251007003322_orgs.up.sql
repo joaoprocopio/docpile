@@ -35,5 +35,6 @@ CREATE TABLE org_membership(
 );
 
 CREATE UNIQUE INDEX idx_org_membership_prevent_duplicate ON org_membership(user_id, org_id);
+CREATE UNIQUE INDEX idx_org_membership_invite_token ON org_membership(invite_token);
 CREATE INDEX idx_org_membership_user_id ON org_membership(user_id);
 CREATE INDEX idx_org_membership_org_id ON org_membership(org_id);

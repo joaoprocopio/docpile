@@ -4,6 +4,7 @@ import { isClientErrorStatus } from "~/lib/http/status"
 import {
     AuthRoutes,
     AuthRoutesSet,
+    InviteRoute,
     OnboardingRoutesSet,
     OrgRoutes,
     OrgRoutesSet,
@@ -16,6 +17,11 @@ import { isEmpty, isNetworkError, isNil } from "~/utils/is"
 // TODO: exibir um belo estado de erro para os diferentes casos
 export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
+
+    if (to.name === InviteRoute) {
+        // Just let Invite route middleware do its job
+        return undefined
+    }
 
     const [user, orgs] = await Promise.allSettled([
         client.ensureQueryData(authCache.queries.whoami()),

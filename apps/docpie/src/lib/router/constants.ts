@@ -8,8 +8,11 @@ export const AuthRoutes = asConst({
 export const AuthRoutesArray = Object.values(AuthRoutes)
 export const AuthRoutesSet = new Set<string>(AuthRoutesArray)
 
+export const InviteRoute = asConst("invite")
+
 export const OrgRoutes = asConst({
     Home: "org-home",
+    Join: "org-join",
     Create: "org-create",
     Onboarding: {
         Intro: "org-onboarding-intro",

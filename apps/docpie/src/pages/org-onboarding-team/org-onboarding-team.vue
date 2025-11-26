@@ -3,7 +3,7 @@ import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
 
 import { Button } from "~/lib/ui/button"
-import { Field, FieldDescription, FieldLabel } from "~/lib/ui/field"
+import { Field, FieldDescription } from "~/lib/ui/field"
 import { InputGroup, InputGroupButton, InputGroupInput } from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
 import { useOnboarding } from "~/state/org/composables"
