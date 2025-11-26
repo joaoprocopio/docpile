@@ -1,4 +1,5 @@
 use time::OffsetDateTime;
+use uuid::Uuid;
 
 use crate::{
     auth::models::User,
@@ -64,4 +65,27 @@ pub async fn create_org(server: &Server, org_to_create: CreateOrg, user: User) -
     tx.commit().await?;
 
     Ok(org)
+}
+
+pub async fn get_invite_token(
+    server: &Server,
+    user: User,
+    org_slug: String,
+) -> Result<Option<Uuid>> {
+    let invite_token = sqlx::query!(
+        r#"
+        SELECT om.invite_token FROM orgs AS o
+        JOIN org_membership AS om
+        ON om.org_id = o.id
+        WHERE o.slug = $1
+        AND om.user_id = $2
+        "#,
+        org_slug,
+        user.id
+    )
+    .map(|r| r.invite_token)
+    .fetch_one(&server.db)
+    .await?;
+
+    Ok(invite_token)
 }

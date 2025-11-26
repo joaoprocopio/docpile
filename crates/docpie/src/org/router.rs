@@ -5,7 +5,7 @@ use crate::{
     http::config::Server,
     org::{
         schemas::{CreateOrg, ReadOrg},
-        services::{create_org, list_membered_orgs},
+        services::{create_org, get_invite_token, list_membered_orgs},
     },
 };
 use axum::{
@@ -59,6 +59,28 @@ async fn create_org_v1(
     Ok(Json(org.into()))
 }
 
-async fn invite_token_v1(Path(slug): Path<String>) -> (StatusCode, Json<String>) {
-    (StatusCode::CREATED, Json(slug))
+async fn invite_token_v1(
+    session: AuthSession,
+    State(server): State<Server>,
+    Path(slug): Path<String>,
+) -> Result<Json<Option<String>>, Error> {
+    let user = session.user.expect("This route should be protected");
+    let token = get_invite_token(&server, user, slug)
+        .await
+        .map_err(|err| {
+            let is_row_not_found = matches!(
+                err.downcast_ref::<sqlx::Error>(),
+                Some(sqlx::Error::RowNotFound)
+            );
+
+            if is_row_not_found {
+                return Error::from_status(StatusCode::NOT_FOUND, ErrorKind::NoMembership, err)
+                    .with_title("You are not a member in any organization".into());
+            }
+
+            Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
+        })?
+        .map(|u| u.to_string());
+
+    Ok(Json(token))
 }

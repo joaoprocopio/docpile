@@ -41,6 +41,9 @@ pub enum ErrorKind {
     InvalidCredentials,
     UnauthorizedRoute,
 
+    // Org
+    NoMembership,
+
     // Systems
     Database,
     Server,
