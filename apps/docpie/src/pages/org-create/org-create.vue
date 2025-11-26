@@ -117,7 +117,7 @@ const isLoading = computed(() => Boolean(isMutating.value))
                                 " />
 
                             <InputGroupAddon>
-                                <InputGroupText>{{ env.HOST + "/" }}</InputGroupText>
+                                <InputGroupText>{{ env.BASE_URL.host + "/" }}</InputGroupText>
                             </InputGroupAddon>
                         </InputGroup>
 

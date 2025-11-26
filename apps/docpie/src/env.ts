@@ -1,8 +1,8 @@
 import { useRuntimeConfig } from "#app"
 
 export const env = new (class {
-    get HOST() {
-        return new URL(import.meta.url).host
+    get BASE_URL() {
+        return new URL(import.meta.url)
     }
     get DEV() {
         return import.meta.env.DEV

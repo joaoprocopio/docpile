@@ -2,8 +2,11 @@
 import { useQuery } from "@tanstack/vue-query"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
+import { useRouter } from "vue-router"
 
 import { useRoute } from "#app"
+import { env } from "~/env"
+import { InviteRoute } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldContent, FieldDescription, FieldLabel } from "~/lib/ui/field"
 import { InputGroup, InputGroupButton, InputGroupInput } from "~/lib/ui/input-group"
@@ -12,19 +15,23 @@ import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
 
 const onboarding = useOnboarding()
+const router = useRouter()
 const route = useRoute()
 const inviteToken = useQuery(orgCache.queries.inviteToken({ orgSlug: route.params.slug as string }))
 
-// TODO: Replace with actual invite link from backend
 const inviteLink = computed(() => {
-    const baseUrl = typeof window !== "undefined" ? window.location.origin : ""
-    return `${baseUrl}/invite/org-123-invite-token`
+    const resolved = router.resolve({
+        name: InviteRoute,
+        params: { token: inviteToken.data.value },
+    })
+
+    return env.BASE_URL.origin + resolved.path
 })
 
-const { copy, copied } = useClipboard()
+const clipboard = useClipboard()
 
 async function handleCopy() {
-    await copy(inviteLink.value)
+    await clipboard.copy(inviteLink.value)
     sonner.success("Invite link copied to clipboard!")
 }
 </script>
@@ -60,7 +67,7 @@ async function handleCopy() {
                         class="shrink-0"
                         @click="handleCopy">
                         <Icon
-                            :name="copied ? 'lucide:check' : 'lucide:copy'"
+                            :name="clipboard.copied ? 'lucide:check' : 'lucide:copy'"
                             class="size-4" />
                         <span class="sr-only">Copy invite link</span>
                     </InputGroupButton>
