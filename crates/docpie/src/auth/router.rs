@@ -2,7 +2,7 @@ use crate::{
     auth::{
         self,
         schemas::{ReadUser, SignIn, SignUp},
-        services::create_user,
+        services::{create_user, onboard_user},
         sessions::AuthSession,
     },
     error::{Error, ErrorKind, Result, anyerror},
@@ -19,6 +19,10 @@ pub fn router_v1() -> Router<Server> {
         .route(
             "/signout",
             routing::post(sign_out_v1).layer(auth::protected!()),
+        )
+        .route(
+            "/onboard",
+            routing::post(onboard_v1).layer(auth::protected!()),
         )
 }
 
@@ -97,4 +101,16 @@ async fn sign_up_v1(
     })?;
 
     Ok((StatusCode::CREATED, Json(user.into())))
+}
+
+async fn onboard_v1(
+    auth: AuthSession,
+    State(server): State<Server>,
+) -> Result<Json<ReadUser>, Error> {
+    let user = auth.user.expect("This route should be protected");
+    let updated_user = onboard_user(&server, user).await.map_err(|err| {
+        Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
+    })?;
+
+    Ok(Json(updated_user.into()))
 }

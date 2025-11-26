@@ -75,3 +75,20 @@ pub async fn create_user(
 
     Ok(user)
 }
+
+pub async fn onboard_user(server: &Server, user: User) -> Result<User> {
+    let user = sqlx::query_as!(
+        User,
+        r#"
+        UPDATE users
+        SET is_onboarded = true
+        WHERE id = $1
+        RETURNING id, email, password, display_name, created_at, is_onboarded
+        "#,
+        user.id
+    )
+    .fetch_one(&server.db)
+    .await?;
+
+    Ok(user)
+}
