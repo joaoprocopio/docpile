@@ -27,7 +27,6 @@ import {
     InputGroupInput,
 } from "~/lib/ui/input-group"
 import { sonner } from "~/lib/ui/sonner"
-import { Tooltip, TooltipContent, TooltipTrigger } from "~/lib/ui/tooltip"
 import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
 
@@ -74,6 +73,7 @@ async function handleCopy() {
                     <FieldDescription>
                         <span>
                             Share this link with people you want to join your organization. You can
+                            also
                         </span>
                         <AlertDialog>
                             <AlertDialogTrigger as-child>
@@ -113,24 +113,16 @@ async function handleCopy() {
                         class="text-xs text-muted-foreground" />
 
                     <InputGroupAddon align="inline-end">
-                        <Tooltip>
-                            <TooltipTrigger as-child>
-                                <InputGroupButton
-                                    size="icon-xs"
-                                    variant="ghost"
-                                    class="shrink-0 rounded-full"
-                                    @click="handleCopy">
-                                    <Icon
-                                        class="size-3.5"
-                                        :name="
-                                            clipboard.copied.value ? 'lucide:check' : 'lucide:copy'
-                                        " />
-                                </InputGroupButton>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Copy to clipboard</p>
-                            </TooltipContent>
-                        </Tooltip>
+                        <InputGroupButton
+                            variant="secondary"
+                            class="shrink-0"
+                            @click="handleCopy">
+                            <Icon
+                                class="size-3.5"
+                                :name="clipboard.copied.value ? 'lucide:check' : 'lucide:copy'" />
+
+                            <span>Copy link</span>
+                        </InputGroupButton>
                     </InputGroupAddon>
                 </InputGroup>
             </Field>
