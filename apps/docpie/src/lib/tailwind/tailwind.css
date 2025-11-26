@@ -113,32 +113,32 @@
     --white-a12: oklch(100% 0 none);
 
     /* Primary */
-    --primary-1: oklch(99.31% 0.0034 247.86);
-    --primary-2: oklch(98.202% 0.00924 242.83);
-    --primary-3: oklch(95.968% 0.02006 238.66);
-    --primary-4: oklch(93.807% 0.03496 234.8);
-    --primary-5: oklch(90.507% 0.0513 240.31);
-    --primary-6: oklch(86.327% 0.0682 243.32);
-    --primary-7: oklch(80.976% 0.08867 243.05);
-    --primary-8: oklch(73.361% 0.12136 243.09);
-    --primary-9: oklch(64.929% 0.19304 251.78);
-    --primary-10: oklch(62.23% 0.18312 251.7);
-    --primary-11: oklch(55.575% 0.16222 252.19);
-    --primary-12: oklch(32.396% 0.09638 258.82);
+    --primary-1: oklch(99.433% 0.00132 286.38);
+    --primary-2: oklch(98.231% 0.00825 271.33);
+    --primary-3: oklch(96.086% 0.01696 267.79);
+    --primary-4: oklch(93.461% 0.03104 269.82);
+    --primary-5: oklch(90.194% 0.04715 269.62);
+    --primary-6: oklch(86.195% 0.06753 271.09);
+    --primary-7: oklch(80.616% 0.08754 271.41);
+    --primary-8: oklch(73.085% 0.11233 270.43);
+    --primary-9: oklch(54.375% 0.19102 267.01);
+    --primary-10: oklch(51.065% 0.19537 266.58);
+    --primary-11: oklch(50.921% 0.1725 267.17);
+    --primary-12: oklch(31.264% 0.08582 268.6);
 
     /* Primary Alpha */
-    --primary-a1: oklch(61.517% 0.21082 256.1 / 0.01569);
-    --primary-a2: oklch(64.063% 0.19737 252.97 / 0.04314);
-    --primary-a3: oklch(64.065% 0.1821 250.16 / 0.09804);
-    --primary-a4: oklch(68.016% 0.17876 246.98 / 0.16471);
-    --primary-a5: oklch(65.584% 0.18986 250.83 / 0.23922);
-    --primary-a6: oklch(62.593% 0.19081 252.62 / 0.32549);
-    --primary-a7: oklch(60.762% 0.18284 252.19 / 0.44314);
-    --primary-a8: oklch(60.653% 0.17564 250.85 / 0.63137);
-    --primary-a9: oklch(64.929% 0.19304 251.78);
-    --primary-a10: oklch(61.755% 0.18567 252.16 / 0.98039);
-    --primary-a11: oklch(53.673% 0.16762 253.41 / 0.94902);
-    --primary-a12: oklch(27.219% 0.10532 258.96 / 0.93333);
+    --primary-a1: oklch(27.115% 0.18789 264.05 / 0.00784);
+    --primary-a2: oklch(50.109% 0.28035 263.82 / 0.03137);
+    --primary-a3: oklch(49.642% 0.25801 263.29 / 0.07059);
+    --primary-a4: oklch(50.668% 0.27669 263.67 / 0.11765);
+    --primary-a5: oklch(50.668% 0.27669 263.67 / 0.17647);
+    --primary-a6: oklch(49.84% 0.28212 263.89 / 0.24314);
+    --primary-a7: oklch(46.899% 0.26859 263.94 / 0.32941);
+    --primary-a8: oklch(44.566% 0.25245 263.89 / 0.44706);
+    --primary-a9: oklch(43.012% 0.24394 263.9 / 0.75686);
+    --primary-a10: oklch(41.559% 0.2365 263.91 / 0.8);
+    --primary-a11: oklch(39.04% 0.21863 263.83 / 0.77255);
+    --primary-a12: oklch(20.827% 0.10355 262.86 / 0.87843);
 
     /* Gray */
     --gray-1: oklch(99.135% 0.00132 286.38);
@@ -345,32 +345,32 @@
 
 .dark {
     /* Primary */
-    --primary-1: #0d1520;
-    --primary-2: #111927;
-    --primary-3: #0d2847;
-    --primary-4: #003362;
-    --primary-5: #004074;
-    --primary-6: #104d87;
-    --primary-7: #205d9e;
-    --primary-8: #2870bd;
-    --primary-9: #0090ff;
-    --primary-10: #3b9eff;
-    --primary-11: #70b8ff;
-    --primary-12: #c2e6ff;
+    --primary-1: oklch(19.086% 0.02457 276.53);
+    --primary-2: oklch(20.937% 0.03015 274.84);
+    --primary-3: oklch(27.157% 0.07051 267.98);
+    --primary-4: oklch(31.845% 0.09463 267.25);
+    --primary-5: oklch(36.247% 0.10437 267.03);
+    --primary-6: oklch(40.33% 0.11123 268.76);
+    --primary-7: oklch(44.907% 0.1201 268.94);
+    --primary-8: oklch(50.208% 0.13661 268.25);
+    --primary-9: oklch(54.375% 0.19102 267.01);
+    --primary-10: oklch(58.915% 0.17577 269.3);
+    --primary-11: oklch(77.587% 0.1138 273.02);
+    --primary-12: oklch(91.078% 0.04275 269.55);
 
     /* Primary Alpha */
-    --primary-a1: #004df211;
-    --primary-a2: #1166fb18;
-    --primary-a3: #0077ff3a;
-    --primary-a4: #0075ff57;
-    --primary-a5: #0081fd6b;
-    --primary-a6: #0f89fd7f;
-    --primary-a7: #2a91fe98;
-    --primary-a8: #3094feb9;
-    --primary-a9: #0090ff;
-    --primary-a10: #3b9eff;
-    --primary-a11: #70b8ff;
-    --primary-a12: #c2e6ff;
+    --primary-a1: oklch(48.703% 0.28944 265.14 / 0.05882);
+    --primary-a2: oklch(53.713% 0.24743 267.61 / 0.0902);
+    --primary-a3: oklch(56.412% 0.23914 265.25 / 0.23529);
+    --primary-a4: oklch(57.327% 0.23329 265.61 / 0.34118);
+    --primary-a5: oklch(59.651% 0.21515 265.75 / 0.41961);
+    --primary-a6: oklch(61.684% 0.20253 267.73 / 0.48627);
+    --primary-a7: oklch(63.613% 0.19424 268.3 / 0.56471);
+    --primary-a8: oklch(63.983% 0.19024 267.97 / 0.67451);
+    --primary-a9: oklch(60.01% 0.21637 266.85 / 0.85882);
+    --primary-a10: oklch(63.455% 0.19355 269.08 / 0.8902);
+    --primary-a11: oklch(77.587% 0.1138 273.02);
+    --primary-a12: oklch(91.078% 0.04275 269.55);
 
     /* Gray */
     --gray-1: oklch(17.853% 0.00407 285.98);
