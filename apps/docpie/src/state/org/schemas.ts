@@ -34,10 +34,6 @@ export const Org = z.object({
     slug: OrgSlug,
 })
 
-export const InviteToken = z.uuid().nullable()
-export type TInviteTokenIn = z.input<typeof InviteToken>
-export type TInviteTokenOut = z.output<typeof InviteToken>
-
 export type TOrgIn = z.input<typeof Org>
 export type TOrgOut = z.output<typeof Org>
 
@@ -48,3 +44,13 @@ export const CreateOrg = Org.pick({
 
 export type TCreateOrgIn = z.input<typeof CreateOrg>
 export type TCreateOrgOut = z.output<typeof CreateOrg>
+
+export const InviteToken = z.uuid()
+
+export type TInviteTokenIn = z.input<typeof InviteToken>
+export type TInviteTokenOut = z.output<typeof InviteToken>
+
+export const NullableInviteToken = InviteToken.nullable()
+
+export type TNullableInviteTokenIn = z.input<typeof NullableInviteToken>
+export type TNullableInviteTokenOut = z.output<typeof NullableInviteToken>
