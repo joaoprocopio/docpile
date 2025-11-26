@@ -53,12 +53,12 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-onboarding-theme"),
     },
     {
-        name: OrgRoutes.Onboarding.Team,
-        path: "/org/:slug/onboarding/team",
+        name: OrgRoutes.Onboarding.Invite,
+        path: "/org/:slug/onboarding/invite",
         meta: {
             layout: "onboarding",
         },
-        component: () => import("~/pages/org-onboarding-team"),
+        component: () => import("~/pages/org-onboarding-invite"),
     },
     {
         name: OrgRoutes.Home,

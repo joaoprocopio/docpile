@@ -15,7 +15,7 @@ const route = useRoute()
 const steps = asConst([
     OrgRoutes.Onboarding.Intro,
     OrgRoutes.Onboarding.Theme,
-    OrgRoutes.Onboarding.Team,
+    OrgRoutes.Onboarding.Invite,
 ])
 
 const index = computed<number>(() => steps.findIndex((step) => step === route.name))

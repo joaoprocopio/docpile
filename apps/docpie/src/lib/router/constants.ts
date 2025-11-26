@@ -16,8 +16,8 @@ export const OrgRoutes = asConst({
     Create: "org-create",
     Onboarding: {
         Intro: "org-onboarding-intro",
-        Team: "org-onboarding-team",
         Theme: "org-onboarding-theme",
+        Invite: "org-onboarding-invite",
     },
 })
 

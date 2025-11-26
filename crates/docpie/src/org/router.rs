@@ -80,7 +80,7 @@ async fn invite_token_v1(
 
             Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
         })?
-        .map(|u| u.to_string());
+        .map(|token| token.to_string());
 
     Ok(Json(token))
 }
