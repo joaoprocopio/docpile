@@ -106,7 +106,7 @@ async function handleCopy() {
                     </FieldDescription>
                 </FieldContent>
 
-                <InputGroup class="h-auto">
+                <InputGroup>
                     <InputGroupInput
                         :model-value="inviteLink"
                         readonly
