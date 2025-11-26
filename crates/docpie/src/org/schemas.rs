@@ -1,4 +1,4 @@
-use crate::org::models::{Org, OrgStatus};
+use crate::org::models::Org;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
@@ -6,7 +6,6 @@ use validator::Validate;
 pub struct ReadOrg {
     pub name: String,
     pub slug: String,
-    pub status: OrgStatus,
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
@@ -23,7 +22,6 @@ impl From<Org> for ReadOrg {
         Self {
             name: value.name,
             slug: value.slug,
-            status: value.status,
         }
     }
 }

@@ -29,22 +29,9 @@ export const OrgSlug = z
     .min(3, "Must be at least 3 characters long")
     .max(256, "Exceeds maximum length of 256 characters")
 
-export type TOrgStatus = "active"
-
-export const OrgStatus = constEnum<TOrgStatus>({
-    active: {
-        value: "active",
-    },
-})
-
-export const OrgStatusUnion = z.union(
-    Object.values(OrgStatus).map((status) => z.literal(status.value)),
-)
-
 export const Org = z.object({
     name: OrgName,
     slug: OrgSlug,
-    status: OrgStatusUnion,
 })
 
 export type TOrgIn = z.input<typeof Org>

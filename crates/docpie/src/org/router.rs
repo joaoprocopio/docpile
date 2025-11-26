@@ -8,12 +8,17 @@ use crate::{
         services::{create_org, list_membered_orgs},
     },
 };
-use axum::{Json, extract::State, routing};
+use axum::{
+    Json,
+    extract::{Path, State},
+    routing,
+};
 use axum::{Router, http::StatusCode};
 
 pub fn router_v1() -> Router<Server> {
     Router::new()
         .route("/", routing::get(list_orgs_v1).post(create_org_v1))
+        .route("/{slug}/invite_token", routing::get(invite_token_v1))
         .layer(auth::protected!())
 }
 
@@ -52,4 +57,8 @@ async fn create_org_v1(
         })?;
 
     Ok(Json(org.into()))
+}
+
+async fn invite_token_v1(Path(slug): Path<String>) -> (StatusCode, Json<String>) {
+    (StatusCode::CREATED, Json(slug))
 }

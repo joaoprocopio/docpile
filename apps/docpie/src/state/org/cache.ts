@@ -1,4 +1,5 @@
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
+import type { TOrgOut } from "~/state/org/schemas"
 import { OrgServices } from "~/state/org/services"
 
 export const orgCache = defineCache("org")({
@@ -6,6 +7,7 @@ export const orgCache = defineCache("org")({
         queries: {
             all: () => key("org"),
             list: () => key("org", "list"),
+            inviteToken: (args: TInviteTokenArgs) => key("org", "invite-token", args),
         },
         mutations: {
             create: () => key("org", "create"),
@@ -26,3 +28,7 @@ export const orgCache = defineCache("org")({
             }),
     },
 })
+
+export type TInviteTokenArgs = {
+    orgSlug: TOrgOut["slug"]
+}
