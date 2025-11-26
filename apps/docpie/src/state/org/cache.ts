@@ -11,6 +11,7 @@ export const orgCache = defineCache("org")({
         },
         mutations: {
             create: () => key("org", "create"),
+            rotateInviteToken: () => key("org", "invite-token", "rotate"),
         },
     },
     queries: {
@@ -19,7 +20,6 @@ export const orgCache = defineCache("org")({
                 queryKey: orgCache.keys.queries.list(),
                 queryFn: OrgServices.list,
             }),
-
         inviteToken: (variables: TInviteTokenVariables) =>
             queryOptions({
                 queryKey: orgCache.keys.queries.inviteToken(variables),
@@ -31,6 +31,11 @@ export const orgCache = defineCache("org")({
             mutationOptions({
                 mutationKey: orgCache.keys.mutations.create(),
                 mutationFn: OrgServices.create,
+            }),
+        rotateInviteToken: () =>
+            mutationOptions({
+                mutationKey: orgCache.keys.mutations.rotateInviteToken(),
+                mutationFn: OrgServices.rotateInviteToken,
             }),
     },
 })

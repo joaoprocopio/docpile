@@ -18,7 +18,10 @@ use axum::{Router, http::StatusCode};
 pub fn router_v1() -> Router<Server> {
     Router::new()
         .route("/", routing::get(list_orgs_v1).post(create_org_v1))
-        .route("/{slug}/invite_token", routing::get(invite_token_v1))
+        .route(
+            "/{slug}/invite_token",
+            routing::get(invite_token_v1).post(rotate_invite_token_v1),
+        )
         .layer(auth::protected!())
 }
 
@@ -83,4 +86,8 @@ async fn invite_token_v1(
         .map(|token| token.to_string());
 
     Ok(Json(token))
+}
+
+async fn rotate_invite_token_v1() -> Json<String> {
+    Json("abc".into())
 }

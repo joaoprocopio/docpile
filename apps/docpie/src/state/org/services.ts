@@ -37,8 +37,22 @@ async function inviteToken(variables: TInviteTokenVariables): Promise<TInviteTok
     return InviteToken.parse(response)
 }
 
+export type TRotateInviteTokenVariables = {
+    orgSlug: TOrgOut["slug"]
+}
+
+async function rotateInviteToken(variables: TInviteTokenVariables) {
+    const http = useHTTP()
+    const response = await http(`/v1/orgs/${variables.orgSlug}/invite_token`, {
+        method: "POST",
+    })
+
+    return InviteToken.parse(response)
+}
+
 export const OrgServices = {
     list,
     create,
     inviteToken,
+    rotateInviteToken,
 }
