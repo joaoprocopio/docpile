@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
 import { useRoute, useRouter } from "#app"
@@ -22,7 +23,7 @@ const index = computed<number>(() => steps.findIndex((step) => step === route.na
 
 const stepping = computed<boolean>(() => index.value !== -1)
 
-function go(index: number) {
+const go = (index: number) => {
     const nextRoute = steps[index]
 
     if (isNil(nextRoute)) return undefined
@@ -30,21 +31,33 @@ function go(index: number) {
     router.push({ name: nextRoute })
 }
 
-function prev() {
-    const nextRoute = steps[index.value - 1]
+const prev = () => {
+    const prevIndex = index.value - 1
+    const prevRoute = steps[prevIndex]
+
+    if (isNil(prevRoute)) return undefined
+
+    router.push({ name: prevRoute })
+}
+
+const next = () => {
+    const nextIndex = index.value + 1
+
+    if (nextIndex > steps.length - 1) {
+        finish()
+        return undefined
+    }
+
+    const nextRoute = steps[nextIndex]
 
     if (isNil(nextRoute)) return undefined
 
     router.push({ name: nextRoute })
 }
 
-function next() {
-    const nextRoute = steps[index.value + 1]
-
-    if (isNil(nextRoute)) return undefined
-
-    router.push({ name: nextRoute })
-}
+const finish = useDebounceFn(() => {
+    console.log("finish")
+})
 
 provideOnboarding({
     steps: steps,
