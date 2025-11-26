@@ -131,7 +131,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             <Button
                 :disabled="isLoading"
                 type="submit"
-                variant="default">
+                variant="secondary">
                 <Spinner v-if="isLoading" />
                 <template v-else> Continue with email </template>
             </Button>

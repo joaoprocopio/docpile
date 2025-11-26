@@ -557,7 +557,7 @@
     --popover: var(--gray-3);
     --popover-foreground: var(--gray-12);
     --primary: var(--primary-9);
-    --primary-foreground: var(-white-a12);
+    --primary-foreground: var(--white-a12);
     --link: var(--primary-10);
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
