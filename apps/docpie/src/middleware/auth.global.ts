@@ -97,6 +97,17 @@ export default defineNuxtRouteMiddleware(async (to) => {
         isAuthenticated &&
         hasOrgMembership &&
         isOnboarded &&
+        OnboardingRoutesSet.has(to.name as string)
+    ) {
+        const org = orgs.value[0]!
+
+        return navigateTo({ name: OrgRoutes.Home, params: { slug: org.slug } })
+    }
+
+    if (
+        isAuthenticated &&
+        hasOrgMembership &&
+        isOnboarded &&
         !OrgRoutesSet.has(to.name as string)
     ) {
         const org = orgs.value[0]!
