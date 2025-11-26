@@ -47,8 +47,7 @@ const next = () => {
     const nextIndex = index.value + 1
 
     if (nextIndex > steps.length - 1) {
-        finish()
-        return undefined
+        return finish()
     }
 
     const nextRoute = steps[nextIndex]

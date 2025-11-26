@@ -3,11 +3,10 @@ import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
 
-import { useIsMutating, useMutation, useQueryClient } from "~/lib/cache"
+import { useIsMutating, useMutation } from "~/lib/cache"
 import { FetchError } from "~/lib/http"
 import { HttpStatus } from "~/lib/http/status"
 import { AuthRoutes } from "~/lib/router/constants"
-import { rerunMiddleware } from "~/lib/router/utils"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -15,9 +14,6 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-gro
 import { Spinner } from "~/lib/ui/spinner"
 import { authCache } from "~/state/auth/cache"
 import { SignUp } from "~/state/auth/schemas"
-import { orgCache } from "~/state/org/cache"
-
-const client = useQueryClient()
 
 const form = useForm({
     defaultValues: {
@@ -36,11 +32,6 @@ const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
     ...authCache.mutations.signup(),
-    onSuccess(data) {
-        client.setQueryData(authCache.keys.queries.whoami(), data)
-        client.prefetchQuery(orgCache.queries.list())
-        rerunMiddleware()
-    },
     onError: (err) => {
         if (err instanceof FetchError && err.status === HttpStatus.Conflict) {
             form.setErrorMap({

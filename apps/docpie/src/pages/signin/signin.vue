@@ -3,9 +3,8 @@ import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
 
-import { useIsMutating, useMutation, useQueryClient } from "~/lib/cache"
+import { useIsMutating, useMutation } from "~/lib/cache"
 import { AuthRoutes } from "~/lib/router/constants"
-import { rerunMiddleware } from "~/lib/router/utils"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -14,9 +13,6 @@ import { sonner } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { authCache } from "~/state/auth/cache"
 import { SignIn } from "~/state/auth/schemas"
-import { orgCache } from "~/state/org/cache"
-
-const client = useQueryClient()
 
 const form = useForm({
     defaultValues: {
@@ -34,11 +30,6 @@ const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
     ...authCache.mutations.signin(),
-    onSuccess(data) {
-        client.setQueryData(authCache.keys.queries.whoami(), data)
-        client.prefetchQuery(orgCache.queries.list())
-        rerunMiddleware()
-    },
     onError: () => {
         sonner.error("Email or password may be invalid")
     },

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useMutation, useQuery, useQueryClient } from "~/lib/cache"
-import { rerunMiddleware } from "~/lib/router/utils"
+import { useMutation, useQuery } from "~/lib/cache"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
 import {
@@ -17,16 +16,9 @@ import { composeInitials } from "~/utils/avatar"
 const props = defineProps<{
     class?: string
 }>()
-const client = useQueryClient()
 
 const user = useQuery(authCache.queries.whoami())
-const signout = useMutation({
-    ...authCache.mutations.signout(),
-    onSuccess: () => {
-        client.removeQueries({ queryKey: authCache.keys.queries.all() })
-        rerunMiddleware()
-    },
-})
+const signout = useMutation(authCache.mutations.signout())
 </script>
 
 <template>

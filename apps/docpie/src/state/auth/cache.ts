@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/vue-query"
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { rerunMiddleware } from "~/lib/router/utils"
 import { AuthServices } from "~/state/auth/services"
+import { orgCache } from "~/state/org/cache"
 
 export const authCache = defineCache("auth")({
     keys: {
@@ -28,20 +29,34 @@ export const authCache = defineCache("auth")({
             }),
     },
     mutations: {
-        signin: () =>
+        signin: (client: QueryClient = useQueryClient()) =>
             mutationOptions({
                 mutationKey: authCache.keys.mutations.signin(),
                 mutationFn: AuthServices.signin,
+                onSuccess(data) {
+                    client.setQueryData(authCache.keys.queries.whoami(), data)
+                    client.prefetchQuery(orgCache.queries.list())
+                    rerunMiddleware()
+                },
             }),
-        signup: () =>
+        signup: (client: QueryClient = useQueryClient()) =>
             mutationOptions({
                 mutationKey: authCache.keys.mutations.signup(),
                 mutationFn: AuthServices.signup,
+                onSuccess(data) {
+                    client.setQueryData(authCache.keys.queries.whoami(), data)
+                    client.prefetchQuery(orgCache.queries.list())
+                    rerunMiddleware()
+                },
             }),
-        signout: () =>
+        signout: (client: QueryClient = useQueryClient()) =>
             mutationOptions({
                 mutationKey: authCache.keys.mutations.signout(),
                 mutationFn: AuthServices.signout,
+                onSuccess: () => {
+                    client.removeQueries({ queryKey: authCache.keys.queries.all() })
+                    rerunMiddleware()
+                },
             }),
         onboard: (client: QueryClient = useQueryClient()) =>
             mutationOptions({

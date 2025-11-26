@@ -2,7 +2,9 @@ import type { QueryClient } from "@tanstack/vue-query"
 import { useQueryClient } from "@tanstack/vue-query"
 
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
+import { rerunMiddleware } from "~/lib/router/utils"
 import { OrgServices, type TInviteTokenVariables } from "~/state/org/services"
+import { isArray } from "~/utils/is"
 
 export const orgCache = defineCache("org")({
     keys: {
@@ -30,10 +32,21 @@ export const orgCache = defineCache("org")({
             }),
     },
     mutations: {
-        create: () =>
+        create: (client: QueryClient = useQueryClient()) =>
             mutationOptions({
                 mutationKey: orgCache.keys.mutations.create(),
                 mutationFn: OrgServices.create,
+                onSuccess(data) {
+                    client.setQueryData(orgCache.queries.list().queryKey, (prevData) => {
+                        if (isArray(prevData)) {
+                            prevData.push(data)
+                        }
+
+                        return prevData
+                    })
+                    client.invalidateQueries({ queryKey: orgCache.keys.queries.all() })
+                    rerunMiddleware()
+                },
             }),
         rotateInviteToken: (client: QueryClient = useQueryClient()) =>
             mutationOptions({

@@ -4,9 +4,8 @@ import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
 
 import { env } from "~/env"
-import { useIsMutating, useMutation, useQueryClient } from "~/lib/cache"
+import { useIsMutating, useMutation } from "~/lib/cache"
 import { HttpStatus } from "~/lib/http/status"
-import { rerunMiddleware } from "~/lib/router/utils"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -14,9 +13,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/
 import { Spinner } from "~/lib/ui/spinner"
 import { orgCache } from "~/state/org/cache"
 import { CreateOrg } from "~/state/org/schemas"
-import { isNetworkError, isNil } from "~/utils/is"
-
-const client = useQueryClient()
+import { isNetworkError } from "~/utils/is"
 
 const form = useForm({
     defaultValues: {
@@ -34,17 +31,6 @@ const submit = useDebounceFn(form.handleSubmit)
 
 const mutation = useMutation({
     ...orgCache.mutations.create(),
-    onSuccess(data) {
-        client.setQueryData(orgCache.queries.list().queryKey, (prevData) => {
-            if (!isNil(prevData)) {
-                prevData.push(data)
-            }
-
-            return prevData
-        })
-        client.invalidateQueries({ queryKey: orgCache.keys.queries.all() })
-        rerunMiddleware()
-    },
     onError(err) {
         if (isNetworkError(err) && err.status === HttpStatus.Conflict) {
             form.setErrorMap({
