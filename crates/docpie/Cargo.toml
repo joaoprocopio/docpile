@@ -56,7 +56,9 @@ tower-sessions-sqlx-store = { version = "0.15.0", features = [
 ] }
 tracing = "0.1.41"
 tracing-subscriber = "0.3.19"
-uuid = "1.18.1"
+uuid = { version = "1.18.1", features = [
+    "v7"
+] }
 validator = { version = "0.20.0", features = [
     "derive"
 ] }

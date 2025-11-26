@@ -4,6 +4,7 @@ use uuid::Uuid;
 use crate::{
     auth::models::User,
     error::Result,
+    ext::uuid::new_uuid_v7,
     http::config::Server,
     org::{
         models::{Org, OrgMembership, OrgMembershipRole, OrgStatus},
@@ -50,14 +51,15 @@ pub async fn create_org(server: &Server, org_to_create: CreateOrg, user: User) -
     let _ = sqlx::query_as!(
         OrgMembership,
         r#"
-        INSERT INTO org_membership (user_id, org_id, role, created_at)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO org_membership (user_id, org_id, role, created_at, invite_token)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING id, user_id, org_id, role AS "role: OrgMembershipRole", created_at
         "#,
         user.id,
         org.id,
         OrgMembershipRole::Owner as OrgMembershipRole,
-        OffsetDateTime::now_utc()
+        OffsetDateTime::now_utc(),
+        new_uuid_v7()
     )
     .fetch_one(&mut *tx)
     .await?;
@@ -82,6 +84,28 @@ pub async fn get_invite_token(
         "#,
         org_slug,
         user.id
+    )
+    .map(|r| r.invite_token)
+    .fetch_one(&server.db)
+    .await?;
+
+    Ok(invite_token)
+}
+
+pub async fn rotate_invite_token(server: &Server, user: User, org_slug: String) -> Result<Uuid> {
+    let invite_token = sqlx::query!(
+        r#"
+        UPDATE org_membership AS om
+        SET invite_token = $3
+        FROM orgs AS o
+        WHERE om.org_id = o.id
+        AND o.slug = $1
+        AND om.user_id = $2
+        RETURNING om.invite_token AS "invite_token!"
+        "#,
+        org_slug,
+        user.id,
+        new_uuid_v7()
     )
     .map(|r| r.invite_token)
     .fetch_one(&server.db)

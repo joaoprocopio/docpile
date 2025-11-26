@@ -5,7 +5,7 @@ use crate::{
     http::config::Server,
     org::{
         schemas::{CreateOrg, ReadOrg},
-        services::{create_org, get_invite_token, list_membered_orgs},
+        services::{create_org, get_invite_token, list_membered_orgs, rotate_invite_token},
     },
 };
 use axum::{
@@ -68,26 +68,34 @@ async fn invite_token_v1(
     Path(slug): Path<String>,
 ) -> Result<Json<Option<String>>, Error> {
     let user = session.user.expect("This route should be protected");
-    let token = get_invite_token(&server, user, slug)
-        .await
-        .map_err(|err| {
-            let is_row_not_found = matches!(
-                err.downcast_ref::<sqlx::Error>(),
-                Some(sqlx::Error::RowNotFound)
-            );
+    let token = get_invite_token(&server, user, slug).await.map_err(|err| {
+        let is_row_not_found = matches!(
+            err.downcast_ref::<sqlx::Error>(),
+            Some(sqlx::Error::RowNotFound)
+        );
 
-            if is_row_not_found {
-                return Error::from_status(StatusCode::NOT_FOUND, ErrorKind::NotAMember, err)
-                    .with_title("You are not a member in this organization".into());
-            }
+        if is_row_not_found {
+            return Error::from_status(StatusCode::NOT_FOUND, ErrorKind::NotAMember, err)
+                .with_title("You are not a member in this organization".into());
+        }
 
-            Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
-        })?
-        .map(|token| token.to_string());
+        Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
+    })?;
 
-    Ok(Json(token))
+    Ok(Json(token.map(|token| token.into())))
 }
 
-async fn rotate_invite_token_v1() -> Json<String> {
-    Json("abc".into())
+async fn rotate_invite_token_v1(
+    session: AuthSession,
+    State(server): State<Server>,
+    Path(slug): Path<String>,
+) -> Result<Json<String>, Error> {
+    let user = session.user.expect("This route should be protected");
+    let token = rotate_invite_token(&server, user, slug)
+        .await
+        .map_err(|err| {
+            Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
+        })?;
+
+    Ok(Json(token.into()))
 }

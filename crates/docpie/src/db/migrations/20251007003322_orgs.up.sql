@@ -21,7 +21,7 @@ CREATE TABLE org_membership(
     "org_id" INT NOT NULL,
     "role" ORG_MEMBERSHIP_ROLE NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL,
-    "invite_token" UUID DEFAULT uuidv7(),
+    "invite_token" UUID,
 
     PRIMARY KEY(id),
     CONSTRAINT fk_org_membership_user
