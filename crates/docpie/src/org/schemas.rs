@@ -8,6 +8,21 @@ pub struct ReadOrg {
     pub slug: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ReadResolvedInvitation {
+    pub inviter_name: String,
+    pub org_name: String,
+}
+
+impl ReadResolvedInvitation {
+    pub fn new(inviter_name: String, org_name: String) -> Self {
+        Self {
+            inviter_name,
+            org_name,
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct CreateOrg {
     #[validate(length(min = 1, max = 64))]

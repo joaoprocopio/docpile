@@ -7,7 +7,7 @@ use crate::{
     http::config::Server,
     org::{
         models::{Org, OrgMembership, OrgMembershipRole, OrgStatus},
-        schemas::CreateOrg,
+        schemas::{CreateOrg, ReadResolvedInvitation},
     },
 };
 
@@ -73,13 +73,13 @@ pub async fn get_invite_token(
     user: User,
     org_slug: String,
 ) -> Result<Option<Uuid>> {
-    let invite_token = sqlx::query!(
+    let token = sqlx::query!(
         r#"
         SELECT om.invite_token FROM orgs AS o
         JOIN org_membership AS om
-        ON om.org_id = o.id
+            ON om.org_id = o.id
         WHERE o.slug = $1
-        AND om.user_id = $2
+            AND om.user_id = $2
         "#,
         org_slug,
         user.id
@@ -88,18 +88,18 @@ pub async fn get_invite_token(
     .fetch_one(&server.db)
     .await?;
 
-    Ok(invite_token)
+    Ok(token)
 }
 
 pub async fn rotate_invite_token(server: &Server, user: User, org_slug: String) -> Result<Uuid> {
-    let invite_token = sqlx::query!(
+    let token = sqlx::query!(
         r#"
         UPDATE org_membership AS om
         SET invite_token = $3
         FROM orgs AS o
         WHERE om.org_id = o.id
-        AND o.slug = $1
-        AND om.user_id = $2
+            AND o.slug = $1
+            AND om.user_id = $2
         RETURNING om.invite_token AS "invite_token!"
         "#,
         org_slug,
@@ -110,5 +110,31 @@ pub async fn rotate_invite_token(server: &Server, user: User, org_slug: String) 
     .fetch_one(&server.db)
     .await?;
 
-    Ok(invite_token)
+    Ok(token)
+}
+
+pub async fn resolve_invite_token(
+    server: &Server,
+    slug: String,
+    token: Uuid,
+) -> Result<ReadResolvedInvitation> {
+    let invitation = sqlx::query!(
+        r#"
+        SELECT u.display_name AS inviter_name, o.name AS org_name
+        FROM orgs AS o
+        JOIN org_membership AS om
+            ON o.id = om.org_id
+        JOIN users AS u
+            ON om.user_id = u.id
+        WHERE o.slug = $1
+            AND om.invite_token = $2
+        "#,
+        slug,
+        token
+    )
+    .map(|r| ReadResolvedInvitation::new(r.inviter_name, r.org_name))
+    .fetch_one(&server.db)
+    .await?;
+
+    Ok(invitation)
 }

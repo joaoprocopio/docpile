@@ -4,8 +4,11 @@ use crate::{
     ext::validator::Valid,
     http::config::Server,
     org::{
-        schemas::{CreateOrg, ReadOrg},
-        services::{create_org, get_invite_token, list_membered_orgs, rotate_invite_token},
+        schemas::{CreateOrg, ReadOrg, ReadResolvedInvitation},
+        services::{
+            create_org, get_invite_token, list_membered_orgs, resolve_invite_token,
+            rotate_invite_token,
+        },
     },
 };
 use axum::{
@@ -26,7 +29,7 @@ pub fn router_v1() -> Router<Server> {
         .layer(auth::protected!())
         .route(
             "/{slug}/invite_token/{token}",
-            routing::get(check_invite_token_v1),
+            routing::get(resolve_invitation_v1),
         )
 }
 
@@ -105,9 +108,15 @@ async fn rotate_invite_token_v1(
     Ok(Json(token.into()))
 }
 
-async fn check_invite_token_v1(Path((slug, token)): Path<(String, Uuid)>) -> Json<String> {
-    let mut res = slug.clone();
-    res.push_str(token.to_string().as_str());
+async fn resolve_invitation_v1(
+    State(server): State<Server>,
+    Path((slug, token)): Path<(String, Uuid)>,
+) -> Result<Json<ReadResolvedInvitation>, Error> {
+    let invitation = resolve_invite_token(&server, slug, token)
+        .await
+        .map_err(|err| {
+            Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
+        })?;
 
-    Json(res)
+    Ok(Json(invitation))
 }
