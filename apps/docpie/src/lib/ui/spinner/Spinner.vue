@@ -15,7 +15,7 @@ const props = defineProps<{
                 name="lucide:loader"
                 role="status"
                 aria-label="Loading"
-                class="absolute inset-0 size-full overflow-hidden text-muted" />
+                class="absolute inset-0 size-full overflow-hidden text-gray-a8" />
             <Icon
                 name="lucide:loader"
                 role="status"
@@ -28,7 +28,7 @@ const props = defineProps<{
 <style>
 .indicator {
     clip-path: polygon(50% 50%, 70% 0%, 30% 0%, 50% 50%);
-    animation: reveal-indicator 1s steps(8) infinite;
+    animation: reveal-indicator 875ms steps(8) infinite;
 }
 
 @keyframes reveal-indicator {

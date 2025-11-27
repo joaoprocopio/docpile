@@ -1,14 +1,16 @@
 <template>
-    <ConfigProvider>
-        <TooltipProvider>
-            <NuxtLayout>
-                <NuxtPage />
-            </NuxtLayout>
+    <ColorScheme>
+        <ConfigProvider>
+            <TooltipProvider>
+                <NuxtLayout>
+                    <NuxtPage />
+                </NuxtLayout>
 
-            <CacheDevtools />
-            <Sonner />
-        </TooltipProvider>
-    </ConfigProvider>
+                <CacheDevtools />
+                <Sonner />
+            </TooltipProvider>
+        </ConfigProvider>
+    </ColorScheme>
 </template>
 
 <script setup lang="ts">
