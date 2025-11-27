@@ -3,7 +3,7 @@ import { Spinner } from "~/lib/ui/spinner"
 </script>
 
 <template>
-    <div class="flex h-full items-center justify-center">
-        <Spinner class="size-24" />
+    <div class="flex h-full flex-col items-center justify-center">
+        <Spinner class="size-12" />
     </div>
 </template>
