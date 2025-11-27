@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { Spinner } from "~/lib/ui/spinner"
+</script>
+
 <template>
-    <h1>TODO!</h1>
+    <div class="h-full">
+        <Spinner class="size-96" />
+    </div>
 </template>
