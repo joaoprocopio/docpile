@@ -9,14 +9,48 @@ const props = defineProps<{
     class?: HTMLAttributes["class"]
 }>()
 
-const iconBaseClass = "absolute inset-0 size-full overflow-hidden"
-
 type IconProps = InstanceType<typeof Icon>["$props"]
-const blades: IconProps[] = array(8).map(() => ({
+
+function resolveClass(index: number) {
+    const classes: string[] = ["blade"]
+
+    switch (index) {
+        case 7:
+            classes.push("text-gray-12", "rotate-0")
+            break
+        case 6:
+            classes.push("text-gray-11", "rotate-45")
+            break
+        case 5:
+            classes.push("text-gray-10", "rotate-90")
+            break
+        case 4:
+            classes.push("text-gray-9", "rotate-135")
+            break
+        case 3:
+            classes.push("text-gray-8", "rotate-180")
+            break
+        case 2:
+            classes.push("text-gray-7", "rotate-225")
+            break
+        case 1:
+            classes.push("text-gray-6", "rotate-270")
+            break
+        case 0:
+            classes.push("text-gray-5", "rotate-315")
+            break
+        default:
+            throw new Error(`Blade number ${index + 1} is invalid or unhandled.`)
+    }
+
+    return classes.join(" ")
+}
+
+const blades: IconProps[] = array(8).map((_, index) => ({
     "name": "lucide:loader",
     "role": "status",
-    "class": "absolute inset-0 size-full overflow-hidden",
     "aria-label": "Loading",
+    "class": resolveClass(index),
 }))
 </script>
 
@@ -24,26 +58,23 @@ const blades: IconProps[] = array(8).map(() => ({
     <div>
         <div :class="cn('relative size-4.5 overflow-hidden', props.class)">
             <Icon
-                name="lucide:loader"
-                role="status"
-                aria-label="Loading"
-                :class="[iconBaseClass, 'blade rotate-0 transform text-foreground']" />
-            <Icon
-                name="lucide:loader"
-                role="status"
-                aria-label="Loading"
-                :class="[iconBaseClass, 'text-gray-a8']" />
+                v-for="(blade, index) in blades"
+                :key="index"
+                v-bind="blade" />
         </div>
     </div>
 </template>
 
 <style>
+@reference "~/lib/tailwind/tailwind.css";
+
 .blade {
+    @apply absolute inset-0 size-full;
     clip-path: polygon(50% 50%, 70% 0%, 30% 0%, 50% 50%);
-    /* animation: reveal-indicator 875ms steps(8) infinite; */
+    animation: reveal-indicator 875ms steps(8) infinite;
 }
 
-/* @keyframes reveal-indicator {
+@keyframes reveal-indicator {
     0% {
         transform: rotate(0deg);
     }
@@ -51,5 +82,5 @@ const blades: IconProps[] = array(8).map(() => ({
     100% {
         transform: rotate(360deg);
     }
-} */
+}
 </style>
