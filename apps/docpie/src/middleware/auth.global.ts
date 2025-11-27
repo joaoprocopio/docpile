@@ -4,7 +4,7 @@ import { isClientErrorStatus } from "~/lib/http/status"
 import {
     AuthRoutes,
     AuthRoutesSet,
-    OnboardingRoutesSet,
+    OrgOnboardingRoutesSet,
     OrgRoutes,
     OrgRoutesSet,
 } from "~/lib/router/constants"
@@ -63,7 +63,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (
         isAuthenticated &&
         hasOrgMembership &&
-        OnboardingRoutesSet.has(to.name as string) &&
+        OrgOnboardingRoutesSet.has(to.name as string) &&
         !isString(toSlug)
     ) {
         return abortNavigation("Slug param should be provided")
@@ -72,7 +72,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (
         isAuthenticated &&
         hasOrgMembership &&
-        OnboardingRoutesSet.has(to.name as string) &&
+        OrgOnboardingRoutesSet.has(to.name as string) &&
         !isEmpty(orgs.value) &&
         orgs.value.findIndex((org) => org.slug === toSlug) === -1
     ) {
@@ -85,7 +85,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
         isAuthenticated &&
         hasOrgMembership &&
         !isOnboarded &&
-        !OnboardingRoutesSet.has(to.name as string)
+        !OrgOnboardingRoutesSet.has(to.name as string)
     ) {
         const org = orgs.value[0]!
 
@@ -96,7 +96,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
         isAuthenticated &&
         hasOrgMembership &&
         isOnboarded &&
-        OnboardingRoutesSet.has(to.name as string)
+        OrgOnboardingRoutesSet.has(to.name as string)
     ) {
         const org = orgs.value[0]!
 

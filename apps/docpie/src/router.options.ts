@@ -1,12 +1,15 @@
+// @ts-check
+
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { AuthRoutes, OrgRoutes } from "~/lib/router/constants"
+import { AuthRoutes, OrgOnboardingRoutes, OrgRoutes } from "~/lib/router/constants"
+import { dyn, path } from "~/lib/router/path"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
         name: AuthRoutes.SignIn.value,
-        path: "/auth/signin",
+        path: path("auth", "signin"),
         meta: {
             layout: "auth",
         },
@@ -14,15 +17,20 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         name: AuthRoutes.SignUp.value,
-        path: "/auth/signup",
+        path: path("auth", "signup"),
         meta: {
             layout: "auth",
         },
         component: () => import("~/pages/signup"),
     },
     {
-        name: OrgRoutes.Join,
-        path: "/org slug/join/:token",
+        name: OrgRoutes.Join.value,
+        path: path(
+            "org",
+            dyn(OrgRoutes.Join.params.slug),
+            "join",
+            dyn(OrgRoutes.Join.params.token),
+        ),
         meta: {
             layout: false,
             middleware: "join",
@@ -30,16 +38,16 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/join"),
     },
     {
-        name: OrgRoutes.Create,
-        path: "/org",
+        name: OrgRoutes.Create.value,
+        path: path("org"),
         meta: {
             layout: "onboarding",
         },
         component: () => import("~/pages/org-create"),
     },
     {
-        name: OrgRoutes.OnboardingIntro,
-        path: "/org/:slug/onboarding",
+        name: OrgOnboardingRoutes.Intro.value,
+        path: path("org", dyn(OrgOnboardingRoutes.Intro.params.slug), "onboarding"),
         meta: {
             layout: "onboarding",
             middleware: "onboarding",
@@ -47,8 +55,8 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-onboarding-intro"),
     },
     {
-        name: OrgRoutes.OnboardingTheme,
-        path: "/org/:slug/onboarding/theme",
+        name: OrgOnboardingRoutes.Theme.value,
+        path: path("org", dyn(OrgOnboardingRoutes.Theme.params.slug), "onboarding", "theme"),
         meta: {
             layout: "onboarding",
             middleware: "onboarding",
@@ -56,8 +64,8 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-onboarding-theme"),
     },
     {
-        name: OrgRoutes.OnboardingInvite,
-        path: "/org/:slug/onboarding/invite",
+        name: OrgOnboardingRoutes.Invite.value,
+        path: path("org", dyn(OrgOnboardingRoutes.Invite.params.slug), "onboarding", "invite"),
         meta: {
             layout: "onboarding",
             middleware: "onboarding",
@@ -65,8 +73,8 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-onboarding-invite"),
     },
     {
-        name: OrgRoutes.Home,
-        path: `/org/`,
+        name: OrgRoutes.Home.value,
+        path: path("org", dyn(OrgRoutes.Home.params.slug)),
         meta: {
             layout: "app",
         },

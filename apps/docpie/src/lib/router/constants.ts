@@ -28,19 +28,25 @@ export const OrgRoutes = constEnum({
             token: "token",
         },
     },
-    OnboardingIntro: {
+})
+
+export const OrgRoutesArray = constEnumToValues(OrgRoutes)
+export const OrgRoutesSet = new Set<string>(OrgRoutesArray)
+
+export const OrgOnboardingRoutes = constEnum({
+    Intro: {
         value: "org-onboarding-intro",
         params: {
             slug: "slug",
         },
     },
-    OnboardingTheme: {
+    Theme: {
         value: "org-onboarding-theme",
         params: {
             slug: "slug",
         },
     },
-    OnboardingInvite: {
+    Invite: {
         value: "org-onboarding-invite",
         params: {
             slug: "slug",
@@ -48,8 +54,5 @@ export const OrgRoutes = constEnum({
     },
 })
 
-export const OrgRoutesArray = constEnumToValues(OrgRoutes)
-export const OrgRoutesSet = new Set<string>(OrgRoutesArray)
-
-export const OnboardingRoutesArray = Object.values(OrgRoutes.Onboarding)
-export const OnboardingRoutesSet = new Set<string>(OnboardingRoutesArray)
+export const OrgOnboardingRoutesArray = constEnumToValues(OrgOnboardingRoutes)
+export const OrgOnboardingRoutesSet = new Set<string>(OrgOnboardingRoutesArray)
