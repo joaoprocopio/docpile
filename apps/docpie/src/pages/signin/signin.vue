@@ -129,10 +129,11 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             </FieldGroup>
 
             <Button
-                :disabled="true"
+                :disabled="isLoading"
                 type="submit"
                 variant="secondary">
-                <Spinner />
+                <Spinner v-if="isLoading" />
+                <template v-else> Continue with email </template>
             </Button>
         </form>
 

@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
     <div>
-        <div :class="cn('relative size-4 overflow-hidden', props.class)">
+        <div :class="cn('relative size-4.5 overflow-hidden', props.class)">
             <Icon
                 name="lucide:loader"
                 role="status"
