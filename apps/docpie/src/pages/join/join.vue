@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query"
-import { toRaw, watchEffect } from "vue"
+import { watchEffect } from "vue"
 
-import { useRoute, useRouter } from "#app"
-import { AuthRoutes } from "~/lib/router/constants"
+import { useRoute } from "#app"
 import { Spinner } from "~/lib/ui/spinner"
 import { authCache } from "~/state/auth/cache"
 import { orgCache } from "~/state/org/cache"
-import { isNil } from "~/utils/is"
 
-const router = useRouter()
 const route = useRoute()
 
 const whoamiQuery = useQuery(authCache.queries.whoami())
