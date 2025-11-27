@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// https://github.com/alexreardon/tiny-invariant/
-
 import { env } from "~/env"
 
 const isProduction: boolean = env.PROD
 const prefix: string = "Invariant failed"
 
 export function invariant(condition: any, message?: string | (() => string)): asserts condition {
-    if (!condition) {
+    if (condition) {
         return
     }
 
