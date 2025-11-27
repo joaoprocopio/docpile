@@ -16,28 +16,28 @@ function resolveClass(index: number) {
 
     switch (index) {
         case 7:
-            classes.push("text-gray-12", "rotate-0")
+            classes.push("text-foreground", "rotate-0")
             break
         case 6:
-            classes.push("text-gray-11", "rotate-45")
+            classes.push("text-gray-a9", "rotate-45")
             break
         case 5:
-            classes.push("text-gray-10", "rotate-90")
+            classes.push("text-gray-a7", "rotate-90")
             break
         case 4:
-            classes.push("text-gray-9", "rotate-135")
+            classes.push("text-gray-a6", "rotate-135")
             break
         case 3:
-            classes.push("text-gray-8", "rotate-180")
+            classes.push("text-gray-a5", "rotate-180")
             break
         case 2:
-            classes.push("text-gray-7", "rotate-225")
+            classes.push("text-gray-a4", "rotate-225")
             break
         case 1:
-            classes.push("text-gray-6", "rotate-270")
+            classes.push("text-gray-a3", "rotate-270")
             break
         case 0:
-            classes.push("text-gray-5", "rotate-315")
+            classes.push("text-gray-a3/90", "rotate-315")
             break
         default:
             throw new Error(`Blade number ${index + 1} is invalid or unhandled.`)
@@ -71,10 +71,10 @@ const blades: IconProps[] = array(8).map((_, index) => ({
 .blade {
     @apply absolute inset-0 size-full;
     clip-path: polygon(50% 50%, 70% 0%, 30% 0%, 50% 50%);
-    animation: reveal-indicator 875ms steps(8) infinite;
+    animation: blade-cycle 875ms steps(8) infinite;
 }
 
-@keyframes reveal-indicator {
+@keyframes blade-cycle {
     0% {
         transform: rotate(0deg);
     }
