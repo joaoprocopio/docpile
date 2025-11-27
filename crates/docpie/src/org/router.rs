@@ -14,6 +14,7 @@ use axum::{
     routing,
 };
 use axum::{Router, http::StatusCode};
+use uuid::Uuid;
 
 pub fn router_v1() -> Router<Server> {
     Router::new()
@@ -104,9 +105,9 @@ async fn rotate_invite_token_v1(
     Ok(Json(token.into()))
 }
 
-async fn check_invite_token_v1(
-    Path(slug): Path<String>,
-    Path(token): Path<String>,
-) -> Json<String> {
-    Json(String::from("abc123"))
+async fn check_invite_token_v1(Path((slug, token)): Path<(String, Uuid)>) -> Json<String> {
+    let mut res = slug.clone();
+    res.push_str(token.to_string().as_str());
+
+    Json(res)
 }
