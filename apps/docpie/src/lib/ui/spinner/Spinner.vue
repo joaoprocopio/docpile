@@ -32,8 +32,8 @@ const BLADES: IconProps[] = array(BLADES_COUNT).map((_, index) => {
     }
 })
 
-invariant(BLADES.length !== BLADES_COUNT, "Blades mismatch with blade count")
-invariant(BLADES_CLASSES.length !== BLADES_COUNT, "Blade classes mismatch with blade count")
+invariant(BLADES.length === BLADES_COUNT, "Blades array length mismatch with blade count")
+invariant(BLADES_CLASSES.length === BLADES_COUNT, "Blade classes length mismatch with blade count")
 </script>
 
 <template>
