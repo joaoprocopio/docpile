@@ -6,7 +6,7 @@ import { computed } from "vue"
 import { useRoute, useRouter } from "#app"
 import { UserMenu } from "~/components/user-menu"
 import { asConst } from "~/lib/const"
-import { OrgRoutes } from "~/lib/router/constants"
+import { OrgOnboardingRoutes } from "~/lib/router/constants"
 import { PageControl, PageControlItem, PageControlTrigger } from "~/lib/ui/page-control"
 import { authCache } from "~/state/auth/cache"
 import { provideOnboarding } from "~/state/org/composables"
@@ -19,9 +19,9 @@ const mutating = useIsMutating({ mutationKey: authCache.keys.mutations.onboard()
 const finishing = computed(() => Boolean(mutating.value))
 
 const steps = asConst([
-    OrgRoutes.Onboarding.Intro,
-    OrgRoutes.Onboarding.Theme,
-    OrgRoutes.Onboarding.Invite,
+    OrgOnboardingRoutes.Intro.value,
+    OrgOnboardingRoutes.Theme.value,
+    OrgOnboardingRoutes.Invite.value,
 ])
 
 const index = computed<number>(() => steps.findIndex((step) => step === route.name))

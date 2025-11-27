@@ -49,7 +49,7 @@ const inviteLink = computed(() => {
     }
 
     const resolved = router.resolve({
-        name: OrgRoutes.Join,
+        name: OrgRoutes.Join.value,
         params: {
             slug: slug.value,
             token: inviteToken.data.value,

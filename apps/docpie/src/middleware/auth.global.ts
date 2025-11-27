@@ -4,6 +4,7 @@ import { isClientErrorStatus } from "~/lib/http/status"
 import {
     AuthRoutes,
     AuthRoutesSet,
+    OrgOnboardingRoutes,
     OrgOnboardingRoutesSet,
     OrgRoutes,
     OrgRoutesSet,
@@ -17,7 +18,7 @@ import { isEmpty, isNetworkError, isNil, isString } from "~/utils/is"
 export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
 
-    if (to.name === OrgRoutes.Join) {
+    if (to.name === OrgRoutes.Join.value) {
         // Just let Invite route middleware do its job
         return undefined
     }
@@ -56,8 +57,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return navigateTo({ name: AuthRoutes.SignIn.value })
     }
 
-    if (isAuthenticated && !hasOrgMembership && to.name !== OrgRoutes.Create) {
-        return navigateTo({ name: OrgRoutes.Create })
+    if (isAuthenticated && !hasOrgMembership && to.name !== OrgRoutes.Create.value) {
+        return navigateTo({ name: OrgRoutes.Create.value })
     }
 
     if (
@@ -78,7 +79,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     ) {
         const org = orgs.value[0]!
 
-        return navigateTo({ name: OrgRoutes.Onboarding.Intro, params: { slug: org.slug } })
+        return navigateTo({
+            name: OrgOnboardingRoutes.Intro.value,
+            params: { [OrgOnboardingRoutes.Intro.params.slug]: org.slug },
+        })
     }
 
     if (
@@ -89,7 +93,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     ) {
         const org = orgs.value[0]!
 
-        return navigateTo({ name: OrgRoutes.Onboarding.Intro, params: { slug: org.slug } })
+        return navigateTo({
+            name: OrgOnboardingRoutes.Intro.value,
+            params: { [OrgOnboardingRoutes.Intro.params.slug]: org.slug },
+        })
     }
 
     if (
@@ -100,7 +107,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     ) {
         const org = orgs.value[0]!
 
-        return navigateTo({ name: OrgRoutes.Home, params: { slug: org.slug } })
+        return navigateTo({
+            name: OrgRoutes.Home.value,
+            params: { [OrgRoutes.Home.params.slug]: org.slug },
+        })
     }
 
     if (
@@ -111,6 +121,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
     ) {
         const org = orgs.value[0]!
 
-        return navigateTo({ name: OrgRoutes.Home, params: { slug: org.slug } })
+        return navigateTo({
+            name: OrgRoutes.Home.value,
+            params: { [OrgRoutes.Home.params.slug]: org.slug },
+        })
     }
 })
