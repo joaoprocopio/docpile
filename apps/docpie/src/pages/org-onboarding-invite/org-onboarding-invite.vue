@@ -6,7 +6,7 @@ import { useRouter } from "vue-router"
 
 import { useRoute } from "#app"
 import { env } from "~/env"
-import { InviteRoute } from "~/lib/router/constants"
+import { OrgRoutes } from "~/lib/router/constants"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -49,8 +49,11 @@ const inviteLink = computed(() => {
     }
 
     const resolved = router.resolve({
-        name: InviteRoute,
-        params: { token: inviteToken.data.value },
+        name: OrgRoutes.Join,
+        params: {
+            slug: slug.value,
+            token: inviteToken.data.value,
+        },
     })
 
     return env.BASE_URL.origin + resolved.path

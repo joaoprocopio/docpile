@@ -1,7 +1,7 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 
-import { AuthRoutes, InviteRoute, OrgRoutes } from "~/lib/router/constants"
+import { AuthRoutes, OrgRoutes } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
@@ -21,8 +21,8 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/signup"),
     },
     {
-        name: InviteRoute,
-        path: "/invite/:token",
+        name: OrgRoutes.Join,
+        path: "/org/:slug/join/:token",
         meta: {
             layout: false,
             middleware: "invite",

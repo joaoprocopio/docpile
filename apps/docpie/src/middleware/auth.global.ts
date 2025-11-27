@@ -4,7 +4,6 @@ import { isClientErrorStatus } from "~/lib/http/status"
 import {
     AuthRoutes,
     AuthRoutesSet,
-    InviteRoute,
     OnboardingRoutesSet,
     OrgRoutes,
     OrgRoutesSet,
@@ -18,7 +17,7 @@ import { isEmpty, isNetworkError, isNil, isString } from "~/utils/is"
 export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
 
-    if (to.name === InviteRoute) {
+    if (to.name === OrgRoutes.Join) {
         // Just let Invite route middleware do its job
         return undefined
     }
