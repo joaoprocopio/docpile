@@ -25,9 +25,9 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         path: "/org/:slug/join/:token",
         meta: {
             layout: false,
-            middleware: "invite",
+            middleware: "join",
         },
-        component: () => import("~/pages/invite"),
+        component: () => import("~/pages/join"),
     },
     {
         name: OrgRoutes.Create,
