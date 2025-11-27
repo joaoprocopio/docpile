@@ -5,7 +5,7 @@ import { AuthRoutes, OrgRoutes } from "~/lib/router/constants"
 
 const routes = <Readonly<RouteRecordRaw[]>>[
     {
-        name: AuthRoutes.SignIn,
+        name: AuthRoutes.SignIn.value,
         path: "/auth/signin",
         meta: {
             layout: "auth",
@@ -13,7 +13,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/signin"),
     },
     {
-        name: AuthRoutes.SignUp,
+        name: AuthRoutes.SignUp.value,
         path: "/auth/signup",
         meta: {
             layout: "auth",

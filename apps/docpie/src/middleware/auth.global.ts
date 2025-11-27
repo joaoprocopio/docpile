@@ -53,7 +53,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
      * - 3rd: Now that you know that the user is authenticated and onboarded, redirect to home.
      */
     if (!isAuthenticated && !AuthRoutesSet.has(to.name as string)) {
-        return navigateTo({ name: AuthRoutes.SignIn })
+        return navigateTo({ name: AuthRoutes.SignIn.value })
     }
 
     if (isAuthenticated && !hasOrgMembership && to.name !== OrgRoutes.Create) {

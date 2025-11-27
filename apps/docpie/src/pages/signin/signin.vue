@@ -141,7 +141,7 @@ const [showPassword, toggleShowPassword] = useToggle(false)
             class="mt-8 flex flex-col items-center gap-x-1 text-2xs text-muted-foreground xs:flex-row">
             <span> Don't have an account? </span>
             <NuxtLink
-                :to="{ name: AuthRoutes.SignUp }"
+                :to="{ name: AuthRoutes.SignUp.value }"
                 class="font-semibold text-foreground">
                 Sign up
             </NuxtLink>

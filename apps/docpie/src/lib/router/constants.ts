@@ -1,11 +1,15 @@
-import { asConst } from "~/lib/const"
+import { asConst, constEnum, constEnumToValues } from "~/lib/const"
 import { flattenObject } from "~/utils/obj"
 
-export const AuthRoutes = asConst({
-    SignIn: "signin",
-    SignUp: "signup",
+export const AuthRoutes = constEnum({
+    SignIn: {
+        value: "signin",
+    },
+    SignUp: {
+        value: "signup",
+    },
 })
-export const AuthRoutesArray = Object.values(AuthRoutes)
+export const AuthRoutesArray = constEnumToValues(AuthRoutes)
 export const AuthRoutesSet = new Set<string>(AuthRoutesArray)
 
 export const OrgRoutes = asConst({
@@ -19,8 +23,8 @@ export const OrgRoutes = asConst({
     },
 })
 
-export const OrgRoutesArray = Object.values<string>(flattenObject(OrgRoutes))
+export const OrgRoutesArray = Object.values(flattenObject(OrgRoutes))
 export const OrgRoutesSet = new Set<string>(OrgRoutesArray)
 
-export const OnboardingRoutesArray = Object.values<string>(OrgRoutes.Onboarding)
+export const OnboardingRoutesArray = Object.values(OrgRoutes.Onboarding)
 export const OnboardingRoutesSet = new Set<string>(OnboardingRoutesArray)
