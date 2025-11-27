@@ -75,8 +75,8 @@ describe("flattenObject", () => {
         const flat = flattenObject(obj)
 
         expect(flat).toStrictEqual({
-            a: null,
-            b: undefined,
+            "a": null,
+            "b": undefined,
             "c.d": null,
         })
     })

@@ -22,7 +22,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         name: OrgRoutes.Join,
-        path: "/org/:slug/join/:token",
+        path: "/org slug/join/:token",
         meta: {
             layout: false,
             middleware: "join",
@@ -38,7 +38,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-create"),
     },
     {
-        name: OrgRoutes.Onboarding.Intro,
+        name: OrgRoutes.OnboardingIntro,
         path: "/org/:slug/onboarding",
         meta: {
             layout: "onboarding",
@@ -47,7 +47,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-onboarding-intro"),
     },
     {
-        name: OrgRoutes.Onboarding.Theme,
+        name: OrgRoutes.OnboardingTheme,
         path: "/org/:slug/onboarding/theme",
         meta: {
             layout: "onboarding",
@@ -56,7 +56,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         component: () => import("~/pages/org-onboarding-theme"),
     },
     {
-        name: OrgRoutes.Onboarding.Invite,
+        name: OrgRoutes.OnboardingInvite,
         path: "/org/:slug/onboarding/invite",
         meta: {
             layout: "onboarding",
@@ -66,7 +66,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
     {
         name: OrgRoutes.Home,
-        path: "/org/:slug",
+        path: `/org/`,
         meta: {
             layout: "app",
         },
