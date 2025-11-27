@@ -15,28 +15,18 @@ const props = defineProps<{
                 name="lucide:loader"
                 role="status"
                 aria-label="Loading"
-                class="absolute inset-0 size-full overflow-hidden text-muted" />
+                class="absolute inset-0 size-full overflow-hidden bg-primary text-muted" />
             <Icon
                 name="lucide:loader"
                 role="status"
                 aria-label="Loading"
-                class="reveal-spinner-clip-path absolute inset-0 size-full overflow-hidden text-foreground" />
+                class="reveal-spinner-clip-path absolute inset-0 size-full overflow-hidden bg-destructive text-foreground" />
         </div>
     </div>
 </template>
 
 <style>
 .reveal-spinner-clip-path {
-    clip-path: inset(0 0 100% 0);
-    animation: reveal-spinner-clip-path 1s cubic-bezier(0.77, 0, 0.175, 1) infinite;
-}
-
-@keyframes reveal-spinner-clip-path {
-    from {
-        clip-path: inset(0 0 0 0);
-    }
-    to {
-        clip-path: inset(0 0 100% 0);
-    }
+    clip-path: polygon(50% 50%, 70% 0%, 30% 0%, 50% 50%);
 }
 </style>
