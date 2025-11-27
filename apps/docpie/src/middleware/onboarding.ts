@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/vue-query"
 
 import { defineNuxtRouteMiddleware } from "#app"
 import { invariant } from "~/lib/invariant"
+import { authCache } from "~/state/auth/cache"
 import { orgCache } from "~/state/org/cache"
 import { isString } from "~/utils/is"
 
@@ -13,5 +14,7 @@ export default defineNuxtRouteMiddleware((to) => {
     invariant(isString(slug), "Slug param should be provided")
 
     const client = useQueryClient()
+
+    client.prefetchQuery(authCache.queries.whoami())
     client.prefetchQuery(orgCache.queries.inviteToken({ slug: slug }))
 })
