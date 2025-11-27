@@ -20,9 +20,13 @@ pub fn router_v1() -> Router<Server> {
         .route("/", routing::get(list_orgs_v1).post(create_org_v1))
         .route(
             "/{slug}/invite_token",
-            routing::get(invite_token_v1).post(rotate_invite_token_v1),
+            routing::get(get_invite_token_v1).post(rotate_invite_token_v1),
         )
         .layer(auth::protected!())
+        .route(
+            "/{slug}/invite_token/{token}",
+            routing::get(check_invite_token_v1),
+        )
 }
 
 async fn list_orgs_v1(
@@ -62,7 +66,7 @@ async fn create_org_v1(
     Ok(Json(org.into()))
 }
 
-async fn invite_token_v1(
+async fn get_invite_token_v1(
     session: AuthSession,
     State(server): State<Server>,
     Path(slug): Path<String>,
@@ -98,4 +102,11 @@ async fn rotate_invite_token_v1(
         })?;
 
     Ok(Json(token.into()))
+}
+
+async fn check_invite_token_v1(
+    Path(slug): Path<String>,
+    Path(token): Path<String>,
+) -> Json<String> {
+    Json(String::from("abc123"))
 }
