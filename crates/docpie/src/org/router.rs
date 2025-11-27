@@ -115,6 +115,15 @@ async fn resolve_invitation_v1(
     let invitation = resolve_invite_token(&server, slug, token)
         .await
         .map_err(|err| {
+            let is_row_not_found = matches!(
+                err.downcast_ref::<sqlx::Error>(),
+                Some(sqlx::Error::RowNotFound)
+            );
+
+            if is_row_not_found {
+                return Error::from_status(StatusCode::NOT_FOUND, ErrorKind::InvalidInvite, err);
+            }
+
             Error::from_status(StatusCode::INTERNAL_SERVER_ERROR, ErrorKind::Database, err)
         })?;
 

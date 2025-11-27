@@ -43,6 +43,7 @@ pub enum ErrorKind {
 
     // Org
     NotAMember,
+    InvalidInvite,
 
     // Systems
     Database,
