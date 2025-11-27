@@ -51,8 +51,8 @@ const inviteLink = computed(() => {
     const resolved = router.resolve({
         name: OrgRoutes.Join.value,
         params: {
-            slug: slug.value,
-            token: inviteToken.data.value,
+            [OrgRoutes.Join.params.slug]: slug.value,
+            [OrgRoutes.Join.params.token]: inviteToken.data.value,
         },
     })
 

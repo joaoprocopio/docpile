@@ -81,7 +81,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
         return navigateTo({
             name: OrgOnboardingRoutes.Intro.value,
-            params: { [OrgOnboardingRoutes.Intro.params.slug]: org.slug },
+            params: {
+                [OrgOnboardingRoutes.Intro.params.slug]: org.slug,
+            },
         })
     }
 
@@ -95,7 +97,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
         return navigateTo({
             name: OrgOnboardingRoutes.Intro.value,
-            params: { [OrgOnboardingRoutes.Intro.params.slug]: org.slug },
+            params: {
+                [OrgOnboardingRoutes.Intro.params.slug]: org.slug,
+            },
         })
     }
 
@@ -109,7 +113,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
         return navigateTo({
             name: OrgRoutes.Home.value,
-            params: { [OrgRoutes.Home.params.slug]: org.slug },
+            params: {
+                [OrgRoutes.Home.params.slug]: org.slug,
+            },
         })
     }
 
@@ -123,7 +129,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
         return navigateTo({
             name: OrgRoutes.Home.value,
-            params: { [OrgRoutes.Home.params.slug]: org.slug },
+            params: {
+                [OrgRoutes.Home.params.slug]: org.slug,
+            },
         })
     }
 })
