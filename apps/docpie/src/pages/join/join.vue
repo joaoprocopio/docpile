@@ -22,9 +22,6 @@ const invitationQuery = useQuery(
 
 watchEffect(() => {
     if (whoamiQuery.isSuccess.value && invitationQuery.isSuccess.value) {
-        const invitation = toRaw(invitationQuery.data.value)!
-        const user = toRaw(whoamiQuery.data.value)
-
         throw new Error("TODO: Not implemented")
     }
 })
