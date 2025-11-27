@@ -27,6 +27,36 @@ const props = defineProps<{
 
 <style>
 .reveal-spinner-clip-path {
-    clip-path: polygon(50% 50%, 70% 0%, 30% 0%, 50% 50%);
+    animation: revealClipPath 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+@keyframes revealClipPath {
+    0% {
+        clip-path: polygon(50% 50%, 70% 0%, 30% 0%, 50% 50%);
+    }
+
+    12.5% {
+    }
+
+    25% {
+    }
+
+    37.5% {
+    }
+
+    50% {
+    }
+
+    62.5% {
+    }
+
+    75% {
+    }
+
+    87.5% {
+    }
+
+    100% {
+    }
 }
 </style>
