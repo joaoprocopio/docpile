@@ -63,9 +63,7 @@ async function resolveInviteToken(
     variables: TResolveInviteTokenVariables,
 ): Promise<TResolvedInvitationOut> {
     const http = useHTTP()
-    const response = await http(`/v1/orgs/${variables.slug}/invite_token/${variables.token}`, {
-        method: "POST",
-    })
+    const response = await http(`/v1/orgs/${variables.slug}/invite_token/${variables.token}`)
 
     return ResolvedInvitation.parse(response)
 }

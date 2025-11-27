@@ -9,7 +9,9 @@ import { isString } from "~/utils/is"
 // TODO: exibir um belo estado de erro para os diferentes casos
 export default defineNuxtRouteMiddleware((to) => {
     const { slug } = to.params
+
     invariant(isString(slug), "Slug param should be provided")
+
     const client = useQueryClient()
     client.prefetchQuery(orgCache.queries.inviteToken({ slug: slug }))
 })

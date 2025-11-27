@@ -1,14 +1,16 @@
+import { useQueryClient } from "@tanstack/vue-query"
+
 import { defineNuxtRouteMiddleware } from "#app"
 import { invariant } from "~/lib/invariant"
+import { orgCache } from "~/state/org/cache"
 import { isEmpty, isString } from "~/utils/is"
 
-// TODO: otimizar o middleware pra exibir um estado de loading melhor
-// TODO: exibir um belo estado de erro para os diferentes casos
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware(async (to) => {
     const { slug, token } = to.params
 
-    invariant(isString(slug) && !isEmpty(slug), "Slug must me a valid string")
-    invariant(isString(slug) && !isEmpty(token), "Token must be a valid string")
+    invariant(isString(slug) && !isEmpty(slug), "Slug must me a valid non-empty string")
+    invariant(isString(token) && !isEmpty(token), "Token must be a valid non-empty string")
 
-    return undefined
+    const client = useQueryClient()
+    client.prefetchQuery(orgCache.queries.resolveInviteToken({ slug: slug, token: token }))
 })

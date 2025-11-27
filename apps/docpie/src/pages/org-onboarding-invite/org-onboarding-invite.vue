@@ -2,9 +2,8 @@
 import { useMutation, useQuery } from "@tanstack/vue-query"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
-import { useRouter } from "vue-router"
 
-import { useRoute } from "#app"
+import { useRoute, useRouter } from "#app"
 import { env } from "~/env"
 import { OrgRoutes } from "~/lib/router/constants"
 import {
