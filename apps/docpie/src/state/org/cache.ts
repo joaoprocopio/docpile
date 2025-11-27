@@ -3,7 +3,11 @@ import { useQueryClient } from "@tanstack/vue-query"
 
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
 import { rerunMiddleware } from "~/lib/router/utils"
-import { OrgServices, type TInviteTokenVariables } from "~/state/org/services"
+import {
+    OrgServices,
+    type TInviteTokenVariables,
+    type TResolveInviteTokenVariables,
+} from "~/state/org/services"
 import { isArray } from "~/utils/is"
 
 export const orgCache = defineCache("org")({
@@ -13,6 +17,8 @@ export const orgCache = defineCache("org")({
             list: () => key("org", "list"),
             inviteToken: (variables: TInviteTokenVariables) =>
                 key("org", "invite-token", variables),
+            resolveInviteToken: (variables: TResolveInviteTokenVariables) =>
+                key("org", "invite-token", "resolved", variables),
         },
         mutations: {
             create: () => key("org", "create"),
@@ -29,6 +35,11 @@ export const orgCache = defineCache("org")({
             queryOptions({
                 queryKey: orgCache.keys.queries.inviteToken(variables),
                 queryFn: () => OrgServices.inviteToken(variables),
+            }),
+        resolveInviteToken: (variables: TResolveInviteTokenVariables) =>
+            queryOptions({
+                queryKey: orgCache.keys.queries.resolveInviteToken(variables),
+                queryFn: () => OrgServices.resolveInviteToken(variables),
             }),
     },
     mutations: {

@@ -120,7 +120,7 @@ pub async fn resolve_invite_token(
 ) -> Result<ReadResolvedInvitation> {
     let invitation = sqlx::query!(
         r#"
-        SELECT u.display_name AS inviter_name, o.name AS org_name
+        SELECT u.display_name AS inviter_name, o.name AS org_name, om.invite_token AS "invite_token!"
         FROM orgs AS o
         JOIN org_membership AS om
             ON o.id = om.org_id
@@ -132,7 +132,7 @@ pub async fn resolve_invite_token(
         slug,
         token
     )
-    .map(|r| ReadResolvedInvitation::new(r.inviter_name, r.org_name))
+    .map(|r| ReadResolvedInvitation::new(r.inviter_name, r.org_name, r.invite_token))
     .fetch_one(&server.db)
     .await?;
 

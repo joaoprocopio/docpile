@@ -43,7 +43,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const isAuthenticated = !isNil(user.value)
     const isOnboarded = isAuthenticated && user.value!.is_onboarded
     const hasOrgMembership = orgs.status === "fulfilled" && !isEmpty(orgs.value)
-    const toSlug = to.params.slug
+    const { slug: toSlug } = to.params
 
     /* This is a message for the future me.
      * You need to remeber that the order of the assertions matter.

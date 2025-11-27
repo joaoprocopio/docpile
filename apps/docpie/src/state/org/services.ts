@@ -3,10 +3,12 @@ import {
     InviteToken,
     NullableInviteToken,
     Org,
+    ResolvedInvitation,
     type TCreateOrgOut,
     type TInviteTokenOut,
     type TNullableInviteTokenOut,
     type TOrgOut,
+    type TResolvedInvitationOut,
 } from "~/state/org/schemas"
 
 async function list(): Promise<TOrgOut[]> {
@@ -29,27 +31,43 @@ async function create(variables: TCreateOrgVariables): Promise<TOrgOut> {
 }
 
 export type TInviteTokenVariables = {
-    orgSlug: TOrgOut["slug"]
+    slug: TOrgOut["slug"]
 }
 
 async function inviteToken(variables: TInviteTokenVariables): Promise<TNullableInviteTokenOut> {
     const http = useHTTP()
-    const response = await http(`/v1/orgs/${variables.orgSlug}/invite_token`)
+    const response = await http(`/v1/orgs/${variables.slug}/invite_token`)
 
     return NullableInviteToken.parse(response)
 }
 
 export type TRotateInviteTokenVariables = {
-    orgSlug: TOrgOut["slug"]
+    slug: TOrgOut["slug"]
 }
 
 async function rotateInviteToken(variables: TInviteTokenVariables): Promise<TInviteTokenOut> {
     const http = useHTTP()
-    const response = await http(`/v1/orgs/${variables.orgSlug}/invite_token`, {
+    const response = await http(`/v1/orgs/${variables.slug}/invite_token`, {
         method: "POST",
     })
 
     return InviteToken.parse(response)
+}
+
+export type TResolveInviteTokenVariables = {
+    slug: TOrgOut["slug"]
+    token: TInviteTokenOut
+}
+
+async function resolveInviteToken(
+    variables: TResolveInviteTokenVariables,
+): Promise<TResolvedInvitationOut> {
+    const http = useHTTP()
+    const response = await http(`/v1/orgs/${variables.slug}/invite_token/${variables.token}`, {
+        method: "POST",
+    })
+
+    return ResolvedInvitation.parse(response)
 }
 
 export const OrgServices = {
@@ -57,4 +75,5 @@ export const OrgServices = {
     create,
     inviteToken,
     rotateInviteToken,
+    resolveInviteToken,
 }

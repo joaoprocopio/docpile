@@ -1,5 +1,6 @@
 use crate::org::models::Org;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -12,13 +13,15 @@ pub struct ReadOrg {
 pub struct ReadResolvedInvitation {
     pub inviter_name: String,
     pub org_name: String,
+    pub invite_token: Uuid,
 }
 
 impl ReadResolvedInvitation {
-    pub fn new(inviter_name: String, org_name: String) -> Self {
+    pub fn new(inviter_name: String, org_name: String, invite_token: Uuid) -> Self {
         Self {
             inviter_name,
             org_name,
+            invite_token,
         }
     }
 }

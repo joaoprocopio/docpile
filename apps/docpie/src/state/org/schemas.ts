@@ -1,6 +1,7 @@
 import { z } from "zod"
 
 import { constEnum } from "~/lib/const"
+import { DisplayName } from "~/state/auth/schemas"
 
 export type TRole = "owner" | "member"
 
@@ -54,3 +55,12 @@ export const NullableInviteToken = InviteToken.nullable()
 
 export type TNullableInviteTokenIn = z.input<typeof NullableInviteToken>
 export type TNullableInviteTokenOut = z.output<typeof NullableInviteToken>
+
+export const ResolvedInvitation = z.object({
+    org_name: OrgName,
+    inviter_name: DisplayName,
+    invite_token: InviteToken,
+})
+
+export type TResolvedInvitationIn = z.input<typeof ResolvedInvitation>
+export type TResolvedInvitationOut = z.output<typeof ResolvedInvitation>

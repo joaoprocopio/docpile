@@ -39,7 +39,7 @@ const route = useRoute()
 
 const slug = computed(() => route.params.slug as string)
 
-const inviteToken = useQuery(orgCache.queries.inviteToken({ orgSlug: slug.value }))
+const inviteToken = useQuery(orgCache.queries.inviteToken({ slug: slug.value }))
 const rotateInviteToken = useMutation(orgCache.mutations.rotateInviteToken())
 const hasToken = computed<boolean>(() => !isEmpty(inviteToken.data.value))
 
@@ -110,7 +110,7 @@ async function handleCopy() {
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                                     <AlertDialogAction
-                                        @click="() => rotateInviteToken.mutate({ orgSlug: slug })">
+                                        @click="() => rotateInviteToken.mutate({ slug: slug })">
                                         Generate new link
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
