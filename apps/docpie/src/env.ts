@@ -7,6 +7,9 @@ export const env = new (class {
     get DEV() {
         return import.meta.env.DEV
     }
+    get PROD() {
+        return process.env.NODE_ENV === "production"
+    }
     get API_URL() {
         const config = useRuntimeConfig()
 

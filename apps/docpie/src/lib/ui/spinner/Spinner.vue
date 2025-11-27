@@ -2,6 +2,7 @@
 import type { HTMLAttributes } from "vue"
 
 import { Icon } from "#components"
+import { invariant } from "~/lib/invariant"
 import { cn } from "~/lib/ui/utils"
 import { array } from "~/utils/arr"
 
@@ -11,57 +12,36 @@ const props = defineProps<{
 
 type IconProps = InstanceType<typeof Icon>["$props"]
 
-function resolveClass(index: number) {
-    const classes: string[] = ["blade"]
-
-    switch (index) {
-        case 7:
-            classes.push("text-gray-a12", "rotate-0")
-            break
-        case 6:
-            classes.push("text-gray-a11", "rotate-45")
-            break
-        case 5:
-            classes.push("text-gray-a9", "rotate-90")
-            break
-        case 4:
-            classes.push("text-gray-a7", "rotate-135")
-            break
-        case 3:
-            classes.push("text-gray-a5", "rotate-180")
-            break
-        case 2:
-            classes.push("text-gray-a4", "rotate-225")
-            break
-        case 1:
-            classes.push("text-gray-a4", "rotate-270")
-            break
-        case 0:
-            classes.push("text-gray-a4", "rotate-315")
-            break
-        default:
-            throw new Error(`Blade number ${index + 1} is invalid or unhandled.`)
+const BLADES_COUNT = 8
+const BLADES_CLASSES = [
+    "blade text-gray-a12 rotate-0",
+    "blade text-gray-a11 rotate-45",
+    "blade text-gray-a9 rotate-90",
+    "blade text-gray-a7 rotate-135",
+    "blade text-gray-a5 rotate-180",
+    "blade text-gray-a4 rotate-225",
+    "blade text-gray-a4 rotate-270",
+    "blade text-gray-a4 rotate-315",
+]
+const BLADES: IconProps[] = array(BLADES_COUNT).map((_, index) => {
+    return {
+        "name": "lucide:loader",
+        "role": "status",
+        "aria-label": "Loading",
+        "class": BLADES_CLASSES[index],
     }
+})
 
-    return classes.join(" ")
-}
-
-const blades: IconProps[] = array(8).map((_, index) => ({
-    "name": "lucide:loader",
-    "role": "status",
-    "aria-label": "Loading",
-    "class": resolveClass(index),
-}))
+invariant(BLADES.length !== BLADES_COUNT, "Blades mismatch with blade count")
+invariant(BLADES_CLASSES.length !== BLADES_COUNT, "Blade classes mismatch with blade count")
 </script>
 
 <template>
-    <div>
-        <div :class="cn('relative size-4.5 overflow-hidden', props.class)">
-            <Icon
-                v-for="(blade, index) in blades"
-                :key="index"
-                v-bind="blade" />
-        </div>
+    <div :class="cn('relative size-4.5 overflow-hidden', props.class)">
+        <Icon
+            v-for="(blade, index) in BLADES"
+            :key="index"
+            v-bind="blade" />
     </div>
 </template>
 
