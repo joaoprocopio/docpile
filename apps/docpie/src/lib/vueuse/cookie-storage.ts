@@ -5,9 +5,9 @@ import { isString } from "~/utils/is"
 
 export type CookieAttributes = typeof Cookie.attributes
 
-export type CookieStorage = (options: CookieAttributes) => StorageLike
+export type CookieStorage = (options?: CookieAttributes) => StorageLike
 
-export const cookieStorage: CookieStorage = (options) => {
+export const createCookieStorage: CookieStorage = (options) => {
     return {
         getItem(key: string): string | null {
             const item = Cookie.get(key)
@@ -26,3 +26,5 @@ export const cookieStorage: CookieStorage = (options) => {
         },
     }
 }
+
+export const defaultCookieStorage = createCookieStorage()

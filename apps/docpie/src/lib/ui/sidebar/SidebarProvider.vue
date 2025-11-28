@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { defaultDocument, useMediaQuery, useStorage } from "@vueuse/core"
+import { syncRef, useMediaQuery, useStorage } from "@vueuse/core"
 import type { HTMLAttributes, ModelRef } from "vue"
 import { computed } from "vue"
 
-import { cookieStorage } from "~/lib/vueuse/cookie-storage"
+import { createCookieStorage, defaultCookieStorage } from "~/lib/vueuse/cookie-storage"
 
 import { provideSidebarContext, SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME } from "./utils"
 
@@ -13,27 +13,22 @@ const props = withDefaults(
         class?: HTMLAttributes["class"]
     }>(),
     {
-        defaultOpen: !defaultDocument?.cookie.includes(`${SIDEBAR_COOKIE_NAME}=false`),
+        defaultOpen: !defaultCookieStorage.getItem(SIDEBAR_COOKIE_NAME),
         class: undefined,
     },
 )
 
 const isMobile = useMediaQuery("(max-width: 768px)")
 
-const __INTERNAL_COOKIE_OPEN__ = useStorage(
+const cookie = useStorage<boolean>(
     SIDEBAR_COOKIE_NAME,
     props.defaultOpen,
-    cookieStorage({ expires: SIDEBAR_COOKIE_MAX_AGE }),
+    createCookieStorage({ expires: SIDEBAR_COOKIE_MAX_AGE }),
 )
 
-const open = defineModel<boolean>("open", {
-    get() {
-        return __INTERNAL_COOKIE_OPEN__.value
-    },
-    set(value) {
-        __INTERNAL_COOKIE_OPEN__.value = value
-    },
-}) as ModelRef<boolean, string, boolean, boolean>
+const open = defineModel<boolean>("open") as ModelRef<boolean, string, boolean, boolean>
+
+syncRef(open, cookie, { transform: { rtl: (v) => Boolean(v), ltr: (v) => Boolean(v) } })
 
 // Helper to toggle the sidebar.
 function toggleSidebar() {

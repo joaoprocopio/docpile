@@ -2,7 +2,7 @@
 import { useMediaQuery, useStorage } from "@vueuse/core"
 import { computed, type ModelRef } from "vue"
 
-import { cookieStorage } from "~/lib/vueuse/cookie-storage"
+import { createCookieStorage } from "~/lib/vueuse/cookie-storage"
 
 import { provideSidebarContext, SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME } from "./utils"
 
@@ -21,7 +21,7 @@ const isMobile = useMediaQuery("(max-width: 768px)")
 const __INTERNAL_COOKIE_OPEN__ = useStorage(
     SIDEBAR_COOKIE_NAME,
     props.defaultOpen,
-    cookieStorage({ expires: SIDEBAR_COOKIE_MAX_AGE }),
+    createCookieStorage({ expires: SIDEBAR_COOKIE_MAX_AGE }),
 )
 
 const open = defineModel<boolean>("open", {
