@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useMutation, useQuery } from "@tanstack/vue-query"
+
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/lib/ui/collapsible"
 import {
@@ -23,6 +25,8 @@ import {
     SidebarTrigger,
     SidebarWrapper,
 } from "~/lib/ui/sidebar"
+import { authCache } from "~/state/auth/cache"
+import { composeInitials } from "~/utils/avatar"
 import { isNil } from "~/utils/is"
 
 interface Group {
@@ -68,6 +72,9 @@ const groups: Group[] = [
         ],
     },
 ]
+
+const whoami = useQuery(authCache.queries.whoami())
+const signout = useMutation(authCache.mutations.signout())
 </script>
 
 <template>
@@ -81,18 +88,22 @@ const groups: Group[] = [
                     <DropdownMenu>
                         <DropdownMenuTrigger as-child>
                             <SidebarMenuButton class="w-fit p-1">
-                                <Avatar class="size-6 rounded-sm">
-                                    <AvatarFallback
-                                        class="rounded-none bg-sidebar-primary text-3xs text-sidebar-primary-foreground">
-                                        RC
-                                    </AvatarFallback>
-                                </Avatar>
+                                <template v-if="whoami.isSuccess.value">
+                                    <Avatar class="size-6 rounded-sm">
+                                        <AvatarFallback
+                                            class="rounded-none bg-sidebar-primary text-2xs text-sidebar-primary-foreground">
+                                            {{ composeInitials(whoami.data.value!.display_name) }}
+                                        </AvatarFallback>
+                                    </Avatar>
 
-                                <span class="truncate text-xs"> Roger Camargo </span>
+                                    <span class="truncate text-xs">{{
+                                        whoami.data.value!.display_name
+                                    }}</span>
 
-                                <Icon
-                                    name="lucide:chevron-down"
-                                    class="text-sidebar-muted-foreground ml-auto size-4" />
+                                    <Icon
+                                        name="lucide:chevron-down"
+                                        class="text-sidebar-muted-foreground ml-auto size-4" />
+                                </template>
                             </SidebarMenuButton>
                         </DropdownMenuTrigger>
 
@@ -101,9 +112,9 @@ const groups: Group[] = [
                             align="start"
                             side="bottom">
                             <DropdownMenuGroup>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem @click="() => signout.mutate()">
                                     <Icon name="lucide:log-out" />
-                                    Sair
+                                    <span>Sign out</span>
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
                         </DropdownMenuContent>

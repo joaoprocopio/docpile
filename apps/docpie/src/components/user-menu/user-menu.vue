@@ -17,12 +17,12 @@ const props = defineProps<{
     class?: string
 }>()
 
-const user = useQuery(authCache.queries.whoami())
+const whoami = useQuery(authCache.queries.whoami())
 const signout = useMutation(authCache.mutations.signout())
 </script>
 
 <template>
-    <DropdownMenu v-if="user.isSuccess.value">
+    <DropdownMenu v-if="whoami.isSuccess.value">
         <DropdownMenuTrigger as-child>
             <Button
                 v-bind="$attrs"
@@ -30,11 +30,11 @@ const signout = useMutation(authCache.mutations.signout())
                 :class="cn('h-fit w-fit px-5! py-2', props.class)">
                 <Avatar class="size-6 rounded-sm">
                     <AvatarFallback class="rounded-none text-3xs">
-                        {{ composeInitials(user.data.value!.display_name) }}
+                        {{ composeInitials(whoami.data.value!.display_name) }}
                     </AvatarFallback>
                 </Avatar>
 
-                <p class="truncate text-xs">{{ user.data.value!.email }}</p>
+                <p class="truncate text-xs">{{ whoami.data.value!.email }}</p>
 
                 <Icon
                     name="lucide:chevron-down"

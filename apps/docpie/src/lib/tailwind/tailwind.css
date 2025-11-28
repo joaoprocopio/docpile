@@ -581,14 +581,14 @@
     --border: var(--gray-a3);
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.439 0 0);
+    --sidebar: var(--gray-1);
+    --sidebar-foreground: var(--white-a12);
+    --sidebar-primary: var(--primary-9);
+    --sidebar-primary-foreground: var(--white-a12);
+    --sidebar-accent: var(--gray-a3);
+    --sidebar-accent-foreground: var(--white-a12);
+    --sidebar-border: var(--gray-a4);
+    --sidebar-ring: var(--gray-a5);
 }
 
 @theme inline {

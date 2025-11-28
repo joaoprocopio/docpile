@@ -9,8 +9,8 @@ import { orgCache } from "~/state/org/cache"
 
 const route = useRoute()
 
-const whoamiQuery = useQuery(authCache.queries.whoami())
-const invitationQuery = useQuery(
+const whoami = useQuery(authCache.queries.whoami())
+const invitation = useQuery(
     orgCache.queries.resolveInviteToken({
         slug: route.params.slug as string,
         token: route.params.token as string,
@@ -18,7 +18,7 @@ const invitationQuery = useQuery(
 )
 
 watchEffect(() => {
-    if (whoamiQuery.isSuccess.value && invitationQuery.isSuccess.value) {
+    if (whoami.isSuccess.value && invitation.isSuccess.value) {
         throw new Error("TODO: Not implemented")
     }
 })
