@@ -19,7 +19,7 @@ const props = defineProps<{
         }"
         :class="
             cn(
-                'group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full',
+                'group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar',
                 props.class,
             )
         ">

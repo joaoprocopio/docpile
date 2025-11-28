@@ -20,12 +20,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarRail,
+    SidebarTrigger,
     SidebarWrapper,
-    useSidebar,
 } from "~/lib/ui/sidebar"
 import { isNil } from "~/utils/is"
-
-const { toggleSidebar } = useSidebar()
 
 interface Group {
     group?: string
@@ -85,7 +83,7 @@ const groups: Group[] = [
                             <SidebarMenuButton class="w-fit p-1">
                                 <Avatar class="size-6 rounded-sm">
                                     <AvatarFallback
-                                        class="bg-sidebar-primary text-sidebar-primary-foreground rounded-none text-3xs">
+                                        class="rounded-none bg-sidebar-primary text-3xs text-sidebar-primary-foreground">
                                         RC
                                     </AvatarFallback>
                                 </Avatar>
@@ -111,11 +109,7 @@ const groups: Group[] = [
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <SidebarMenuButton
-                        class="text-sidebar-muted-foreground size-8 shrink-0 justify-center p-0 [&>svg]:size-5"
-                        @click="toggleSidebar">
-                        <Icon name="lucide:panel-left" />
-                    </SidebarMenuButton>
+                    <SidebarTrigger />
                 </div>
             </SidebarHeader>
 
