@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { defaultDocument, useEventListener, useMediaQuery, useVModel } from "@vueuse/core"
-import { TooltipProvider } from "reka-ui"
 import type { HTMLAttributes, Ref } from "vue"
 import { computed, ref } from "vue"
-
-import { cn } from "~/lib/ui/utils"
 
 import {
     provideSidebarContext,
     SIDEBAR_COOKIE_MAX_AGE,
     SIDEBAR_COOKIE_NAME,
     SIDEBAR_KEYBOARD_SHORTCUT,
-    SIDEBAR_WIDTH,
-    SIDEBAR_WIDTH_ICON,
 } from "./utils"
 
 const props = withDefaults(
@@ -78,21 +73,5 @@ provideSidebarContext({
 </script>
 
 <template>
-    <TooltipProvider :delay-duration="0">
-        <div
-            data-slot="sidebar-wrapper"
-            :style="{
-                '--sidebar-width': SIDEBAR_WIDTH,
-                '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
-            }"
-            :class="
-                cn(
-                    'group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full',
-                    props.class,
-                )
-            "
-            v-bind="$attrs">
-            <slot />
-        </div>
-    </TooltipProvider>
+    <slot />
 </template>
