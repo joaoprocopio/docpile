@@ -13,7 +13,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         meta: {
             layout: "auth",
         },
-        component: () => import("~/pages/signin"),
+        component: () => import("~/pages/auth-signin"),
     },
     {
         name: AuthRoutes.SignUp.value,
@@ -21,7 +21,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         meta: {
             layout: "auth",
         },
-        component: () => import("~/pages/signup"),
+        component: () => import("~/pages/auth-signup"),
     },
     {
         name: OrgRoutes.Join.value,
@@ -35,7 +35,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
             layout: false,
             middleware: "join",
         },
-        component: () => import("~/pages/join"),
+        component: () => import("~/pages/org-join"),
     },
     {
         name: OrgRoutes.Create.value,
@@ -78,7 +78,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         meta: {
             layout: "app",
         },
-        component: () => import("~/pages/home"),
+        component: () => import("~/pages/org-home"),
     },
 ]
 
