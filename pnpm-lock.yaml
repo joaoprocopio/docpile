@@ -4,30 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-catalogs:
-  default:
-    '@eslint/compat':
-      specifier: ^1.4.1
-      version: 1.4.1
-    eslint:
-      specifier: ^9.39.1
-      version: 9.39.1
-    eslint-config-prettier:
-      specifier: ^10.1.8
-      version: 10.1.8
-    eslint-plugin-prettier:
-      specifier: ^5.5.4
-      version: 5.5.4
-    eslint-plugin-simple-import-sort:
-      specifier: ^12.1.1
-      version: 12.1.1
-    prettier:
-      specifier: ^3.6.2
-      version: 3.6.2
-    typescript:
-      specifier: ^5.9.3
-      version: 5.9.3
-
 overrides:
   magicast: ^0.3.5
   vue: ^3.5.25
@@ -127,7 +103,7 @@ importers:
         version: 4.1.13
     devDependencies:
       '@eslint/compat':
-        specifier: 'catalog:'
+        specifier: ^1.4.1
         version: 1.4.1(eslint@9.39.1(jiti@2.6.1))
       '@nuxt/eslint':
         specifier: ^1.11.0
@@ -169,22 +145,22 @@ importers:
         specifier: ^8.0.5
         version: 8.0.5
       eslint:
-        specifier: 'catalog:'
+        specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
       eslint-config-prettier:
-        specifier: 'catalog:'
+        specifier: ^10.1.8
         version: 10.1.8(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-prettier:
-        specifier: 'catalog:'
+        specifier: ^5.5.4
         version: 5.5.4(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.6.2)
       eslint-plugin-simple-import-sort:
-        specifier: 'catalog:'
+        specifier: ^12.1.1
         version: 12.1.1(eslint@9.39.1(jiti@2.6.1))
       jsdom:
         specifier: ^27.2.0
         version: 27.2.0
       prettier:
-        specifier: 'catalog:'
+        specifier: ^3.6.2
         version: 3.6.2
       prettier-plugin-tailwindcss:
         specifier: ^0.7.1
@@ -193,7 +169,7 @@ importers:
         specifier: ^4.1.17
         version: 4.1.17
       typescript:
-        specifier: 'catalog:'
+        specifier: ^5.9.3
         version: 5.9.3
       vitest:
         specifier: ^3.2.4

@@ -45,7 +45,7 @@
         "zod": "^4.1.13"
     },
     "devDependencies": {
-        "@eslint/compat": "catalog:",
+        "@eslint/compat": "^1.4.1",
         "@nuxt/eslint": "^1.11.0",
         "@nuxt/fonts": "^0.12.1",
         "@nuxt/icon": "^2.1.0",
@@ -59,15 +59,15 @@
         "@types/jsdom": "^27.0.0",
         "@types/node": "^24.10.1",
         "@vue/devtools-api": "^8.0.5",
-        "eslint": "catalog:",
-        "eslint-config-prettier": "catalog:",
-        "eslint-plugin-prettier": "catalog:",
-        "eslint-plugin-simple-import-sort": "catalog:",
+        "eslint": "^9.39.1",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.4",
+        "eslint-plugin-simple-import-sort": "^12.1.1",
         "jsdom": "^27.2.0",
-        "prettier": "catalog:",
+        "prettier": "^3.6.2",
         "prettier-plugin-tailwindcss": "^0.7.1",
         "tailwindcss": "^4.1.17",
-        "typescript": "catalog:",
+        "typescript": "^5.9.3",
         "vitest": "^3.2.4",
         "vue-tsc": "^3.1.5"
     }
