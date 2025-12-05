@@ -1,5 +1,6 @@
+// @ts-check
 import * as $compat from "@eslint/compat"
-import $prettier from "eslint-plugin-prettier/recommended"
+import $prettier from "eslint-config-prettier/flat"
 import $sort from "eslint-plugin-simple-import-sort"
 import $path from "path"
 import $url from "url"
@@ -22,10 +23,9 @@ function prettier() {
 
 /** @returns {import("eslint").Linter.Config} */
 function gitignore() {
-    const filename = $url.fileURLToPath(import.meta.url)
-    const dirname = $path.dirname(filename)
-    const rootdir = $path.resolve(dirname, "..", "..")
-    const gitignore = $path.resolve(rootdir, ".gitignore")
+    const cwf = $url.fileURLToPath(import.meta.url)
+    const cwd = $path.dirname(cwf)
+    const gitignore = $path.resolve(cwd, "..", "..", ".gitignore")
 
     return $compat.includeIgnoreFile(gitignore)
 }

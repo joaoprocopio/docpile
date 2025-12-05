@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "Vue.volar", // Vue
+        "bradlc.vscode-tailwindcss", // Tailwind
+        "antfu.iconify", // Iconify
+        "esbenp.prettier-vscode", // Prettier
+        "dbaeumer.vscode-eslint", // Eslint
+        "EditorConfig.EditorConfig", // EditorConfig
+        "rust-lang.rust-analyzer" // RustAnalyzer
+    ]
+}
