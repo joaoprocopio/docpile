@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Button } from "~/lib/ui/button"
-import { Command, CommandGroup, CommandInput, CommandList, CommandItem } from "~/lib/ui/command"
-import { Popover, PopoverTrigger, PopoverContent } from "~/lib/ui/popover"
 import { Separator } from "~/lib/ui/separator"
 import { SidebarTrigger, useSidebar } from "~/lib/ui/sidebar"
 import { Triangle } from "~/lib/ui/triangle"
@@ -43,91 +41,87 @@ const sidebar = useSidebar()
             </Button>
         </div>
 
-        <div
-            class="flex items-center gap-1.5 h-10 px-6 bg-gray-a3 [&>button:has-[svg]]:size-7 [&>button>svg]:size-4!">
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:undo-2" />
-            </Button>
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:redo-2" />
-            </Button>
+        <div class="px-6">
+            <div
+                class="flex px-1 py-1 items-center rounded-md gap-1.5 bg-gray-a3 [&>button:has-[svg]]:size-7 [&>button>svg]:size-4!">
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:undo-2" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:redo-2" />
+                </Button>
 
-            <Separator
-                class="data-[orientation=vertical]:h-4"
-                orientation="vertical" />
+                <Separator
+                    class="data-[orientation=vertical]:h-4"
+                    orientation="vertical" />
 
-            <Popover>
-                <PopoverTrigger as-child>
-                    <Button
-                        variant="ghost"
-                        size="xs">
-                        Normal text
-                        <Triangle />
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                    as-child
-                    class="w-[200px] p-0">
-                    <Command>
-                        <CommandInput placeholder="Search framework..." />
-                        <CommandList>
-                            <CommandGroup>
-                                <CommandItem value="paragraph">Normal text</CommandItem>
-                            </CommandGroup>
-                        </CommandList>
-                    </Command>
-                </PopoverContent>
-            </Popover>
+                <Button
+                    variant="ghost"
+                    size="xs">
+                    <span class="text-foreground"> Normal text </span>
+                    <Triangle />
+                </Button>
 
-            <Separator
-                class="data-[orientation=vertical]:h-4"
-                orientation="vertical" />
+                <Separator
+                    class="data-[orientation=vertical]:h-4"
+                    orientation="vertical" />
 
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:bold" />
-            </Button>
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:italic" />
-            </Button>
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:underline" />
-            </Button>
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:strikethrough" />
-            </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:bold" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:italic" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:underline" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:strikethrough" />
+                </Button>
 
-            <Separator
-                class="data-[orientation=vertical]:h-4"
-                orientation="vertical" />
+                <Separator
+                    class="data-[orientation=vertical]:h-4"
+                    orientation="vertical" />
 
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:link" />
-            </Button>
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:external-link" />
-            </Button>
-            <Button
-                variant="ghost"
-                size="icon">
-                <Icon name="lucide:image" />
-            </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:link" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:external-link" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon">
+                    <Icon name="lucide:image" />
+                </Button>
+
+                <Button
+                    class="ml-auto"
+                    variant="ghost"
+                    size="xs">
+                    <Icon name="lucide:square-pen" />
+                    <span class="text-foreground"> Edit mode </span>
+                    <Triangle />
+                </Button>
+            </div>
         </div>
+
         <!-- <Editor /> -->
     </div>
 </template>

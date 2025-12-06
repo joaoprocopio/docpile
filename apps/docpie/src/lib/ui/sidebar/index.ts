@@ -39,7 +39,7 @@ export const sidebarTriggerVariants = cva(undefined, {
     variants: {
         size: {
             default: "size-8 [&_svg:not([class*='size-'])]:size-5",
-            sm: "size-7 [&_svg:not([class*='size-'])]:size-4.5",
+            sm: "size-7 [&_svg:not([class*='size-'])]:size-4",
         },
     },
     defaultVariants: {
