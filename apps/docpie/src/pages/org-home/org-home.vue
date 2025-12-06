@@ -21,14 +21,7 @@ let editorView: EditorView | undefined = undefined
 onMounted(() => {
     editorState = EditorState.create({
         schema: schema,
-        plugins: [
-            history(),
-            keymap({
-                "Mod-z": undo,
-                "Mod-y": redo,
-            }),
-            keymap(baseKeymap),
-        ],
+        plugins: [history(), keymap(baseKeymap)],
     })
 
     editorView = new EditorView(editorRef.value, {
@@ -81,12 +74,14 @@ tryOnScopeDispose(() => {
             class="flex items-center gap-2 rounded-md bg-gray-a3 px-2 py-1.5 [&>button:has(svg:only-child)]:size-7 [&>button>svg]:size-4!">
             <Button
                 variant="ghost"
-                size="icon">
+                size="icon"
+                @click="() => undo(editorState!)">
                 <Icon name="lucide:undo-2" />
             </Button>
             <Button
                 variant="ghost"
-                size="icon">
+                size="icon"
+                @click="() => redo(editorState!)">
                 <Icon name="lucide:redo-2" />
             </Button>
 
@@ -159,9 +154,75 @@ tryOnScopeDispose(() => {
         <div class="px-2 py-6">
             <div
                 ref="editor"
-                class="mx-auto max-w-xl" />
+                class="mx-auto min-h-96 max-w-xl" />
         </div>
     </div>
 </template>
 
-<style src="prosemirror-view/style/prosemirror.css" />
+<style>
+.ProseMirror {
+    position: relative;
+    outline: none;
+}
+
+.ProseMirror {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    white-space: break-spaces;
+    -webkit-font-variant-ligatures: none;
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0; /* the above doesn't seem to work in Edge */
+}
+
+.ProseMirror pre {
+    white-space: pre-wrap;
+}
+
+.ProseMirror li {
+    position: relative;
+}
+
+.ProseMirror-hideselection *::selection {
+    background: transparent;
+}
+.ProseMirror-hideselection *::-moz-selection {
+    background: transparent;
+}
+.ProseMirror-hideselection {
+    caret-color: transparent;
+}
+
+/* See https://github.com/ProseMirror/prosemirror/issues/1421#issuecomment-1759320191 */
+.ProseMirror [draggable][contenteditable="false"] {
+    user-select: text;
+}
+
+.ProseMirror-selectednode {
+    outline: 2px solid #8cf;
+}
+
+/* Make sure li selections wrap around markers */
+
+li.ProseMirror-selectednode {
+    outline: none;
+}
+
+li.ProseMirror-selectednode:after {
+    content: "";
+    position: absolute;
+    left: -32px;
+    right: -2px;
+    top: -2px;
+    bottom: -2px;
+    border: 2px solid #8cf;
+    pointer-events: none;
+}
+
+/* Protect against generic img rules */
+
+img.ProseMirror-separator {
+    display: inline !important;
+    border: none !important;
+    margin: 0 !important;
+}
+</style>
