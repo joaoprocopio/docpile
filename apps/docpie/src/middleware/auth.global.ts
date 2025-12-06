@@ -1,5 +1,4 @@
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
-import { env } from "~/env"
 import { useQueryClient } from "~/lib/cache"
 import { isClientErrorStatus } from "~/lib/http/status"
 import {
