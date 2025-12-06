@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { NavigationMenuLinkEmits, NavigationMenuLinkProps } from "reka-ui"
 import { NavigationMenuLink, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<NavigationMenuLinkProps & { class?: HTMLAttributes["class"] }>()

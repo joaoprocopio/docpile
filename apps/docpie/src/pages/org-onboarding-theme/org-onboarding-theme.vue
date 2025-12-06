@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { AcceptableValue } from "reka-ui"
-
 import { useColorMode } from "#imports"
+import type { AcceptableValue } from "reka-ui"
 import { ColorMode, type TColorMode } from "~/lib/color-mode/constants"
 import { Button } from "~/lib/ui/button"
 import { ToggleGroup, ToggleGroupItem } from "~/lib/ui/toggle-group"

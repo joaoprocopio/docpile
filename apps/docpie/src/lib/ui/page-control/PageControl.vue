@@ -1,11 +1,9 @@
 <script setup lang="ts">
+import { pageControlInjectionKey, type PageControlValue } from "./context"
 import { syncRef } from "@vueuse/core"
 import type { HTMLAttributes } from "vue"
 import { provide, ref, toRef, useTemplateRef } from "vue"
-
 import { cn } from "~/lib/ui/utils"
-
-import { pageControlInjectionKey, type PageControlValue } from "./context"
 
 const props = withDefaults(
     defineProps<{

@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { ComboboxSeparatorProps } from "reka-ui"
 import { ComboboxSeparator } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<ComboboxSeparatorProps & { class?: HTMLAttributes["class"] }>()

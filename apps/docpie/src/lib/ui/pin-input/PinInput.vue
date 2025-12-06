@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { PinInputRootEmits, PinInputRootProps } from "reka-ui"
 import { PinInputRoot, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = withDefaults(

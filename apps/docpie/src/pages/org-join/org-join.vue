@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import { useRoute } from "#app"
 import { useQuery } from "@tanstack/vue-query"
 import { watchEffect } from "vue"
-
-import { useRoute } from "#app"
 import { Spinner } from "~/lib/ui/spinner"
 import { authCache } from "~/state/auth/cache"
 import { orgCache } from "~/state/org/cache"

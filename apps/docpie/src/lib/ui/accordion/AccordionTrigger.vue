@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { AccordionTriggerProps } from "reka-ui"
 import { AccordionHeader, AccordionTrigger } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<AccordionTriggerProps & { class?: HTMLAttributes["class"] }>()

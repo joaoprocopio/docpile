@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { AccordionContentProps } from "reka-ui"
 import { AccordionContent } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<AccordionContentProps & { class?: HTMLAttributes["class"] }>()

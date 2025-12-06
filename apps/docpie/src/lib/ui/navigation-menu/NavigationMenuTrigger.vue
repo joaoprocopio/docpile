@@ -1,12 +1,10 @@
 <script setup lang="ts">
+import { navigationMenuTriggerStyle } from "."
 import { reactiveOmit } from "@vueuse/core"
 import type { NavigationMenuTriggerProps } from "reka-ui"
 import { NavigationMenuTrigger, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
-
-import { navigationMenuTriggerStyle } from "."
 
 const props = defineProps<NavigationMenuTriggerProps & { class?: HTMLAttributes["class"] }>()
 

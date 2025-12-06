@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { PaginationListProps } from "reka-ui"
 import { PaginationList } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<PaginationListProps & { class?: HTMLAttributes["class"] }>()

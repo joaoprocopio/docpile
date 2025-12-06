@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue"
-
 import { Textarea } from "~/lib/ui/textarea"
 import { cn } from "~/lib/ui/utils"
 

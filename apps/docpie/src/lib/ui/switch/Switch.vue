@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { SwitchRootEmits, SwitchRootProps } from "reka-ui"
 import { SwitchRoot, SwitchThumb, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<SwitchRootProps & { class?: HTMLAttributes["class"] }>()

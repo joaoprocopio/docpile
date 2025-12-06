@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import { useRoute, useRouter } from "#app"
 import { useMutation, useQuery } from "@tanstack/vue-query"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
-
-import { useRoute, useRouter } from "#app"
 import { env } from "~/env"
 import { OrgRoutes } from "~/lib/router/constants"
 import {

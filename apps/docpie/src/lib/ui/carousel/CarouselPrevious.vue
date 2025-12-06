@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import type { WithClassAsProps } from "./interface"
+import { useCarousel } from "./useCarousel"
 import type { ButtonVariants } from "~/lib/ui/button"
 import { Button } from "~/lib/ui/button"
 import { cn } from "~/lib/ui/utils"
-
-import type { WithClassAsProps } from "./interface"
-import { useCarousel } from "./useCarousel"
 
 const props = withDefaults(
     defineProps<

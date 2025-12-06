@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { NumberFieldRootEmits, NumberFieldRootProps } from "reka-ui"
 import { NumberFieldRoot, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<NumberFieldRootProps & { class?: HTMLAttributes["class"] }>()

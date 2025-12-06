@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { AvatarFallbackProps } from "reka-ui"
 import { AvatarFallback } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<AvatarFallbackProps & { class?: HTMLAttributes["class"] }>()

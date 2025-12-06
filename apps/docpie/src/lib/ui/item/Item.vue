@@ -1,12 +1,10 @@
 <script setup lang="ts">
+import type { ItemVariants } from "."
+import { itemVariants } from "."
 import type { PrimitiveProps } from "reka-ui"
 import { Primitive } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
-
-import type { ItemVariants } from "."
-import { itemVariants } from "."
 
 const props = withDefaults(
     defineProps<

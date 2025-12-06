@@ -1,8 +1,7 @@
 <script lang="ts" setup>
+import { computed, useColorMode } from "#imports"
 import type { ToasterProps } from "vue-sonner"
 import { Toaster as Sonner } from "vue-sonner"
-
-import { computed, useColorMode } from "#imports"
 
 const props = defineProps<ToasterProps>()
 const colorMode = useColorMode()

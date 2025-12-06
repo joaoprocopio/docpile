@@ -1,6 +1,5 @@
-import { useQueryClient } from "@tanstack/vue-query"
-
 import { defineNuxtRouteMiddleware } from "#app"
+import { useQueryClient } from "@tanstack/vue-query"
 import { invariant } from "~/lib/invariant"
 import { authCache } from "~/state/auth/cache"
 import { orgCache } from "~/state/org/cache"

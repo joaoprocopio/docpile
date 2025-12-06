@@ -1,13 +1,11 @@
 <script setup lang="ts">
+import { useCommand, useCommandGroup } from "."
 import { reactiveOmit, useCurrentElement } from "@vueuse/core"
 import type { ListboxItemEmits, ListboxItemProps } from "reka-ui"
 import { ListboxItem, useForwardPropsEmits, useId } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { computed, onMounted, onUnmounted, ref } from "vue"
-
 import { cn } from "~/lib/ui/utils"
-
-import { useCommand, useCommandGroup } from "."
 
 const props = defineProps<ListboxItemProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<ListboxItemEmits>()

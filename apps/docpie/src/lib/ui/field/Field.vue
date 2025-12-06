@@ -1,14 +1,12 @@
 <script setup lang="ts">
+import type { FieldVariants } from "."
+import { fieldVariants } from "."
 import type { AnyFieldApi } from "@tanstack/vue-form"
 import { useStore } from "@tanstack/vue-form"
 import { Primitive, type PrimitiveProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { ref } from "vue"
-
 import { cn } from "~/lib/ui/utils"
-
-import type { FieldVariants } from "."
-import { fieldVariants } from "."
 
 const props = withDefaults(
     defineProps<

@@ -1,10 +1,9 @@
 // @ts-check
+import withNuxt from "./.nuxt/eslint.config.mjs"
 import * as $compat from "@eslint/compat"
 import $prettier from "eslint-config-prettier/flat"
 import $path from "path"
 import $url from "url"
-
-import withNuxt from "./.nuxt/eslint.config.mjs"
 
 /** @returns {import("eslint").Linter.Config} */
 function vue() {

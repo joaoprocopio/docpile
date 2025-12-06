@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { TabsContentProps } from "reka-ui"
 import { TabsContent } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<TabsContentProps & { class?: HTMLAttributes["class"] }>()

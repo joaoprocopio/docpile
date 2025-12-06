@@ -1,15 +1,13 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { BaseChartProps } from "."
 import { Donut } from "@unovis/ts"
 import { VisDonut, VisSingleContainer } from "@unovis/vue"
 import { useMounted } from "@vueuse/core"
 import type { Component } from "vue"
 import { computed, ref } from "vue"
-
 import { ChartSingleTooltip, defaultColors } from "~/lib/ui/chart"
 import { cn } from "~/lib/ui/utils"
-
-import type { BaseChartProps } from "."
 
 const props = withDefaults(
     defineProps<

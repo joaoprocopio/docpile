@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { reactiveOmit } from "@vueuse/core"
-import type { HTMLAttributes } from "vue"
-
-import { cn } from "~/lib/ui/utils"
-
 import TableCell from "./TableCell.vue"
 import TableRow from "./TableRow.vue"
+import { reactiveOmit } from "@vueuse/core"
+import type { HTMLAttributes } from "vue"
+import { cn } from "~/lib/ui/utils"
 
 const props = withDefaults(
     defineProps<{

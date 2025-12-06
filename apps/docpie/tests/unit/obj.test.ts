@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, expect, it } from "vitest"
-
 import { flattenObject } from "~/utils/obj"
 
 describe("flattenObject", () => {

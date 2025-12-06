@@ -1,6 +1,5 @@
 import type { StorageLike } from "@vueuse/core"
 import Cookie from "js-cookie"
-
 import { isString } from "~/utils/is"
 
 export type CookieAttributes = typeof Cookie.attributes

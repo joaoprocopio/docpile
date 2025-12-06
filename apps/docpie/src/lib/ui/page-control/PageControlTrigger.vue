@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { Primitive, type PrimitiveProps } from "reka-ui"
-import type { HTMLAttributes } from "vue"
-import { computed, ref } from "vue"
-
-import { cn } from "~/lib/ui/utils"
-
 import {
     type PageControlTriggerState,
     type PageControlValue,
     usePageControlContext,
 } from "./context"
+import { Primitive, type PrimitiveProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { computed, ref } from "vue"
+import { cn } from "~/lib/ui/utils"
 
 const props = withDefaults(
     defineProps<

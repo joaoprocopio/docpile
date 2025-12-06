@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { AlertDialogDescriptionProps } from "reka-ui"
 import { AlertDialogDescription } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<AlertDialogDescriptionProps & { class?: HTMLAttributes["class"] }>()

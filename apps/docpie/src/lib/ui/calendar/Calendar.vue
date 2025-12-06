@@ -1,11 +1,4 @@
 <script lang="ts" setup>
-import { reactiveOmit } from "@vueuse/core"
-import type { CalendarRootEmits, CalendarRootProps } from "reka-ui"
-import { CalendarRoot, useForwardPropsEmits } from "reka-ui"
-import type { HTMLAttributes } from "vue"
-
-import { cn } from "~/lib/ui/utils"
-
 import {
     CalendarCell,
     CalendarCellTrigger,
@@ -19,6 +12,11 @@ import {
     CalendarNextButton,
     CalendarPrevButton,
 } from "."
+import { reactiveOmit } from "@vueuse/core"
+import type { CalendarRootEmits, CalendarRootProps } from "reka-ui"
+import { CalendarRoot, useForwardPropsEmits } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<CalendarRootProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<CalendarRootEmits>()

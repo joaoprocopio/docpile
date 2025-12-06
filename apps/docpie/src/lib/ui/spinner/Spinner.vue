@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
-
 import { Icon } from "#components"
+import type { HTMLAttributes } from "vue"
 import { invariant } from "~/lib/invariant"
 import { cn } from "~/lib/ui/utils"
 import { array } from "~/utils/arr"

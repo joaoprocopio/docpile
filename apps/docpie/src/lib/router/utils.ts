@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import type { NavigationFailure } from "vue-router"
-
 import { useRouter } from "#app"
+import type { NavigationFailure } from "vue-router"
 
 export async function rerunMiddleware(
     router = useRouter(),

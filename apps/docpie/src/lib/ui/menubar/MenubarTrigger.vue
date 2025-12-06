@@ -3,7 +3,6 @@ import { reactiveOmit } from "@vueuse/core"
 import type { MenubarTriggerProps } from "reka-ui"
 import { MenubarTrigger, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<MenubarTriggerProps & { class?: HTMLAttributes["class"] }>()

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChartTooltip } from "."
 import type { BulletLegendItemInterface } from "@unovis/ts"
 import { omit } from "@unovis/ts"
 import { VisTooltip } from "@unovis/vue"
 import type { Component } from "vue"
 import { createApp } from "vue"
-
-import { ChartTooltip } from "."
 
 const props = defineProps<{
     selector: string
