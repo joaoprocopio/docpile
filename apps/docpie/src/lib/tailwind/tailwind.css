@@ -329,7 +329,7 @@
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
-    --muted-foreground: var(--gray-11);
+    --muted-foreground: var(--gray-10);
     --accent: var(--gray-3);
     --accent-foreground: var(--gray-12);
     --destructive: var(--destructive-5);
@@ -343,7 +343,7 @@
     --sidebar: var(--gray-1);
     --sidebar-foreground: var(--white-a12);
     --sidebar-muted: var(--gray-5);
-    --sidebar-muted-foreground: var(--gray-a10);
+    --sidebar-muted-foreground: var(--gray-10);
     --sidebar-primary: var(--primary-9);
     --sidebar-primary-foreground: var(--white-a12);
     --sidebar-accent: var(--gray-a2);
@@ -571,7 +571,7 @@
     --secondary: var(--gray-4);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-4);
-    --muted-foreground: var(--gray-11);
+    --muted-foreground: var(--gray-10);
     --accent: var(--gray-5);
     --accent-foreground: var(--gray-12);
     --destructive: var(--destructive-4);
@@ -585,7 +585,7 @@
     --sidebar: var(--gray-1);
     --sidebar-foreground: var(--white-a12);
     --sidebar-muted: var(--gray-5);
-    --sidebar-muted-foreground: var(--gray-a10);
+    --sidebar-muted-foreground: var(--gray-10);
     --sidebar-primary: var(--primary-9);
     --sidebar-primary-foreground: var(--white-a12);
     --sidebar-accent: var(--gray-a2);

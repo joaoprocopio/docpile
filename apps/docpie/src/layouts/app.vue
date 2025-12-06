@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from "@tanstack/vue-query"
+import { OrgRoutes } from "~/lib/router/constants"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/lib/ui/collapsible"
 import {
@@ -46,10 +47,12 @@ const groups: Group[] = [
             {
                 label: "Search",
                 icon: "lucide:search",
+                route: OrgRoutes.Home.value,
             },
             {
                 label: "Inbox",
                 icon: "lucide:inbox",
+                route: OrgRoutes.Create.value,
             },
         ],
     },
@@ -60,18 +63,22 @@ const groups: Group[] = [
             {
                 label: "Members",
                 icon: "lucide:users",
+                route: OrgRoutes.Create.value,
             },
             {
                 label: "Teams",
                 icon: "lucide:contact",
+                route: OrgRoutes.Create.value,
             },
             {
                 label: "Docs",
                 icon: "lucide:files",
+                route: OrgRoutes.Create.value,
             },
             {
                 label: "Sites",
                 icon: "lucide:globe",
+                route: OrgRoutes.Create.value,
             },
         ],
     },
@@ -117,7 +124,9 @@ const signout = useMutation(authCache.mutations.signout())
                             side="bottom">
                             <DropdownMenuGroup>
                                 <DropdownMenuItem @click="() => signout.mutate()">
-                                    <Icon name="lucide:log-out" />
+                                    <Icon
+                                        class="text-muted-foreground"
+                                        name="lucide:log-out" />
                                     <span>Sign out</span>
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
@@ -166,6 +175,7 @@ const signout = useMutation(authCache.mutations.signout())
                                                         <RouterLink :to="link.href">
                                                             <Icon
                                                                 v-if="item.icon"
+                                                                class="text-sidebar-muted-foreground"
                                                                 :name="item.icon" />
 
                                                             <span>
@@ -200,6 +210,7 @@ const signout = useMutation(authCache.mutations.signout())
                                                 <RouterLink :to="link.href">
                                                     <Icon
                                                         v-if="item.icon"
+                                                        class="text-sidebar-muted-foreground"
                                                         :name="item.icon" />
                                                     <span>
                                                         {{ item.label }}

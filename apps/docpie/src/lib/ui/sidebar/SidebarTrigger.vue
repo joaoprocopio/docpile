@@ -1,10 +1,8 @@
 <script setup lang="ts">
+import { useSidebar } from "./utils"
 import type { HTMLAttributes } from "vue"
-
 import { Button } from "~/lib/ui/button"
 import { cn } from "~/lib/ui/utils"
-
-import { useSidebar } from "./utils"
 
 const props = defineProps<{
     class?: HTMLAttributes["class"]
