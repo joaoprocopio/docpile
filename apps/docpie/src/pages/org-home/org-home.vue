@@ -45,13 +45,13 @@ tryOnScopeDispose(() => {
 
 <template>
     <div class="px-6">
-        <div class="flex px-2 items-center text-sm gap-2 py-2.5">
+        <div class="flex items-center gap-2 px-2 py-2.5 text-sm">
             <SidebarTrigger
                 v-if="!sidebar.open.value"
                 size="sm" />
 
             <!-- TODO: trocar pro titulo vindo da api -->
-            <h1 class="font-semibold truncate">Scoped API Keys</h1>
+            <h1 class="truncate font-semibold">Scoped API Keys</h1>
 
             <Button
                 variant="ghost"
@@ -69,7 +69,7 @@ tryOnScopeDispose(() => {
                 Insert
             </Button>
 
-            <p class="ml-auto text-muted-foreground text-xs truncate">Edited 42min ago</p>
+            <p class="ml-auto truncate text-xs text-muted-foreground">Edited 42min ago</p>
             <Button
                 size="xs"
                 variant="secondary">
@@ -78,7 +78,7 @@ tryOnScopeDispose(() => {
         </div>
 
         <div
-            class="flex bg-gray-a3 rounded-md px-2 py-1.5 items-center gap-2 [&>button:has(svg:only-child)]:size-7 [&>button>svg]:size-4!">
+            class="flex items-center gap-2 rounded-md bg-gray-a3 px-2 py-1.5 [&>button:has(svg:only-child)]:size-7 [&>button>svg]:size-4!">
             <Button
                 variant="ghost"
                 size="icon">
@@ -91,7 +91,7 @@ tryOnScopeDispose(() => {
             </Button>
 
             <Separator
-                class="data-[orientation=vertical]:h-4 mx-1"
+                class="mx-1 data-[orientation=vertical]:h-4"
                 orientation="vertical" />
 
             <Button
@@ -102,7 +102,7 @@ tryOnScopeDispose(() => {
             </Button>
 
             <Separator
-                class="data-[orientation=vertical]:h-4 mx-1"
+                class="mx-1 data-[orientation=vertical]:h-4"
                 orientation="vertical" />
 
             <Button
@@ -127,7 +127,7 @@ tryOnScopeDispose(() => {
             </Button>
 
             <Separator
-                class="data-[orientation=vertical]:h-4 mx-1"
+                class="mx-1 data-[orientation=vertical]:h-4"
                 orientation="vertical" />
 
             <Button
@@ -156,10 +156,10 @@ tryOnScopeDispose(() => {
             </Button>
         </div>
 
-        <div class="py-6 px-2">
+        <div class="px-2 py-6">
             <div
                 ref="editor"
-                class="max-w-xl mx-auto" />
+                class="mx-auto max-w-xl" />
         </div>
     </div>
 </template>

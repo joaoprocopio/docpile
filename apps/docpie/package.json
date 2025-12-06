@@ -9,7 +9,7 @@
         "check": "prettier --check .",
         "format": "prettier --write .",
         "dev": "nuxt dev",
-        "build": "nuxt build --prerender",
+        "build": "nuxt build",
         "typecheck": "nuxt typecheck",
         "analyze": "nuxt analyze",
         "preview": "nuxt preview",
