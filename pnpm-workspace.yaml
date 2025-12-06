@@ -4,10 +4,6 @@ packages:
     - "apps/*"
     - "packages/*"
 
-overrides:
-    "magicast": "^0.3.5"
-    "vue": "^3.5.25"
-
 onlyBuiltDependencies:
     - "@parcel/watcher"
     - "@tailwindcss/oxide"
