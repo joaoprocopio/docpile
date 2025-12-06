@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import doc from "./doc.md?raw"
 import { tryOnScopeDispose } from "@vueuse/core"
 import * as commands from "prosemirror-commands"
+import * as dropcursor from "prosemirror-dropcursor"
+import * as gapcursor from "prosemirror-gapcursor"
 import * as history from "prosemirror-history"
 import * as keymap from "prosemirror-keymap"
-import * as schemaBasic from "prosemirror-schema-basic"
+import * as markdown from "prosemirror-markdown"
 import * as state from "prosemirror-state"
 import * as view from "prosemirror-view"
 import { onMounted, shallowRef, useTemplateRef } from "vue"
@@ -20,8 +23,14 @@ const editorView = shallowRef<view.EditorView | undefined>(undefined)
 
 onMounted(() => {
     editorState.value = state.EditorState.create({
-        schema: schemaBasic.schema,
-        plugins: [history.history(), keymap.keymap(commands.baseKeymap)],
+        schema: markdown.schema,
+        doc: markdown.defaultMarkdownParser.parse(doc),
+        plugins: [
+            history.history(),
+            keymap.keymap(commands.baseKeymap),
+            dropcursor.dropCursor(),
+            gapcursor.gapCursor(),
+        ],
     })
 
     editorView.value = new view.EditorView(editorRef.value, {

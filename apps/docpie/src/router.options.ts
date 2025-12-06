@@ -1,4 +1,4 @@
-import type { RouterConfig } from "@nuxt/schema"
+import type { RouterConfig } from "nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 import { AuthRoutes, OrgOnboardingRoutes, OrgRoutes } from "~/lib/router/constants"
 import { dyn, path } from "~/lib/router/path"

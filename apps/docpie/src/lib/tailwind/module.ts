@@ -1,5 +1,5 @@
-import { createResolver, defineNuxtModule } from "@nuxt/kit"
 import tailwindcss from "@tailwindcss/vite"
+import { createResolver, defineNuxtModule } from "nuxt/kit"
 
 export default defineNuxtModule((_, nuxt) => {
     const resolver = createResolver(import.meta.url)
