@@ -5,7 +5,6 @@ import type { ToggleGroupItemProps } from "reka-ui"
 import { ToggleGroupItem, useForwardProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { inject } from "vue"
-
 import { toggleVariants } from "~/lib/ui/toggle"
 import { cn } from "~/lib/ui/utils"
 
@@ -38,7 +37,7 @@ const forwardedProps = useForwardProps(delegatedProps)
                     variant: context?.variant || variant,
                     size: context?.size || size,
                 }),
-                'min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-l-lg last:rounded-r-lg focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l',
+                'min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-l-md last:rounded-r-md focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l',
                 props.class,
             )
         ">
