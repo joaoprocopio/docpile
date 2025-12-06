@@ -1,15 +1,51 @@
 <script setup lang="ts">
+import { tryOnScopeDispose } from "@vueuse/core"
+import { baseKeymap } from "prosemirror-commands"
+import { history, redo, undo } from "prosemirror-history"
+import { keymap } from "prosemirror-keymap"
+import { schema } from "prosemirror-schema-basic"
+import { EditorState } from "prosemirror-state"
+import { EditorView } from "prosemirror-view"
+import { onMounted, useTemplateRef } from "vue"
 import { Button } from "~/lib/ui/button"
 import { Separator } from "~/lib/ui/separator"
 import { SidebarTrigger, useSidebar } from "~/lib/ui/sidebar"
 import { Triangle } from "~/lib/ui/triangle"
 
 const sidebar = useSidebar()
+const editorRef = useTemplateRef("editor")
+
+let editorState: EditorState | undefined = undefined
+let editorView: EditorView | undefined = undefined
+
+onMounted(() => {
+    editorState = EditorState.create({
+        schema: schema,
+        plugins: [
+            history(),
+            keymap({
+                "Mod-z": undo,
+                "Mod-y": redo,
+            }),
+            keymap(baseKeymap),
+        ],
+    })
+
+    editorView = new EditorView(editorRef.value, {
+        state: editorState,
+    })
+})
+
+tryOnScopeDispose(() => {
+    if (editorView) {
+        editorView.destroy()
+    }
+})
 </script>
 
 <template>
-    <div>
-        <div class="flex items-center text-sm gap-2 h-12 px-6">
+    <div class="px-6">
+        <div class="flex items-center text-sm gap-2 h-12">
             <SidebarTrigger
                 v-if="!sidebar.open.value"
                 size="sm" />
@@ -41,87 +77,90 @@ const sidebar = useSidebar()
             </Button>
         </div>
 
-        <div class="px-6">
-            <div
-                class="flex px-1 py-1 items-center rounded-md gap-1.5 bg-gray-a3 [&>button:has-[svg]]:size-7 [&>button>svg]:size-4!">
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:undo-2" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:redo-2" />
-                </Button>
+        <div class="flex items-center gap-1.5 [&>button:has(svg)]:size-7 [&>button>svg]:size-4!">
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:undo-2" />
+            </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:redo-2" />
+            </Button>
 
-                <Separator
-                    class="data-[orientation=vertical]:h-4"
-                    orientation="vertical" />
+            <Separator
+                class="data-[orientation=vertical]:h-4"
+                orientation="vertical" />
 
-                <Button
-                    variant="ghost"
-                    size="xs">
-                    <span class="text-foreground"> Normal text </span>
-                    <Triangle />
-                </Button>
+            <Button
+                variant="ghost"
+                size="xs">
+                <span class="text-foreground"> Normal text </span>
+                <Triangle />
+            </Button>
 
-                <Separator
-                    class="data-[orientation=vertical]:h-4"
-                    orientation="vertical" />
+            <Separator
+                class="data-[orientation=vertical]:h-4"
+                orientation="vertical" />
 
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:bold" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:italic" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:underline" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:strikethrough" />
-                </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:bold" />
+            </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:italic" />
+            </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:underline" />
+            </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:strikethrough" />
+            </Button>
 
-                <Separator
-                    class="data-[orientation=vertical]:h-4"
-                    orientation="vertical" />
+            <Separator
+                class="data-[orientation=vertical]:h-4"
+                orientation="vertical" />
 
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:link" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:external-link" />
-                </Button>
-                <Button
-                    variant="ghost"
-                    size="icon">
-                    <Icon name="lucide:image" />
-                </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:link" />
+            </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:external-link" />
+            </Button>
+            <Button
+                variant="ghost"
+                size="icon">
+                <Icon name="lucide:image" />
+            </Button>
 
-                <Button
-                    class="ml-auto"
-                    variant="ghost"
-                    size="xs">
-                    <Icon name="lucide:square-pen" />
-                    <span class="text-foreground"> Edit mode </span>
-                    <Triangle />
-                </Button>
-            </div>
+            <Button
+                class="ml-auto"
+                variant="ghost"
+                size="xs">
+                <Icon name="lucide:square-pen" />
+                <span class="text-foreground"> Edit mode </span>
+                <Triangle />
+            </Button>
         </div>
 
-        <!-- <Editor /> -->
+        <div class="py-6">
+            <div
+                ref="editor"
+                class="max-w-xl mx-auto" />
+        </div>
     </div>
 </template>
+
+<style src="prosemirror-view/style/prosemirror.css" />
