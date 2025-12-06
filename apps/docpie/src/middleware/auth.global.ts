@@ -17,8 +17,6 @@ import { isEmpty, isNetworkError, isNil, isString } from "~/utils/is"
 // TODO: otimizar o middleware pra exibir um estado de loading melhor
 // TODO: exibir um belo estado de erro para os diferentes casos
 export default defineNuxtRouteMiddleware(async (to) => {
-    if (env.IS_SERVER) return
-
     const client = useQueryClient()
 
     if (to.name === OrgRoutes.Join.value) {

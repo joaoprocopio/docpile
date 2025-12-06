@@ -1,5 +1,3 @@
-// @ts-check
-
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
 

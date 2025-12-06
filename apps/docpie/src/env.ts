@@ -1,4 +1,10 @@
-export const env = new (class {
+import { useRuntimeConfig } from "#app"
+
+export class Env {
+    get #RUNTIME_CONFIG() {
+        return useRuntimeConfig()
+    }
+
     get IS_SERVER() {
         return import.meta.server
     }
@@ -15,6 +21,8 @@ export const env = new (class {
         return new URL(import.meta.url)
     }
     get API_URL() {
-        return import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:8000/api"
+        return this.#RUNTIME_CONFIG.public.apiUrl
     }
-})()
+}
+
+export const env = new Env()
