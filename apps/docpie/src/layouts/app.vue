@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from "@tanstack/vue-query"
-
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/lib/ui/collapsible"
 import {
@@ -44,30 +43,34 @@ const groups: Group[] = [
     {
         items: [
             {
-                label: "Buscar",
+                label: "Search",
                 icon: "lucide:search",
             },
             {
-                label: "Início",
-                icon: "lucide:house",
+                label: "Inbox",
+                icon: "lucide:inbox",
             },
         ],
     },
 
     {
-        group: "Logística",
+        group: "Organization",
         items: [
             {
-                label: "Produtos",
-                icon: "lucide:package-open",
+                label: "Members",
+                icon: "lucide:users",
             },
             {
-                label: "Propostas",
-                icon: "lucide:file-text",
+                label: "Teams",
+                icon: "lucide:contact",
             },
             {
-                label: "Pedidos",
-                icon: "lucide:truck",
+                label: "Docs",
+                icon: "lucide:files",
+            },
+            {
+                label: "Sites",
+                icon: "lucide:globe",
             },
         ],
     },
