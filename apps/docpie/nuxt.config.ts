@@ -62,6 +62,13 @@ export default defineNuxtConfig({
             },
         },
     },
+    typescript: {
+        tsConfig: {
+            compilerOptions: {
+                lib: ["ES2022"],
+            },
+        },
+    },
     telemetry: false,
     eslint: {
         config: {
