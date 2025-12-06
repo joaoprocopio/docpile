@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { env } from "~/env"
 
-const isProduction: boolean = env.PROD
+const isProduction: boolean = env.IS_PROD
 const prefix: string = "Invariant failed"
 
 export function invariant(condition: any, message?: string | (() => string)): asserts condition {

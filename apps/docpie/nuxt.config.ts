@@ -16,7 +16,7 @@ export default defineNuxtConfig({
         "~/lib/cache/module.ts",
         "~/lib/ui/module.ts",
     ],
-    ssr: false,
+    ssr: true,
     pages: {
         enabled: true,
         pattern: [],
@@ -40,11 +40,6 @@ export default defineNuxtConfig({
     colorMode: {
         classSuffix: "",
         storage: "cookie",
-    },
-    runtimeConfig: {
-        public: {
-            apiUrl: "http://localhost:8000/api",
-        },
     },
     srcDir: "src/",
     devServer: {
