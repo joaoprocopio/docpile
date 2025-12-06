@@ -1,9 +1,5 @@
 includeWorkspaceRoot: true
 
-packages:
-    - "apps/*"
-    - "packages/*"
-
 onlyBuiltDependencies:
     - "@parcel/watcher"
     - "@tailwindcss/oxide"

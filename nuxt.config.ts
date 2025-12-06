@@ -1,8 +1,3 @@
-const DEV_PROXY_CONFIG = {
-    HOST: "localhost",
-    PORT: 5173,
-} as const
-
 export default defineNuxtConfig({
     modules: [
         "@nuxt/test-utils/module",
@@ -43,25 +38,11 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            apiUrl: "http://localhost:8000/api",
+            apiUrl: "http://localhost:3000/api",
         },
     },
     srcDir: "src/",
-    devServer: {
-        host: DEV_PROXY_CONFIG.HOST,
-        port: DEV_PROXY_CONFIG.PORT,
-    },
     compatibilityDate: "latest",
-    vite: {
-        server: {
-            hmr: {
-                host: DEV_PROXY_CONFIG.HOST,
-                port: DEV_PROXY_CONFIG.PORT,
-                clientPort: DEV_PROXY_CONFIG.PORT,
-                overlay: true,
-            },
-        },
-    },
     typescript: {
         tsConfig: {
             compilerOptions: {
