@@ -30,6 +30,8 @@ import { authCache } from "~/state/auth/cache"
 import { composeInitials } from "~/utils/avatar"
 import { isNil } from "~/utils/is"
 
+// TODO: separar em componentes
+
 interface Group {
     group?: string
     items?: Item[]
@@ -41,6 +43,7 @@ interface Item {
     route?: string
 }
 
+// TODO: consertar os links que apontam para lugares nada ver
 const groups: Group[] = [
     {
         items: [
