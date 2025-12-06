@@ -168,7 +168,7 @@ tryOnScopeDispose(() => {
         <div class="min-h-[1000px] px-6 py-6">
             <div
                 ref="editor"
-                class="mx-auto max-w-xl px-4" />
+                class="mx-auto max-w-2xl px-4" />
         </div>
     </div>
 </template>
