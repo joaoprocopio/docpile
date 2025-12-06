@@ -23,6 +23,9 @@ const BLADES_CLASSES = [
     "blade text-gray-a3 rotate-270",
     "blade text-gray-a3 rotate-315",
 ]
+
+invariant(BLADES_CLASSES.length === BLADES_COUNT, "Blade classes length mismatch with blade count")
+
 const BLADES: IconProps[] = array(BLADES_COUNT).map((_, index) => {
     return {
         "name": "lucide:loader",
@@ -33,7 +36,6 @@ const BLADES: IconProps[] = array(BLADES_COUNT).map((_, index) => {
 })
 
 invariant(BLADES.length === BLADES_COUNT, "Blades array length mismatch with blade count")
-invariant(BLADES_CLASSES.length === BLADES_COUNT, "Blade classes length mismatch with blade count")
 </script>
 
 <template>
