@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { Button } from "~/lib/ui/button"
+import { Command, CommandGroup, CommandInput, CommandList, CommandItem } from "~/lib/ui/command"
+import { Popover, PopoverTrigger, PopoverContent } from "~/lib/ui/popover"
 import { Separator } from "~/lib/ui/separator"
 import { SidebarTrigger, useSidebar } from "~/lib/ui/sidebar"
+import { Triangle } from "~/lib/ui/triangle"
 
 const sidebar = useSidebar()
 </script>
@@ -41,7 +44,7 @@ const sidebar = useSidebar()
         </div>
 
         <div
-            class="flex items-center gap-2 h-10 px-6 bg-gray-a2 [&>button]:size-7 [&>button>svg]:size-4!">
+            class="flex items-center gap-1.5 h-10 px-6 bg-gray-a3 [&>button:has-[svg]]:size-7 [&>button>svg]:size-4!">
             <Button
                 variant="ghost"
                 size="icon">
@@ -56,6 +59,29 @@ const sidebar = useSidebar()
             <Separator
                 class="data-[orientation=vertical]:h-4"
                 orientation="vertical" />
+
+            <Popover>
+                <PopoverTrigger as-child>
+                    <Button
+                        variant="ghost"
+                        size="xs">
+                        Normal text
+                        <Triangle />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                    as-child
+                    class="w-[200px] p-0">
+                    <Command>
+                        <CommandInput placeholder="Search framework..." />
+                        <CommandList>
+                            <CommandGroup>
+                                <CommandItem value="paragraph">Normal text</CommandItem>
+                            </CommandGroup>
+                        </CommandList>
+                    </Command>
+                </PopoverContent>
+            </Popover>
 
             <Separator
                 class="data-[orientation=vertical]:h-4"
