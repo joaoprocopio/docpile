@@ -1,43 +1,36 @@
-<script setup lang="ts">
-import { syncRef, useMediaQuery, useStorage } from "@vueuse/core"
-import type { HTMLAttributes, ModelRef } from "vue"
-import { computed } from "vue"
-
-import { createCookieStorage, defaultCookieStorage } from "~/lib/vueuse/cookie-storage"
-
+<script lang="ts">
 import { provideSidebarContext, SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME } from "./utils"
+import { syncRef, useMediaQuery, useStorage } from "@vueuse/core"
+import type { HTMLAttributes } from "vue"
+import { computed } from "vue"
+import { createCookieStorage } from "~/lib/vueuse/cookie-storage"
 
-const props = withDefaults(
+const cookieStorage = createCookieStorage({ expires: SIDEBAR_COOKIE_MAX_AGE })
+const initialOpen = cookieStorage.getItem(SIDEBAR_COOKIE_NAME) === "true"
+</script>
+
+<script setup lang="ts">
+withDefaults(
     defineProps<{
         defaultOpen?: boolean
         class?: HTMLAttributes["class"]
     }>(),
     {
-        defaultOpen: !defaultCookieStorage.getItem(SIDEBAR_COOKIE_NAME),
+        defaultOpen: initialOpen,
         class: undefined,
     },
 )
 
 const isMobile = useMediaQuery("(max-width: 768px)")
-
-const cookie = useStorage<boolean>(
-    SIDEBAR_COOKIE_NAME,
-    props.defaultOpen,
-    createCookieStorage({ expires: SIDEBAR_COOKIE_MAX_AGE }),
-)
-
-const open = defineModel<boolean>("open") as ModelRef<boolean, string, boolean, boolean>
+const state = computed(() => (open.value ? "expanded" : "collapsed"))
+const cookie = useStorage<boolean>(SIDEBAR_COOKIE_NAME, initialOpen, cookieStorage)
+const open = defineModel<boolean>("open", { default: initialOpen })
 
 syncRef(open, cookie, { transform: { rtl: (v) => Boolean(v), ltr: (v) => Boolean(v) } })
 
-// Helper to toggle the sidebar.
 function toggleSidebar() {
     open.value = !open.value
 }
-
-// We add a state so that we can do data-state="expanded" or "collapsed".
-// This makes it easier to style the sidebar with Tailwind classes.
-const state = computed(() => (open.value ? "expanded" : "collapsed"))
 
 provideSidebarContext({
     state,

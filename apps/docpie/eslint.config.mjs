@@ -1,7 +1,6 @@
 // @ts-check
 import * as $compat from "@eslint/compat"
 import $prettier from "eslint-config-prettier/flat"
-import $sort from "eslint-plugin-simple-import-sort"
 import $path from "path"
 import $url from "url"
 
@@ -30,17 +29,4 @@ function gitignore() {
     return $compat.includeIgnoreFile(gitignore)
 }
 
-/** @returns {import("eslint").Linter.Config} */
-function sort() {
-    return {
-        plugins: {
-            "simple-import-sort": $sort,
-        },
-        rules: {
-            "simple-import-sort/imports": "error",
-            "simple-import-sort/exports": "error",
-        },
-    }
-}
-
-export default withNuxt(gitignore(), prettier(), sort(), vue())
+export default withNuxt(gitignore(), prettier(), vue())

@@ -5,7 +5,7 @@ export default {
     bracketSpacing: true,
     endOfLine: "lf",
     jsxBracketSameLine: false,
-    plugins: ["prettier-plugin-tailwindcss"],
+    plugins: ["prettier-plugin-tailwindcss", "@trivago/prettier-plugin-sort-imports"],
     printWidth: 100,
     quoteProps: "consistent",
     semi: false,
