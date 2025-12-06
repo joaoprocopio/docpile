@@ -12,7 +12,7 @@ const sidebar = useSidebar()
             <SidebarTrigger v-if="!sidebar.open.value" />
 
             <!-- TODO: trocar pro titulo vindo da api -->
-            <h1 class="font-semibold">Scoped API Keys</h1>
+            <h1 class="font-semibold truncate">Scoped API Keys</h1>
 
             <Button
                 variant="ghost"
@@ -33,7 +33,7 @@ const sidebar = useSidebar()
                 Insert
             </Button>
 
-            <p class="ml-auto text-muted-foreground text-xs">Edited 42min ago</p>
+            <p class="ml-auto text-muted-foreground text-xs truncate">Edited 42min ago</p>
             <Button
                 size="xs"
                 variant="secondary">
@@ -41,7 +41,7 @@ const sidebar = useSidebar()
             </Button>
         </div>
 
-        <div class="flex items-center gap-4 h-12 px-6"></div>
+        <div class="flex items-center gap-4 h-12 px-6 bg-gray-a3"></div>
         <!-- <Editor /> -->
     </div>
 </template>

@@ -12,6 +12,7 @@
         "build": "nuxt build",
         "generate": "nuxt generate",
         "typecheck": "nuxt typecheck",
+        "analyze": "nuxt analyze",
         "preview": "nuxt preview",
         "test": "vitest"
     },
