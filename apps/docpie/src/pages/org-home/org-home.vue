@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { tryOnScopeDispose } from "@vueuse/core"
-import { baseKeymap } from "prosemirror-commands"
-import { history, redo, undo } from "prosemirror-history"
-import { keymap } from "prosemirror-keymap"
-import { schema } from "prosemirror-schema-basic"
-import { EditorState } from "prosemirror-state"
-import { EditorView } from "prosemirror-view"
-import { onMounted, useTemplateRef } from "vue"
+import * as commands from "prosemirror-commands"
+import * as history from "prosemirror-history"
+import * as keymap from "prosemirror-keymap"
+import * as schemaBasic from "prosemirror-schema-basic"
+import * as state from "prosemirror-state"
+import * as view from "prosemirror-view"
+import { onMounted, shallowRef, useTemplateRef } from "vue"
 import { Button } from "~/lib/ui/button"
 import { Separator } from "~/lib/ui/separator"
 import { SidebarTrigger, useSidebar } from "~/lib/ui/sidebar"
@@ -15,23 +15,23 @@ import { Triangle } from "~/lib/ui/triangle"
 const sidebar = useSidebar()
 const editorRef = useTemplateRef("editor")
 
-let editorState: EditorState | undefined = undefined
-let editorView: EditorView | undefined = undefined
+const editorState = shallowRef<state.EditorState | undefined>(undefined)
+const editorView = shallowRef<view.EditorView | undefined>(undefined)
 
 onMounted(() => {
-    editorState = EditorState.create({
-        schema: schema,
-        plugins: [history(), keymap(baseKeymap)],
+    editorState.value = state.EditorState.create({
+        schema: schemaBasic.schema,
+        plugins: [history.history(), keymap.keymap(commands.baseKeymap)],
     })
 
-    editorView = new EditorView(editorRef.value, {
-        state: editorState,
+    editorView.value = new view.EditorView(editorRef.value, {
+        state: editorState.value,
     })
 })
 
 tryOnScopeDispose(() => {
-    if (editorView) {
-        editorView.destroy()
+    if (editorView.value) {
+        editorView.value.destroy()
     }
 })
 </script>
@@ -75,21 +75,13 @@ tryOnScopeDispose(() => {
             <Button
                 variant="ghost"
                 size="icon"
-                @click="
-                    () => {
-                        undo(editorState!, undefined, editorView!)
-                    }
-                ">
+                @click="() => history.undo(editorView!.state, editorView!.dispatch, editorView!)">
                 <Icon name="lucide:undo-2" />
             </Button>
             <Button
                 variant="ghost"
                 size="icon"
-                @click="
-                    () => {
-                        redo(editorState!, undefined, editorView!)
-                    }
-                ">
+                @click="() => history.redo(editorView!.state, editorView!.dispatch, editorView!)">
                 <Icon name="lucide:redo-2" />
             </Button>
 
