@@ -75,13 +75,21 @@ tryOnScopeDispose(() => {
             <Button
                 variant="ghost"
                 size="icon"
-                @click="() => undo(editorState!)">
+                @click="
+                    () => {
+                        undo(editorState!, undefined, editorView!)
+                    }
+                ">
                 <Icon name="lucide:undo-2" />
             </Button>
             <Button
                 variant="ghost"
                 size="icon"
-                @click="() => redo(editorState!)">
+                @click="
+                    () => {
+                        redo(editorState!, undefined, editorView!)
+                    }
+                ">
                 <Icon name="lucide:redo-2" />
             </Button>
 
@@ -154,7 +162,7 @@ tryOnScopeDispose(() => {
         <div class="px-2 py-6">
             <div
                 ref="editor"
-                class="mx-auto min-h-96 max-w-xl" />
+                class="mx-auto max-w-xl" />
         </div>
     </div>
 </template>
