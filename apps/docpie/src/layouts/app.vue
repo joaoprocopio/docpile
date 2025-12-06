@@ -24,6 +24,7 @@ import {
     SidebarTrigger,
     SidebarWrapper,
 } from "~/lib/ui/sidebar"
+import { Triangle } from "~/lib/ui/triangle"
 import { authCache } from "~/state/auth/cache"
 import { composeInitials } from "~/utils/avatar"
 import { isNil } from "~/utils/is"
@@ -141,9 +142,8 @@ const signout = useMutation(authCache.mutations.signout())
                                     class="hover:bg-sidebar-accent">
                                     <CollapsibleTrigger>
                                         <span> {{ group.group }}</span>
-                                        <Icon
-                                            name="lucide:chevron-down"
-                                            class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                                        <Triangle
+                                            class="ml-2 group-data-[state=closed]/collapsible:rotate-180 transition-transform" />
                                     </CollapsibleTrigger>
                                 </SidebarGroupLabel>
 
