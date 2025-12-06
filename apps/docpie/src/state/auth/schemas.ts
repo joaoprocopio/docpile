@@ -1,4 +1,4 @@
-import { z } from "zod"
+import * as z from "zod"
 
 export const Email = z
     .email("Please enter an valid email address")

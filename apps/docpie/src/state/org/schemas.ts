@@ -1,4 +1,4 @@
-import { z } from "zod"
+import * as z from "zod"
 import { constEnum } from "~/lib/const"
 import { DisplayName } from "~/state/auth/schemas"
 
