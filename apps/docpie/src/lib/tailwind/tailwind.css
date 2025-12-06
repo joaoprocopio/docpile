@@ -341,7 +341,7 @@
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
     --sidebar: var(--gray-1);
-    --sidebar-foreground: var(--white-a12);
+    --sidebar-foreground: var(--white-a11);
     --sidebar-muted: var(--gray-5);
     --sidebar-muted-foreground: var(--gray-10);
     --sidebar-primary: var(--primary-9);
@@ -583,7 +583,7 @@
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
     --sidebar: var(--gray-1);
-    --sidebar-foreground: var(--white-a12);
+    --sidebar-foreground: var(--white-a11);
     --sidebar-muted: var(--gray-5);
     --sidebar-muted-foreground: var(--gray-10);
     --sidebar-primary: var(--primary-9);
