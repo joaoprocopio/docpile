@@ -82,6 +82,27 @@ const groups: Group[] = [
             },
         ],
     },
+
+    {
+        group: "Docs",
+        items: [
+            {
+                label: "Roboflow Inference",
+                icon: "lucide:folder-closed",
+                route: OrgRoutes.Create.value,
+            },
+            {
+                label: "Roboflow Supervision",
+                icon: "lucide:folder-closed",
+                route: OrgRoutes.Create.value,
+            },
+            {
+                label: "Roboflow Python",
+                icon: "lucide:folder-closed",
+                route: OrgRoutes.Create.value,
+            },
+        ],
+    },
 ]
 
 const whoami = useQuery(authCache.queries.whoami())
