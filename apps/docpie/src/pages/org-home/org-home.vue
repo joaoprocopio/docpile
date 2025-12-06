@@ -9,7 +9,9 @@ const sidebar = useSidebar()
 <template>
     <div>
         <div class="flex items-center text-sm gap-2 h-12 px-6">
-            <SidebarTrigger v-if="!sidebar.open.value" />
+            <SidebarTrigger
+                v-if="!sidebar.open.value"
+                size="sm" />
 
             <!-- TODO: trocar pro titulo vindo da api -->
             <h1 class="font-semibold truncate">Scoped API Keys</h1>

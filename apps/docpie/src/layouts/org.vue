@@ -21,7 +21,6 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarRail,
     SidebarTrigger,
     SidebarWrapper,
 } from "~/lib/ui/sidebar"
