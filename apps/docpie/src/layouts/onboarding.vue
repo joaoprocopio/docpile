@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import { useRoute, useRouter } from "#app"
 import { useIsMutating, useMutation } from "@tanstack/vue-query"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
-
-import { useRoute, useRouter } from "#app"
 import { UserMenu } from "~/components/user-menu"
 import { asConst } from "~/lib/const"
 import { OrgOnboardingRoutes } from "~/lib/router/constants"
@@ -94,7 +93,7 @@ provideOnboarding({
             v-if="stepping"
             class="fixed right-1/2 bottom-0 z-10 flex h-(--bottombar-height) translate-x-1/2 flex-col items-center justify-center">
             <PageControl
-                class="rounded-lg bg-background/40 px-2 py-1 backdrop-blur"
+                class="rounded-md bg-background/40 px-2 py-1 backdrop-blur"
                 :model-value="(() => route.name as string)()">
                 <template
                     v-for="(onboardingRoute, onboardingRouteIndex) in steps"

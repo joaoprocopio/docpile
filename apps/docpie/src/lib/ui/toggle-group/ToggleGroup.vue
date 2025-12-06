@@ -5,7 +5,6 @@ import type { ToggleGroupRootEmits, ToggleGroupRootProps } from "reka-ui"
 import { ToggleGroupRoot, useForwardPropsEmits } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { provide } from "vue"
-
 import type { toggleVariants } from "~/lib/ui/toggle"
 import { cn } from "~/lib/ui/utils"
 
@@ -38,7 +37,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         v-bind="forwarded"
         :class="
             cn(
-                'group/toggle-group flex w-fit items-center rounded-lg data-[variant=outline]:shadow-sm',
+                'group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-sm',
                 props.class,
             )
         ">

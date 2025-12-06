@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue"
-
 import { cn } from "~/lib/ui/utils"
 
 const props = defineProps<{
@@ -13,7 +12,7 @@ const props = defineProps<{
         data-slot="empty"
         :class="
             cn(
-                'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12',
+                'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-md border-dashed p-6 text-center text-balance md:p-12',
                 props.class,
             )
         ">

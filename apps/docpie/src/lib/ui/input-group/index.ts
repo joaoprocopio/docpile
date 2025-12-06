@@ -1,7 +1,6 @@
 import type { VariantProps } from "class-variance-authority"
 import { cva } from "class-variance-authority"
 import type { HTMLAttributes } from "vue"
-
 import type { ButtonVariants } from "~/lib/ui/button"
 
 export { default as InputGroup } from "./InputGroup.vue"
@@ -38,7 +37,7 @@ export const inputGroupButtonVariants = cva("flex items-center gap-2 text-2xs sh
     variants: {
         size: {
             "xs": "h-6 gap-1.5 rounded-md px-2 has-[>svg]:px-2 [&>svg:not([class*='size-'])]:size-3.5",
-            "sm": "h-8 gap-2 rounded-lg px-2.5 has-[>svg]:px-2.5",
+            "sm": "h-8 gap-2 rounded-md px-2.5 has-[>svg]:px-2.5",
             "icon-xs": "size-6 rounded-md p-0 has-[>svg]:p-0",
             "icon-sm": "size-8 p-0 has-[>svg]:p-0",
         },
