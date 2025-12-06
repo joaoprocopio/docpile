@@ -136,7 +136,7 @@ const signout = useMutation(authCache.mutations.signout())
 
                                     <Icon
                                         name="lucide:chevron-down"
-                                        class="text-sidebar-muted-foreground ml-auto size-4" />
+                                        class="ml-auto size-4 text-sidebar-muted-foreground" />
                                 </template>
                             </SidebarMenuButton>
                         </DropdownMenuTrigger>
@@ -175,7 +175,7 @@ const signout = useMutation(authCache.mutations.signout())
                                     <CollapsibleTrigger>
                                         <span> {{ group.group }}</span>
                                         <Triangle
-                                            class="ml-2 group-data-[state=closed]/collapsible:rotate-180 transition-transform" />
+                                            class="ml-2 transition-transform group-data-[state=closed]/collapsible:rotate-180" />
                                     </CollapsibleTrigger>
                                 </SidebarGroupLabel>
 
