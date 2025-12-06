@@ -14,14 +14,14 @@ type IconProps = InstanceType<typeof Icon>["$props"]
 
 const BLADES_COUNT = 8
 const BLADES_CLASSES = [
-    "blade text-gray-a12 rotate-0",
-    "blade text-gray-a11 rotate-45",
-    "blade text-gray-a9 rotate-90",
-    "blade text-gray-a7 rotate-135",
-    "blade text-gray-a5 rotate-180",
-    "blade text-gray-a4 rotate-225",
-    "blade text-gray-a4 rotate-270",
-    "blade text-gray-a4 rotate-315",
+    "blade text-gray-a10 rotate-0",
+    "blade text-gray-a9 rotate-45",
+    "blade text-gray-a7 rotate-90",
+    "blade text-gray-a6 rotate-135",
+    "blade text-gray-a4 rotate-180",
+    "blade text-gray-a3 rotate-225",
+    "blade text-gray-a3 rotate-270",
+    "blade text-gray-a3 rotate-315",
 ]
 const BLADES: IconProps[] = array(BLADES_COUNT).map((_, index) => {
     return {

@@ -75,7 +75,7 @@ provideOnboarding({
 
 <template>
     <div
-        class="grid h-full grid-cols-1 grid-rows-[auto_1fr_auto]"
+        class="grid h-full grid-cols-1 grid-rows-[auto_1fr_auto] bg-gradient-auth"
         style="--topbar-height: 3.5rem; --bottombar-height: 3.5rem">
         <div
             class="fixed top-0 right-1/2 z-10 flex h-(--topbar-height) translate-x-1/2 flex-col justify-center sm:right-0 sm:translate-x-0">
