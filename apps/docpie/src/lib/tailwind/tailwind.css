@@ -341,13 +341,13 @@
     --ring: var(--gray-5);
     --outline: oklch(from var(--color-ring) l c h / 0.5);
     --sidebar: var(--gray-1);
-    --sidebar-foreground: var(--white-a11);
+    --sidebar-foreground: var(--black-a11);
     --sidebar-muted: var(--gray-5);
     --sidebar-muted-foreground: var(--gray-10);
     --sidebar-primary: var(--primary-9);
     --sidebar-primary-foreground: var(--white-a12);
     --sidebar-accent: var(--gray-a2);
-    --sidebar-accent-foreground: var(--white-a12);
+    --sidebar-accent-foreground: var(--black-a12);
     --sidebar-border: var(--gray-a6);
     --sidebar-ring: var(--gray-5);
 }
