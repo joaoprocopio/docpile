@@ -14,4 +14,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const client = useQueryClient()
     client.prefetchQuery(authCache.queries.whoami())
     client.prefetchQuery(orgCache.queries.resolveInviteToken({ slug: slug, token: token }))
+
+    // TODO: implementar esse fluxo
+    throw new Error("NOT IMPLEMENTED YET")
 })

@@ -11,6 +11,7 @@ const { toggleSidebar } = useSidebar()
 </script>
 
 <template>
+    <!-- TODO: FIXME: esse rail é horroroso, faria muito mais sentido se a gente pudesse aproximar do lado da sidebar e ela aparecer assim como no Linear e no Notion -->
     <button
         data-sidebar="rail"
         data-slot="sidebar-rail"

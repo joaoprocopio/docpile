@@ -331,7 +331,7 @@
     --muted: var(--gray-4);
     --muted-foreground: var(--gray-10);
     --accent: var(--gray-3);
-    --accent-foreground: var(--gray-12);
+    --accent-foreground: var(--gray-11);
     --destructive: var(--destructive-5);
     --destructive-foreground: var(--destructive-12);
     --input: var(--gray-4);
@@ -573,7 +573,7 @@
     --muted: var(--gray-4);
     --muted-foreground: var(--gray-10);
     --accent: var(--gray-5);
-    --accent-foreground: var(--gray-12);
+    --accent-foreground: var(--gray-11);
     --destructive: var(--destructive-4);
     --destructive-foreground: var(--destructive-10);
     --input: var(--gray-4);

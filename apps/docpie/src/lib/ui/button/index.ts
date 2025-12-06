@@ -16,13 +16,14 @@ export const buttonVariants = cva(
                     "bg-secondary bg-gradient-highlight-subtle text-secondary-foreground shadow-xs hover:bg-secondary/80 active:bg-secondary/70",
                 outline:
                     "border bg-background shadow-xs hover:bg-accent/30 hover:text-accent-foreground active:bg-accent/80 dark:border-input dark:bg-input/30 dark:hover:bg-input/50 dark:active:bg-input/60",
-                ghost: "hover:bg-accent/90 hover:text-accent-foreground active:bg-accent/80 dark:hover:bg-accent/30 dark:active:bg-accent/50",
+                ghost: "hover:bg-accent/90 hover:text-accent-foreground active:bg-accent/80 dark:hover:bg-accent/50 dark:active:bg-accent/70",
                 link: "text-link underline-offset-4 hover:underline",
             },
             size: {
+                lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
                 default: "h-9 px-4 py-2 has-[>svg]:px-3",
                 sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
-                lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+                xs: "h-7 gap-1.5 rounded-md px-2 has-[>svg]:px-2.5",
                 icon: "size-8",
             },
         },
