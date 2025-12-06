@@ -45,7 +45,7 @@ tryOnScopeDispose(() => {
 
 <template>
     <div class="px-6">
-        <div class="flex items-center text-sm gap-2 h-12">
+        <div class="flex px-2 items-center text-sm gap-2 py-2">
             <SidebarTrigger
                 v-if="!sidebar.open.value"
                 size="sm" />
@@ -77,7 +77,8 @@ tryOnScopeDispose(() => {
             </Button>
         </div>
 
-        <div class="flex items-center gap-1.5 [&>button:has(svg)]:size-7 [&>button>svg]:size-4!">
+        <div
+            class="flex bg-gray-a3 rounded-md px-2 py-1.5 items-center gap-2 [&>button:has(svg:only-child)]:size-7 [&>button>svg]:size-4!">
             <Button
                 variant="ghost"
                 size="icon">
@@ -90,7 +91,7 @@ tryOnScopeDispose(() => {
             </Button>
 
             <Separator
-                class="data-[orientation=vertical]:h-4"
+                class="data-[orientation=vertical]:h-4 mx-1"
                 orientation="vertical" />
 
             <Button
@@ -101,7 +102,7 @@ tryOnScopeDispose(() => {
             </Button>
 
             <Separator
-                class="data-[orientation=vertical]:h-4"
+                class="data-[orientation=vertical]:h-4 mx-1"
                 orientation="vertical" />
 
             <Button
@@ -126,7 +127,7 @@ tryOnScopeDispose(() => {
             </Button>
 
             <Separator
-                class="data-[orientation=vertical]:h-4"
+                class="data-[orientation=vertical]:h-4 mx-1"
                 orientation="vertical" />
 
             <Button

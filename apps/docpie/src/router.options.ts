@@ -1,10 +1,9 @@
 import type { RouterConfig } from "@nuxt/schema"
 import type { RouteRecordRaw } from "vue-router"
-
 import { AuthRoutes, OrgOnboardingRoutes, OrgRoutes } from "~/lib/router/constants"
 import { dyn, path } from "~/lib/router/path"
 
-const routes = <Readonly<RouteRecordRaw[]>>[
+const routes: Readonly<RouteRecordRaw[]> = [
     {
         name: AuthRoutes.SignIn.value,
         path: path("auth", "signin"),
@@ -80,6 +79,8 @@ const routes = <Readonly<RouteRecordRaw[]>>[
     },
 ]
 
-export default <RouterConfig>{
+const config: RouterConfig = {
     routes: () => routes,
 }
+
+export default config
