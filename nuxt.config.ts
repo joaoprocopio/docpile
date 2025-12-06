@@ -41,7 +41,6 @@ export default defineNuxtConfig({
             apiUrl: "http://localhost:3000/api",
         },
     },
-    srcDir: "src/",
     compatibilityDate: "latest",
     typescript: {
         tsConfig: {
