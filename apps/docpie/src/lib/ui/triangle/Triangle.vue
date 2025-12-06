@@ -1,3 +1,3 @@
 <template>
-    <div class="text-[0.375rem] leading-1.5">▼</div>
+    <div class="text-[0.313rem] leading-0">▼</div>
 </template>

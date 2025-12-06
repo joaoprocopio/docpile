@@ -249,8 +249,6 @@ const signout = useMutation(authCache.mutations.signout())
                     </template>
                 </template>
             </SidebarContent>
-
-            <SidebarRail />
         </Sidebar>
 
         <SidebarInset>
