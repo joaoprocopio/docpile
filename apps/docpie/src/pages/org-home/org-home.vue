@@ -45,7 +45,7 @@ tryOnScopeDispose(() => {
 
 <template>
     <div class="px-6">
-        <div class="flex px-2 items-center text-sm gap-2 py-2">
+        <div class="flex px-2 items-center text-sm gap-2 py-2.5">
             <SidebarTrigger
                 v-if="!sidebar.open.value"
                 size="sm" />
@@ -156,7 +156,7 @@ tryOnScopeDispose(() => {
             </Button>
         </div>
 
-        <div class="py-6">
+        <div class="py-6 px-2">
             <div
                 ref="editor"
                 class="max-w-xl mx-auto" />
