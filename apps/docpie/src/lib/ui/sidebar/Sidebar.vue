@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import type { SidebarProps } from "."
+import { SIDEBAR_WIDTH_MOBILE, useSidebar } from "./utils"
 import { Sheet, SheetContent } from "~/lib/ui/sheet"
 import SheetDescription from "~/lib/ui/sheet/SheetDescription.vue"
 import SheetHeader from "~/lib/ui/sheet/SheetHeader.vue"
 import SheetTitle from "~/lib/ui/sheet/SheetTitle.vue"
 import { cn } from "~/lib/ui/utils"
-
-import type { SidebarProps } from "."
-import { SIDEBAR_WIDTH_MOBILE, useSidebar } from "./utils"
 
 defineOptions({
     inheritAttrs: false,
@@ -82,7 +81,7 @@ const { isMobile, state, open } = useSidebar()
         <div
             :class="
                 cn(
-                    'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
+                    'fixed border-sidebar-border inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
                     side === 'left'
                         ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
                         : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
