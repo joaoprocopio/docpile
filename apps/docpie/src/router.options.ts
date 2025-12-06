@@ -76,7 +76,7 @@ const routes = <Readonly<RouteRecordRaw[]>>[
         name: OrgRoutes.Home.value,
         path: path("org", dyn(OrgRoutes.Home.params.slug)),
         meta: {
-            layout: "app",
+            layout: "org",
         },
         component: () => import("~/pages/org-home"),
     },
