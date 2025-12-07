@@ -105,3 +105,5 @@ export const HttpStatus = asConst({
     NotExtended: 510,
     NetworkAuthenticationRequired: 511,
 })
+
+export type THttpStatus = (typeof HttpStatus)[keyof typeof HttpStatus]

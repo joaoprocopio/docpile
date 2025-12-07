@@ -1,13 +1,11 @@
 import { createError } from "#imports"
 import type { TErrorCode } from "#shared/errors/codes"
 import type { IApiError, IApiValidationError } from "#shared/errors/types"
+import type { THttpStatus } from "#shared/utils/http-status"
 import type { H3Error } from "h3"
 import type { ZodError } from "zod"
 
-/**
- * Creates a standardized API error.
- */
-export function apiError(code: TErrorCode, message: string, status: number): H3Error {
+export function apiError(code: TErrorCode, message: string, status: THttpStatus): H3Error {
     const data: IApiError = { code, message, status }
     return createError({
         statusCode: status,
@@ -16,9 +14,6 @@ export function apiError(code: TErrorCode, message: string, status: number): H3E
     })
 }
 
-/**
- * Creates a validation error from Zod errors.
- */
 export function validationError(zodError: ZodError): H3Error {
     const errors: Record<string, string[]> = {}
 
@@ -44,9 +39,6 @@ export function validationError(zodError: ZodError): H3Error {
     })
 }
 
-/**
- * Common error helpers.
- */
 export const Errors = {
     unauthorized: (message = "Unauthorized") => apiError("auth/unauthorized", message, 401),
     forbidden: (message = "Forbidden") => apiError("auth/forbidden", message, 403),
