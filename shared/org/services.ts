@@ -1,5 +1,4 @@
-import type { TResolvedInvitationOutput } from "#shared/org/schemas"
-import { db } from "../db/client"
+import { db } from "#shared/db/client"
 import {
     orgs,
     orgMembership,
@@ -8,7 +7,8 @@ import {
     type TNewOrg,
     type TOrgMembership,
     type TNewOrgMembership,
-} from "../db/schema"
+} from "#shared/db/schema"
+import type { TResolvedInvitationOutput } from "#shared/org/schemas"
 import { eq, and, inArray } from "drizzle-orm"
 
 /**

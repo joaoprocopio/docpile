@@ -1,6 +1,6 @@
-import { db } from "../db/client"
-import { users, type TUser, type TNewUser } from "../db/schema"
-import { hashPassword, verifyPassword } from "../utils/password"
+import { db } from "#shared/db/client"
+import { users, type TUser, type TNewUser } from "#shared/db/schema"
+import { hashPassword, verifyPassword } from "#shared/utils/password"
 import { eq } from "drizzle-orm"
 
 /**

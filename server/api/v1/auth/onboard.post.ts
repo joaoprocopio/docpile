@@ -1,8 +1,8 @@
 import { defineEventHandler } from "#imports"
 import type { TPublicUserOutput } from "#shared/auth/schemas"
-import { onboardUser } from "../../../auth/services"
-import { requireAuth } from "../../../utils/auth"
-import { setAuthCookies } from "../../../utils/jwt"
+import { onboardUser } from "#shared/auth/services"
+import { requireAuth } from "#shared/utils/auth"
+import { setAuthCookies } from "#shared/utils/jwt"
 
 /**
  * POST /api/v1/auth/onboard

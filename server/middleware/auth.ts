@@ -1,13 +1,13 @@
 import { defineEventHandler } from "#imports"
+import { getUserById } from "#shared/auth/services"
 import type { IAccessTokenPayload } from "#shared/auth/types"
-import { getUserById } from "../auth/services"
 import {
     getAccessTokenFromCookie,
     verifyAccessToken,
     getRefreshTokenFromCookie,
     verifyRefreshToken,
     setAuthCookies,
-} from "../utils/jwt"
+} from "#shared/utils/jwt"
 
 declare module "h3" {
     interface H3EventContext {
