@@ -1,7 +1,8 @@
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
 import { isClientErrorStatus } from "#shared/utils/http-status"
-import { isEmpty, isNetworkError, isNil, isString } from "#shared/utils/is"
+import { isEmpty, isNil, isString } from "#shared/utils/is"
 import { useQueryClient } from "~/lib/cache"
+import { isNetworkError } from "~/lib/http/utils"
 import {
     AuthRoutes,
     AuthRoutesSet,

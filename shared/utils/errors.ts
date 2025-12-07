@@ -49,15 +49,10 @@ export function validationError(zodError: ZodError): H3Error {
  */
 export const Errors = {
     unauthorized: (message = "Unauthorized") => apiError("auth/unauthorized", message, 401),
-
     forbidden: (message = "Forbidden") => apiError("auth/forbidden", message, 403),
-
     notFound: (message = "Not found") => apiError("common/not-found", message, 404),
-
     conflict: (code: TErrorCode, message: string) => apiError(code, message, 409),
-
     badRequest: (message = "Bad request") => apiError("common/bad-request", message, 400),
-
     internal: (message = "Internal server error") =>
         apiError("common/internal-error", message, 500),
 }

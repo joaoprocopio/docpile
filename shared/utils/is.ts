@@ -1,9 +1,4 @@
 import { hasOwnProperty } from "#shared/utils/obj"
-import { FetchError } from "~/lib/http"
-
-export function isNetworkError<T>(err: unknown): err is FetchError<T> {
-    return err instanceof FetchError
-}
 
 export function isNil(value: unknown): value is null | undefined {
     return value == null
