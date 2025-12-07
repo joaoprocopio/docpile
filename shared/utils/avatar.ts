@@ -1,5 +1,5 @@
-import { isAlpha } from "~/utils/char"
-import { isNil } from "~/utils/is"
+import { isAlpha } from "#shared/utils/char"
+import { isNil } from "#shared/utils/is"
 
 const FALLBACK_INITIAL = "@"
 

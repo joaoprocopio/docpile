@@ -1,5 +1,5 @@
+import { isEmpty, isIndexBounded, isInteger, isNil, isPlainObject } from "#shared/utils/is"
 import { describe, expect, it } from "vitest"
-import { isEmpty, isIndexBounded, isInteger, isNil, isPlainObject } from "~/utils/is"
 
 describe("isPlainObject", () => {
     it("returns true for plain objects", () => {

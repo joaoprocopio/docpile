@@ -1,5 +1,5 @@
-import { asConst } from "~/lib/const"
-import { isString } from "~/utils/is"
+import { asConst } from "#shared/utils/const"
+import { isString } from "#shared/utils/is"
 
 // 65 = 'A'
 // 90 = 'Z'

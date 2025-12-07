@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Icon } from "#components"
+import { array } from "#shared/utils/arr"
+import { invariant } from "#shared/utils/invariant"
 import type { HTMLAttributes } from "vue"
-import { invariant } from "~/lib/invariant"
 import { cn } from "~/lib/ui/utils"
-import { array } from "~/utils/arr"
 
 const props = defineProps<{
     class?: HTMLAttributes["class"]

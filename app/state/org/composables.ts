@@ -1,5 +1,5 @@
+import { isNil } from "#shared/utils/is"
 import { type ComputedRef, inject, type InjectionKey, provide } from "vue"
-import { isNil } from "~/utils/is"
 
 export type TOnboarding = {
     steps: AnyArray<string>

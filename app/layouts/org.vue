@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { composeInitials } from "#shared/utils/avatar"
+import { isNil } from "#shared/utils/is"
 import { useMutation, useQuery } from "@tanstack/vue-query"
 import { OrgRoutes } from "~/lib/router/constants"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
@@ -26,8 +28,6 @@ import {
 } from "~/lib/ui/sidebar"
 import { Triangle } from "~/lib/ui/triangle"
 import { authCache } from "~/state/auth/cache"
-import { composeInitials } from "~/utils/avatar"
-import { isNil } from "~/utils/is"
 
 // TODO: separar em componentes
 

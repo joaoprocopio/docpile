@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { SignUpInput } from "#shared/auth/schemas"
+import { HttpStatus } from "#shared/utils/http-status"
 import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
 import { useIsMutating, useMutation } from "~/lib/cache"
 import { FetchError } from "~/lib/http"
-import { HttpStatus } from "~/lib/http/status"
 import { AuthRoutes } from "~/lib/router/constants"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"

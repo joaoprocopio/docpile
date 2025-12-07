@@ -1,4 +1,4 @@
-import { isArray, isPlainObject } from "~/utils/is"
+import { isArray, isPlainObject } from "#shared/utils/is"
 
 export function flattenObject<O extends object, R extends object>(
     obj: O,

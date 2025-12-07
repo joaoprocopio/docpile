@@ -1,9 +1,9 @@
 import { defineNuxtRouteMiddleware } from "#app"
+import { invariant } from "#shared/utils/invariant"
+import { isEmpty, isString } from "#shared/utils/is"
 import { useQueryClient } from "@tanstack/vue-query"
-import { invariant } from "~/lib/invariant"
 import { authCache } from "~/state/auth/cache"
 import { orgCache } from "~/state/org/cache"
-import { isEmpty, isString } from "~/utils/is"
 
 export default defineNuxtRouteMiddleware(async (to) => {
     const { slug, token } = to.params

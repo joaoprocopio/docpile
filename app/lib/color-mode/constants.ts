@@ -1,4 +1,4 @@
-import { constEnum } from "~/lib/const"
+import { constEnum } from "#shared/utils/const"
 
 export type TColorMode = "system" | "light" | "dark"
 

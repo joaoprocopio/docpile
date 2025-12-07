@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { flattenObject } from "#shared/utils/obj"
 import { describe, expect, it } from "vitest"
-import { flattenObject } from "~/utils/obj"
 
 describe("flattenObject", () => {
     it("flattens nested objects", () => {

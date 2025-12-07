@@ -6,7 +6,7 @@ import {
     type TPublicUserOutput,
     type TNullablePublicUserOutput,
 } from "#shared/auth/schemas"
-import { useHTTP } from "~/lib/http/clients"
+import { useHTTP } from "~/lib/http/composables"
 
 async function whoami(): Promise<TNullablePublicUserOutput> {
     const http = useHTTP()

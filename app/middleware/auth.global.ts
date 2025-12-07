@@ -1,6 +1,7 @@
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
+import { isClientErrorStatus } from "#shared/utils/http-status"
+import { isEmpty, isNetworkError, isNil, isString } from "#shared/utils/is"
 import { useQueryClient } from "~/lib/cache"
-import { isClientErrorStatus } from "~/lib/http/status"
 import {
     AuthRoutes,
     AuthRoutesSet,
@@ -11,7 +12,6 @@ import {
 } from "~/lib/router/constants"
 import { authCache } from "~/state/auth/cache"
 import { orgCache } from "~/state/org/cache"
-import { isEmpty, isNetworkError, isNil, isString } from "~/utils/is"
 
 // TODO: otimizar o middleware pra exibir um estado de loading melhor
 // TODO: exibir um belo estado de erro para os diferentes casos

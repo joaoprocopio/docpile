@@ -1,3 +1,4 @@
+import { isArray } from "#shared/utils/is"
 import type { QueryClient } from "@tanstack/vue-query"
 import { useQueryClient } from "@tanstack/vue-query"
 import { defineCache, key, mutationOptions, queryOptions } from "~/lib/cache/utils"
@@ -7,7 +8,6 @@ import {
     type TInviteTokenVariables,
     type TResolveInviteTokenVariables,
 } from "~/state/org/services"
-import { isArray } from "~/utils/is"
 
 export const orgCache = defineCache("org")({
     keys: {

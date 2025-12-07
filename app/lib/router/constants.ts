@@ -1,4 +1,4 @@
-import { constEnum, constEnumToValues } from "~/lib/const"
+import { constEnum, constEnumToValues } from "#shared/utils/const"
 
 export const AuthRoutes = constEnum({
     SignIn: {

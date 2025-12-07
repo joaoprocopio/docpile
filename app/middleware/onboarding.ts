@@ -1,9 +1,9 @@
 import { defineNuxtRouteMiddleware } from "#app"
+import { invariant } from "#shared/utils/invariant"
+import { isString } from "#shared/utils/is"
 import { useQueryClient } from "@tanstack/vue-query"
-import { invariant } from "~/lib/invariant"
 import { authCache } from "~/state/auth/cache"
 import { orgCache } from "~/state/org/cache"
-import { isString } from "~/utils/is"
 
 // TODO: otimizar o middleware pra exibir um estado de loading melhor
 // TODO: exibir um belo estado de erro para os diferentes casos

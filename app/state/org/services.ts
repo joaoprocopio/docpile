@@ -8,7 +8,7 @@ import {
     type TNullableInviteTokenOutput,
     type TResolvedInvitationOutput,
 } from "#shared/org/schemas"
-import { useHTTP } from "~/lib/http/clients"
+import { useHTTP } from "~/lib/http/composables"
 
 async function list(): Promise<TPublicOrgOutput[]> {
     const http = useHTTP()

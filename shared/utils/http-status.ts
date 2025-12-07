@@ -1,5 +1,5 @@
-import { asConst } from "~/lib/const"
-import { inInclusiveRange } from "~/utils/num"
+import { asConst } from "#shared/utils/const"
+import { inInclusiveRange } from "#shared/utils/num"
 
 export function isInformationalStatus(status: number): boolean {
     return inInclusiveRange(status, 100, 199)

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from "#app"
 import { env } from "#shared/env"
+import { isEmpty } from "#shared/utils/is"
 import { useMutation, useQuery } from "@tanstack/vue-query"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
@@ -28,7 +29,6 @@ import { sonner } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { orgCache } from "~/state/org/cache"
 import { useOnboarding } from "~/state/org/composables"
-import { isEmpty } from "~/utils/is"
 
 const onboarding = useOnboarding()
 const clipboard = useClipboard()
