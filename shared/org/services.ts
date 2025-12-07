@@ -1,19 +1,10 @@
-import { db } from "#shared/db/client"
-import {
-    orgs,
-    orgMembership,
-    users,
-    type TOrg,
-    type TNewOrg,
-    type TOrgMembership,
-    type TNewOrgMembership,
-} from "#shared/db/schema"
+import { users } from "#shared/auth/models"
+import { db } from "#shared/db"
+import type { TOrg, TOrgInsert, TOrgMembership, TOrgMembershipInsert } from "#shared/org/models"
+import { orgs, orgMembership } from "#shared/org/models"
 import type { TResolvedInvitationOutput } from "#shared/org/schemas"
 import { eq, and, inArray } from "drizzle-orm"
 
-/**
- * Lists all organizations that a user is a member of.
- */
 export async function listMemberedOrgs(userId: number): Promise<TOrg[]> {
     const memberships = await db.query.orgMembership.findMany({
         where: eq(orgMembership.user_id, userId),
@@ -31,13 +22,9 @@ export async function listMemberedOrgs(userId: number): Promise<TOrg[]> {
     return result
 }
 
-/**
- * Creates a new organization and adds the creator as owner.
- */
 export async function createOrg(name: string, slug: string, userId: number): Promise<TOrg> {
-    // Use a transaction to ensure both org and membership are created
     const result = await db.transaction(async (tx) => {
-        const newOrg: TNewOrg = {
+        const newOrg: TOrgInsert = {
             name,
             slug,
             status: "active",
@@ -50,7 +37,7 @@ export async function createOrg(name: string, slug: string, userId: number): Pro
             throw new Error("Failed to create organization")
         }
 
-        const newMembership: TNewOrgMembership = {
+        const newMembership: TOrgMembershipInsert = {
             user_id: userId,
             org_id: org.id,
             role: "owner",
@@ -65,11 +52,7 @@ export async function createOrg(name: string, slug: string, userId: number): Pro
     return result
 }
 
-/**
- * Gets the invite token for a user's membership in an organization.
- */
 export async function getInviteToken(userId: number, orgSlug: string): Promise<string | null> {
-    // First get the org by slug
     const org = await db.query.orgs.findFirst({
         where: eq(orgs.slug, orgSlug),
     })
@@ -78,7 +61,6 @@ export async function getInviteToken(userId: number, orgSlug: string): Promise<s
         return null
     }
 
-    // Then get the membership
     const membership = await db.query.orgMembership.findFirst({
         where: and(eq(orgMembership.user_id, userId), eq(orgMembership.org_id, org.id)),
     })
@@ -86,11 +68,7 @@ export async function getInviteToken(userId: number, orgSlug: string): Promise<s
     return membership?.invite_token ?? null
 }
 
-/**
- * Rotates the invite token for a user's membership in an organization.
- */
 export async function rotateInviteToken(userId: number, orgSlug: string): Promise<string | null> {
-    // First get the org by slug
     const org = await db.query.orgs.findFirst({
         where: eq(orgs.slug, orgSlug),
     })
@@ -114,14 +92,10 @@ export async function rotateInviteToken(userId: number, orgSlug: string): Promis
     return newToken
 }
 
-/**
- * Resolves an invite token to get invitation details.
- */
 export async function resolveInviteToken(
     orgSlug: string,
     token: string,
 ): Promise<TResolvedInvitationOutput | null> {
-    // Get org by slug
     const org = await db.query.orgs.findFirst({
         where: eq(orgs.slug, orgSlug),
     })
@@ -130,7 +104,6 @@ export async function resolveInviteToken(
         return null
     }
 
-    // Get membership with this token
     const membership = await db.query.orgMembership.findFirst({
         where: and(eq(orgMembership.org_id, org.id), eq(orgMembership.invite_token, token)),
     })
@@ -139,7 +112,6 @@ export async function resolveInviteToken(
         return null
     }
 
-    // Get the inviter (user who owns this membership)
     const inviter = await db.query.users.findFirst({
         where: eq(users.id, membership.user_id),
     })
@@ -155,9 +127,6 @@ export async function resolveInviteToken(
     }
 }
 
-/**
- * Checks if an org slug is already taken.
- */
 export async function isOrgSlugTaken(slug: string): Promise<boolean> {
     const org = await db.query.orgs.findFirst({
         where: eq(orgs.slug, slug),
@@ -165,9 +134,6 @@ export async function isOrgSlugTaken(slug: string): Promise<boolean> {
     return org !== null
 }
 
-/**
- * Gets user's membership in an organization.
- */
 export async function getUserMembership(
     userId: number,
     orgId: number,
