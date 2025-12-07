@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SignUpInput } from "#shared/auth/schemas"
 import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useToggle } from "@vueuse/core"
 import { computed } from "vue"
@@ -12,7 +13,6 @@ import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
 import { authCache } from "~/state/auth/cache"
-import { SignUp } from "~/state/auth/schemas"
 
 const form = useForm({
     defaultValues: {
@@ -21,7 +21,7 @@ const form = useForm({
         password: "",
     },
     validators: {
-        onSubmit: SignUp,
+        onSubmit: SignUpInput,
     },
     onSubmit(props) {
         mutation.mutate({ payload: props.value })

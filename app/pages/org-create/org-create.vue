@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { env } from "#shared/env"
+import { CreateOrgInput } from "#shared/org/schemas"
 import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn } from "@vueuse/core"
 import { computed } from "vue"
-import { env } from "~/env"
 import { useIsMutating, useMutation } from "~/lib/cache"
 import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
@@ -11,7 +12,6 @@ import { Input } from "~/lib/ui/input"
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
 import { orgCache } from "~/state/org/cache"
-import { CreateOrg } from "~/state/org/schemas"
 import { isNetworkError } from "~/utils/is"
 
 const form = useForm({
@@ -20,7 +20,7 @@ const form = useForm({
         slug: "",
     },
     validators: {
-        onSubmit: CreateOrg,
+        onSubmit: CreateOrgInput,
     },
     onSubmit(props) {
         mutation.mutate({ payload: props.value })

@@ -38,7 +38,7 @@ const signout = useMutation(authCache.mutations.signout())
 
                 <Icon
                     name="lucide:chevron-down"
-                    class="text-sidebar-muted-foreground ml-auto size-4" />
+                    class="ml-auto size-4 text-sidebar-muted-foreground" />
             </Button>
         </DropdownMenuTrigger>
 

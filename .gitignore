@@ -149,3 +149,12 @@ dist
 # Nitro
 .data
 .nitro
+
+# SQLite database
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Drizzle
+server/db/migrations/

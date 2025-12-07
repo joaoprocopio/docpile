@@ -15,5 +15,5 @@ export default {
     vueIndentScriptAndStyle: false,
     plugins: ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
     tailwindFunctions: ["cva", "cn", "cx", "clsx"],
-    tailwindStylesheet: "./src/lib/tailwind/tailwind.css",
+    tailwindStylesheet: "./app/lib/tailwind/tailwind.css",
 }

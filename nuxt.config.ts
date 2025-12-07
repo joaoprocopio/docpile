@@ -37,18 +37,13 @@ export default defineNuxtConfig({
         storage: "cookie",
     },
     runtimeConfig: {
+        jwtSecret: "dev-secret-change-in-production",
+        dbPath: "docpie.db",
         public: {
             apiUrl: "http://localhost:3000/api",
         },
     },
     compatibilityDate: "latest",
-    typescript: {
-        tsConfig: {
-            compilerOptions: {
-                lib: ["ES2022"],
-            },
-        },
-    },
     telemetry: false,
     eslint: {
         config: {

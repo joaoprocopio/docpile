@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { env } from "~/env"
+import { env } from "#shared/env"
 
 const isProduction: boolean = env.IS_PROD
 const prefix: string = "Invariant failed"

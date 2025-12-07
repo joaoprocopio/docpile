@@ -3,8 +3,9 @@ includeWorkspaceRoot: true
 onlyBuiltDependencies:
     - "@parcel/watcher"
     - "@tailwindcss/oxide"
-    - "esbuild"
-    - "maplibre-gl"
-    - "sharp"
-    - "unrs-resolver"
-    - "vue-demi"
+    - better-sqlite3
+    - esbuild
+    - maplibre-gl
+    - sharp
+    - unrs-resolver
+    - vue-demi

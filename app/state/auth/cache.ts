@@ -16,6 +16,7 @@ export const authCache = defineCache("auth")({
             signup: () => key("auth", "signup"),
             signout: () => key("auth", "signout"),
             onboard: () => key("auth", "onboard"),
+            refresh: () => key("auth", "refresh"),
         },
     },
     queries: {
@@ -53,6 +54,7 @@ export const authCache = defineCache("auth")({
                 mutationKey: authCache.keys.mutations.signout(),
                 mutationFn: AuthServices.signout,
                 onSuccess: () => {
+                    client.setQueryData(authCache.keys.queries.whoami(), null)
                     client.removeQueries({ queryKey: authCache.keys.queries.all() })
                     rerunMiddleware()
                 },
@@ -65,6 +67,15 @@ export const authCache = defineCache("auth")({
                     const queryKey = authCache.keys.queries.whoami()
                     client.setQueryData(queryKey, data)
                     rerunMiddleware()
+                },
+            }),
+        refresh: (client: QueryClient = useQueryClient()) =>
+            mutationOptions({
+                mutationKey: authCache.keys.mutations.refresh(),
+                mutationFn: AuthServices.refresh,
+                onSuccess: (data) => {
+                    const queryKey = authCache.keys.queries.whoami()
+                    client.setQueryData(queryKey, data)
                 },
             }),
     },
