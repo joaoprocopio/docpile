@@ -1,5 +1,5 @@
 import { defineEventHandler, setResponseStatus } from "#imports"
-import { SignUpInput, type TPublicUserOutput } from "#shared/auth/schemas"
+import { SignUp, type TPublicUserOutput } from "#shared/auth/schemas"
 import { createUser, isEmailTaken } from "#shared/auth/services"
 import { Errors } from "#shared/utils/errors"
 import { setAuthCookies } from "#shared/utils/jwt"
@@ -12,7 +12,7 @@ import { parseBody } from "#shared/utils/validation"
  * Sets httpOnly cookies with access and refresh tokens.
  */
 export default defineEventHandler(async (event): Promise<TPublicUserOutput> => {
-    const body = await parseBody(event, SignUpInput)
+    const body = await parseBody(event, SignUp)
 
     // Check if email is already taken
     const emailTaken = await isEmailTaken(body.email)

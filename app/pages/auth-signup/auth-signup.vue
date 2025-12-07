@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SignUpInput } from "#shared/auth/schemas"
+import { SignUp } from "#shared/auth/schemas"
 import { HttpStatus } from "#shared/utils/http-status"
 import { useForm } from "@tanstack/vue-form"
 import { useDebounceFn, useToggle } from "@vueuse/core"
@@ -21,7 +21,7 @@ const form = useForm({
         password: "",
     },
     validators: {
-        onSubmit: SignUpInput,
+        onSubmit: SignUp,
     },
     onSubmit(props) {
         mutation.mutate({ payload: props.value })

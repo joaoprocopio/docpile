@@ -17,22 +17,22 @@ export const DisplayName = z
 
 export const IsOnboarded = z.boolean()
 
-export const SignInInput = z.object({
+export const SignIn = z.object({
     email: Email,
     password: Password,
 })
 
-export type TSignInInputInput = z.input<typeof SignInInput>
-export type TSignInInputOutput = z.output<typeof SignInInput>
+export type TSignInInput = z.input<typeof SignIn>
+export type TSignInOutput = z.output<typeof SignIn>
 
-export const SignUpInput = z.object({
+export const SignUp = z.object({
     email: Email,
     password: Password,
     display_name: DisplayName,
 })
 
-export type TSignUpInputInput = z.input<typeof SignUpInput>
-export type TSignUpInputOutput = z.output<typeof SignUpInput>
+export type TSignUpInput = z.input<typeof SignUp>
+export type TSignUpOutput = z.output<typeof SignUp>
 
 export const User = z.object({
     id: z.number(),
@@ -45,7 +45,7 @@ export const User = z.object({
 export type TUserInput = z.input<typeof User>
 export type TUserOutput = z.output<typeof User>
 
-export const PublicUser = User.omit({ id: true, created_at: true })
+export const PublicUser = User.pick({ email: true, display_name: true, is_onboarded: true })
 
 export type TPublicUserInput = z.input<typeof PublicUser>
 export type TPublicUserOutput = z.output<typeof PublicUser>
@@ -54,10 +54,3 @@ export const NullablePublicUser = PublicUser.nullable()
 
 export type TNullablePublicUserInput = z.input<typeof NullablePublicUser>
 export type TNullablePublicUserOutput = z.output<typeof NullablePublicUser>
-
-export const AuthResponse = z.object({
-    user: PublicUser,
-})
-
-export type TAuthResponseInput = z.input<typeof AuthResponse>
-export type TAuthResponseOutput = z.output<typeof AuthResponse>

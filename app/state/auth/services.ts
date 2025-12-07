@@ -1,8 +1,8 @@
 import {
     NullablePublicUser,
     PublicUser,
-    type TSignInInputInput,
-    type TSignUpInputInput,
+    type TSignInInput,
+    type TSignUpInput,
     type TPublicUserOutput,
     type TNullablePublicUserOutput,
 } from "#shared/auth/schemas"
@@ -15,7 +15,7 @@ async function whoami(): Promise<TNullablePublicUserOutput> {
     return NullablePublicUser.parse(response)
 }
 
-export type TSignInVariables = { payload: TSignInInputInput }
+export type TSignInVariables = { payload: TSignInInput }
 
 async function signin(variables: TSignInVariables): Promise<TPublicUserOutput> {
     const http = useHTTP()
@@ -27,7 +27,7 @@ async function signin(variables: TSignInVariables): Promise<TPublicUserOutput> {
     return PublicUser.parse(response)
 }
 
-export type TSignUpVariables = { payload: TSignUpInputInput }
+export type TSignUpVariables = { payload: TSignUpInput }
 
 async function signup(variables: TSignUpVariables): Promise<TPublicUserOutput> {
     const http = useHTTP()

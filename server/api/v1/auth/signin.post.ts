@@ -1,5 +1,5 @@
 import { defineEventHandler } from "#imports"
-import { SignInInput, type TPublicUserOutput } from "#shared/auth/schemas"
+import { SignIn, type TPublicUserOutput } from "#shared/auth/schemas"
 import { authenticateUser } from "#shared/auth/services"
 import { Errors } from "#shared/utils/errors"
 import { setAuthCookies } from "#shared/utils/jwt"
@@ -12,7 +12,7 @@ import { parseBody } from "#shared/utils/validation"
  * Sets httpOnly cookies with access and refresh tokens.
  */
 export default defineEventHandler(async (event): Promise<TPublicUserOutput> => {
-    const body = await parseBody(event, SignInInput)
+    const body = await parseBody(event, SignIn)
 
     const user = await authenticateUser(body.email, body.password)
     if (!user) {

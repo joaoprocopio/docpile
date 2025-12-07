@@ -3,19 +3,14 @@ import { users, type TUser, type TNewUser } from "#shared/db/schema"
 import { hashPassword, verifyPassword } from "#shared/utils/password"
 import { eq } from "drizzle-orm"
 
-/**
- * Gets a user by their ID.
- */
 export async function getUserById(userId: number): Promise<TUser | null> {
     const result = await db.query.users.findFirst({
         where: eq(users.id, userId),
     })
+
     return result ?? null
 }
 
-/**
- * Gets a user by their email.
- */
 export async function getUserByEmail(email: string): Promise<TUser | null> {
     const result = await db.query.users.findFirst({
         where: eq(users.email, email),
