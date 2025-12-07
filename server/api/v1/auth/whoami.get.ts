@@ -1,11 +1,13 @@
 import { defineEventHandler } from "#imports"
 import type { TPublicUserOutput } from "#shared/auth/schemas"
+import { Errors } from "#shared/utils/errors"
+import { isNil } from "#shared/utils/is"
 
 export default defineEventHandler((event): TPublicUserOutput | undefined => {
     const auth = event.context.auth
 
-    if (!auth) {
-        return undefined
+    if (isNil(auth)) {
+        throw Errors.unauthorized()
     }
 
     return {

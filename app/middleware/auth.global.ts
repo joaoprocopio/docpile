@@ -29,7 +29,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
         client.ensureQueryData(orgCache.queries.list()),
     ])
 
-    if (user.status === "rejected") {
+    if (
+        user.status === "rejected" &&
+        isNetworkError(user.reason) &&
+        !isClientErrorStatus(user.reason.status!)
+    ) {
         return abortNavigation(user.reason)
     }
 

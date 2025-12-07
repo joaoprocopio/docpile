@@ -11,10 +11,10 @@ export class Env {
         return import.meta.client
     }
     get IS_DEV() {
-        return import.meta.DEV
+        return process.env.NODE_ENV === "development"
     }
     get IS_PROD() {
-        return import.meta.PROD
+        return process.env.NODE_ENV === "production"
     }
     get BASE_URL() {
         return new URL(import.meta.url)

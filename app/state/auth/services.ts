@@ -1,18 +1,16 @@
 import {
-    OptionalPublicUser,
     PublicUser,
     type TSignInInput,
     type TSignUpInput,
     type TPublicUserOutput,
-    type TOptionalPublicUserOutput,
 } from "#shared/auth/schemas"
 import { useHTTP } from "~/lib/http/composables"
 
-async function whoami(): Promise<TOptionalPublicUserOutput> {
+async function whoami(): Promise<TPublicUserOutput> {
     const http = useHTTP()
     const response = await http("/v1/auth/whoami")
 
-    return OptionalPublicUser.parse(response)
+    return PublicUser.parse(response)
 }
 
 export type TSignInVariables = { payload: TSignInInput }
