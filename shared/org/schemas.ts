@@ -1,9 +1,16 @@
+import { constEnum, constEnumToValues } from "#shared/utils/const"
 import * as z from "zod"
 
-export const OrgMembershipRole = z.enum(["owner", "member"])
+export type TOrgMembershipRole = "owner" | "member"
 
-export type TOrgMembershipRoleInput = z.input<typeof OrgMembershipRole>
-export type TOrgMembershipRoleOutput = z.output<typeof OrgMembershipRole>
+export const OrgMembershipRole = constEnum<TOrgMembershipRole>({
+    owner: {
+        value: "owner",
+    },
+    member: {
+        value: "member",
+    },
+})
 
 export const OrgName = z
     .string()
@@ -48,7 +55,7 @@ export const OrgMembership = z.object({
     id: z.number(),
     user_id: z.number(),
     org_id: z.number(),
-    role: OrgMembershipRole,
+    role: z.enum(constEnumToValues(OrgMembershipRole)),
     invite_token: InviteToken.nullable(),
     created_at: z.string().datetime(),
 })
@@ -65,6 +72,7 @@ export const ResolvedInvitation = z.object({
 export type TResolvedInvitationInput = z.input<typeof ResolvedInvitation>
 export type TResolvedInvitationOutput = z.output<typeof ResolvedInvitation>
 
+// TODO: remover, trocar por erro na api
 export const NullableInviteToken = InviteToken.nullable()
 
 export type TNullableInviteTokenInput = z.input<typeof NullableInviteToken>

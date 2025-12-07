@@ -1,6 +1,7 @@
 import { users } from "#shared/auth/models"
+import { OrgMembershipRole } from "#shared/org/schemas"
+import { constEnumToValues } from "#shared/utils/const"
 import { sqliteTable, text, integer, uniqueIndex, index } from "drizzle-orm/sqlite-core"
-import { OrgMembershipRole, type TOrgMembershipRoleOutput } from "~~/shared/org/schemas"
 
 export const orgs = sqliteTable(
     "orgs",
@@ -33,7 +34,7 @@ export const orgMembership = sqliteTable(
             .notNull()
             .references(() => orgs.id, { onDelete: "cascade" }),
         role: text("role", {
-            enum: Object.values(OrgMembershipRole.enum) as TOrgMembershipRoleOutput[],
+            enum: constEnumToValues(OrgMembershipRole),
         }).notNull(),
         invite_token: text("invite_token"),
         created_at: integer("created_at", { mode: "timestamp" })
