@@ -5,16 +5,9 @@ import { Errors } from "#shared/utils/errors"
 import { setAuthCookies } from "#shared/utils/jwt"
 import { parseBody } from "#shared/utils/validation"
 
-/**
- * POST /api/v1/auth/signup
- *
- * Creates a new user account.
- * Sets httpOnly cookies with access and refresh tokens.
- */
 export default defineEventHandler(async (event): Promise<TPublicUserOutput> => {
     const body = await parseBody(event, SignUp)
 
-    // Check if email is already taken
     const emailTaken = await isEmailTaken(body.email)
     if (emailTaken) {
         throw Errors.conflict(

@@ -1,23 +1,21 @@
 import type { TUser, TUserInsert } from "#shared/auth/models"
 import { users } from "#shared/auth/models"
 import { db } from "#shared/db"
+import { invariant } from "#shared/utils/invariant"
+import { isNil } from "#shared/utils/is"
 import { hashPassword, verifyPassword } from "#shared/utils/password"
 import { eq } from "drizzle-orm"
 
-export async function getUserById(userId: number): Promise<TUser | null> {
-    const result = await db.query.users.findFirst({
-        where: eq(users.id, userId),
-    })
+export async function getUserById(userId: number): Promise<TUser | undefined> {
+    const result = await db.select().from(users).where(eq(users.id, userId)).limit(1)
 
-    return result ?? null
+    return result.at(0)
 }
 
-export async function getUserByEmail(email: string): Promise<TUser | null> {
-    const result = await db.query.users.findFirst({
-        where: eq(users.email, email),
-    })
+export async function getUserByEmail(email: string): Promise<TUser | undefined> {
+    const result = await db.select().from(users).where(eq(users.email, email)).limit(1)
 
-    return result ?? null
+    return result.at(0)
 }
 
 export async function createUser(
@@ -28,31 +26,33 @@ export async function createUser(
     const hashedPassword = await hashPassword(password)
 
     const newUser: TUserInsert = {
-        email,
+        email: email,
         password: hashedPassword,
         display_name: displayName,
-        is_onboarded: false,
     }
 
     const result = await db.insert(users).values(newUser).returning()
-    const user = result[0]
+    const user = result.at(0)
 
-    if (!user) {
-        throw new Error("Failed to create user")
-    }
+    invariant(!isNil(user), "Failed to created user")
 
     return user
 }
 
-export async function authenticateUser(email: string, password: string): Promise<TUser | null> {
+export async function authenticateUser(
+    email: string,
+    password: string,
+): Promise<TUser | undefined> {
     const user = await getUserByEmail(email)
-    if (!user) {
-        return null
+
+    if (isNil(user)) {
+        return undefined
     }
 
     const isValid = await verifyPassword(password, user.password)
-    if (!isValid) {
-        return null
+
+    if (isNil(isValid)) {
+        return undefined
     }
 
     return user
@@ -64,17 +64,15 @@ export async function onboardUser(userId: number): Promise<TUser> {
         .set({ is_onboarded: true })
         .where(eq(users.id, userId))
         .returning()
+    const user = result.at(0)
 
-    const user = result[0]
-
-    if (!user) {
-        throw new Error("Failed to onboard user")
-    }
+    invariant(!isNil(user), "Failed to onboard user")
 
     return user
 }
 
 export async function isEmailTaken(email: string): Promise<boolean> {
     const user = await getUserByEmail(email)
-    return user !== null
+
+    return !isNil(user)
 }

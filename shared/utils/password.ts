@@ -1,10 +1,10 @@
-import { hash, verify } from "@node-rs/argon2"
+import { hash, verify, type Options } from "@node-rs/argon2"
 
 /**
  * Argon2 configuration options.
  * Using recommended settings for web applications.
  */
-const ARGON2_OPTIONS = {
+const ARGON2_OPTIONS: Options = {
     memoryCost: 19456, // 19 MiB
     timeCost: 2,
     parallelism: 1,
