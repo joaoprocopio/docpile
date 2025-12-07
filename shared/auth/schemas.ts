@@ -50,7 +50,7 @@ export const PublicUser = User.pick({ email: true, display_name: true, is_onboar
 export type TPublicUserInput = z.input<typeof PublicUser>
 export type TPublicUserOutput = z.output<typeof PublicUser>
 
-export const NullablePublicUser = PublicUser.nullable()
+export const OptionalPublicUser = PublicUser.optional()
 
-export type TNullablePublicUserInput = z.input<typeof NullablePublicUser>
-export type TNullablePublicUserOutput = z.output<typeof NullablePublicUser>
+export type TOptionalPublicUserInput = z.input<typeof OptionalPublicUser>
+export type TOptionalPublicUserOutput = z.output<typeof OptionalPublicUser>
