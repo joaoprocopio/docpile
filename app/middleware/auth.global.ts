@@ -1,6 +1,6 @@
 import { abortNavigation, defineNuxtRouteMiddleware, navigateTo } from "#app"
 import { isClientErrorStatus } from "#shared/utils/http-status"
-import { isEmpty, isNil, isString } from "#shared/utils/is"
+import { isEmpty, isNil, isPlainObject, isString } from "#shared/utils/is"
 import { useQueryClient } from "~/lib/cache"
 import { isNetworkError } from "~/lib/http/utils"
 import {
@@ -45,8 +45,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return abortNavigation(orgs.reason)
     }
 
-    const isAuthenticated = !isNil(user.value)
-    const isOnboarded = isAuthenticated && user.value!.is_onboarded
+    const isAuthenticated = user.status === "fulfilled"
+    const isOnboarded = isAuthenticated && user.value.is_onboarded
     const hasOrgMembership = orgs.status === "fulfilled" && !isEmpty(orgs.value)
     const { slug: toSlug } = to.params
 
