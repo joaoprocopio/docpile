@@ -1,8 +1,4 @@
-import { z } from "zod"
-
-// =============================================================================
-// Enums
-// =============================================================================
+import * as z from "zod"
 
 export const OrgStatus = z.enum(["active"])
 
@@ -13,10 +9,6 @@ export const OrgMembershipRole = z.enum(["owner", "member"])
 
 export type TOrgMembershipRoleInput = z.input<typeof OrgMembershipRole>
 export type TOrgMembershipRoleOutput = z.output<typeof OrgMembershipRole>
-
-// =============================================================================
-// Field Schemas (reusable building blocks)
-// =============================================================================
 
 export const OrgName = z
     .string()
@@ -34,10 +26,6 @@ export const OrgSlug = z
 
 export const InviteToken = z.string().uuid()
 
-// =============================================================================
-// Input Schemas (for API requests)
-// =============================================================================
-
 export const CreateOrgInput = z.object({
     name: OrgName,
     slug: OrgSlug,
@@ -46,13 +34,6 @@ export const CreateOrgInput = z.object({
 export type TCreateOrgInputInput = z.input<typeof CreateOrgInput>
 export type TCreateOrgInputOutput = z.output<typeof CreateOrgInput>
 
-// =============================================================================
-// Output Schemas (for API responses)
-// =============================================================================
-
-/**
- * Organization data returned from API.
- */
 export const Org = z.object({
     id: z.number(),
     name: OrgName,
@@ -64,17 +45,11 @@ export const Org = z.object({
 export type TOrgInput = z.input<typeof Org>
 export type TOrgOutput = z.output<typeof Org>
 
-/**
- * Public organization data (what gets returned to clients).
- */
 export const PublicOrg = Org.omit({ id: true, created_at: true, status: true })
 
 export type TPublicOrgInput = z.input<typeof PublicOrg>
 export type TPublicOrgOutput = z.output<typeof PublicOrg>
 
-/**
- * Organization membership data.
- */
 export const OrgMembership = z.object({
     id: z.number(),
     user_id: z.number(),
@@ -87,9 +62,6 @@ export const OrgMembership = z.object({
 export type TOrgMembershipInput = z.input<typeof OrgMembership>
 export type TOrgMembershipOutput = z.output<typeof OrgMembership>
 
-/**
- * Resolved invitation data (for displaying invite info).
- */
 export const ResolvedInvitation = z.object({
     org_name: OrgName,
     inviter_name: z.string(),
@@ -99,9 +71,6 @@ export const ResolvedInvitation = z.object({
 export type TResolvedInvitationInput = z.input<typeof ResolvedInvitation>
 export type TResolvedInvitationOutput = z.output<typeof ResolvedInvitation>
 
-/**
- * Nullable invite token response.
- */
 export const NullableInviteToken = InviteToken.nullable()
 
 export type TNullableInviteTokenInput = z.input<typeof NullableInviteToken>
