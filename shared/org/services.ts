@@ -6,11 +6,13 @@ import type { TResolvedInvitationOutput } from "#shared/org/schemas"
 import { eq, and, inArray } from "drizzle-orm"
 
 export async function listMemberedOrgs(userId: number): Promise<TOrg[]> {
-    const memberships = await db.query.orgMembership.findMany({
-        where: eq(orgMembership.user_id, userId),
-    })
+    const memberships = await db
+        .select()
+        .from(orgMembership)
+        .where(eq(orgMembership.user_id, userId))
 
     const orgIds = memberships.map((m) => m.org_id)
+
     if (orgIds.length === 0) {
         return []
     }
@@ -27,7 +29,6 @@ export async function createOrg(name: string, slug: string, userId: number): Pro
         const newOrg: TOrgInsert = {
             name,
             slug,
-            status: "active",
         }
 
         const orgResult = await tx.insert(orgs).values(newOrg).returning()

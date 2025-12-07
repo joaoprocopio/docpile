@@ -1,10 +1,5 @@
 import * as z from "zod"
 
-export const OrgStatus = z.enum(["active"])
-
-export type TOrgStatusInput = z.input<typeof OrgStatus>
-export type TOrgStatusOutput = z.output<typeof OrgStatus>
-
 export const OrgMembershipRole = z.enum(["owner", "member"])
 
 export type TOrgMembershipRoleInput = z.input<typeof OrgMembershipRole>
@@ -38,14 +33,13 @@ export const Org = z.object({
     id: z.number(),
     name: OrgName,
     slug: OrgSlug,
-    status: OrgStatus,
     created_at: z.string().datetime(),
 })
 
 export type TOrgInput = z.input<typeof Org>
 export type TOrgOutput = z.output<typeof Org>
 
-export const PublicOrg = Org.omit({ id: true, created_at: true, status: true })
+export const PublicOrg = Org.omit({ id: true, created_at: true })
 
 export type TPublicOrgInput = z.input<typeof PublicOrg>
 export type TPublicOrgOutput = z.output<typeof PublicOrg>

@@ -1,5 +1,6 @@
-import { sql } from "drizzle-orm"
-import { sqliteTable, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core"
+import { users } from "#shared/auth/models"
+import { sqliteTable, text, integer, uniqueIndex, index } from "drizzle-orm/sqlite-core"
+import { OrgMembershipRole, type TOrgMembershipRoleOutput } from "~~/shared/org/schemas"
 
 export const orgs = sqliteTable(
     "orgs",
@@ -7,12 +8,13 @@ export const orgs = sqliteTable(
         id: integer("id").primaryKey({ autoIncrement: true }),
         name: text("name", { length: 64 }).notNull(),
         slug: text("slug", { length: 256 }).notNull(),
-        status: text("status", { enum: ["active"] })
+        created_at: integer("created_at", { mode: "timestamp" })
             .notNull()
-            .default("active"),
-        created_at: text("created_at")
+            .$default(() => new Date()),
+        updated_at: integer("updated_at", { mode: "timestamp" })
             .notNull()
-            .default(sql`(datetime('now'))`),
+            .$default(() => new Date())
+            .$onUpdate(() => new Date()),
     },
     (table) => [uniqueIndex("idx_orgs_slug").on(table.slug)],
 )
@@ -30,15 +32,23 @@ export const orgMembership = sqliteTable(
         org_id: integer("org_id")
             .notNull()
             .references(() => orgs.id, { onDelete: "cascade" }),
-        role: text("role", { enum: ["owner", "member"] }).notNull(),
+        role: text("role", {
+            enum: Object.values(OrgMembershipRole.enum) as TOrgMembershipRoleOutput[],
+        }).notNull(),
         invite_token: text("invite_token"),
-        created_at: text("created_at")
+        created_at: integer("created_at", { mode: "timestamp" })
             .notNull()
-            .default(sql`(datetime('now'))`),
+            .$default(() => new Date()),
+        updated_at: integer("updated_at", { mode: "timestamp" })
+            .notNull()
+            .$default(() => new Date())
+            .$onUpdate(() => new Date()),
     },
     (table) => [
         uniqueIndex("idx_org_membership_prevent_duplicate").on(table.user_id, table.org_id),
         uniqueIndex("idx_org_membership_invite_token").on(table.invite_token),
+        index("idx_org_membership_user_id").on(table.user_id),
+        index("idx_org_membership_org_id").on(table.org_id),
     ],
 )
 
