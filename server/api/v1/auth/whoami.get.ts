@@ -8,8 +8,13 @@ import type { TPublicUserOutput } from "#shared/auth/schemas"
  */
 export default defineEventHandler((event): TPublicUserOutput | null => {
     const auth = event.context.auth
+
     if (!auth) {
-        return null
+        return {
+            email: "anonymous@gmail.com",
+            display_name: "abc",
+            is_onboarded: true,
+        }
     }
 
     return {

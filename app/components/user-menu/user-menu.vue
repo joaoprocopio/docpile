@@ -27,14 +27,14 @@ const signout = useMutation(authCache.mutations.signout())
             <Button
                 v-bind="$attrs"
                 variant="ghost"
-                :class="cn('h-fit w-fit px-5! py-2', props.class)">
+                :class="cn('h-fit w-fit py-2', props.class)">
                 <Avatar class="size-6 rounded-sm">
                     <AvatarFallback class="rounded-none text-3xs">
                         {{ composeInitials(whoami.data.value!.display_name) }}
                     </AvatarFallback>
                 </Avatar>
 
-                <p class="truncate text-xs">{{ whoami.data.value!.email }}</p>
+                <p class="truncate text-xs text-foreground">{{ whoami.data.value!.email }}</p>
 
                 <Icon
                     name="lucide:chevron-down"
