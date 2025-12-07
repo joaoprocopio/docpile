@@ -1,4 +1,4 @@
-import { useRuntimeConfig } from "#app"
+import { useRuntimeConfig } from "#imports"
 
 export class Env {
     get #RUNTIME_CONFIG() {

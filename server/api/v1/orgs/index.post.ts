@@ -1,9 +1,9 @@
+import { defineEventHandler } from "#imports"
 import { CreateOrgInput, type TPublicOrgOutput } from "#shared/org/schemas"
 import { createOrg, isOrgSlugTaken } from "../../../org/services"
 import { requireAuth } from "../../../utils/auth"
 import { Errors } from "../../../utils/errors"
 import { parseBody } from "../../../utils/validation"
-import { defineEventHandler } from "h3"
 
 /**
  * POST /api/v1/orgs

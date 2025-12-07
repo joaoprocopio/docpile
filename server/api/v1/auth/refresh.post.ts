@@ -1,3 +1,4 @@
+import { defineEventHandler } from "#imports"
 import type { TPublicUserOutput } from "#shared/auth/schemas"
 import { getUserById } from "../../../auth/services"
 import { Errors } from "../../../utils/errors"
@@ -7,7 +8,6 @@ import {
     setAuthCookies,
     clearAuthCookies,
 } from "../../../utils/jwt"
-import { defineEventHandler } from "h3"
 
 /**
  * POST /api/v1/auth/refresh

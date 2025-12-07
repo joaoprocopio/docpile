@@ -1,6 +1,7 @@
+import { createError } from "#imports"
 import type { TErrorCode } from "#shared/errors/codes"
 import type { IApiError, IApiValidationError } from "#shared/errors/types"
-import { createError, type H3Error } from "h3"
+import type { H3Error } from "h3"
 import type { ZodError } from "zod"
 
 /**

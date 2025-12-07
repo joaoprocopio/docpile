@@ -1,6 +1,6 @@
+import { readBody } from "#imports"
 import { validationError } from "./errors"
 import type { H3Event } from "h3"
-import { readBody } from "h3"
 import type { ZodSchema, ZodError } from "zod"
 
 /**

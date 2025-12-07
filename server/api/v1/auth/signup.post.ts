@@ -1,9 +1,9 @@
+import { defineEventHandler, setResponseStatus } from "#imports"
 import { SignUpInput, type TPublicUserOutput } from "#shared/auth/schemas"
 import { createUser, isEmailTaken } from "../../../auth/services"
 import { Errors } from "../../../utils/errors"
 import { setAuthCookies } from "../../../utils/jwt"
 import { parseBody } from "../../../utils/validation"
-import { defineEventHandler, setResponseStatus } from "h3"
 
 /**
  * POST /api/v1/auth/signup

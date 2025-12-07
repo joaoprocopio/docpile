@@ -1,6 +1,6 @@
+import { defineEventHandler, setResponseStatus } from "#imports"
 import { requireAuth } from "../../../utils/auth"
 import { clearAuthCookies } from "../../../utils/jwt"
-import { defineEventHandler, setResponseStatus } from "h3"
 
 /**
  * POST /api/v1/auth/signout

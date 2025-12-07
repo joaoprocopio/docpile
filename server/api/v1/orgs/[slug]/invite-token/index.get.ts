@@ -1,8 +1,8 @@
+import { defineEventHandler, getRouterParam } from "#imports"
 import type { TNullableInviteTokenOutput } from "#shared/org/schemas"
 import { getInviteToken } from "../../../../../org/services"
 import { requireAuth } from "../../../../../utils/auth"
 import { Errors } from "../../../../../utils/errors"
-import { defineEventHandler, getRouterParam } from "h3"
 
 /**
  * GET /api/v1/orgs/:slug/invite-token

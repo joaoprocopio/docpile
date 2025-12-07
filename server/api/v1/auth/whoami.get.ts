@@ -1,5 +1,5 @@
+import { defineEventHandler } from "#imports"
 import type { TPublicUserOutput } from "#shared/auth/schemas"
-import { defineEventHandler } from "h3"
 
 /**
  * GET /api/v1/auth/whoami

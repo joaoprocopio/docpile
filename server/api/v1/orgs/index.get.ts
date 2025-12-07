@@ -1,7 +1,7 @@
+import { defineEventHandler } from "#imports"
 import type { TPublicOrgOutput } from "#shared/org/schemas"
 import { listMemberedOrgs } from "../../../org/services"
 import { requireAuth } from "../../../utils/auth"
-import { defineEventHandler } from "h3"
 
 /**
  * GET /api/v1/orgs

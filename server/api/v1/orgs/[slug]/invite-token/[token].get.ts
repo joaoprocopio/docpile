@@ -1,7 +1,7 @@
+import { defineEventHandler, getRouterParam } from "#imports"
 import type { TResolvedInvitationOutput } from "#shared/org/schemas"
 import { resolveInviteToken } from "../../../../../org/services"
 import { Errors } from "../../../../../utils/errors"
-import { defineEventHandler, getRouterParam } from "h3"
 
 /**
  * GET /api/v1/orgs/:slug/invite-token/:token
