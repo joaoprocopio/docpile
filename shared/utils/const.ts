@@ -19,8 +19,10 @@ export function constEnumToValues<
     const K extends EnumKey,
     const E extends EnumExtra = EnumExtra,
     const T extends Enum<K, E> = Enum<K, E>,
->(e: T): T[keyof T]["value"][] {
-    return Object.values(e).map((item: any) => item.value)
+>(e: T) {
+    type L = T[keyof T]["value"][]
+
+    return Object.values(e).map((item: any) => item.value) as [L[number], ...L]
 }
 
 export function asConst<const T>(v: T): T {
