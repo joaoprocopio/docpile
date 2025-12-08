@@ -1,4 +1,12 @@
-export const AuthErrorCode = {
+import { asConst } from "#shared/utils/const"
+
+export type TErrorCode = TAuthErrorCode | TOrgErrorCode | TGenericErrorCode
+
+export type TAuthErrorCode = (typeof AuthErrorCode)[keyof typeof AuthErrorCode]
+export type TOrgErrorCode = (typeof OrgErrorCode)[keyof typeof OrgErrorCode]
+export type TGenericErrorCode = (typeof GenericErrorCode)[keyof typeof GenericErrorCode]
+
+export const AuthErrorCode = asConst({
     EMAIL_ALREADY_IN_USE: "auth/email-already-in-use",
     INVALID_CREDENTIALS: "auth/invalid-credentials",
     INVALID_EMAIL: "auth/invalid-email",
@@ -14,11 +22,9 @@ export const AuthErrorCode = {
     UNAUTHORIZED: "auth/unauthorized",
     FORBIDDEN: "auth/forbidden",
     SESSION_EXPIRED: "auth/session-expired",
-} as const
+})
 
-export type TAuthErrorCode = (typeof AuthErrorCode)[keyof typeof AuthErrorCode]
-
-export const OrgErrorCode = {
+export const OrgErrorCode = asConst({
     ORG_NOT_FOUND: "org/not-found",
     ORG_SLUG_TAKEN: "org/slug-already-taken",
     ORG_NAME_TAKEN: "org/name-already-taken",
@@ -28,23 +34,9 @@ export const OrgErrorCode = {
     INVITE_INVALID: "org/invite-invalid",
     INVITE_EXPIRED: "org/invite-expired",
     INVITE_NOT_FOUND: "org/invite-not-found",
-} as const
+})
 
-export type TOrgErrorCode = (typeof OrgErrorCode)[keyof typeof OrgErrorCode]
-
-export const CommonErrorCode = {
-    VALIDATION_ERROR: "common/validation-error",
-    INVALID_INPUT: "common/invalid-input",
-    MISSING_REQUIRED_FIELD: "common/missing-required-field",
-    INTERNAL_ERROR: "common/internal-error",
-    DATABASE_ERROR: "common/database-error",
-    SERVICE_UNAVAILABLE: "common/service-unavailable",
-    BAD_REQUEST: "common/bad-request",
-    NOT_FOUND: "common/not-found",
-    METHOD_NOT_ALLOWED: "common/method-not-allowed",
-    RATE_LIMITED: "common/rate-limited",
-} as const
-
-export type TCommonErrorCode = (typeof CommonErrorCode)[keyof typeof CommonErrorCode]
-
-export type TErrorCode = TAuthErrorCode | TOrgErrorCode | TCommonErrorCode
+export const GenericErrorCode = asConst({
+    VALIDATION_ERROR: "generic/validation-error",
+    DATABASE_ERROR: "generic/database-error",
+})

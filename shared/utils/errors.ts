@@ -1,20 +1,24 @@
 import { createError } from "#imports"
-import type { TErrorCode } from "#shared/errors/codes"
-import type { IApiError, IApiValidationError } from "#shared/errors/types"
+import type { TErrorCode } from "#shared/error"
 import type { THttpStatus } from "#shared/utils/http-status"
-import type { H3Error } from "h3"
 import type { ZodError } from "zod"
 
-export function apiError(code: TErrorCode, message: string, status: THttpStatus): H3Error {
-    const data: IApiError = { code, message, status }
+export interface ICreateAPIError<C = unknown> {
+    code: TErrorCode
+    status: THttpStatus
+    cause?: C
+}
+
+export function createAPIError<C = unknown>(error: ICreateAPIError<C>) {
     return createError({
-        statusCode: status,
-        statusMessage: message,
-        data,
+        fatal: false,
+        name: error.code,
+        status: error.status,
+        cause: error.cause,
     })
 }
 
-export function validationError(zodError: ZodError): H3Error {
+export function createValidationError(zodError: ZodError) {
     const errors: Record<string, string[]> = {}
 
     for (const issue of zodError.issues) {
@@ -25,7 +29,7 @@ export function validationError(zodError: ZodError): H3Error {
         errors[path].push(issue.message)
     }
 
-    const data: IApiValidationError = {
+    const data = {
         code: "common/validation-error",
         message: "Validation failed",
         status: 400,
@@ -40,11 +44,11 @@ export function validationError(zodError: ZodError): H3Error {
 }
 
 export const Errors = {
-    unauthorized: (message = "Unauthorized") => apiError("auth/unauthorized", message, 401),
-    forbidden: (message = "Forbidden") => apiError("auth/forbidden", message, 403),
-    notFound: (message = "Not found") => apiError("common/not-found", message, 404),
-    conflict: (code: TErrorCode, message: string) => apiError(code, message, 409),
-    badRequest: (message = "Bad request") => apiError("common/bad-request", message, 400),
+    unauthorized: (message = "Unauthorized") => createAPIError("auth/unauthorized", message, 401),
+    forbidden: (message = "Forbidden") => createAPIError("auth/forbidden", message, 403),
+    notFound: (message = "Not found") => createAPIError("common/not-found", message, 404),
+    conflict: (code: TErrorCode, message: string) => createAPIError(code, message, 409),
+    badRequest: (message = "Bad request") => createAPIError("common/bad-request", message, 400),
     internal: (message = "Internal server error") =>
-        apiError("common/internal-error", message, 500),
+        createAPIError("common/internal-error", message, 500),
 }

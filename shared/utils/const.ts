@@ -3,26 +3,30 @@ export type EnumExtra = object
 
 export type EnumKey = PropertyKey
 
-export type Enum<K extends EnumKey, E extends EnumExtra = EnumExtra> = {
-    [MK in K]: DeepMerge<{ value: MK }, E>
+export type Enum<TKey extends EnumKey, TExtra extends EnumExtra = EnumExtra> = {
+    [MK in TKey]: DeepMerge<{ value: MK }, TExtra>
 }
 
 export function constEnum<
-    const K extends EnumKey,
-    const E extends EnumExtra = EnumExtra,
-    const T extends Enum<K, E> = Enum<K, E>,
->(e: T): T {
+    const TKey extends EnumKey,
+    const TExtra extends EnumExtra = EnumExtra,
+    const TEnum extends Enum<TKey, TExtra> = Enum<TKey, TExtra>,
+>(e: TEnum): TEnum {
     return e
 }
 
 export function constEnumToValues<
-    const K extends EnumKey,
-    const E extends EnumExtra = EnumExtra,
-    const T extends Enum<K, E> = Enum<K, E>,
->(e: T) {
-    type L = T[keyof T]["value"][]
+    const TKey extends EnumKey,
+    const TExtra extends EnumExtra = EnumExtra,
+    const TEnum extends Enum<TKey, TExtra> = Enum<TKey, TExtra>,
+>(e: TEnum) {
+    type TEnumItem = TEnum[keyof TEnum]
+    type TEnumItemValues = TEnumItem["value"][]
 
-    return Object.values(e).map((item: any) => item.value) as [L[number], ...L]
+    return Object.values(e).map((item: any) => (item as TEnumItem).value) as [
+        TEnumItemValues[number],
+        ...TEnumItemValues,
+    ]
 }
 
 export function asConst<const T>(v: T): T {

@@ -1,7 +1,8 @@
 import { defineEventHandler } from "#imports"
 import type { TPublicUserOutput } from "#shared/auth/schemas"
 import { getUserById } from "#shared/auth/services"
-import { Errors } from "#shared/utils/errors"
+import { createAPIError, Errors } from "#shared/utils/errors"
+import { HttpStatus } from "#shared/utils/http-status"
 import {
     getRefreshTokenFromCookie,
     verifyRefreshToken,
@@ -17,8 +18,12 @@ import {
  */
 export default defineEventHandler(async (event): Promise<TPublicUserOutput> => {
     const refreshToken = getRefreshTokenFromCookie(event)
+
     if (!refreshToken) {
-        throw Errors.unauthorized("No refresh token provided")
+        throw createAPIError({
+            code: "auth/refresh-token-expired",
+            status: HttpStatus.Unauthorized,
+        })
     }
 
     const payload = await verifyRefreshToken(refreshToken)

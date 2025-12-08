@@ -15,6 +15,7 @@
         "typecheck": "nuxt typecheck",
         "analyze": "nuxt analyze",
         "preview": "nuxt preview",
+        "start": "nuxt start",
         "test": "vitest",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",

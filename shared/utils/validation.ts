@@ -1,5 +1,5 @@
-import { readBody } from "#imports"
-import { validationError } from "./errors"
+import { createValidationError } from "./errors"
+import { readBody } from "h3"
 import type { H3Event } from "h3"
 import type { ZodSchema, ZodError } from "zod"
 
@@ -12,7 +12,7 @@ export async function parseBody<T>(event: H3Event, schema: ZodSchema<T>): Promis
     const result = schema.safeParse(body)
 
     if (!result.success) {
-        throw validationError(result.error as ZodError)
+        throw createValidationError(result.error as ZodError)
     }
 
     return result.data
