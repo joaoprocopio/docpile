@@ -5,7 +5,8 @@
 ## commands
 
 ```sh
+cp .env.example .env
 npm i -g pnpm
 pnpm install
-pnpm -r dev
+pnpm dev
 ```

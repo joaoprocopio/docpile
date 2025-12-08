@@ -11,10 +11,10 @@ export class Env {
         return import.meta.client
     }
     get IS_DEV() {
-        return process.env.NODE_ENV === "development"
+        return import.meta.dev
     }
     get IS_PROD() {
-        return process.env.NODE_ENV === "production"
+        return !this.IS_DEV
     }
     get BASE_URL() {
         return new URL(import.meta.url)
@@ -22,8 +22,8 @@ export class Env {
     get API_URL() {
         return this.#RUNTIME_CONFIG.public.apiUrl
     }
-    get DB_PATH() {
-        return this.#RUNTIME_CONFIG.dbPath
+    get DB_DSN() {
+        return this.#RUNTIME_CONFIG.dbDsn
     }
     get JWT_SECRET() {
         return this.#RUNTIME_CONFIG.jwtSecret

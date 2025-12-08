@@ -37,10 +37,10 @@ export default defineNuxtConfig({
         storage: "cookie",
     },
     runtimeConfig: {
-        jwtSecret: "dev-secret-change-in-production",
-        dbPath: "docpie.db",
+        jwtSecret: undefined,
+        dbDsn: undefined,
         public: {
-            apiUrl: "http://localhost:3000/api",
+            apiUrl: undefined,
         },
     },
     compatibilityDate: "latest",
