@@ -1,4 +1,4 @@
-import { users } from "#shared/auth/models"
+import { users } from "#server/auth/models"
 import { OrgMembershipRole } from "#shared/org/schemas"
 import { constEnumToValues } from "#shared/utils/const"
 import { sqliteTable, text, integer, uniqueIndex, index } from "drizzle-orm/sqlite-core"

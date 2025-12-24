@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { composeInitials } from "#shared/utils/avatar"
 import { useMutation, useQuery } from "~/lib/cache"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import { Button } from "~/lib/ui/button"
@@ -12,6 +11,7 @@ import {
 } from "~/lib/ui/dropdown-menu"
 import { cn } from "~/lib/ui/utils"
 import { authCache } from "~/state/auth/cache"
+import { composeInitials } from "~/utils/avatar"
 
 const props = defineProps<{
     class?: string

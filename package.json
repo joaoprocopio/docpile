@@ -1,7 +1,6 @@
 {
     "packageManager": "pnpm@10.24.0",
     "private": true,
-    "type": "module",
     "name": "docpie",
     "scripts": {
         "ci": "pnpm clean && pnpm store prune --force && pnpm install",
@@ -33,6 +32,7 @@
         "@unovis/ts": "^1.6.2",
         "@unovis/vue": "^1.6.2",
         "@vueuse/core": "^14.1.0",
+        "better-auth": "^1.4.7",
         "better-sqlite3": "^12.5.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",

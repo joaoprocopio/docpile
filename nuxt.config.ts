@@ -1,3 +1,5 @@
+import * as url from "node:url"
+
 export default defineNuxtConfig({
     modules: [
         "@nuxt/test-utils/module",
@@ -37,11 +39,16 @@ export default defineNuxtConfig({
         storage: "cookie",
     },
     runtimeConfig: {
-        jwtSecret: undefined,
+        appName: "Docpie",
+        authSecret: undefined,
         dbDsn: undefined,
         public: {
+            baseUrl: undefined,
             apiUrl: undefined,
         },
+    },
+    alias: {
+        "#server": url.fileURLToPath(new url.URL("./server", import.meta.url)),
     },
     compatibilityDate: "latest",
     telemetry: false,

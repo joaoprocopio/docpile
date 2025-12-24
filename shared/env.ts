@@ -1,32 +1,30 @@
-import { useRuntimeConfig } from "#imports"
-
 export class Env {
-    get #RUNTIME_CONFIG() {
-        return useRuntimeConfig()
-    }
-    get IS_SERVER() {
+    IS_SERVER() {
         return import.meta.server
     }
-    get IS_CLIENT() {
+    IS_CLIENT() {
         return import.meta.client
     }
-    get IS_DEV() {
+    IS_DEV() {
         return import.meta.dev
     }
-    get IS_PROD() {
+    IS_PROD() {
         return !this.IS_DEV
     }
-    get BASE_URL() {
-        return new URL(import.meta.url)
+    BASE_URL() {
+        // return this.#RUNTIME_CONFIG.public.baseUrl
     }
-    get API_URL() {
-        return this.#RUNTIME_CONFIG.public.apiUrl
+    API_URL() {
+        // return this.#RUNTIME_CONFIG.public.apiUrl
     }
-    get DB_DSN() {
-        return this.#RUNTIME_CONFIG.dbDsn
+    APP_NAME() {
+        // return this.#RUNTIME_CONFIG.appName
     }
-    get JWT_SECRET() {
-        return this.#RUNTIME_CONFIG.jwtSecret
+    AUTH_SECRET() {
+        // return this.#RUNTIME_CONFIG.authSecret
+    }
+    DB_DSN() {
+        // return this.#RUNTIME_CONFIG.dbDsn
     }
 }
 
